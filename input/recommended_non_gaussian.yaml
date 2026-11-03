@@ -1,0 +1,72 @@
+# The settings recommended for likelihoods known to be non-Gaussian: oscillations, several modes,
+# curved ridges (docs/boost.md, "Two recommended settings"). These are the settings of the axion
+# monodromy and SIDR + DRMD runs. On the 31-parameter analytic banana with a parabolic ridge, which
+# needs no Boltzmann code; for a real likelihood change likelihood.input and the sizes below.
+#
+#   python client.py input/recommended_non_gaussian.yaml -n non_gaussian
+#
+# The training domain is what separates this set from the near-Gaussian one: an oscillating
+# likelihood needs it, and it costs a near-Gaussian likelihood accuracy.
+likelihood:
+  wrapper: cobaya
+  input: input/cobaya/banana_planck31_wide.yaml
+prior:
+  n_samples: 3000
+  sampling_strategy: lhs
+  n_sigma: null
+  n_inject: 100
+acquisition:
+  n_append: 3000
+  pool_factor: 20
+  n_neighbors: 20
+  target_temperature: 7.0
+  n_inject: 100
+  audit: {chain: true, tau: 5, posterior: 150}   # chain search, threshold 5, posterior pilot
+  boost:
+    n: 3000
+    start_iteration: 30       # at the latest: the boosts begin when the ordinary loop has converged
+    boosts: 10
+    density_filter: true
+    pool_factor: 20
+    background: quadratic
+    region: 1.5
+    region_quantile: 0.999    # the region's reach by a quantile, not the farthest point
+    train_domain: 1.25        # train only near the posterior from the first boost on
+    mixing: 0.1               # modes decided by measured mixing
+    min_share: 0.005          # small groups of walkers reach the mixing test
+    mode_depth: auto          # T * ndim / 2; see docs/boost.md before keeping it on a real likelihood
+model:
+  n_layers: 5
+  n_neurons: 512
+  activation: alsing
+training:
+  n_epochs: 5000
+  batch_size: 128
+  loss: msre
+  sigma_level: 3
+  msre_ess_floor: 0.1
+  learning_rate: 0.0001
+  validation_split: 0.1
+  patience: 250               # unused with lr_schedule: plateau
+  lr_schedule: plateau        # not the default; all real runs so far have used it
+  lr_factor: 0.3
+  lr_patience: 75
+  lr_min: 1.0e-06
+  lr_grace: 100
+  warm_start: true
+sampling:
+  sampler: aies
+  temperature: 7.0
+  n_walkers: 432
+  n_steps: 60000
+  burn_in: 5000
+  thin: 5
+  chunk_size: 1000
+convergence:
+  metric: tempered_batch_scatter  # docs/tempered_convergence.md
+  threshold: 1.2                  # in units of sampling.temperature
+  consecutive: 2
+  max_iterations: 41              # at most 30 of the ordinary loop and ten boosts
+seed: 42
+derived:
+  inputs: auto

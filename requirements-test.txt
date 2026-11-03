@@ -1,0 +1,16 @@
+# Lightweight counterpart of environment.yaml for isolated runtime CI.
+numpy==2.0.2
+pandas==2.3.3
+scipy==1.15.3
+scikit-learn==1.7.1
+PyYAML==6.0.2
+emcee==3.1.6
+h5py==3.14.0
+matplotlib==3.10.5
+getdist==1.7.1
+tensorflow==2.19.0
+# TensorFlow asks only for keras >= 3.5: unpinned, CI took whatever was newest that day.
+keras==3.12.4
+tqdm==4.67.1
+cobaya==3.6.2
+mpi4py>=4,<5

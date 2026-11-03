@@ -1,0 +1,35 @@
+# python client.py profiles RUN --config input/profiles_example.yaml -o OUTPUT
+# Native training objective, saved bounds, original network/data preserved.
+iteration: 5
+parameters: [omega_b, omega_cdm, theta_s_100, logA, n_s, tau_reio]
+retrain: false
+added_points: 0  # opt in with retrain: true and a positive added_points
+broad_fraction: 0.75
+profile_points: 15
+sigma_range: 3.5
+ranges: {}  # e.g. {omega_b: [0.0220, 0.0227], tau_reio: prior}
+workers: 4  # managed processes, at most the host's CPUs; do NOT also use mpirun
+region: run  # a network trained on boosts is searched inside the region of its boosts: run | a number of reaches | null (bare network)
+chain_length: 2  # default; null: one seed per profile (docs/create_profiles.md#many-workers)
+first_epochs: 400
+polish_epochs: 1600
+initial_lr: 1.0e-5
+transition_lr: 1.0e-6
+final_lr: 1.0e-7
+batch_size: 128
+seed: 42
+validation_global: 512
+validation_nodes: 9
+scan_points: 41
+gtol: 1.0e-4
+# The scan and the residual Newton true stage (docs/hybrid_optimisers.md).
+surrogate_optimizer: hybrid   # hybrid | legacy
+hybrid_walkers: 8
+corrected_tol: null           # native log-objective stopping tolerance; null = 1e-2
+maxfun: 150                   # per-node true-call budget
+total_call_budget: 100000
+audit_points: 3
+audit_tolerance: 0.01  # the saved labels of the audit_points best rows are recomputed
+backend_module: null  # set classy to fingerprint/guard a CLASS or CLASS++ build
+backend_sha256: null # optional required module-file hash
+run_config: null     # set if multiple run YAML files exist

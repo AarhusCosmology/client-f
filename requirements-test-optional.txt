@@ -1,0 +1,5 @@
+# Optional native-spectrum and evidence integrations for runtime CI.
+camb==2.0.4
+tensorflow-probability==0.25.0
+tf-keras==2.19.0
+hypersphere-sampler==0.1.1

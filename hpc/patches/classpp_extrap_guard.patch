@@ -1,0 +1,37 @@
+--- a/source/nonlinear_module.cpp
++++ b/source/nonlinear_module.cpp
+@@ -1578,9 +1578,31 @@
+        * from the data at k_0 Mostly continuous derivative, quite good
+        */
+       case extrap_max_scaled: {
+-        scaled_factor = exp((source_previous * log(k_max) - source_max * log(k_previous)) /
+-                            (source_max - source_previous));
+-        *source       = source_max * (log(scaled_factor * k) / log(scaled_factor * k_max));
++        /* The fit through the last two points has
++             ln(a k_max) = source_max ln(k_max / k_previous) / (source_max - source_previous),
++           positive only when |source| grows at the end of the table, as for CDM. Where it
++           does not (dark acoustic oscillations, a damped tail), ln(a k) crosses zero just
++           beyond k_max: the source vanishes there, ln P(k) is -inf and the sigma integrals
++           of halofit and HMcode are NaN. Then continue from the last value with the
++           slope-free extrap_hmcode form instead. Where |source| grows very little (the top
++           of an oscillation), ln(a k_max) is large and a = exp(ln(a k_max)) / k_max
++           overflows: the same function is then written with ln(a k) = ln(a k_max) +
++           ln(k / k_max), which tends to a constant continuation. */
++        const double growing = source_max * (source_max - source_previous);
++        const double ln_ak_max =
++            source_max * log(k_max / k_previous) / (source_max - source_previous);
++        if (growing > 0. && ln_ak_max < 600.) {
++          scaled_factor = exp((source_previous * log(k_max) - source_max * log(k_previous)) /
++                              (source_max - source_previous));
++          *source       = source_max * (log(scaled_factor * k) / log(scaled_factor * k_max));
++        }
++        else if (growing > 0.) {
++          *source = source_max * (1. + log(k / k_max) / ln_ak_max);
++        }
++        else {
++          scaled_factor = 1.8 / (13.41 * background_module_->a_eq_ * background_module_->H_eq_);
++          *source = source_max * (log(_E_ + scaled_factor * k) / log(_E_ + scaled_factor * k_max));
++        }
+         break;
+       }
+         /**

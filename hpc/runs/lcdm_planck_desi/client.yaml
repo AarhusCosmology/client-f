@@ -1,0 +1,73 @@
+# LambdaCDM on Planck low-l TT + low-l EE + NPIPE CamSpec TTTEEE + DESI DR2 BAO, CLASS++.
+#
+#   sbatch submit_client.sh lcdm_planck_desi -i 16
+#
+# Sixteen networks, 0 to 15, in one job:
+#   networks 0 to 10   the ordinary loop: 2000 LHS points + 100 injected, then 2000 points at
+#                      T = 7 + 100 injected per iteration; the optimum audit at its defaults
+#   networks 11 to 15  five boosts of 2000 posterior points each (iterations 10 to 14 acquire
+#                      them), with the density filter, the quadratic background and the region;
+#                      a boost iteration has no tempered batch and no injection
+# Everything else: msre with the ESS floor
+# ("dynamic c"), plateau learning rate, warm starts, T = 7, derived parameters recorded.
+# To stop after the ordinary loop and look first: -i 11, then continue with
+#   sbatch submit_client.sh results/<timestamp>_lcdm_planck_desi -i 5
+#
+# Paths are relative to hpc/. The training box is runs/lcdm_planck_desi/domain_bounds.json
+# (launch.py applies it; prior.n_sigma stays null).
+likelihood:
+  wrapper: cobaya
+  input: runs/lcdm_planck_desi/cobaya.yaml
+prior:
+  n_samples: 2000
+  sampling_strategy: lhs
+  n_sigma: null
+  n_inject: 100
+acquisition:
+  n_append: 2000
+  pool_factor: 20
+  n_neighbors: 20
+  target_temperature: 7.0
+  n_inject: 100
+  audit: {}
+  boost:                    # from iteration 10 on, every acquisition is a boost (docs/boost.md)
+    n: 2000                 # posterior points (T = 1) per boost, accepted by the density filter
+    start_iteration: 10     # networks 0 to 10 are the ordinary loop; boosts at iterations 10 to 14
+    density_filter: true    # docs/posterior_density_boost.md
+    pool_factor: 20
+    background: quadratic   # docs/boost_background_region.md: fitted once, at the first training
+    region: 2.0             # with boost points (network 11), which starts from random weights
+model:
+  n_layers: 5
+  n_neurons: 512
+  activation: alsing
+training:
+  n_epochs: 5000
+  batch_size: 128
+  loss: msre
+  sigma_level: 3
+  msre_ess_floor: 0.1
+  learning_rate: 0.0001
+  validation_split: 0.1
+  patience: 250
+  lr_schedule: plateau
+  lr_factor: 0.3
+  lr_patience: 75
+  lr_min: 1.0e-06
+  lr_grace: 100
+  warm_start: true
+sampling:
+  sampler: aies
+  temperature: 7.0
+  n_walkers: 256
+  n_steps: 100000
+  burn_in: 5000
+  thin: 5
+  chunk_size: 5000
+convergence:
+  metric: gaussian_posterior_drift
+  threshold: 0.01
+  max_iterations: 16
+seed: 42
+derived:
+  inputs: auto

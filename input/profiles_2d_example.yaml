@@ -1,0 +1,26 @@
+dimension: 2
+parameters: [omega_b, omega_cdm]
+added_points: 0  # opt in with retrain: true and a positive added_points
+retrain: false
+broad_fraction: 0.75
+# Frozen-scaler warm training; pooled contrast selection includes epoch zero.
+first_epochs: 400
+polish_epochs: 1600
+initial_lr: 1.0e-5
+transition_lr: 1.0e-6
+final_lr: 1.0e-7
+batch_size: 128
+profile_points: 21
+design_points: 7
+sigma_range: 3.5
+validation_global: 512
+validation_nodes: 9
+workers: 4
+chain_length: 2  # default; null: one seed per row
+maxfun: 150
+total_call_budget: 100000
+# ranges:
+#   omega_b: [0.022, 0.0235]
+#   omega_cdm: [0.114, 0.122]
+
+# Joint hybrid scan and deterministic row-chain Newton refinement (docs/create_profiles_2d.md).

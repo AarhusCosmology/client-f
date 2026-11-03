@@ -1,0 +1,36 @@
+name: Documentation preview
+on:
+  pull_request:
+  push:
+    branches: [main, features]
+  workflow_dispatch:
+permissions:
+  contents: read
+# A new push to the pull request cancels the run on the commit it replaces.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    # The workflows are published with the branch (AarhusCosmology/client-f); they run only here.
+    if: github.repository == 'AarhusCosmology/client'
+    # The organisation's own runners, as CLASS++ uses: no GitHub-hosted minutes.
+    runs-on: [self-hosted, linux, light]
+    steps:
+      - uses: actions/checkout@v7
+      # A stdlib venv from the runner's Python, in RUNNER_TEMP, which the runner empties
+      # after the job. The manual needs no scientific packages.
+      - name: Create virtual Python environment
+        run: |
+          python3 -m venv "$RUNNER_TEMP/venv"
+          echo "$RUNNER_TEMP/venv/bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/venv/bin/python" -m pip install --upgrade pip
+          "$RUNNER_TEMP/venv/bin/python" -m pip install -r docs/site/requirements.txt
+      - run: python docs/site/examples/analytic_checks.py
+      - run: python docs/site/check_docs.py
+      - run: python -m sphinx -W --keep-going -b html docs/site docs/site/_build/html
+      - run: python docs/site/check_html.py docs/site/_build/html
+      - uses: actions/upload-artifact@v7
+        with:
+          name: client-documentation-${{ github.sha }}
+          path: docs/site/_build/html
