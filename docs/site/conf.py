@@ -26,7 +26,7 @@ html_static_path = ['_static']
 html_css_files = ['client.css']
 html_theme_options = {
     'logo': {'text': 'CLiENT'},
-    'github_url': 'https://github.com/AarhusCosmology/client',
+    'github_url': 'https://github.com/AarhusCosmology/client-f',
     'navbar_align': 'left',
     'show_nav_level': 2,
     'navigation_depth': 3,

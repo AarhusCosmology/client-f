@@ -49,8 +49,8 @@ To start, take `input/recommended_near_gaussian.yaml` for a likelihood close to 
 To use CLiENT, start by cloning the repository:
 
 ```bash
-git clone https://github.com/AarhusCosmology/client.git
-cd client
+git clone https://github.com/AarhusCosmology/client-f.git
+cd client-f
 ```
 
 Then, from within the repository, run the interactive setup script:

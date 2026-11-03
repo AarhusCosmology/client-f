@@ -68,7 +68,7 @@ def prepare(root, site):
         revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
     except (OSError,subprocess.CalledProcessError):
         revision=os.environ.get('CLIENT_DOCS_REVISION','main')
-    repo='https://github.com/AarhusCosmology/client/blob/'+revision+'/'
+    repo='https://github.com/AarhusCosmology/client-f/blob/'+revision+'/'
     generated=site/'_generated'
     if generated.exists(): shutil.rmtree(generated)
     selected={p.resolve() for p in (root/'docs').glob('*.md')}

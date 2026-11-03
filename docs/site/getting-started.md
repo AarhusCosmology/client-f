@@ -5,8 +5,8 @@
 Use a separate environment:
 
 ```sh
-git clone https://github.com/AarhusCosmology/client.git
-cd client
+git clone https://github.com/AarhusCosmology/client-f.git
+cd client-f
 conda env create -f environment.yaml -n clienv
 conda activate clienv
 ```
