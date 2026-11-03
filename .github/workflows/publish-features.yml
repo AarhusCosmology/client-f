@@ -1,0 +1,39 @@
+name: Publish features
+# Every push to `features` is sent on to the public repository AarhusCosmology/client-f as its
+# `main`. The push is never forced: if `features` were rewritten, this job would fail and the
+# public history would stay as it is. The deploy key in the secret CLIENT_F_DEPLOY_KEY is the
+# only key that may write to client-f.
+on:
+  push:
+    branches: [features]
+  workflow_dispatch:
+permissions:
+  contents: read
+# One publication at a time, in order.
+concurrency:
+  group: publish-features
+  cancel-in-progress: false
+jobs:
+  publish:
+    # This file is published with the branch; it runs only in the private repository.
+    if: github.repository == 'AarhusCosmology/client' && github.ref == 'refs/heads/features'
+    runs-on: [self-hosted, linux, light]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Push to client-f main
+        env:
+          DEPLOY_KEY: ${{ secrets.CLIENT_F_DEPLOY_KEY }}
+        run: |
+          key="$RUNNER_TEMP/client_f_key"
+          hosts="$RUNNER_TEMP/client_f_known_hosts"
+          trap 'rm -f "$key" "$hosts"' EXIT
+          (umask 077 && printf '%s\n' "$DEPLOY_KEY" > "$key")
+          # GitHub's published host key (api.github.com/meta), so no key is trusted on first use.
+          echo 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' > "$hosts"
+          export GIT_SSH_COMMAND="ssh -i $key -o IdentitiesOnly=yes -o UserKnownHostsFile=$hosts -o StrictHostKeyChecking=yes"
+          git push git@github.com:AarhusCosmology/client-f.git HEAD:refs/heads/main
+          echo "client-f main is now $(git rev-parse --short HEAD)"
