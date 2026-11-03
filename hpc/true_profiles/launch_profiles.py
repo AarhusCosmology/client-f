@@ -35,9 +35,22 @@ def output_directory(arguments):
     return None
 
 
+def region_is_the_yaml_s():
+    """Stop when the region would not be applied as the user thinks it is."""
+    from profiles.config import ProfileConfig
+
+    if "region" not in ProfileConfig.__dataclass_fields__:
+        raise SystemExit("this launcher needs a CLiENT whose profile code has the setting `region`: without it a network "
+                         "trained on boosts is searched over the whole box. Point CLIENT_REPO at a newer CLiENT")
+    if (os.environ.get("CLIENT_PROFILE_REGION") or "").strip():
+        raise SystemExit("CLIENT_PROFILE_REGION is not read any more. Put `region: <edge>` in the profile YAML (run, a number "
+                         "of reaches, or null; make_config.py --region writes it) and take the variable out of the job's settings")
+
+
 def main():
     import cluster_backend
 
+    region_is_the_yaml_s()
     cluster_backend.install()
     settings = cluster_backend.newton_settings()
     target = cluster_backend.camb_accuracy_target()

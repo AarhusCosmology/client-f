@@ -13,7 +13,8 @@ ones here, which add:
     refuses already arrives as -inf. A refused point never gets a finite value here, whatever
     CLIENT_REFUSED_VALUE says: a profile is of the true objective.
   * the Boltzmann module Cobaya uses must be the environment's (CLIENT_ENV), or the patched classy a
-    run's job.env asks for with CLASSPP_GUARD_DIR, as in launch.py (boltzmann_build.py).
+    run's job.env asks for with CLASSPP_GUARD_DIR, or the CLASS++ build of CLASSPP_BUILD_DIR, as in
+    launch.py (boltzmann_build.py).
   * CLIENT_CAMB_ACCURACY_TARGET=0 sets CAMB's global AccuracyTarget before the likelihood is
     built. CAMB 2.0.4 has "targeted accuracy improvements" (AccuracyTarget = 1, its default)
     that switch on at fixed thresholds; one is a neutrino mass of 600 k T_nu (0.1009 eV per
@@ -86,7 +87,7 @@ def _check_boltzmann(backend):
     hpc_dir = str(Path(__file__).resolve().parent.parent)
     if hpc_dir not in sys.path:
         sys.path.insert(0, hpc_dir)
-    from boltzmann_build import location_problem   # the env's build, or the patched classy a run asks for
+    from boltzmann_build import location_problem   # the env's build, or the CLASS++ build a run asks for
 
     for name in model.theory:
         root = name.split(".")[0]

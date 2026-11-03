@@ -363,6 +363,73 @@ class BranchRun(unittest.TestCase):
             self.assertIn("if it had one", said)
 
 
+class TrainFrom(unittest.TestCase):
+    """--train-from N: a branch inside the boosts, which trains network N and the later ones itself."""
+
+    def test_the_branch_holds_the_networks_before_n_and_the_training_set_of_n(self):
+        with tempfile.TemporaryDirectory() as d:
+            run = saved_run(Path(d), refused=-30000)
+            source = SETTINGS.replace("    n: 30 ", "    boosts: 3\n    n: 30 ")
+            (run / "client.yaml").write_text(source)
+            (run / "boost" / "start.json").write_text(json.dumps(dict(start_iteration=4, configured=4)))
+            before = {p: p.read_text() for p in run.rglob("*") if p.is_file()}
+            new, said = branch(run, "--train-from", "5", "--set", "acquisition.boost.region=1.5")
+            names = sorted(str(p.relative_to(new)) for p in new.rglob("*") if p.is_file())
+            self.assertEqual(names, sorted(
+                ["BRANCHED_FROM.txt", "client.yaml", "metadata.json", "refused_value.json", "branch_provenance/imports.json",
+                 "boost/start.json", "boost/boost_it_4.json"]
+                + [f"trained_models/model_it_{k}.keras" for k in range(5)] + [f"training_data/data_it_{k}.csv" for k in range(6)]
+                + [f"audit/audit_it_{k}.csv" for k in range(5)]                    # network 5's audit is the branch's to do
+                + [f"convergence_stats/chain_summary_it_{k}.npz" for k in range(5)]))
+            settings = yaml.safe_load((new / "client.yaml").read_text())
+            self.assertEqual(settings["acquisition"]["boost"]["start_iteration"], 4)       # the source's start stays
+            self.assertEqual(settings["acquisition"]["boost"]["region"], 1.5)
+            del settings["acquisition"]["boost"]["region"]
+            self.assertEqual(settings, yaml.safe_load(source))
+            imports = json.loads((new / "branch_provenance" / "imports.json").read_text())
+            self.assertEqual((imports["iteration"], imports["checkpoint"], imports["trained_again_from"]), (5, 4, 5))
+            self.assertEqual(sorted(imports["files"]), ["training_data/data_it_5.csv"])
+            self.assertIn("network 5 on trained by the branch", said)
+            self.assertIn("-i 2", said)                         # three boosts from network 4: networks 5 and 6 are left
+            self.assertIn("network 5 on trained by the branch", (new / "BRANCHED_FROM.txt").read_text())
+            self.assertEqual(before, {p: p.read_text() for p in run.rglob("*") if p.is_file()})
+
+    def test_the_phase_records_of_the_networks_taken_over_stay_and_check(self):
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+        from run.storage import PhaseStore
+
+        with tempfile.TemporaryDirectory() as d:
+            run = saved_run(Path(d))
+            phases = PhaseStore(run)
+            phases.complete("initial", [run / "training_data/data_it_0.csv", run / "metadata.json"])
+            for k in range(6):
+                phases.complete(f"training_it_{k}", [run / f"trained_models/model_it_{k}.keras", run / f"audit/audit_it_{k}.csv"])
+                phases.complete(f"acquisition_it_{k}", [run / f"training_data/data_it_{k + 1}.csv"])
+            new, _ = branch(run, "--train-from", "5")
+            self.assertEqual(sorted(p.name for p in (new / "phases").glob("*.json")),
+                             sorted(["initial.json"] + [f"training_it_{k}.json" for k in range(5)]
+                                    + [f"acquisition_it_{k}.json" for k in range(5)]))
+            store = PhaseStore(new)
+            self.assertEqual(store.recover(), [])
+            store.check()                                          # what a continued run does first
+            shutil.rmtree(new)
+            (run / "phases" / "acquisition_it_4.json").unlink()   # the training set of 5 is not committed
+            with self.assertRaisesRegex(SystemExit, "no committed acquisition phase of network 4"):
+                branch(run, "--train-from", "5")
+
+    def test_what_cannot_be_trained_again(self):
+        with tempfile.TemporaryDirectory() as d:
+            run = saved_run(Path(d))
+            for arguments, message in ((["--train-from", "4"], "boosts start at 4"),     # at the start: --at 3
+                                       (["--train-from", "0"], "after the boosts' start"),
+                                       (["--train-from", "8"], "has no"),
+                                       (["--train-from", "5", "--at", "2"], "")):
+                with self.subTest(arguments=arguments), self.assertRaisesRegex(SystemExit, message), \
+                        contextlib.redirect_stderr(io.StringIO()):
+                    branch(run, *arguments)
+            self.assertEqual([p.name for p in Path(d).iterdir()], [run.name])
+
+
 class Settings(unittest.TestCase):
     """--set: a branch with a setting other than its source's, from its start."""
 

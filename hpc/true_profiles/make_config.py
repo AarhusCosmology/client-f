@@ -108,7 +108,13 @@ def main():
     parser.add_argument("--region", default="run",
                         help="where a boost network is searched: run (default), a number of reaches, or none")
     parser.add_argument("--maxfun", type=int)
-    parser.add_argument("--budget", type=int)
+    parser.add_argument("--hybrid-hops", type=int, help="hops of the network scan at most (CLiENT's default 12 when not given); "
+                        "30 for the SIDR + DRMD studies, whose first scan stopped at 12 still improving")
+    parser.add_argument("--gtol", type=float, help="gradient tolerance of the network scan's certification (CLiENT's "
+                        "default 1e-4 when not given); 1e-3 for the SIDR + DRMD pp studies, whose scans stopped at one node "
+                        "with a gradient of 8e-4, a remaining gain of 1e-5, far below the true likelihood's noise of 0.1")
+    parser.add_argument("--budget", type=int, help="total true calls of the study; default: what the plan can use, "
+                        "(nodes + 1) x maxfun + nodes + 3, rounded up to 1000, or four gradient rounds a node if larger")
     parser.add_argument("--tolerance", type=float, help="corrected_tol; default: the method's own, 1e-2")
     parser.add_argument("--audit-tolerance", type=float, default=0.01,
                         help="Delta chi-squared by which the best saved training values may differ from now (0.01); larger "
@@ -148,7 +154,15 @@ def main():
     n = len(names)
     maxfun = args.maxfun or 6 * (n + 2)
     nodes = len(parameters) * args.points
-    budget = args.budget or int(math.ceil(nodes * 4 * (n + 2) / 1000) * 1000)
+    # The study stops when its total budget is spent, also in its very last step (the global best fit, after every
+    # node), and then writes no profiles. The estimate of four gradient rounds a node is too small for a study of few
+    # nodes that use their whole maxfun (a 25-node study of 22 October 2026 stopped there, after all its nodes), and
+    # nearly so for a large one at a noise floor (27 089 of 28 000). The default is therefore never below what the
+    # plan can use: every node and the global best fit at maxfun, each node's true value at the network's optimum,
+    # and the audit points. --budget sets it explicitly.
+    expected = int(math.ceil(nodes * 4 * (n + 2) / 1000) * 1000)
+    floor = int(math.ceil(((nodes + 1) * maxfun + nodes + 3) / 1000) * 1000)
+    budget = args.budget or max(expected, floor)
     lines = [
         f"# True 1D profiles of {len(parameters)} of the {n} parameters of {args.run.name},",
         f"# starting from network {args.iteration}. Written by true_profiles/make_config.py; the ranges are the",
@@ -166,12 +180,18 @@ def main():
         "         # null: 1e-2 in the log-objective. Not below twice the noise floor of the likelihood",
         "chain_length: 2             # a cold start after every two chained nodes: keeps the processes busy",
         f"maxfun: {maxfun}                 # true calls a node may use: six gradient rounds of {n + 1} (the default 150 is for ~16 parameters)",
-        f"total_call_budget: {budget}   # of the whole study, resumed attempts included (four gradient rounds a node)",
+        f"total_call_budget: {budget}   # of the whole study, resumed attempts included; "
+        + ("as given (--budget)" if args.budget else f"what the plan can use, every node and the best fit at maxfun "
+           f"(four gradient rounds a node would be {expected})"),
         "audit_points: 3             # best saved training values recomputed before anything else",
         f"audit_tolerance: {args.audit_tolerance:g}",
         f"region: {region}" + " " * max(1, 17 - len(region)) + "# a network trained on boosts is searched inside the region of its boosts"
         + {"run": " (the run's own edge)", "null": ": NOT applied, the bare network"}.get(region, f", edge at {region} times their reach"),
         "hybrid_walkers: 8",
+    ] + ([f"hybrid_hops: {args.hybrid_hops}              # hops of the network scan at most (CLiENT default 12)"]
+         if args.hybrid_hops is not None else []) + (
+        [f"gtol: {args.gtol:g}                  # certification of the network scan (CLiENT default 1e-4)"]
+        if args.gtol is not None else []) + [
         "seed: 42",
         "parameters:",
     ]

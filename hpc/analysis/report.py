@@ -477,7 +477,7 @@ def main():
             reference_file = args.reference
             if reference_file is None:                         # the run folder's own file, when there is one
                 name = re.sub(r"^\d{8}_\d{6}_", "", run.dir.name)
-                candidate = Path(__file__).resolve().parent.parent / "runs" / name / "reference_values.json"
+                candidate = Path(os.environ.get("CLIENT_HPC_DIR") or Path(__file__).resolve().parent.parent) / "runs" / name / "reference_values.json"
                 reference_file = candidate if candidate.exists() else None
             if reference_file is not None:
                 run.reference = load_reference(reference_file, run)
@@ -709,7 +709,9 @@ def plots(report, run, posteriors, out, boost_start, corner, corner_parameters=6
     samples = [MCSamples(samples=posteriors[it]["chain"].reshape(-1, run.ndim)[:, cosmo], names=[run.names[k] for k in cosmo],
                          labels=[str(labels[k]).strip("$") for k in cosmo], label=f"network {it}",
                          ranges={run.names[k]: (run.lower[k], run.upper[k]) for k in cosmo},
-                         settings=dict(smooth_scale_2D=0.4, smooth_scale_1D=0.4)) for it in chosen]
+                         # as the axion paper's figures (31 October 2026): 0.4 standard deviations round off the peaks of
+                         # a multimodal parameter, whose standard deviation is large; 1D automatic, 2D 0.2
+                         settings=dict(smooth_scale_2D=0.2, smooth_scale_1D=-1)) for it in chosen]
     reference = getattr(run, "reference", {})
     g = gplots.get_subplot_plotter(width_inch=max(9, 1.5 * len(cosmo)))
     g.triangle_plot(samples, filled=True,                     # dashed lines: the published centres

@@ -24,6 +24,7 @@ runs/RUN/domain_notes.md with the table. Changes nothing else.
 """
 import argparse
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -81,7 +82,7 @@ def main():
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args()
 
-    folder = HERE / "runs" / args.run
+    folder = Path(os.environ.get("CLIENT_HPC_DIR") or HERE) / "runs" / args.run      # README.md: CLIENT_HPC_DIR
     target = folder / "domain_bounds.json"
     if target.exists() and not args.force:
         raise SystemExit(f"{target} exists; --force writes a new one")

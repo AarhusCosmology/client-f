@@ -18,6 +18,7 @@ out there, and the true check tests the network where most of its posterior is.
 """
 import argparse
 import json
+import os
 import re
 from pathlib import Path
 
@@ -26,6 +27,7 @@ import numpy as np
 from chain_sampling import chain_sampling
 
 HERE = Path(__file__).resolve().parent.parent
+RUNS = Path(os.environ.get("CLIENT_HPC_DIR") or HERE) / "runs"     # README.md: CLIENT_HPC_DIR
 LABELS = {"logA": r"\ln(10^{10} A_\mathrm{s})", "ns": r"n_\mathrm{s}", "theta_MC_100": r"100\theta_\mathrm{MC}",
           "ombh2": r"\Omega_\mathrm{b} h^2", "omch2": r"\Omega_\mathrm{c} h^2", "mnu": r"\Sigma m_\nu\,[\mathrm{eV}]",
           "nnu": r"N_\mathrm{eff}", "omk": r"\Omega_K", "w": r"w_0", "wa": r"w_a", "Alens": r"A_\mathrm{lens}", "tau": r"\tau",
@@ -40,7 +42,8 @@ def main():
     parser.add_argument("--parameters", type=int, default=12, help="the first N parameters")
     parser.add_argument("--names", nargs="*", help="these parameters instead")
     parser.add_argument("--contours", type=float, nargs="*", default=[0.68, 0.95, 0.99])
-    parser.add_argument("--smooth", type=float, default=0.4, help="getdist's smoothing scale, in bins")
+    parser.add_argument("--smooth", type=float, help="getdist's smoothing scale for 1D and 2D, in standard deviations "
+                                                     "(default: 1D automatic, 2D 0.2, as the axion paper's figures)")
     parser.add_argument("--out", type=Path)
     args = parser.parse_args()
 
@@ -66,7 +69,7 @@ def main():
             print(f"WARNING: {files[n].name} {warning}.")
 
     run_name = re.sub(r"^\d{8}_\d{6}_", "", args.run.resolve().name)
-    box_file, reference_file = (HERE / "runs" / run_name / name for name in ("domain_bounds.json", "reference_values.json"))
+    box_file, reference_file = (RUNS / run_name / name for name in ("domain_bounds.json", "reference_values.json"))
     box = json.loads(box_file.read_text()) if box_file.exists() else {}
     reference = json.loads(reference_file.read_text())["parameters"] if reference_file.exists() else {}
 
@@ -81,7 +84,8 @@ def main():
         # getdist finds the density level that holds each of `contours`; a level at a hard edge needs the edge
         samples.append(MCSamples(samples=x, names=shown, labels=[LABELS.get(name, name.replace("_", r"\_")) for name in shown],
                                  label=f"network {n}", ranges={name: tuple(box[name]) for name in shown if name in box},
-                                 settings=dict(contours=contours, smooth_scale_2D=args.smooth, smooth_scale_1D=args.smooth)))
+                                 settings=dict(contours=contours, smooth_scale_2D=0.2 if args.smooth is None else args.smooth,
+                                               smooth_scale_1D=-1 if args.smooth is None else args.smooth)))
         print(f"network {n}: {len(x)} samples of {len(shown)} parameters; outside the outermost contour about "
               f"{(1 - contours[-1]) * len(x):.0f} of them")
 

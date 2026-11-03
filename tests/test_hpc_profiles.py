@@ -139,6 +139,14 @@ class RegionIsTheYamls(unittest.TestCase):
             with self.assertRaisesRegex(SystemExit, "was made with the settings"):
                 self.launch(arguments)
 
+    def test_the_old_variable_stops_the_launcher(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            arguments = ["run", "--config", "profile.yaml", "-o", str(Path(tmp) / "study")]
+            for value in ("1", "run"):
+                with self.subTest(value=value), self.assertRaisesRegex(SystemExit, "not read any more"):
+                    self.launch(arguments, {"CLIENT_PROFILE_REGION": value})
+            self.assertFalse((Path(tmp) / "study.newton_settings.json").exists())
+
     def test_make_config_writes_the_setting(self):
         from profiles.config import ProfileConfig
 
@@ -162,6 +170,34 @@ class RegionIsTheYamls(unittest.TestCase):
                     make_config.main()
                 self.assertEqual(ProfileConfig.load(out).region, expected)
                 self.assertLess(ProfileConfig.load(out).ranges["a"][1], 0.45)    # 0.33 from network 7, 0.99 from 9
+
+    def test_make_config_scan_options_and_budget(self):
+        from profiles.config import ProfileConfig
+
+        rng = np.random.default_rng(0)
+        with tempfile.TemporaryDirectory() as tmp:
+            run = Path(tmp) / "run"
+            (run / "analysis").mkdir(parents=True)
+            np.savez(run / "analysis" / "posterior_it_7.npz", x=rng.normal(0.0, 0.1, (5000, 2)), names=np.array(["a", "b"]))
+            (run / "metadata.json").write_text(json.dumps(dict(parameters=[dict(name=n, lower=-1.0, upper=1.0) for n in "ab"])))
+            out = Path(tmp) / "profile.yaml"
+
+            def made(*words):
+                with mock.patch.object(sys, "argv", ["make_config.py", str(run), "--iteration", "7", "--out", str(out),
+                                                     "--workers", "1", "--points", "25", *words]), \
+                        contextlib.redirect_stdout(io.StringIO()):
+                    make_config.main()
+                return ProfileConfig.load(out)
+
+            default = made()
+            self.assertEqual((default.hybrid_hops, default.gtol), (ProfileConfig.hybrid_hops, ProfileConfig.gtol))
+            self.assertNotIn("hybrid_hops", out.read_text())
+            # 50 nodes of 2 parameters at maxfun 24: four gradient rounds a node (1000) is less than the plan
+            # can use, every node and the global best fit at maxfun with the nodes' and audit's calls (2000)
+            self.assertEqual(default.maxfun, 24)
+            self.assertEqual(default.total_call_budget, 2000)
+            chosen = made("--hybrid-hops", "30", "--gtol", "1e-3", "--budget", "1500")
+            self.assertEqual((chosen.hybrid_hops, chosen.gtol, chosen.total_call_budget), (30, 1e-3, 1500))
 
 
 class NewtonSettings(unittest.TestCase):

@@ -21,6 +21,8 @@ Each program describes its use and its arguments at its head.
 
 A run is a folder `runs/<RUN>/` holding `client.yaml`, `cobaya.yaml` and `domain_bounds.json`, the training box as
 `{name: [low, high]}`, with paths relative to this folder. `prior.n_sigma` must be null: the box is the file's.
+A site that keeps its runs and job logs in a folder of its own beside CLiENT sets `CLIENT_HPC_DIR` to that folder:
+the launcher then writes `logs/` there, and `report.py`, `corner.py` and `make_box.py` read `runs/` there.
 
 ```bash
 mpirun -n N python launch.py runs/RUN/domain_bounds.json runs/RUN/client.yaml -n RUN -o results   # a new run
@@ -35,8 +37,9 @@ Compared with `client.py` itself, the launcher
   files are exactly those the likelihood saw;
 - turns a logged error of Cobaya at a point, and a log-posterior of NaN, into a refused point, in place of
   stopping the run or withholding corrected weights;
-- writes `logs/backend_<tag>.json` (the Boltzmann code, the box, the likelihoods) and one line per batch of true
-  evaluations to `logs/evaluations_<tag>.jsonl`.
+- writes `logs/backend_<tag>.json` (the Boltzmann code, the commits of CLiENT and CLASS++, the box, the likelihoods)
+  and one line per batch of true evaluations to `logs/evaluations_<tag>.jsonl`. CLiENT's commit is read from its
+  checkout; CLASS++'s is recorded only when the job names it, as `CLASSPP_COMMIT` or `CLASSPP_BUILD_COMMIT`.
 
 A run's `runs/<RUN>/job.env` is sourced by the job script and can set these:
 
@@ -45,7 +48,9 @@ A run's `runs/<RUN>/job.env` is sourced by the job script and can set these:
 | `CLIENT_REFUSED_VALUE` | refused points are -inf and are dropped | a number, or `design[:Q]`, the quantile Q (0.5 unless given) of the design's finite values: refused points get this value and are trained on. The value belongs to the run (`refused_value.json`), and a continued run must be given the same one. It is never a finite true value: the true check and the evidence correction count refused points by it |
 | `CLIENT_LOAD_GROUP` | all at once | ranks build their likelihood this many at a time, for likelihoods that need far more memory while reading their data (HiLLiPoP) |
 | `CLIENT_ENV` | not checked | the conda environment whose Boltzmann code the job must evaluate with |
-| `CLASSPP_GUARD_DIR` | not used | classy must come from this folder's `lib/` (see below) |
+| `CLASSPP_GUARD_DIR` | not used | classy must come from this folder's `lib/`: the patched build (see below) |
+| `CLASSPP_BUILD_DIR`, `CLASSPP_BUILD_COMMIT` | not used | classy must come from this folder's `lib/`: an unpatched build of another CLASS++ commit, the one `CLASSPP_BUILD_COMMIT` names. Not with `CLASSPP_GUARD_DIR` |
+| `CLASSPP_COMMIT` | not recorded | the commit of the environment's own CLASS++ build, for `logs/backend_<tag>.json` |
 
 The settings for a real likelihood are `input/recommended_near_gaussian.yaml` and `input/recommended_non_gaussian.yaml`;
 `docs/boost.md` says which to take.
@@ -75,6 +80,13 @@ makes a new run directory that holds the run up to network 10 and starts its boo
 before the source's own boost start. The source run stays as it is, and the branch keeps the source's call journals
 apart from its own. Continue the branch as any run.
 
+```bash
+python analysis/branch_run.py results/<timestamp>_RUN --train-from 8 --set training.warm_start=false
+```
+
+branches inside the boosts instead: the branch holds networks 0 to 7 and the training set of network 8, keeps the
+source's boost start, and trains network 8 and the later ones itself with the settings given.
+
 ## True profiles
 
 ```bash
@@ -83,6 +95,8 @@ sbatch true_profiles/submit_profiles.sh results/<timestamp>_RUN runs/RUN/profile
 python true_profiles/status.py results_profiles/NAME
 ```
 
+`make_config.py` takes `--hybrid-hops` and `--gtol` for the network scan, which a rugged network may need above
+CLiENT's defaults (12 and 1e-4), and sets the study's call budget to what its plan can use unless `--budget` is given.
 The profile code starts its own backend processes: do not use `mpirun`. A refused point is -inf in a profile, never
 the run's refused value. `CLIENT_CAMB_ACCURACY_TARGET` and `CLIENT_PROFILE_NEWTON` (overrides of `NewtonConfig`,
 outside what that stage was validated with) are written beside the study, and a resumed study must be given the same.
@@ -98,3 +112,5 @@ unpatched build at 40 random points and the best fit. It is a regularisation of 
 Apply it at the CLASS++ commit the run names and build into a folder of its own, source under `src/` and the Python extension
 under `lib/` (CLASS++ compiles the path of its source tree into the library). Then set `CLASSPP_GUARD_DIR` to that
 folder in the run's `job.env` and put its `lib/` first on `PYTHONPATH`. Leave the environment's own classy untouched.
+An unpatched build of another commit is made and named the same way, with `CLASSPP_BUILD_DIR` and `CLASSPP_BUILD_COMMIT`.
+On several nodes the job must pass these variables and `PYTHONPATH` to every rank (`mpirun -x`, as `submit_client.sh` does).

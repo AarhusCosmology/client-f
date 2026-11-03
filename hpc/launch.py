@@ -13,7 +13,8 @@ What it adds to client.py:
     coordinates stored in the training files are exactly the ones the likelihood saw;
   * a continued run must be given the domain it was started with (compared with the run's
     metadata.json), and the Boltzmann module Cobaya uses must be the one of the environment, or the
-    patched classy a run's job.env asks for with CLASSPP_GUARD_DIR (boltzmann_build.py);
+    patched classy a run's job.env asks for with CLASSPP_GUARD_DIR, or the CLASS++ build of another
+    commit it asks for with CLASSPP_BUILD_DIR (boltzmann_build.py);
   * the run's settings must leave prior.n_sigma null: client.py would apply it after the domain,
     and the run would train in another box than the json file's (n_sigma_problem);
   * with CLIENT_LOAD_GROUP=G in the environment the ranks build their likelihood G at a time,
@@ -28,7 +29,8 @@ a refused point gets a finite value and is trained on: a number, or `design` to 
 the design's own values (refused.py). The value is written to the run (refused_value.json),
 and a continued run must be given the same one.
 Rank 0 writes logs/backend_<tag>.json: module, version and file of the Boltzmann code, the
-parameters, the effective bounds, the likelihoods and the derived parameters. It also appends
+commits of CLiENT and CLASS++ (boltzmann_build.commits: CLASS++'s only when the job's settings
+name it), the parameters, the effective bounds, the likelihoods and the derived parameters. It also appends
 one line per batch of true evaluations to logs/evaluations_<tag>.jsonl: when, how many points,
 how many came back not finite, the seconds the batch took and the range of the values. The
 audit's batches take their own transport (client.audit_network) and are wrapped the same way,
@@ -44,8 +46,11 @@ import numpy as np
 from mpi4py import MPI
 
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, os.environ.get("CLIENT_REPO", str(Path(__file__).resolve().parents[1])))
+CLIENT_REPO = os.environ.get("CLIENT_REPO", str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, CLIENT_REPO)
 sys.path.insert(0, str(HERE))
+# runs/ and logs/ of the jobs: this folder, or the folder of a site that keeps its own beside CLiENT (README.md)
+LOGS = Path(os.environ.get("CLIENT_HPC_DIR") or HERE) / "logs"
 comm = MPI.COMM_WORLD
 rank = comm.rank
 
@@ -91,7 +96,7 @@ import client  # noqa: E402
 from domain import apply_domain, read_domain  # noqa: E402
 from loading import build_in_turn  # noqa: E402
 from refused import design_value, read_record, refuse_logged_errors, write_record  # noqa: E402
-from boltzmann_build import location_problem  # noqa: E402
+from boltzmann_build import commits, location_problem  # noqa: E402
 from run.run import Run  # noqa: E402
 from utils import mpi_utils  # noqa: E402
 
@@ -103,7 +108,7 @@ original_from_args = Run.from_args.__func__
 state = {}
 # One tag for every rank: the ranks find the design's refused value in a file named after it.
 TAG = comm.bcast(os.environ.get("SLURM_JOB_ID", time.strftime("%Y%m%d_%H%M%S")) if rank == 0 else None, root=0)
-VALUE_FILE = HERE / "logs" / f"refused_value_{TAG}.json"
+VALUE_FILE = LOGS / f"refused_value_{TAG}.json"
 
 
 def from_args(cls, args):
@@ -149,7 +154,7 @@ def build(*args, **kwargs):
     refuse_logged_errors(truth, rank, value_file=VALUE_FILE)   # a Cobaya logged error at a point: -inf (refused.py)
     continued_refused_value(truth)
     codes = boltzmann(truth)
-    for name, file, _ in codes:             # the env's build, or the patched classy a run asks for
+    for name, file, _ in codes:             # the env's build, or the CLASS++ build a run asks for
         problem = location_problem(name, file)
         if problem:
             raise RuntimeError(problem)
@@ -160,10 +165,10 @@ def build(*args, **kwargs):
                 raise RuntimeError(f"{TARGET} was started with another domain for {name}: {saved.get(name)} against {(lo, hi)}")
     state["truth"] = truth
     if rank == 0:
-        (HERE / "logs").mkdir(exist_ok=True)
-        (HERE / "logs" / f"backend_{TAG}.json").write_text(json.dumps(dict(
+        LOGS.mkdir(parents=True, exist_ok=True)
+        (LOGS / f"backend_{TAG}.json").write_text(json.dumps(dict(
             target=str(TARGET), domain=str(DOMAIN_FILE), ranks=comm.size, host=MPI.Get_processor_name(),
-            boltzmann=[dict(name=n, file=f, version=v) for n, f, v in codes],
+            boltzmann=[dict(name=n, file=f, version=v) for n, f, v in codes], **commits(CLIENT_REPO),
             likelihoods=list(truth.cobaya_model.likelihood), parameter_names=truth.param_names,
             effective_bounds=truth.prior_bounds, derived_names=list(truth.derived_names),
             schedule=os.environ.get("CLIENT_MPI_SCHEDULE", "(default)"),
@@ -271,7 +276,7 @@ def journal(started, result, kind=None):
                     best=float(finite.max()) if len(finite) else None,       # best, median, worst: of the values the likelihood gave
                     median=float(np.median(finite)) if len(finite) else None,
                     worst=float(finite.min()) if len(finite) else None)
-        with open(HERE / "logs" / f"evaluations_{TAG}.jsonl", "a") as handle:
+        with open(LOGS / f"evaluations_{TAG}.jsonl", "a") as handle:
             handle.write(json.dumps(line) + "\n")
     except Exception as error:                                   # diagnostics must not cost a run
         print(f"[launch] evaluation journal not written: {error!r}", flush=True)

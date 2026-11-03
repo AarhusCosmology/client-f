@@ -386,6 +386,10 @@ read [docs/run_recovery.md](docs/run_recovery.md). Keep these:
   and the phase history had none and went into every branch), leaves `evidence/`, `modes/`,
   `analysis/`, `interrupted/`, `phases/history/` and `boost/start.json` behind, and takes
   the source's boost start as the earlier of its settings and `boost/start.json`.
+  `--train-from N` is the other kind of branch, inside the boosts: it keeps the source's start and
+  `boost/start.json`, takes networks 0 to N - 1 with their committed training and acquisition and the
+  training set of N, and not N's audit (`imports.json` says `trained_again_from`); network N is trained
+  again by the branch.
 * Branches keep complete parent call journals under `branch_provenance/source/`, outside
   active `objective_calls/rank*.jsonl`. `imports.json` counts inherited finite native
   coordinate/value pairs from the checkpoint, audit and optional augmentation separately from new objective calls.
@@ -624,8 +628,12 @@ The launcher of real runs; `hpc/README.md` has the use. Points the likelihood ca
   `design_value` rounds so that no real value equals it; a value chosen by hand must not be one the likelihood can return.
 * This lives outside `client.py` on purpose.
 * The build of classy and camb a job evaluates with is decided by one rule, `boltzmann_build.location_problem`, used by `launch.py`
-  and `true_profiles/cluster_backend.py`. Without `CLASSPP_GUARD_DIR` it is the environment's build; with it, classy must be the patched
-  build in that folder's `lib/`. Never patch the environment's classy itself (`tests/test_hpc_boltzmann_build.py`).
+  and `true_profiles/cluster_backend.py`. Without `CLASSPP_GUARD_DIR` or `CLASSPP_BUILD_DIR` it is the environment's build; with
+  the first, classy must be the patched build in that folder's `lib/`, with the second the unpatched build of another commit in its
+  `lib/`; both set is refused. Never patch the environment's classy itself (`tests/test_hpc_boltzmann_build.py`).
+* Nothing in `hpc/` names a machine. What one site needs (install, partitions, its runs and queues) lives in that site's own
+  repository beside CLiENT, which sets `CLIENT_HPC_DIR` so that the launcher's `logs/` and the analysis programs' `runs/` are
+  its own (for Grendel: the private `AarhusCosmology/ClientCluster`).
 * The patch (`hpc/patches/classpp_extrap_guard.patch`) changes CLASS++'s source extrapolation only where the two-point fit is ill posed
   (dark acoustic oscillations); it is a regularisation of uncalibrated halofit and HMcode output, not a model. At every point where the fit is
   well posed the expression is the original, and the spectra there were bit for bit those of the unpatched build at 40 random points
