@@ -694,6 +694,12 @@ def run_client(args):
     # Opt-in (acquisition.boost.boosts): a run of no given length ends after that many boosts.
     if use_convergence and cfg.acquisition.boost is not None and cfg.acquisition.boost.boosts is not None:
         final_iteration = min(final_iteration, boost_start + cfg.acquisition.boost.boosts)
+    # training.members acts in the boost phase only (training/members.py, trains_members).
+    from training.members import trains_members
+
+    if cfg.training.members > 1:
+        print_master(f"training.members: {cfg.training.members} trainings of every network trained on boost points "
+                     "(after the boosts' start); the networks before are trained once")
 
     # Hoist loop-invariant values and master-only imports out of the iteration loop.
     if master:
@@ -727,6 +733,7 @@ def run_client(args):
         if iteration > final_iteration:  # the run was shortened at the hand-over to its boosts
             break
         print_master(f"\n--- Iteration {iteration}/{final_iteration} ---")
+        members_on = trains_members(cfg.training.members, boost_start, iteration)
         if master:
             iteration_start_time = time.monotonic()
             model_path = run.trained_models_dir / f"model_it_{iteration}.keras"
@@ -761,7 +768,7 @@ def run_client(args):
             # training, from which the selection set is held out below.
             newest = None
             member_results = None
-            if cfg.training.members > 1 and not cfg.training.member_pilot:
+            if members_on and not cfg.training.member_pilot:
                 from training.members import newest_rows, previous_rows
 
                 newest = newest_rows(len(dataset.inputs),
@@ -927,7 +934,7 @@ def run_client(args):
                 lr_grace=int(round(cfg.training.lr_grace * schedule_factor)),
             )
             member_tasks = []
-            if selection is not None or (cfg.training.members > 1 and cfg.training.member_pilot):
+            if selection is not None or (members_on and cfg.training.member_pilot):
                 from training.members import dispatch as dispatch_members
                 from training.members import member_ranks, member_seed, oversubscription
 
@@ -966,7 +973,7 @@ def run_client(args):
                                            os.cpu_count() or 1)
                 if warning:
                     print_master(warning)
-            elif cfg.training.members > 1 and get_size() > 1:
+            elif members_on and get_size() > 1:
                 from training.members import dispatch as dispatch_members
                 from utils.mpi_utils import _get_communicator
 
@@ -1025,7 +1032,7 @@ def run_client(args):
 
         # ---- Members on the other ranks (training.members) ----
         # A worker waits here, asleep, for rank 0's message: a member to train or nothing.
-        if cfg.training.members > 1 and get_size() > 1:
+        if members_on and get_size() > 1:
             from training.members import dispatch as dispatch_members
             from training.members import serve as serve_member
             from utils.mpi_utils import _get_communicator
@@ -1099,7 +1106,7 @@ def run_client(args):
         # ---- Members' pilot (training.member_pilot) ----
         # Every member's own posterior points, evaluated once with the true likelihood on all
         # ranks; the member with the smallest error over them is kept (training/members.py).
-        if cfg.training.members > 1 and cfg.training.member_pilot:
+        if members_on and cfg.training.member_pilot:
             from training.members import dispatch_pilot, serve_pilot
             from utils.mpi_utils import _get_communicator
 

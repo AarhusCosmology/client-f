@@ -29,6 +29,14 @@ MEMBER_TAG = 7311          # rank 0 -> a member rank: its task, or None
 MEMBER_RESULT_TAG = 7312   # a member rank -> rank 0: its result
 
 
+def trains_members(members, boost_start, iteration):
+    """Whether network `iteration` is trained by the members: only in the boost phase, from the
+    first training on boost points (the network after the boosts' start, acquisition.boost) on.
+    Every network of the tempered phase is trained once, as without the key (Steen, 4 November
+    2026: a feature of the boosts). Every rank asks it, with the same boost start."""
+    return members > 1 and boost_start is not None and iteration > boost_start
+
+
 def member_ranks(size, members):
     """The ranks that train members 1 .. members-1, spread evenly over the ranks (and so over
     the nodes), at most one per rank and never rank 0; fewer than members-1 when the run has

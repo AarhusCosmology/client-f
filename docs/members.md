@@ -1,11 +1,19 @@
 # Several trainings per network (`training.members`)
 
-`training.members: K` trains every network K times on the same training set with the same
-settings and keeps one. Rank 0 trains it as before (warm-started from the previous network when
-`training.warm_start` is on, the default). K - 1 members are trained from random weights, each with
-its own seed, on ranks that would otherwise wait for the next evaluation: during a training only
-rank 0 works, and on a cluster the other ranks' cores are idle for the whole of it. Members left
-over when the run has fewer ranks than members are trained on rank 0 after its own network.
+`training.members: K` trains every network of the boost phase K times on the same training set
+with the same settings and keeps one. Rank 0 trains it as before (warm-started from the previous
+network when `training.warm_start` is on, the default). K - 1 members are trained from random
+weights, each with its own seed, on ranks that would otherwise wait for the next evaluation: during
+a training only rank 0 works, and on a cluster the other ranks' cores are idle for the whole of it.
+Members left over when the run has fewer ranks than members are trained on rank 0 after its own
+network.
+
+It is a feature of the boosts. The members act from the first training on boost points (the
+network after the boosts' start, `acquisition.boost.start_iteration` or the hand-over of
+`tempered_batch_scatter`) on; every network of the tempered phase, the hand-over's included, is
+trained once, as without the key, and a run without `acquisition.boost` that sets it is refused.
+The log says so at the start (`training.members: K trainings of every network trained on boost
+points`).
 
 ```yaml
 training:

@@ -557,7 +557,10 @@ class TrainingConfig:
     augment_schedule_factor: float = 3.0
 
     # Several trainings of each network, the best kept (training/members.py, docs/members.md).
-    # members: K > 1 trains every network K times on the same training set with the same
+    # A feature of the boosts: it acts from the first training on boost points (the network after
+    # the boosts' start) on, and every network of the tempered phase is trained once; it needs
+    # acquisition.boost (a run without one is refused).
+    # members: K > 1 trains every such network K times on the same training set with the same
     # settings: rank 0 as before (warm-started when warm_start is on) and K - 1 times from
     # random weights, each with its own seed, on ranks that would otherwise wait for the next
     # evaluation (the members left over when the run has fewer ranks are trained on rank 0 after
@@ -824,7 +827,7 @@ class Config:
     def from_dict(cls, d):
         if d is not None:
             _validate_mapping(cls, d)
-        return cls(
+        config = cls(
             likelihood=LikelihoodConfig.from_dict(d["likelihood"]),
             prior=PriorConfig.from_dict(d["prior"]),
             acquisition=AcquisitionConfig.from_dict(d["acquisition"]),
@@ -836,6 +839,10 @@ class Config:
             # as acquisition.audit and .boost: absent or false is off; null, true or {} every default
             derived=AcquisitionConfig._section(DerivedConfig, d, "derived"),
         )
+        if config.training.members > 1 and config.acquisition.boost is None:
+            raise ValueError("training.members acts only on networks trained on boost points: it needs "
+                             "acquisition.boost")
+        return config
 
     @classmethod
     def from_yaml(cls, path):

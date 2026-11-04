@@ -186,6 +186,26 @@ class Pilot(unittest.TestCase):
             self.assertEqual(members.previous_rows(run, 5), 12)
 
 
+class BoostPhaseOnly(unittest.TestCase):
+    def test_members_train_only_networks_trained_on_boost_points(self):
+        # boosts from network 5: network 5 is the tempered phase's last, 6 the first trained on boost points
+        self.assertEqual([n for n in range(10) if members.trains_members(12, 5, n)], [6, 7, 8, 9])
+        self.assertFalse(any(members.trains_members(12, None, n) for n in range(10)))   # a run without boosts
+        self.assertFalse(any(members.trains_members(1, 5, n) for n in range(10)))      # the default
+
+    def test_a_run_without_boosts_is_refused(self):
+        import yaml
+
+        from config.config import Config
+
+        raw = yaml.safe_load((ROOT / "docs/site/examples/gaussian_client.yaml").read_text())
+        raw["training"]["members"] = 3
+        with self.assertRaises(ValueError):
+            Config.from_dict(raw)
+        raw["acquisition"]["boost"] = dict(n=24, start_iteration=1)
+        self.assertEqual(Config.from_dict(raw).training.members, 3)
+
+
 class Settings(unittest.TestCase):
     def test_defaults_are_one_training(self):
         cfg = TrainingConfig.from_dict(dict(TRAINING))

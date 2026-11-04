@@ -506,6 +506,11 @@ chooses by true evaluations; read [docs/members.md](docs/members.md). Keep these
 
 * Opt-in. With `members: 1`, the default, nothing is held out and no rank is asked: the training
   sets are bit for bit those of a run without the key (`tests/mpi_members_smoke.py`).
+* A feature of the boosts (Steen, 4 November 2026). `trains_members`, asked on every rank with the
+  boost start they share, lets the members train only the networks trained on boost points (from
+  the one after the boosts' start); every network of the tempered phase, the hand-over's included,
+  is trained once. A run that sets the key without `acquisition.boost` is refused
+  (`Config.from_dict`). Do not let the members act in the tempered phase.
 * Rank 0 trains the network as before; the other members start from random weights, each with
   its own seed (`member_seed`: the run's seed, the iteration, the member). The selection set is
   drawn with a generator of its own, so the run's other draws are unchanged.

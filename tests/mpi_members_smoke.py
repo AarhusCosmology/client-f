@@ -1,8 +1,11 @@
-"""training.members in the main loop (training/members.py), on the analytic Gaussian example:
+"""training.members in the main loop (training/members.py), on the analytic Gaussian example with
+boosts from network 1, so that networks 0 and 1 are the tempered phase's and 2 and 3 are trained
+on boost points:
 
 0. the messages alone: a task of 18 MB (a real training set) reaches its member rank;
-1. three ranks, members: 3: members 1 and 2 train on ranks 1 and 2 while rank 0 trains its own,
-   every network's three members are saved with their record, and the training phase lists them;
+1. three ranks, members: 3: networks 0 and 1 are trained once (no member file); from network 2
+   on, members 1 and 2 train on ranks 1 and 2 while rank 0 trains its own, every network's three
+   members are saved with their record, and the training phase lists them;
 2. one process, members: 3: the two extra members train on rank 0 after its own;
 3. members: 1 against no members key, one process each: the same training sets, bit for bit;
 4. three ranks, members: 3 with member_pilot: each member's posterior points are evaluated
@@ -41,11 +44,16 @@ def run(arguments, ranks=1, timeout=900):
     return result.stdout
 
 
+BOOST = dict(n=24, start_iteration=1, walkers=32, cool_steps=50, steps=200, components=1)
+TEMPERED, BOOSTED = (0, 1), (2, 3)      # the networks of the tempered phase, and those trained on boost points
+
+
 def config(d, name, **training):
     cfg = yaml.safe_load((ROOT / "docs/site/examples/gaussian_client.yaml").read_text())
     cfg["likelihood"]["input"] = str(ROOT / "docs/site/examples/gaussian_likelihood.yaml")
     cfg["training"].update(n_epochs=4, **training)
-    cfg["convergence"]["max_iterations"] = 3
+    cfg["acquisition"]["boost"] = dict(BOOST)
+    cfg["convergence"]["max_iterations"] = 4
     path = d / f"{name}.yaml"
     path.write_text(yaml.safe_dump(cfg))
     return path
@@ -56,8 +64,17 @@ def only_run(directory):
     return run_dir
 
 
+def check_tempered_once(run_dir):
+    """The tempered phase's networks are trained once: no member file, no pilot."""
+    for n in TEMPERED:
+        assert (run_dir / "trained_models" / f"model_it_{n}.keras").exists(), n
+        assert not list((run_dir / "trained_models/members").glob(f"*_it_{n}*")), n
+        assert not list((run_dir / "training_history").glob(f"history_it_{n}_member*")), n
+
+
 def check_members(run_dir, networks, log):
-    for n in range(networks):
+    check_tempered_once(run_dir)
+    for n in networks:
         record = json.loads((run_dir / "trained_models/members" / f"members_it_{n}.json").read_text())
         assert [m["member"] for m in record["members"]] == [0, 1, 2], record
         assert all(m.get("error") is None for m in record["members"]), record
@@ -79,8 +96,8 @@ sys.path.insert(0, {root!r})
 import run.storage
 begin = run.storage.PhaseStore.begin
 def stop(self, phase):
-    if phase.startswith("acquisition_it_0"):
-        raise RuntimeError("stopped after the first training")
+    if phase.startswith("acquisition_it_2"):
+        raise RuntimeError("stopped after the first training with members")
     return begin(self, phase)
 run.storage.PhaseStore.begin = stop
 import client
@@ -91,7 +108,8 @@ client.main()
 def check_pilot(run_dir, networks, log):
     import pandas as pd
 
-    for n in range(networks):
+    check_tempered_once(run_dir)
+    for n in networks:
         record = json.loads((run_dir / "trained_models/members" / f"members_it_{n}.json").read_text())
         assert record["choice"] == "pilot" and record["kept"] in (0, 1, 2), record
         assert all(np.isfinite(m["pilot_error"]) for m in record["members"]), record
@@ -149,47 +167,49 @@ with tempfile.TemporaryDirectory() as temporary:
     d = Path(temporary)
     messages(d)
     print("0. an 18 MB task reaches its member rank, the result comes back")
-    log = run([config(d, "three", members=3), "-i", 3, "-o", d / "mpi"], ranks=3)
-    record = check_members(only_run(d / "mpi"), 3, log)
+    log = run([config(d, "three", members=3), "-i", 4, "-o", d / "mpi"], ranks=3)
+    record = check_members(only_run(d / "mpi"), BOOSTED, log)
     ranks = sorted({m["rank"] for m in record["members"]})
     assert ranks == [0, 1, 2], record
-    print("1. three ranks: members on ranks", ranks, "; last kept", record["kept"], "-", record["reason"])
+    print("1. three ranks: networks 0 and 1 trained once; members on ranks", ranks, "; last kept", record["kept"],
+          "-", record["reason"])
 
-    log = run([config(d, "alone", members=3), "-i", 3, "-o", d / "alone"])
-    record = check_members(only_run(d / "alone"), 3, log)
+    log = run([config(d, "alone", members=3), "-i", 4, "-o", d / "alone"])
+    record = check_members(only_run(d / "alone"), BOOSTED, log)
     assert {m["rank"] for m in record["members"]} == {0}, record
     print("2. one process: all members on rank 0; last kept", record["kept"])
 
-    run([config(d, "one", members=1), "-i", 3, "-o", d / "one"])
-    run([config(d, "none"), "-i", 3, "-o", d / "none"])
+    run([config(d, "one", members=1), "-i", 4, "-o", d / "one"])
+    run([config(d, "none"), "-i", 4, "-o", d / "none"])
     a, b = only_run(d / "one"), only_run(d / "none")
-    for n in range(4):
+    for n in range(5):
         name = f"training_data/data_it_{n}.csv"
         if (a / name).exists() or (b / name).exists():
             assert digest(a / name) == digest(b / name), name
     assert not (a / "trained_models/members").exists()
     print("3. members: 1 = no key: training sets identical, no member files")
 
-    log = run([config(d, "pilot", **PILOT), "-i", 3, "-o", d / "pilot"], ranks=3)
-    record = check_pilot(only_run(d / "pilot"), 3, log)
+    log = run([config(d, "pilot", **PILOT), "-i", 4, "-o", d / "pilot"], ranks=3)
+    record = check_pilot(only_run(d / "pilot"), BOOSTED, log)
     assert sorted({m["rank"] for m in record["members"]}) == [0, 1, 2], record
-    print("4. three ranks, the pilot: last kept", record["kept"], "-", record["reason"])
+    print("4. three ranks, the pilot from network 2: last kept", record["kept"], "-", record["reason"])
 
-    log = run([config(d, "pilot1", **PILOT), "-i", 3, "-o", d / "pilot1"])
-    record = check_pilot(only_run(d / "pilot1"), 3, log)
+    log = run([config(d, "pilot1", **PILOT), "-i", 4, "-o", d / "pilot1"])
+    record = check_pilot(only_run(d / "pilot1"), BOOSTED, log)
     print("5. one process, the pilot: last kept", record["kept"])
 
     stopper = d / "stop.py"
     stopper.write_text(STOP_AT_ACQUISITION.format(root=str(ROOT)))
-    stopped = subprocess.run([sys.executable, str(stopper), str(config(d, "stopped", **PILOT)), "-i", "2", "-o",
+    stopped = subprocess.run([sys.executable, str(stopper), str(config(d, "stopped", **PILOT)), "-i", "4", "-o",
                               str(d / "stopped")], cwd=ROOT, text=True, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT, timeout=900,
                              env=dict(os.environ, PYTHONDONTWRITEBYTECODE="1", OMP_NUM_THREADS="1",
                                       TF_NUM_INTRAOP_THREADS="1", TF_CPP_MIN_LOG_LEVEL="3"))
-    assert stopped.returncode != 0 and "stopped after the first training" in stopped.stdout, stopped.stdout[-3000:]
+    assert stopped.returncode != 0 and "stopped after the first training with members" in stopped.stdout, \
+        stopped.stdout[-3000:]
     run_dir = only_run(d / "stopped")
     log = run([run_dir, "-i", 1])
-    assert "plus 36 pilot points from pilot_it_0.csv" in log, log[-3000:]
-    check_pilot(run_dir, 1, "Members' pilot errors: pilot points added")
+    assert "plus 36 pilot points from pilot_it_2.csv" in log, log[-3000:]
+    check_pilot(run_dir, (2,), "Members' pilot errors: pilot points added")
     print("6. stopped after training and continued: the 36 pilot points are in the training set again")
 print("mpi members smoke: OK")
