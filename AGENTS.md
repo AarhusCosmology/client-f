@@ -499,6 +499,33 @@ acquisition chain runs; read [docs/audit_optima.md](docs/audit_optima.md). Keep 
   After pilot tuning (or an improved best true value), `clear`/`highest_excess` must
   describe full climbs plus chain summits of the final weights, not the pre-pilot model.
 
+## Before changing `training/members.py`
+
+`training.members` trains each network several times and keeps one; `training.member_pilot`
+chooses by true evaluations; read [docs/members.md](docs/members.md). Keep these:
+
+* Opt-in. With `members: 1`, the default, nothing is held out and no rank is asked: the training
+  sets are bit for bit those of a run without the key (`tests/mpi_members_smoke.py`).
+* Rank 0 trains the network as before; the other members start from random weights, each with
+  its own seed (`member_seed`: the run's seed, the iteration, the member). The selection set is
+  drawn with a generator of its own, so the run's other draws are unchanged.
+* A member's message carries its training set. It is received by probing and then receiving
+  (`receive`): a non-blocking receive of a pickled message has a fixed buffer of 32 kB in
+  mpi4py and fails on a real training set.
+* The pilot runs after the region is built and before the audit. A point without a finite true
+  value, or with the launcher's `refused_value`, counts for no member's score. The points with a
+  finite value join the training set as the acquisition's do (a refused one with the run's refused
+  value); one without a finite value is never trained on. They are saved in `pilot_it_N.csv`, and
+  a run continued from network N adds them again. Their calls are journalled under the stage
+  `members/itN`.
+* Every member's file is an output of the training phase (`run.storage.phase_outputs`): an
+  interrupted training leaves none of them where the redone one would read it.
+* The pilot rejects false maxima reliably and ranks members without false structure only roughly
+  (measured on two real runs, docs/members.md). A margin of 0.2 is inside the pilot's noise for
+  close networks, but a larger one would have kept a worse warm network once. Do not change the
+  margin, the depth or the score without repeating that measurement.
+* `oversubscription` only warns; it changes nothing in the run.
+
 ## Before changing `profiles/residual_newton.py`
 
 Read the "residual Newton" section and the version history in

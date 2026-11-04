@@ -556,15 +556,85 @@ class TrainingConfig:
     # one training about six times its usual epochs (64 minutes against 7 here).
     augment_schedule_factor: float = 3.0
 
+    # Several trainings of each network, the best kept (training/members.py, docs/members.md).
+    # members: K > 1 trains every network K times on the same training set with the same
+    # settings: rank 0 as before (warm-started when warm_start is on) and K - 1 times from
+    # random weights, each with its own seed, on ranks that would otherwise wait for the next
+    # evaluation (the members left over when the run has fewer ranks are trained on rank 0 after
+    # its own). selection_share of the points acquired since the previous training is held out
+    # from all of them and decides: the warm network is kept unless a member from random weights
+    # has a selection loss lower by more than member_margin (a fraction), otherwise the lowest
+    # is kept. member_threads: TensorFlow threads of a member (default TF_NUM_INTRAOP_THREADS, else 4).
+    #
+    # WHY. A training ends either resolving the fine structure of the likelihood or on a
+    # plateau where it is smoothed out, and which one depends on the start: on the saved
+    # training sets of networks 13 and 14 of an axion monodromy run, one in three and two in
+    # three random starts resolved it (error 0.6-1.0 at posterior points they had not seen,
+    # against 3.9-4.0 for the others); a longer or more patient schedule did not
+    # (docs/members.md). A warm start keeps the state it inherits.
+    # members: 1 (the default) holds out nothing and asks no rank: the run is as before.
+    members: int = 1
+    selection_share: float = 0.1
+    member_margin: float = 0.2
+    member_threads: int | None = None
+    # The choice between the members by true evaluations (training/members.py, "the pilot";
+    # docs/members.md). member_pilot: n > 0 has every member draw n points of its own posterior
+    # (T = 1, inside the network's region; member_pilot_steps steps of member_pilot_walkers walkers, at least 2 ndim),
+    # evaluates the pool once with the true likelihood (it joins the training set) and keeps the
+    # member with the smallest rms error over the pool's points that the truth or that member puts
+    # within member_pilot_depth of the best (default: the msre scale 0.5 chi^2(sigma_level, ndim));
+    # nothing is held out then. 0: the held-out selection set chooses (above).
+    #
+    # WHY. The selection loss misses false plateaus: on network 8 of branches of two axion
+    # monodromy runs with members: 12, the member it kept was 35.6 and 3.2 too high on average at
+    # the points of its own pilot chain, while the pilot's choice was within 0.2; the kept network's
+    # boost then had a scatter of 4.0 against 2.1-2.2 for any cold member at the same points
+    # (docs/members.md).
+    member_pilot: int = 0
+    member_pilot_steps: int = 20000
+    member_pilot_walkers: int = 256
+    member_pilot_depth: float | None = None
+
     @classmethod
     def from_dict(cls, d):
         if d is not None:
             _validate_mapping(cls, d)
         factor = float(d.get("augment_schedule_factor", 3.0))
+        members = int(d.get("members", 1))
+        if members < 1:
+            raise ValueError("training.members must be at least 1 (1: one training per network, as before)")
+        share = float(d.get("selection_share", 0.1))
+        if not 0.0 < share < 1.0:
+            raise ValueError("training.selection_share must lie between 0 and 1")
+        margin = float(d.get("member_margin", 0.2))
+        if not 0.0 <= margin < 1.0:
+            raise ValueError("training.member_margin must lie in [0, 1)")
+        threads = d.get("member_threads")
+        if threads is not None and int(threads) < 1:
+            raise ValueError("training.member_threads must be at least 1")
+        pilot = int(d.get("member_pilot", 0))
+        if pilot < 0:
+            raise ValueError("training.member_pilot must be at least 0 (0: no pilot)")
+        if pilot and members < 2:
+            raise ValueError("training.member_pilot needs training.members of at least 2")
+        pilot_steps, pilot_walkers = int(d.get("member_pilot_steps", 20000)), int(d.get("member_pilot_walkers", 256))
+        if pilot_steps < 4 or pilot_walkers < 2:
+            raise ValueError("training.member_pilot_steps must be at least 4 and member_pilot_walkers at least 2")
+        pilot_depth = d.get("member_pilot_depth")
+        if pilot_depth is not None and not float(pilot_depth) > 0:
+            raise ValueError("training.member_pilot_depth must be positive")
         if not factor >= 1.0:
             raise ValueError("training.augment_schedule_factor must be at least 1 (1: the ordinary schedule)")
         return cls(
             augment_schedule_factor=factor,
+            members=members,
+            selection_share=share,
+            member_margin=margin,
+            member_threads=None if threads is None else int(threads),
+            member_pilot=pilot,
+            member_pilot_steps=pilot_steps,
+            member_pilot_walkers=pilot_walkers,
+            member_pilot_depth=None if pilot_depth is None else float(pilot_depth),
             learning_rate=float(d["learning_rate"]),
             loss=str(d["loss"]),
             sigma_level=float(d["sigma_level"]),

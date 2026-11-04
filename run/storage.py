@@ -76,8 +76,8 @@ def phase_outputs(root, phase):
 
     A training phase (the training of network N, its region and its audit) writes the
     network, its history, the region, the training domain when N's training built it, the
-    audit's files and the derived emulator of N, and marks the augmentation files it trained
-    on first. An acquisition phase (the true
+    audit's files, the derived emulator of N and, with training.members, every member's network
+    and history and their record, and marks the augmentation files it trained on first. An acquisition phase (the true
     evaluations chosen with network N, and their injection) writes the boost's record and the
     training set of N + 1. Chain summaries and metrics are written between phases and are
     written again when an iteration is redone.
@@ -91,7 +91,12 @@ def phase_outputs(root, phase):
         patterns = [f'trained_models/model_it_{n}.keras', f'training_history/history_it_{n}.csv',
                     f'boost/region_it_{n}.npz', f'boost/train_domain_it_{n}.npz', f'audit/*_it_{n}.*',
                     f'derived_data/derived_model_it_{n}.keras', f'derived_data/derived_history_it_{n}.csv',
-                    f'derived_data/derived_report_it_{n}.csv']
+                    f'derived_data/derived_report_it_{n}.csv',
+                    # training.members (training/members.py): every member's network and history,
+                    # and the record of which was kept
+                    f'trained_models/members/model_it_{n}_member*.keras', f'trained_models/members/members_it_{n}.json',
+                    f'trained_models/members/pilot_it_{n}.csv',
+                    f'training_history/history_it_{n}_member*.csv']
     else:
         patterns = [f'training_data/data_it_{n + 1}.csv', f'derived_data/derived_it_{n + 1}.csv',
                     f'boost/boost_it_{n}.csv', f'boost/boost_it_{n}.json', f'boost/fallback_it_{n}.json']

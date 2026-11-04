@@ -40,6 +40,9 @@ setting; [PERFORMANCE.md](PERFORMANCE.md) has the speed and memory work with its
   a warm-started training of the boost phase keeps the weights at the end of its schedule. The warm start stays the default in the
   boosts; `training.warm_start: false` (random weights) is for a likelihood on which warm-started networks stop improving
   ([guide](docs/boost.md)).
+- **Several trainings per network.** `training.members` trains each network K times, the extra ones from random weights on
+  ranks that would otherwise wait, and keeps one. With `training.member_pilot` it is chosen by true evaluations at each
+  member's own posterior points, which catches false maxima that the boost points do not see ([guide](docs/members.md)).
 - **Which points.** `density_filter` selects posterior candidates by the density-deficit rule ([guide](docs/posterior_density_boost.md)).
 - **The audit in boost iterations.** `audit.chain` looks where the tempered chain's cooled walkers climb to, and `audit.posterior`
   evaluates cooled walkers and fine-tunes when the network is too high there.

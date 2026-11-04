@@ -20,6 +20,7 @@ configuration and API reference together. These links work directly on GitHub.
 | Select density-deficit posterior points | [Density-filtered boosts](posterior_density_boost.md) |
 | Identify modes by measured mixing | [Mode analysis](boost_modes_mixing.md) |
 | Use a quadratic background and a known-mode region | [Background and region](boost_background_region.md) |
+| Train each network several times and keep the best | [Several trainings per network](members.md) |
 | Understand peak injection | [Injection window](injection_window.md) |
 | Reuse true profile evaluations in later training | [Explicit augmentation](augment_training.md) |
 | Continue or recover a run | [Continuing and recovering a run](run_recovery.md) |

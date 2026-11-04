@@ -615,10 +615,24 @@ def run_client(args):
                     f"   plus {len(extra_targets)} augmentation points from {augment_path.name}: "
                     f"{len(dataset.inputs)} training samples"
                 )
+            start_model = run.trained_models_dir / f"model_it_{run.start_iteration}.keras"
+            # Points the members' pilot added after training this iteration's saved network
+            # (training.member_pilot, training/members.py), before its audit's.
+            pilot_path = run.trained_models_dir / "members" / f"pilot_it_{run.start_iteration}.csv"
+            if pilot_path.exists() and start_model.exists() and not run.retrain:
+                from training.members import load_pilot
+
+                extra_inputs, extra_targets, extra_derived = load_pilot(
+                    run.run_dir, run.start_iteration, likelihood.param_names, likelihood.derived_names)
+                if len(extra_targets):
+                    dataset.add_data(inputs=extra_inputs, targets=extra_targets, derived=extra_derived)
+                    print_master(
+                        f"   plus {len(extra_targets)} pilot points from {pilot_path.name}: "
+                        f"{len(dataset.inputs)} training samples"
+                    )
             # Points the audit added while training this iteration's saved network
             # (training/audit.py). A network that will be retrained is audited again.
             audit_path = run.run_dir / "audit" / f"audit_it_{run.start_iteration}.csv"
-            start_model = run.trained_models_dir / f"model_it_{run.start_iteration}.keras"
             if audit_path.exists() and start_model.exists() and not run.retrain:
                 from training.audit import load_audit
 
@@ -743,6 +757,15 @@ def run_client(args):
                 dataset.inputs[shuffle_indices],
                 dataset.targets[shuffle_indices],
             )
+            # training.members > 1 (training/members.py): the rows acquired since the previous
+            # training, from which the selection set is held out below.
+            newest = None
+            member_results = None
+            if cfg.training.members > 1 and not cfg.training.member_pilot:
+                from training.members import newest_rows, previous_rows
+
+                newest = newest_rows(len(dataset.inputs),
+                                     previous_rows(run.run_dir, iteration))[shuffle_indices]
 
             # ---- Training domain ----
             # Opt-in (acquisition.boost.train_domain, training/domain.py): from the first
@@ -772,6 +795,8 @@ def run_client(args):
                 if train_domain is not None:
                     keep = train_domain.kept(inputs, domain_edge, domain_path.name)
                     inputs, targets = inputs[keep], targets[keep]
+                    if newest is not None:
+                        newest = newest[keep]
                     print_master(
                         f"Training domain ({domain_path.name}"
                         + (", built from this training set" if built else "") + "): "
@@ -780,6 +805,26 @@ def run_client(args):
                         f"best; log L {float(targets.min()):.1f} to {float(targets.max()):.2f}. "
                         f"The other {int((~keep).sum())} are not trained on"
                     )
+
+            # ---- Members' selection set (training.members) ----
+            # A share of the newest rows, held out from every member's training this time: unseen
+            # by all of them, the warm-started one included. Drawn with its own generator.
+            selection = None
+            if newest is not None:
+                from training.members import member_seed, selection_rows
+
+                held = selection_rows(newest, cfg.training.selection_share,
+                                      np.random.default_rng(member_seed(cfg.seed, iteration, 0)))
+                if held.any():
+                    selection = (inputs[held], targets[held])
+                    inputs, targets = inputs[~held], targets[~held]
+                    print_master(
+                        f"Members: {cfg.training.members} trainings of this network; {int(held.sum())} of the "
+                        f"{int(newest.sum())} points acquired since the previous training held out to choose "
+                        f"between them (training.selection_share {cfg.training.selection_share:g})")
+                else:
+                    print_master("Members: no point acquired since the previous training, so nothing to choose "
+                                 "on; this network is trained once")
 
             # ---- Background ----
             # Opt-in (acquisition.boost.background): once the training set holds boost
@@ -830,6 +875,7 @@ def run_client(args):
             # Keep newly adapted scalers and compensate the first/last Dense layers
             # so the warm start preserves raw predictions before fine-tuning.
             keep_last = False
+            warm_started = False
             if cfg.training.warm_start and iteration > 0 and not cold_start:
                 if previous_model_path.exists():
                     if previous_model is None:
@@ -839,6 +885,7 @@ def run_client(args):
                     except ValueError as error:
                         print_master(f"Warm start SKIPPED: {error}; using random initialisation")
                     else:
+                        warm_started = True
                         keep_last = boost_start is not None and iteration > boost_start
                         print_master(
                             f"Warm start: inherited {len(model.trainable_weights)} weight "
@@ -867,6 +914,63 @@ def run_client(args):
                     f"(training.augment_schedule_factor)"
                 )
             training_start_time = time.monotonic()
+            schedule = dict(
+                learning_rate=cfg.training.learning_rate,
+                n_epochs=cfg.training.n_epochs,
+                batch_size=cfg.training.batch_size,
+                validation_split=cfg.training.validation_split,
+                patience=int(round(cfg.training.patience * schedule_factor)),
+                lr_schedule=cfg.training.lr_schedule,
+                lr_factor=cfg.training.lr_factor,
+                lr_patience=int(round(cfg.training.lr_patience * schedule_factor)),
+                lr_min=cfg.training.lr_min,
+                lr_grace=int(round(cfg.training.lr_grace * schedule_factor)),
+            )
+            member_tasks = []
+            if selection is not None or (cfg.training.members > 1 and cfg.training.member_pilot):
+                from training.members import dispatch as dispatch_members
+                from training.members import member_ranks, member_seed, oversubscription
+
+                ranks = member_ranks(get_size(), cfg.training.members)
+                members_dir = run.trained_models_dir / "members"
+                members_dir.mkdir(parents=True, exist_ok=True)
+                import os
+
+                threads = cfg.training.member_threads or int(os.environ.get("TF_NUM_INTRAOP_THREADS") or 4)
+                for k in range(1, cfg.training.members):
+                    member_tasks.append(dict(
+                        member=k, seed=member_seed(cfg.seed, iteration, k), threads=threads,
+                        inputs=inputs, targets=targets,
+                        selection_inputs=None if selection is None else selection[0],
+                        selection_targets=None if selection is None else selection[1], background=background,
+                        model=dict(n_layers=cfg.model.n_layers, n_neurons=cfg.model.n_neurons,
+                                   activation=cfg.model.activation),
+                        loss=dict(name=cfg.training.loss, sigma_level=cfg.training.sigma_level,
+                                  chi2_dof=ndim, ess_floor=cfg.training.msre_ess_floor),
+                        schedule=schedule,
+                        model_path=str(members_dir / f"model_it_{iteration}_member{k}.keras"),
+                        history_path=str(run.training_history_dir / f"history_it_{iteration}_member{k}.csv"),
+                        rank=ranks[k - 1] if k - 1 < len(ranks) else 0))
+                if get_size() > 1:
+                    from utils.mpi_utils import _get_communicator
+
+                    dispatch_members(_get_communicator(), {t["rank"]: t for t in member_tasks if t["rank"]})
+                print_master(
+                    f"   members 1-{cfg.training.members - 1} from random weights"
+                    + (f" on ranks {', '.join(str(r) for r in ranks)}" if ranks else "")
+                    + (f", {sum(1 for t in member_tasks if not t['rank'])} after this one on rank 0"
+                       if any(not t["rank"] for t in member_tasks) else "")
+                    + f", {threads} TensorFlow threads each")
+                warning = oversubscription(get_size(), cfg.training.members, threads,
+                                           int(os.environ.get("TF_NUM_INTRAOP_THREADS") or threads),
+                                           os.cpu_count() or 1)
+                if warning:
+                    print_master(warning)
+            elif cfg.training.members > 1 and get_size() > 1:
+                from training.members import dispatch as dispatch_members
+                from utils.mpi_utils import _get_communicator
+
+                dispatch_members(_get_communicator(), {})
             history, training_metrics = train_model(
                 model=model,
                 inputs=inputs,
@@ -890,6 +994,18 @@ def run_client(args):
                 # few, the last weights had 0.48 to 0.86 of the error at true values.
                 restore_best=not keep_last,
             )
+            if selection is not None:
+                from training.members import keep_member
+
+                model, history, training_metrics = keep_member(
+                    cfg, run, iteration, model, history, training_metrics, loss, selection, member_tasks,
+                    warm=warm_started)
+            elif member_tasks:
+                from training.members import gather as gather_members
+
+                # Chosen by the pilot, after the region: rank 0's network stands in until then.
+                member_results = gather_members(cfg, run, iteration, model, history, training_metrics, loss,
+                                                None, member_tasks, warm=warm_started)
             training_time = time.monotonic() - training_start_time
             print_master(f"Finished training in {training_time:.2f}s")
             save_model(model, model_path)
@@ -906,6 +1022,18 @@ def run_client(args):
                 training_time=training_time,
             )
             metrics_tracker.save_all_metrics()
+
+        # ---- Members on the other ranks (training.members) ----
+        # A worker waits here, asleep, for rank 0's message: a member to train or nothing.
+        if cfg.training.members > 1 and get_size() > 1:
+            from training.members import dispatch as dispatch_members
+            from training.members import serve as serve_member
+            from utils.mpi_utils import _get_communicator
+
+            if not master:
+                serve_member(_get_communicator())
+            elif not should_train:
+                dispatch_members(_get_communicator(), {})
 
         # ---- Region of the boosts ----
         # Opt-in (acquisition.boost.region, sampling/region.py): from the second boost on,
@@ -967,6 +1095,45 @@ def run_client(args):
                         coverage = region_outside(domain, cfg.acquisition.boost.train_domain, region,
                                                   np.random.default_rng(iteration), diagnostics=True)
                         print_master("   " + region_coverage_message(coverage))
+
+        # ---- Members' pilot (training.member_pilot) ----
+        # Every member's own posterior points, evaluated once with the true likelihood on all
+        # ranks; the member with the smallest error over them is kept (training/members.py).
+        if cfg.training.members > 1 and cfg.training.member_pilot:
+            from training.members import dispatch_pilot, serve_pilot
+            from utils.mpi_utils import _get_communicator
+
+            if getattr(likelihood, "_client_calls", None) is not None:
+                likelihood._client_calls.stage = f"members/it{iteration}"
+            if master and should_train and member_results:
+                from training.members import kept_network, run_pilot
+
+                kept, _, pilot_inputs, pilot_targets, pilot_derived = run_pilot(
+                    cfg, run, iteration, member_results,
+                    None if region is None else run.run_dir / "boost" / f"region_it_{iteration}.npz",
+                    dataset.inputs, dataset.targets, list(likelihood.param_names),
+                    evaluate=lambda points: evaluate_true(likelihood, points), warm=warm_started,
+                    derived_names=likelihood.derived_names, ignore=getattr(likelihood, "refused_value", None))
+                valid = np.isfinite(pilot_targets)          # as the acquisition adds its points
+                pilot_inputs, pilot_targets, pilot_derived = (pilot_inputs[valid], pilot_targets[valid],
+                                                              pilot_derived[valid])
+                if len(pilot_targets):
+                    dataset.add_data(inputs=pilot_inputs, targets=pilot_targets, derived=pilot_derived)
+                    print_master(f"   {len(pilot_targets)} pilot points added: {len(dataset.inputs)} training samples")
+                if kept != 0:
+                    model, history, training_metrics = kept_network(member_results, kept, model, history,
+                                                                    training_metrics)
+                    save_model(model, model_path)
+                    save_history(history.history, run.training_history_dir / f"history_it_{iteration}.csv")
+                    metrics_tracker.add_training_metrics(
+                        iteration=iteration, epoch=training_metrics["epoch"], loss=training_metrics["loss"],
+                        val_loss=training_metrics["val_loss"], training_time=training_time)
+                    metrics_tracker.save_all_metrics()
+            elif master:
+                if get_size() > 1:
+                    dispatch_pilot(_get_communicator(), {}, evaluate=False)
+            elif get_size() > 1:
+                serve_pilot(_get_communicator(), evaluate=lambda: evaluate_true(likelihood, None))
 
         # The acquisition chain of this iteration's network, as a function: the sampling step
         # runs it, and before that the audit's chain search does (acquisition.audit.chain).
@@ -1105,6 +1272,10 @@ def run_client(args):
                          run.run_dir / "boost" / f"train_domain_it_{iteration}.npz"]
             artifacts += list((run.run_dir / "audit").glob(f"*_it_{iteration}.csv"))
             artifacts += list((run.run_dir / "audit").glob(f"audit_it_{iteration}.json"))
+            artifacts += sorted((run.trained_models_dir / "members").glob(f"model_it_{iteration}_member*.keras"))
+            artifacts += sorted((run.trained_models_dir / "members").glob(f"members_it_{iteration}.json"))
+            artifacts += sorted((run.trained_models_dir / "members").glob(f"pilot_it_{iteration}.csv"))
+            artifacts += sorted(run.training_history_dir.glob(f"history_it_{iteration}_member*.csv"))
             phases.complete(f"training_it_{iteration}", artifacts)
 
         # ---- Surrogate ----
