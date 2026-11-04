@@ -78,6 +78,7 @@ def check_members(run_dir, networks, log):
         record = json.loads((run_dir / "trained_models/members" / f"members_it_{n}.json").read_text())
         assert [m["member"] for m in record["members"]] == [0, 1, 2], record
         assert all(m.get("error") is None for m in record["members"]), record
+        assert all(str(m.get("device")).startswith(("CPU", "GPU")) for m in record["members"]), record
         assert record["selection_points"] > 0 and record["kept"] in (0, 1, 2), record
         for m in range(3):
             assert (run_dir / "trained_models/members" / f"model_it_{n}_member{m}.keras").exists()
@@ -85,7 +86,7 @@ def check_members(run_dir, networks, log):
         phase = json.loads((run_dir / "phases" / f"training_it_{n}.json").read_text())
         listed = json.dumps(phase)
         assert f"members_it_{n}.json" in listed and f"model_it_{n}_member2.keras" in listed, phase
-    assert "Members (" in log and "Kept:" in log, log[-3000:]
+    assert "Members (" in log and "Kept:" in log and "members trained on:" in log, log[-3000:]
     return record
 
 
@@ -113,6 +114,7 @@ def check_pilot(run_dir, networks, log):
         record = json.loads((run_dir / "trained_models/members" / f"members_it_{n}.json").read_text())
         assert record["choice"] == "pilot" and record["kept"] in (0, 1, 2), record
         assert all(np.isfinite(m["pilot_error"]) for m in record["members"]), record
+        assert all(str(m.get("device")).startswith(("CPU", "GPU")) for m in record["members"]), record
         pilot = pd.read_csv(run_dir / "trained_models/members" / f"pilot_it_{n}.csv")
         assert len(pilot) == record["pilot_points"] == 3 * 12, (len(pilot), record)
         assert sorted(set(pilot["member"])) == [0, 1, 2], pilot["member"].unique()

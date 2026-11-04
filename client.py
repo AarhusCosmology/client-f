@@ -468,6 +468,16 @@ def run_client(args):
     run = bcast(run)
     cfg = run.config
 
+    # ---- Devices (utils/devices.py) ----
+    # Before TensorFlow or a likelihood code touches a device: rank 0 and the members' ranks take
+    # one GPU each, with memory growth, and every other rank hides the GPUs from itself.
+    from utils.devices import set_up_devices, set_up_tensorflow
+    from utils.mpi_utils import _get_communicator, _get_rank
+
+    set_up_devices(cfg, _get_communicator(), _get_rank())
+    if master:
+        print_master(f"TensorFlow on rank 0: {set_up_tensorflow()}")
+
     # Seed before anything draws.
     if cfg.seed is not None:
         if master:
@@ -947,7 +957,7 @@ def run_client(args):
                 for k in range(1, cfg.training.members):
                     member_tasks.append(dict(
                         member=k, seed=member_seed(cfg.seed, iteration, k), threads=threads,
-                        inputs=inputs, targets=targets,
+                        device=cfg.training.member_device, inputs=inputs, targets=targets,
                         selection_inputs=None if selection is None else selection[0],
                         selection_targets=None if selection is None else selection[1], background=background,
                         model=dict(n_layers=cfg.model.n_layers, n_neurons=cfg.model.n_neurons,
@@ -967,10 +977,15 @@ def run_client(args):
                     + (f" on ranks {', '.join(str(r) for r in ranks)}" if ranks else "")
                     + (f", {sum(1 for t in member_tasks if not t['rank'])} after this one on rank 0"
                        if any(not t["rank"] for t in member_tasks) else "")
-                    + f", {threads} TensorFlow threads each")
+                    + f", {threads} TensorFlow threads each, training.member_device {cfg.training.member_device}")
+                # Members on GPUs (rank 0 has one and member_device is not cpu) do not take a core
+                # each: only members left over for rank 0 are worth a warning then.
+                from utils import devices
+
+                on_gpus = cfg.training.member_device != "cpu" and str(devices.DEVICE).startswith("GPU")
                 warning = oversubscription(get_size(), cfg.training.members, threads,
                                            int(os.environ.get("TF_NUM_INTRAOP_THREADS") or threads),
-                                           os.cpu_count() or 1)
+                                           10 ** 9 if on_gpus else (os.cpu_count() or 1))
                 if warning:
                     print_master(warning)
             elif members_on and get_size() > 1:

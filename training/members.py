@@ -178,15 +178,13 @@ def train_member(task):
     started = time.monotonic()
     result = dict(member=task["member"], seed=task["seed"], start="random weights", rank=task.get("rank", 0))
     try:
-        threads = task.get("threads")
+        from utils.devices import set_up_tensorflow
+
+        # One GPU of the node with memory growth, or the CPU at the member's threads; on rank 0, and
+        # on a member rank after its first member, what TensorFlow already runs on.
+        result["device"] = set_up_tensorflow(task.get("device", "auto"), task.get("threads"))
         import tensorflow as tf
 
-        if threads:
-            try:
-                tf.config.threading.set_intra_op_parallelism_threads(int(threads))
-                tf.config.threading.set_inter_op_parallelism_threads(1)
-            except RuntimeError:
-                pass                                  # TensorFlow already running on this rank
         from model.network import build_model
         from run.storage import save_model
         from training.losses import build_loss
@@ -290,12 +288,34 @@ def summary_line(record):
             + f". Kept: {record['reason']}")
 
 
+def _numbers(members):
+    """Member numbers for the log: runs of consecutive ones as ranges ("1-4, 7")."""
+    runs, out = [], []
+    for m in sorted(members):
+        if runs and m == runs[-1][1] + 1:
+            runs[-1][1] = m
+        else:
+            runs.append([m, m])
+    for a, b in runs:
+        out.append(str(a) if a == b else f"{a}-{b}")
+    return ", ".join(out)
+
+
+def devices_line(results):
+    """Where the members trained, for the run's log: those on one device together."""
+    groups = {}
+    for r in results:
+        groups.setdefault(r.get("device") or "device not recorded", []).append(r["member"])
+    return "   members trained on: " + "; ".join(f"{_numbers(ms)} {d}" for d, ms in groups.items())
+
+
 def gather(cfg, run, iteration, model, history, metrics, loss, selection, tasks, warm):
     """Rank 0 after its own training: its own network saved as member 0, the members left for
     rank 0 trained here, the others' results collected. Returns every member's result."""
     from run.storage import save_model
     from training.training import save_history
-    from utils.mpi_utils import _get_communicator, get_size
+    from utils import devices
+    from utils.mpi_utils import _get_communicator, get_size, print_master
 
     members_dir = run.trained_models_dir / "members"
     own_model = members_dir / f"model_it_{iteration}_member0.keras"
@@ -305,7 +325,7 @@ def gather(cfg, run, iteration, model, history, metrics, loss, selection, tasks,
                epochs=len(history.history["loss"]),
                selection_loss=(float("nan") if selection is None else
                                selection_loss(model, loss, selection[0], selection[1])),
-               model_path=str(own_model), history_path=str(own_history))
+               model_path=str(own_model), history_path=str(own_history), device=devices.DEVICE)
     save_model(model, own_model)
     save_history(history.history, own_history)
     results = [own]
@@ -316,6 +336,7 @@ def gather(cfg, run, iteration, model, history, metrics, loss, selection, tasks,
     if remote and get_size() > 1:
         results += collect(_get_communicator(), remote)
     results.sort(key=lambda r: r["member"])
+    print_master(devices_line(results))
     return results
 
 

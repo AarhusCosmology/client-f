@@ -207,6 +207,19 @@ class BoostPhaseOnly(unittest.TestCase):
 
 
 class Settings(unittest.TestCase):
+    def test_the_device_setting(self):
+        self.assertEqual(TrainingConfig.from_dict(dict(TRAINING)).member_device, "auto")
+        for device in ("auto", "cpu", "gpu"):
+            self.assertEqual(TrainingConfig.from_dict(dict(TRAINING, member_device=device)).member_device, device)
+        with self.assertRaises(ValueError):
+            TrainingConfig.from_dict(dict(TRAINING, member_device="tpu"))
+
+    def test_the_log_groups_members_by_device(self):
+        line = members.devices_line([dict(member=0, device="GPU 0 (NVIDIA L40S)"), dict(member=1, device="GPU 0 (NVIDIA L40S)"),
+                                     dict(member=2, device="GPU 0 (NVIDIA L40S)"), dict(member=3, device="CPU (8 threads)"),
+                                     dict(member=5, device="GPU 0 (NVIDIA L40S)")])
+        self.assertEqual(line, "   members trained on: 0-2, 5 GPU 0 (NVIDIA L40S); 3 CPU (8 threads)")
+
     def test_defaults_are_one_training(self):
         cfg = TrainingConfig.from_dict(dict(TRAINING))
         self.assertEqual((cfg.members, cfg.selection_share, cfg.member_margin, cfg.member_threads), (1, 0.1, 0.2, None))
@@ -273,6 +286,7 @@ class OneMember(unittest.TestCase):
             self.assertTrue(np.isfinite(result["selection_loss"]))
             self.assertTrue(Path(task["model_path"]).exists() and Path(task["history_path"]).exists())
             self.assertEqual(result["epochs"], 3)
+            self.assertTrue(result["device"].startswith(("CPU", "GPU")), result["device"])   # where it trained
             json.dumps(result)                      # the summary record must be writable
 
 

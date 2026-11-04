@@ -18,7 +18,7 @@ Most new methods are opt-in, so a run that takes only the defaults is not the me
 | Setting | Default when omitted | Interpretation |
 |---|---|---|
 | `training.warm_start` | `true` | Transfer the preceding network's weights, with the raw predictions kept when the scalers change; `false` starts each network from random weights. A network warm-started after the boosts began keeps the weights at the end of its schedule; the ordinary loop and trainings from random weights keep the epoch with the lowest validation loss |
-| `training.members` | `1` | One training per network. `K` trains each network of the boost phase K times (rank 0 warm-started, the others from random weights on otherwise idle ranks; the tempered phase trains once; it needs `acquisition.boost`) and keeps one, chosen on held-out newest points or, with `training.member_pilot`, by true evaluations at each member's own posterior points ([guide](_generated/library/docs/members.md)) |
+| `training.members` | `1` | One training per network. `K` trains each network of the boost phase K times (rank 0 warm-started, the others from random weights on otherwise idle ranks; the tempered phase trains once; it needs `acquisition.boost`) and keeps one, chosen on held-out newest points or, with `training.member_pilot`, by true evaluations at each member's own posterior points; `training.member_device: auto` trains them on a GPU where their process sees one ([guide](_generated/library/docs/members.md)) |
 | `training.lr_schedule` | `none` | No learning-rate annealing; the real runs use `plateau` |
 | `training.msre_ess_floor` | `0.1` | Dynamic floor for the loss-weight ESS fraction |
 | `prior.n_inject`, `acquisition.n_inject` | `0` | No extra quadratic-fit injection |

@@ -70,6 +70,34 @@ These are all off by default. A quadratic background alone was unsafe in the doc
 - [Quadratic background, region and training domain](_generated/library/docs/boost_background_region.md)
 - [Whole-loop real-likelihood validation](_generated/library/docs/boost_real_lcdm.md)
 
+## Several trainings per network in the boosts
+
+A training ends either resolving the fine structure of an oscillating or multimodal likelihood, or
+on a plateau where that structure is smoothed out, and which one depends on the random start. A
+warm start keeps whatever state it inherits, and can grow a false maximum that the next boost's
+points do not reveal. `training.members` trains each network of the boost phase several times and
+keeps one:
+
+```yaml
+training:
+  members: 12             # rank 0 warm-started as before, 11 from random weights on otherwise idle ranks
+  member_pilot: 100       # choose by true evaluations at each member's own posterior points
+  member_device: auto     # members on a GPU where their process sees one, else the CPU
+acquisition:
+  boost: ...              # required: the members act from the first training on boost points
+```
+
+The tempered phase trains every network once. Each member samples its own posterior; the pool of
+`member_pilot` points per member is evaluated once with the true objective, and the warm network is
+kept unless another member's error is lower by more than `member_margin` (20%). The pilot's points
+join the training set. Members train on ranks that would otherwise wait, so the training lasts about
+as long as its slowest member while each has cores (or a share of a GPU) of its own; the log warns
+when they do not. On two oscillating likelihoods the pilot rejected a warm network with a false
+maximum at five networks running, where the boost points showed nothing wrong.
+
+- [Several trainings per network](_generated/library/docs/members.md): the method, its measurement,
+  its cost and GPUs.
+
 ## Preserve the experiment
 
 Keep configurations, source revision, true evaluation records and selected checkpoints together. Distinguish requested points from finite returns, imports and cache hits. A boost's true points enter the next iteration's dataset; its report records the acquisition that produced them. Preserve nonfinite/failure counts rather than silently replacing them in reported totals.

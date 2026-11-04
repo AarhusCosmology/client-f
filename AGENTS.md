@@ -530,6 +530,13 @@ chooses by true evaluations; read [docs/members.md](docs/members.md). Keep these
   close networks, but a larger one would have kept a worse warm network once. Do not change the
   margin, the depth or the score without repeating that measurement.
 * `oversubscription` only warns; it changes nothing in the run.
+* Devices (`utils/devices.py`, docs/members.md "On GPUs"). Rank 0 and the member ranks take one GPU
+  each, with memory growth, and every other rank hides the GPUs before the likelihood is built.
+  `set_up_devices` is collective and comes before any TensorFlow or likelihood code; a process calls
+  `set_up_tensorflow` before its first use of TensorFlow. Never let a TensorFlow process start without
+  memory growth on a GPU it may share (the members after the first then fail), and do not hide the GPUs
+  in the launcher again: the member ranks need them. The GPU path runs only on a GPU node
+  (`tests/gpu_members_smoke.py`); the CI and a laptop test the CPU path and the assignment logic.
 
 ## Before changing `profiles/residual_newton.py`
 

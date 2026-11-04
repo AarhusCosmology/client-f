@@ -196,9 +196,57 @@ against 14-15% with 12: fewer members save little time while each has cores of i
 With `members: 1` nothing is held out, no rank is asked and the run is as before, bit for bit
 (tests/mpi_members_smoke.py).
 
+## On GPUs
+
+```yaml
+training:
+  member_device: auto     # a GPU when the member's process sees one, else the CPU; cpu; gpu (stop without one)
+```
+
+Only rank 0 and the ranks that train members run TensorFlow (`utils/devices.py`). Each of them takes
+one GPU of its node, the processes of a node in turn over its GPUs, with memory growth on. Without
+it, the first TensorFlow process on a GPU reserves nearly all of its memory, and the members started
+after it there fail. Every other rank hides the GPUs from itself before the likelihood is built
+(`CUDA_VISIBLE_DEVICES` and `HIP_VISIBLE_DEVICES` empty), so that a likelihood code importing
+TensorFlow or JAX takes none; the launcher (`hpc/submit_client.sh`) no longer does it, and a run
+started with a plain `mpirun` behaves the same.
+
+`training.member_device` decides for the members. With `auto`, the default, a member trains on a GPU
+when its process sees one and on the CPU otherwise; `cpu` keeps the members on the CPU; `gpu` stops
+a member that sees no GPU (it fails and is never kept). Rank 0 uses a GPU whenever it sees one.
+On a GPU, `member_threads` are the CPU threads of what TensorFlow keeps on the CPU, and the
+oversubscription warning counts only the members left over for rank 0.
+
+The log says where rank 0 trains (`TensorFlow on rank 0: GPU 0 (...)` or `CPU`) and, after each
+training, where every member did (`members trained on: 0-11 GPU 0 (...)`); `members_it_N.json`
+records each member's `device`.
+
+`tests/gpu_members_smoke.py` checks on a GPU node that rank 0 and the members train on the GPUs (both
+GPUs of a node with two), that none fails, and that `member_device: cpu` keeps the members on the
+CPU. `benchmarking/gpu_training.py` trains one network of a run again on a GPU with TF32
+(TensorFlow's default on Ampere and newer GPUs, for every training there, rank 0's included), on a
+GPU in full float32 and on the CPU, from the same random weights, and compares the times and the
+errors at that network's boost points.
+
+Measured on one NVIDIA L40S (TensorFlow 2.19 with its CUDA wheels):
+
+- **The members on one GPU.** Rank 0 and three members trained on the same GPU at once, and none
+  failed; the pilot's chains ran on it too, and `member_device: cpu` kept the members on the CPU.
+- **A network of the PDP+ axion run** (network 10, 61 610 training points, the run's full schedule,
+  one seed). On the GPU in full float32 the training followed the CPU's exactly: the same 506 epochs,
+  the same validation loss and the same errors at the 10 000 boost points (scatter 0.372), in 259 s
+  against 1284 s on 8 CPU threads. With TF32 it took 242 s and ended elsewhere, as another seed would
+  (scatter 0.345, inside the 0.29 to 0.59 of that network's twelve members). TF32 therefore stays as
+  TensorFlow has it.
+
+Open: a node with two GPUs, and how many members share one GPU before they slow each other down
+(three shared one here, on a small network).
+
 ## Tests
 
 `tests/test_members.py` (the ranks, the selection set, the choice, the settings, the phase's files,
-one member trained; the pilot's score, choice, depth, starts, settings and saved points) and
-`tests/mpi_members_smoke.py` (the loop on three ranks and on one, `members: 1` against no key; the
-pilot on three ranks and on one, and a pilot run stopped after training and continued).
+one member trained; the pilot's score, choice, depth, starts, settings and saved points),
+`tests/test_devices.py` (which ranks keep the GPUs, which GPU a process takes, TensorFlow's set-up
+without a GPU) and `tests/mpi_members_smoke.py` (the loop on three ranks and on one, `members: 1`
+against no key; the pilot on three ranks and on one, and a pilot run stopped after training and
+continued). On a GPU node: `tests/gpu_members_smoke.py`.

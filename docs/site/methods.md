@@ -85,3 +85,24 @@ Z_{\rm true}/Z_{\rm network}
 $$
 
 `hpc/analysis/evidence_summary.py` estimates this from saved posterior true checks. Finite samples, correlation, missed support and low weight ESS limit the estimate. Density-filtered boost rows have a different selection distribution and cannot be inserted into this expectation uncorrected.
+
+## Choosing between members
+
+With `training.members`, members $k=0,\dots,K-1$ ($k=0$ the warm-started network) are trained on the
+same set. With `training.member_pilot` each draws $n$ points of its own T=1 posterior inside the
+region, and the pool $P$ of all $nK$ points is evaluated once with the true objective. Member $k$'s
+pilot error is the rms over the points that the truth or that member puts within the depth $d$ of the
+best value $\ell_{\rm best}$ known (training set and pool):
+
+$$
+\epsilon_k^2=\frac{1}{|P_k|}\sum_{x\in P_k}\bigl[s_k(x)-\ell(x)\bigr]^2,\qquad
+P_k=\{x\in P:\ \ell(x)>\ell_{\rm best}-d\ \ \text{or}\ \ s_k(x)>\ell_{\rm best}-d\},
+$$
+
+with $d$ the msre scale $\tfrac12\chi^2(\sigma,n_{\rm dim})$ by default. A false plateau of member
+$k$ is judged where $k$ puts its posterior, a missed peak where the truth is high. The warm network
+is kept unless $\min_{k>0}\epsilon_k<(1-m)\,\epsilon_0$, with margin $m$ (`member_margin`); without
+a warm network the lowest $\epsilon_k$ is kept. The pool also contains the points of a rejected
+member, which can decide the ranking of the others: members that agree at the posterior's points can
+differ there by a raised region well below the best, which a profile would show.
+

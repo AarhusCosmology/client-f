@@ -580,6 +580,11 @@ class TrainingConfig:
     selection_share: float = 0.1
     member_margin: float = 0.2
     member_threads: int | None = None
+    # Where the members train (utils/devices.py, docs/members.md "On GPUs"): auto, a GPU when the
+    # member's process sees one (each member rank takes one GPU of its node, with memory growth, so
+    # that they share them) and else the CPU; cpu; gpu, which stops a member that sees no GPU.
+    # Rank 0 uses a GPU whenever it sees one, whatever this says.
+    member_device: str = "auto"
     # The choice between the members by true evaluations (training/members.py, "the pilot";
     # docs/members.md). member_pilot: n > 0 has every member draw n points of its own posterior
     # (T = 1, inside the network's region; member_pilot_steps steps of member_pilot_walkers walkers, at least 2 ndim),
@@ -615,6 +620,9 @@ class TrainingConfig:
         threads = d.get("member_threads")
         if threads is not None and int(threads) < 1:
             raise ValueError("training.member_threads must be at least 1")
+        device = str(d.get("member_device", "auto"))
+        if device not in ("auto", "cpu", "gpu"):
+            raise ValueError("training.member_device must be auto, cpu or gpu")
         pilot = int(d.get("member_pilot", 0))
         if pilot < 0:
             raise ValueError("training.member_pilot must be at least 0 (0: no pilot)")
@@ -634,6 +642,7 @@ class TrainingConfig:
             selection_share=share,
             member_margin=margin,
             member_threads=None if threads is None else int(threads),
+            member_device=device,
             member_pilot=pilot,
             member_pilot_steps=pilot_steps,
             member_pilot_walkers=pilot_walkers,

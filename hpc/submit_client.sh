@@ -55,9 +55,9 @@ export TF_CPP_MIN_LOG_LEVEL=1
 
 # -x: every rank must see the same settings, and on a job of several nodes (sbatch --nodes=2 --ntasks=96) the same
 # PYTHONPATH and CLASS++ build of the run's job.env: a rank without them would import the environment's classy, and with
-# neither variable launch.py's check of the build would let that pass. Only rank 0 runs TensorFlow: hide any GPU from the others.
+# neither variable launch.py's check of the build would let that pass. The GPUs are CLiENT's business (utils/devices.py):
+# rank 0 and the ranks that train members (training.members) take one each, and every other rank hides them from itself.
 mpirun --bind-to none -n "${SLURM_NTASKS:-1}" -x CLIENT_MPI_SCHEDULE ${CLIENT_LOAD_GROUP:+-x CLIENT_LOAD_GROUP} \
   ${CLIENT_REFUSED_VALUE:+-x CLIENT_REFUSED_VALUE} ${PYTHONPATH:+-x PYTHONPATH} ${CLASSPP_GUARD_DIR:+-x CLASSPP_GUARD_DIR} \
   ${CLASSPP_BUILD_DIR:+-x CLASSPP_BUILD_DIR -x CLASSPP_BUILD_COMMIT} ${CLASSPP_COMMIT:+-x CLASSPP_COMMIT} ${CLIENT_HPC_DIR:+-x CLIENT_HPC_DIR} \
-  bash -c '[ "${OMPI_COMM_WORLD_RANK:-0}" = 0 ] || export CUDA_VISIBLE_DEVICES=""; exec python "$@"' _ \
-  launch.py "$DOMAIN" "${CLIENT_ARGS[@]}"
+  python launch.py "$DOMAIN" "${CLIENT_ARGS[@]}"
