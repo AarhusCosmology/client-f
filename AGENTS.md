@@ -532,7 +532,9 @@ chooses by true evaluations; read [docs/members.md](docs/members.md). Keep these
 * `oversubscription` only warns; it changes nothing in the run.
 * Devices (`utils/devices.py`, docs/members.md "On GPUs"). Rank 0 and the member ranks take one GPU
   each, with memory growth, and every other rank hides the GPUs before the likelihood is built.
-  `set_up_devices` is collective and comes before any TensorFlow or likelihood code; a process calls
+  A process's GPU is its place among the TensorFlow processes of its node (`gpu_slot`), never its rank
+  on the node: the member ranks are at an even stride, and by the node rank all of them took GPU 0 of
+  a node's two (job 7030123; job 7030203 with the fix). `set_up_devices` is collective and comes before any TensorFlow or likelihood code; a process calls
   `set_up_tensorflow` before its first use of TensorFlow. Never let a TensorFlow process start without
   memory growth on a GPU it may share (the members after the first then fail), and do not hide the GPUs
   in the launcher again: the member ranks need them. The GPU path runs only on a GPU node

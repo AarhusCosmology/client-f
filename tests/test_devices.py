@@ -35,7 +35,36 @@ class WhoKeepsTheGpus(unittest.TestCase):
     def test_the_gpus_of_a_node_in_turn(self):
         self.assertEqual([devices.gpu_index(r, 2) for r in range(5)], [0, 1, 0, 1, 0])
         self.assertEqual({devices.gpu_index(r, 1) for r in range(48)}, {0})
-        self.assertEqual(devices.node_rank(None), 0)
+        self.assertEqual(devices.node_ranks(None), [0])
+
+    def gpus_taken(self, size, members, per_node, n_gpus):
+        """The GPU each TensorFlow rank takes, nodes of `per_node` consecutive ranks."""
+        def keeps(r):
+            return devices.keeps_gpus(r, size, members, "auto", True)
+
+        taken = {}
+        for first in range(0, size, per_node):
+            node = list(range(first, min(size, first + per_node)))
+            for r in node:
+                if keeps(r):
+                    taken[r] = devices.gpu_index(devices.gpu_slot(r, node, keeps), n_gpus)
+        return taken
+
+    def test_the_members_spread_over_two_gpus(self):
+        # The members sit at an even stride (ranks 2, 4, 6 of 8; 8, 16, ..., 88 of 96): by the rank on the
+        # node every one of them took GPU 0 of two (job 7030123, two L40S).
+        self.assertEqual(self.gpus_taken(8, 4, 8, 2), {0: 0, 2: 1, 4: 0, 6: 1})
+        on_one = self.gpus_taken(96, 12, 96, 2)
+        self.assertEqual(sorted(on_one.values()).count(0), 6)
+        self.assertEqual(sorted(on_one.values()).count(1), 6)
+        on_two = self.gpus_taken(96, 12, 48, 2)          # two nodes of 48, two GPUs each
+        self.assertEqual([on_two[r] for r in sorted(on_two) if r < 48], [0, 1, 0, 1, 0, 1])
+        self.assertEqual([on_two[r] for r in sorted(on_two) if r >= 48], [0, 1, 0, 1, 0, 1])
+        self.assertEqual(set(self.gpus_taken(8, 4, 8, 1).values()), {0})
+
+    def test_an_evaluation_rank_has_no_slot(self):
+        self.assertEqual(devices.gpu_slot(3, range(8), lambda r: r in (0, 2)), 0)
+        self.assertEqual(devices.gpu_slot(2, range(8), lambda r: r in (0, 2)), 1)
 
     def test_an_evaluation_rank_hides_the_gpus(self):
         saved = {k: os.environ.get(k) for k in ("CUDA_VISIBLE_DEVICES", "HIP_VISIBLE_DEVICES")}

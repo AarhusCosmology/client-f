@@ -44,7 +44,8 @@ setting; [PERFORMANCE.md](PERFORMANCE.md) has the speed and memory work with its
   random weights on ranks that would otherwise wait, and keeps one; the tempered phase trains every network once. With
   `training.member_pilot` it is chosen by true evaluations at each member's own posterior points, which catches false
   maxima that the boost points do not see. On GPUs each TensorFlow process takes one GPU with memory growth, so that
-  the members share them (`training.member_device`) ([guide](docs/members.md)).
+  the members share them (`training.member_device`), the TensorFlow processes of a node in turn over its GPUs
+  ([guide](docs/members.md)).
 - **Which points.** `density_filter` selects posterior candidates by the density-deficit rule ([guide](docs/posterior_density_boost.md)).
 - **The audit in boost iterations.** `audit.chain` looks where the tempered chain's cooled walkers climb to, and `audit.posterior`
   evaluates cooled walkers and fine-tunes when the network is too high there.

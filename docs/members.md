@@ -204,7 +204,10 @@ training:
 ```
 
 Only rank 0 and the ranks that train members run TensorFlow (`utils/devices.py`). Each of them takes
-one GPU of its node, the processes of a node in turn over its GPUs, with memory growth on. Without
+one GPU of its node, the TensorFlow processes of a node in turn over its GPUs, with memory growth on.
+The turn is a process's place among the node's TensorFlow processes, not among all its ranks: the
+member ranks are spread at an even stride (8, 16, ..., 88 of 96), and by the rank on the node every
+one of them took GPU 0 of two. Without
 it, the first TensorFlow process on a GPU reserves nearly all of its memory, and the members started
 after it there fail. Every other rank hides the GPUs from itself before the likelihood is built
 (`CUDA_VISIBLE_DEVICES` and `HIP_VISIBLE_DEVICES` empty), so that a likelihood code importing
@@ -228,7 +231,7 @@ CPU. `benchmarking/gpu_training.py` trains one network of a run again on a GPU w
 GPU in full float32 and on the CPU, from the same random weights, and compares the times and the
 errors at that network's boost points.
 
-Measured on one NVIDIA L40S (TensorFlow 2.19 with its CUDA wheels):
+Measured on Grendel's NVIDIA L40S nodes (TensorFlow 2.19 with its CUDA wheels):
 
 - **The members on one GPU.** Rank 0 and three members trained on the same GPU at once, and none
   failed; the pilot's chains ran on it too, and `member_device: cpu` kept the members on the CPU.
@@ -238,9 +241,13 @@ Measured on one NVIDIA L40S (TensorFlow 2.19 with its CUDA wheels):
   against 1284 s on 8 CPU threads. With TF32 it took 242 s and ended elsewhere, as another seed would
   (scatter 0.345, inside the 0.29 to 0.59 of that network's twelve members). TF32 therefore stays as
   TensorFlow has it.
+- **A node with two L40S.** With the GPU chosen by the rank on the node, every process took GPU 0
+  (job 7030123). With the choice by the place among the TensorFlow processes, rank 0 and the three
+  members took GPU 0, 1, 0, 1, the pilot ran on both and no member failed, and `member_device: cpu`
+  kept the members on the CPU and rank 0 on its GPU (job 7030203).
 
-Open: a node with two GPUs, and how many members share one GPU before they slow each other down
-(three shared one here, on a small network).
+Open: how many members share one GPU before they slow each other down (rank 0 and three members
+shared one L40S, on a small network).
 
 ## Tests
 

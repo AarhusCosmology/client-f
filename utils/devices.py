@@ -1,7 +1,9 @@
 """Which device each rank's TensorFlow uses (docs/members.md, "On GPUs").
 
 Only rank 0 and the ranks that train members (training.members) run TensorFlow. Those take one GPU
-each, chosen by their place among the ranks of their node, with memory growth on: TensorFlow
+each, in turn over the GPUs of their node by their place among the TensorFlow processes there (not
+among all its ranks: the member ranks are spread at an even stride, 8 on 96 ranks, so every one of
+them would take GPU 0 of two), with memory growth on: TensorFlow
 otherwise reserves nearly all of a GPU's memory in the first process that uses it, and the members
 started after it on the same GPU fail. Every other rank hides the GPUs from itself before the
 likelihood is built, so that a likelihood code importing TensorFlow or JAX takes none.
@@ -15,7 +17,7 @@ import os
 
 DEVICES = ("auto", "cpu", "gpu")
 DEVICE = None       # what this process's TensorFlow computes on, once set_up_tensorflow has run
-NODE_RANK = 0       # this rank's place among the ranks of its node (set_up_devices)
+GPU_SLOT = 0        # this process's place among the TensorFlow processes of its node (set_up_devices)
 
 
 def keeps_gpus(rank, size, members, member_device, boosts):
@@ -30,32 +32,43 @@ def keeps_gpus(rank, size, members, member_device, boosts):
     return rank in member_ranks(size, members)
 
 
-def gpu_index(rank_on_node, n_gpus):
-    """The GPU a TensorFlow process takes: the processes of a node in turn over its GPUs."""
-    return rank_on_node % n_gpus
+def gpu_index(slot, n_gpus):
+    """The GPU a TensorFlow process takes: the TensorFlow processes of a node in turn over its GPUs."""
+    return slot % n_gpus
 
 
-def node_rank(comm):
-    """This rank's place among the ranks of its node (collective)."""
+def gpu_slot(rank, ranks_on_node, keeps):
+    """Rank `rank`'s place, in rank order, among the ranks of its node that run TensorFlow (`keeps`
+    true); 0 for a rank that runs none."""
+    tensorflow = sorted(r for r in ranks_on_node if keeps(r))
+    return tensorflow.index(rank) if rank in tensorflow else 0
+
+
+def node_ranks(comm):
+    """The ranks of this rank's node (collective)."""
     if comm is None or comm.Get_size() == 1:
-        return 0
+        return [0 if comm is None else comm.Get_rank()]
     from mpi4py import MPI
 
     node = comm.Split_type(MPI.COMM_TYPE_SHARED)
     try:
-        return node.Get_rank()
+        return node.allgather(comm.Get_rank())
     finally:
         node.Free()
 
 
 def set_up_devices(cfg, comm, rank):
-    """Every rank, before the likelihood is built: its place on its node, and the GPUs hidden from
-    a rank that does not run TensorFlow."""
-    global NODE_RANK
-    NODE_RANK = node_rank(comm)
+    """Every rank, before the likelihood is built: its place among the TensorFlow processes of its
+    node, and the GPUs hidden from a rank that does not run TensorFlow."""
+    global GPU_SLOT
     size = 1 if comm is None else comm.Get_size()
-    if not keeps_gpus(rank, size, cfg.training.members, cfg.training.member_device,
-                      cfg.acquisition.boost is not None):
+    boosts = cfg.acquisition.boost is not None
+
+    def keeps(r):
+        return keeps_gpus(r, size, cfg.training.members, cfg.training.member_device, boosts)
+
+    GPU_SLOT = gpu_slot(rank, node_ranks(comm), keeps)
+    if not keeps(rank):
         os.environ["CUDA_VISIBLE_DEVICES"] = ""
         os.environ["HIP_VISIBLE_DEVICES"] = ""
 
@@ -96,7 +109,7 @@ def set_up_tensorflow(device="auto", threads=None):
             tf.config.threading.set_intra_op_parallelism_threads(int(threads))
             tf.config.threading.set_inter_op_parallelism_threads(1)
         if gpus and device != "cpu":
-            gpu = gpus[gpu_index(NODE_RANK, len(gpus))]
+            gpu = gpus[gpu_index(GPU_SLOT, len(gpus))]
             tf.config.set_visible_devices([gpu], "GPU")
             tf.config.experimental.set_memory_growth(gpu, True)
             DEVICE = describe_gpu(gpu.name, tf.config.experimental.get_device_details(gpu))
