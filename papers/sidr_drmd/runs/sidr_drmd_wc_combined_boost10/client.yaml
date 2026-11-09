@@ -1,0 +1,75 @@
+# The combined emulator boost10 of sidr_drmd_wc: a client.yaml for the analysis jobs (they read its likelihood input), from the low part's.
+# SIDR + DRMD on the H0 World Cup data (baseline, without SH0ES):
+# runs/sidr_drmd_wc_low/cobaya.yaml, identical in both parts; 24 sampled parameters.
+# The LOW part of a domain split in delta_Neff: training box delta_Neff [0, 0.13] (prior [0, 2]); every other
+# cosmological range is its prior. The two parts are combined with
+#   python client.py combine OUTPUT --parameter delta_Neff_drmd --part results/<time>_sidr_drmd_wc_low \
+#       --part results/<time>_sidr_drmd_wc_high --band 0.08:0.12
+#
+#   sbatch --time=7-00:00:00 submit_client.sh sidr_drmd_wc_low
+#
+# Settings: exactly the second set's (runs/sidr_drmd2_pp_low/client.yaml; made by results/20261023_wc_runs/make_runs.py).
+# Paths are relative to hpc_client/. The training box is this folder's domain_bounds.json; its other part is
+# runs/sidr_drmd_wc_high.
+likelihood:
+  wrapper: cobaya
+  input: runs/sidr_drmd_wc_combined_boost10/cobaya.yaml
+prior:
+  n_samples: 6000
+  sampling_strategy: lhs
+  n_sigma: null
+  n_inject: 100
+acquisition:
+  n_append: 5000
+  pool_factor: 20
+  n_neighbors: 20
+  target_temperature: 7.0
+  n_inject: 100             # fitted to the points near the best (inject_window 16, CLiENT's default)
+  audit: {chain: true, tau: 5, posterior: 150}   # chain search, threshold 5, posterior pilot
+  boost:                    # docs/boost.md, "Two recommended settings": known non-Gaussian
+    n: 10000                # posterior points (T = 1) per boost, accepted by the density filter
+    start_iteration: 30     # at the latest: the boosts begin when the ordinary loop has converged
+    boosts: 10              # the run ends after ten boosts
+    density_filter: true    # docs/posterior_density_boost.md
+    pool_factor: 20
+    background: quadratic   # docs/boost_background_region.md: fitted once, at the first training
+    region: 1.5
+    region_quantile: 0.999  # the region's reach by a quantile of the boost points' distances
+    train_domain: 1.25      # trained only near the posterior from the first boost on
+    mixing: 0.1             # the modes decided by measured mixing
+    min_share: 0.005
+model:
+  n_layers: 5
+  n_neurons: 512
+  activation: alsing
+training:
+  n_epochs: 5000
+  batch_size: 128
+  loss: msre
+  sigma_level: 3
+  msre_ess_floor: 0.1
+  learning_rate: 0.0001
+  validation_split: 0.1
+  patience: 250
+  lr_schedule: plateau
+  lr_factor: 0.3
+  lr_patience: 75
+  lr_min: 1.0e-06
+  lr_grace: 100
+  warm_start: true
+sampling:
+  sampler: aies
+  temperature: 7.0
+  n_walkers: 432
+  n_steps: 60000
+  burn_in: 5000
+  thin: 5
+  chunk_size: 1000
+convergence:
+  metric: tempered_batch_scatter   # docs/tempered_convergence.md
+  threshold: 1.2                   # in units of sampling.temperature
+  consecutive: 2
+  max_iterations: 41               # networks 0 to 40 at most: 30 of the ordinary loop and ten boosts
+seed: 42
+derived:
+  inputs: auto

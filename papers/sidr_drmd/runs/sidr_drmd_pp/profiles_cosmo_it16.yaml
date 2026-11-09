@@ -1,0 +1,48 @@
+# True 1D profiles of 12 of the 21 parameters of 20261020_122013_sidr_drmd_pp,
+# starting from network 16. Written by true_profiles/make_config.py; the ranges are the
+# +-3 sigma quantiles of posterior_it_16.npz, cut at the training box.
+#
+#   sbatch true_profiles/submit_profiles.sh results/<run> <this file> results_profiles/<name>
+#
+iteration: 16
+profile_points: 25          # nodes per parameter, ends included: 300 nodes in all
+workers: 46                 # backend processes on the node; may be changed when resuming
+retrain: false              # the saved network as it is
+added_points: 0
+surrogate_optimizer: hybrid
+corrected_tol: null         # null: 1e-2 in the log-objective. Not below twice the noise floor that noise_probe.py prints
+chain_length: 2             # a cold start after every two chained nodes: keeps the processes busy
+maxfun: 138                 # true calls a node may use: six gradient rounds of 22 (the default 150 is for ~16 parameters)
+total_call_budget: 28000   # of the whole study, resumed attempts included (four gradient rounds a node)
+audit_points: 3             # best saved training values recomputed before anything else
+audit_tolerance: 0.01
+region: run              # a network trained on boosts is searched inside the region of its boosts (the run's own edge)
+hybrid_walkers: 8
+hybrid_hops: 30              # hops of the network scan at most (CLiENT default 12): the first try (21 Oct) stopped at 12 still improving (gains of 38 and 62)
+seed: 42
+parameters:
+  - omega_b
+  - omega_cdm
+  - H0
+  - logA
+  - n_s
+  - tau_reio
+  - m_int
+  - logGeff
+  - delta_Neff_drmd
+  - f_idm_drmd
+  - log10_zstop
+  - log10_G_over_aH
+ranges:
+  omega_b:         [0.0219503, 0.0232144]   # posterior 0.022498 +- 0.00019
+  omega_cdm:       [0.114857, 0.145133]   # posterior 0.12529 +- 0.005
+  H0:              [67.2236, 75.2721]   # posterior 70.122 +- 1.3
+  logA:            [2.92255, 3.08075]   # posterior 3.0032 +- 0.031
+  n_s:             [0.926355, 0.983122]   # posterior 0.95345 +- 0.013
+  tau_reio:        [0.027237, 0.078057]   # posterior 0.052681 +- 0.0075
+  m_int:           [0.0005, 0.15]   # posterior 0.056478 +- 0.039; lower edge of the box and upper edge of the box
+  logGeff:         [-5.5, -1.1036]   # posterior -2.8368 +- 1.4; lower edge of the box
+  delta_Neff_drmd: [0, 1.2836]   # posterior 0.29767 +- 0.26; lower edge of the box
+  f_idm_drmd:      [0, 0.54588]   # posterior 0.041402 +- 0.075; lower edge of the box
+  log10_zstop:     [2, 5]   # posterior 4.0723 +- 0.71; lower edge of the box and upper edge of the box
+  log10_G_over_aH: [2, 14]   # posterior 7.756 +- 3.5; lower edge of the box and upper edge of the box

@@ -1,0 +1,14 @@
+# what a run or a job writes here
+results/
+results_profiles/
+logs/
+# CLIENT_PAPER_DATA's default (paper/build.py)
+data/
+# the build outputs (paper/build.py, build_wc.py)
+paper/tables/
+paper/plots/data/
+paper/Figures/
+paper/numbers.tex
+paper/numbers_wc.tex
+paper/build_summary.json
+paper/build_wc_summary.json

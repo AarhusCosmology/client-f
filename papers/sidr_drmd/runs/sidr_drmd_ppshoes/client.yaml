@@ -1,0 +1,99 @@
+# SIDR + DRMD on full Planck (Commander + SimAll + NPIPE CamSpec TTTEEE + PR4 lensing) + DESI DR2
+# + Pantheon+SH0ES (runs/sidr_drmd_ppshoes/cobaya.yaml): 21 sampled parameters. A posterior known
+# to be non-Gaussian: two modes in logGeff (SIDR's weak and strong coupling; the kit's SINU run put 25% in
+# the strong one), and funnels in the DRMD parameters (f_idm near 0 frees z_stop and G/aH, delta_Neff
+# near 0 frees all three).
+#
+#   sbatch submit_client.sh sidr_drmd_ppshoes -i 12                      # networks 0 to 11, then stop
+#   sbatch submit_client.sh results/<timestamp>_sidr_drmd_ppshoes       # after the check below
+#
+# Why the stop at network 11. The criterion that hands over to the boosts measures the network's
+# error at its own tempered batch, which is mostly in the weak mode: it cannot see a strong mode
+# that gets too few points. In the kit's SINU run (2000 points per iteration, 16 parameters) the
+# strong mode had 6 to 18% of each batch's points near the posterior from network 5 to 16, and
+# 25 to 54% only from network 17 on (analysis/mode_share.py); the criterion came within 0.13 T of handing over at network
+# 13. Here, before the boosts may begin: the strong mode's share of the batches' points near the
+# posterior, client.py modes on network 11, and the kit's true check of network 11
+# (runs/e2e_README.md, "SIDR + DRMD").
+#
+# Settings: docs/boost.md's recommended set for likelihoods known to be non-Gaussian, from the start,
+# as the axion runs (e2e_axion_tt15_om3); on SINU these settings did better than the near-Gaussian
+# set throughout (confirmation of 18 October 2026). After the stop, no -i: the run decides its
+# own length. 6000 and 5000 points, against SINU's 2000 and 2000 (Steen, 20 October 2026): 21
+# parameters (a quadratic has 1.65 times SINU's coefficients), and the strong mode found sooner.
+#   the ordinary loop   6000 LHS points + 100 injected, then 5000 points at T = 7 + 100 injected per
+#                       iteration, with the optimum audit (chain search, threshold 5, posterior
+#                       pilot), until the scatter of network minus truth at the tempered batch has
+#                       been below 1.2 x T = 8.4 for two networks running
+#   the boosts          ten boosts of 10 000 posterior points, with the density filter, the
+#                       quadratic background, the region (edge 1.5, quantile reach), the training
+#                       domain (edge 1.25), modes by measured mixing and mode_depth auto (73.5 here).
+# The evidences asked for are those of networks S, S + 5 and S + 10 (runs/e2e_README.md).
+# A job that ends at its time limit is continued with
+#   sbatch submit_client.sh results/<timestamp>_sidr_drmd_ppshoes
+#
+# Paths are relative to hpc_client/. The training box is this folder's domain_bounds.json
+# (domain_notes.md of runs/sidr_drmd_pp).
+likelihood:
+  wrapper: cobaya
+  input: runs/sidr_drmd_ppshoes/cobaya.yaml
+prior:
+  n_samples: 6000
+  sampling_strategy: lhs
+  n_sigma: null
+  n_inject: 100
+acquisition:
+  n_append: 5000
+  pool_factor: 20
+  n_neighbors: 20
+  target_temperature: 7.0
+  n_inject: 100             # fitted to the points near the best (inject_window 16, CLiENT's default)
+  audit: {chain: true, tau: 5, posterior: 150}   # chain search, threshold 5, posterior pilot
+  boost:                    # docs/boost.md, "Two recommended settings": known non-Gaussian
+    n: 10000                # posterior points (T = 1) per boost, accepted by the density filter
+    start_iteration: 30     # at the latest: the boosts begin when the ordinary loop has converged
+    boosts: 10              # the run ends after ten boosts
+    density_filter: true    # docs/posterior_density_boost.md
+    pool_factor: 20
+    background: quadratic   # docs/boost_background_region.md: fitted once, at the first training
+    region: 1.5
+    region_quantile: 0.999  # the region's reach by a quantile of the boost points' distances
+    train_domain: 1.25      # trained only near the posterior from the first boost on
+    mixing: 0.1             # the modes decided by measured mixing
+    min_share: 0.005
+    mode_depth: auto        # T * ndim / 2 = 73.5 at 21 parameters
+model:
+  n_layers: 5
+  n_neurons: 512
+  activation: alsing
+training:
+  n_epochs: 5000
+  batch_size: 128
+  loss: msre
+  sigma_level: 3
+  msre_ess_floor: 0.1
+  learning_rate: 0.0001
+  validation_split: 0.1
+  patience: 250
+  lr_schedule: plateau
+  lr_factor: 0.3
+  lr_patience: 75
+  lr_min: 1.0e-06
+  lr_grace: 100
+  warm_start: true
+sampling:
+  sampler: aies
+  temperature: 7.0
+  n_walkers: 432
+  n_steps: 60000
+  burn_in: 5000
+  thin: 5
+  chunk_size: 1000
+convergence:
+  metric: tempered_batch_scatter   # docs/tempered_convergence.md
+  threshold: 1.2                   # in units of sampling.temperature
+  consecutive: 2
+  max_iterations: 41               # networks 0 to 40 at most: 30 of the ordinary loop and ten boosts
+seed: 42
+derived:
+  inputs: auto

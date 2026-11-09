@@ -1,0 +1,357 @@
+# SIDR + DRMD on the data of the H0 World Cup papers (Paper I arXiv:2607.13282, Paper II arXiv:2607.13283), WITHOUT SH0ES (the World Cup's baseline "A").
+# Made 23 October 2026 by results/20261023_wc_runs/make_runs.py from runs/sidr_drmd2_pp_low (Steen: the same
+# cosmological model and priors as the earlier runs, which these complement, not replace).
+#
+# The data, as the World Cup's baseline CMB+BAO+SN ("A"):
+#   - Planck PR4 NPIPE CamSpec TTTEEE (Cobaya's, v12.6; the World Cup names v12.7), cut to l < 1000 in TT and l < 600
+#     in TE and EE: ACT's P-ACT cut, and the World Cup Paper I's (Paper II writes "l<1000 in TT,TE");
+#   - Planck low-l TT (Commander) and SRoll2 low-l EE;
+#   - ACT DR6 ACT-lite (foreground-marginalised; the package's default TT/TE/EE 600-6500), its calibration tied to
+#     Planck's (A_act = A_planck, as ACT's P-ACT and SPT's SPA files do), with A_planck's CamSpec prior only;
+#   - SPT-3G D1 T&E lite through candl, its internal priors cleared and Tcal, Ecal given here (SPT's SPA file);
+#   - CMB lensing: ACT DR6 + Planck PR4 (act_dr6_lenslike, variant actplanck_baseline) and SPT-3G 2019-2020 MUSE
+#     (phiphi only); SPT's own combination of the two (muselens_actplanckbaselens);
+#   - DESI DR2 BAO, all tracers; Pantheon+ (z > 0.01), uncalibrated.
+# Installed by install/11_lite_likelihoods.sh (pins in env.sh).
+#
+# CLASS++ master bfe6729e (22 October 2026), unpatched: install/10_classpp_build.sh, job.env. Its own fix (#467)
+# replaces our extrapolation guard. Precision:
+# - pre/act_dr6.pre's lines (ACT DR6 to l = 8500, tuned on ACT-lite) without its nonlinear_min_k_max = 70, with which
+#   a SIDR + DRMD point did not finish in 45 minutes (results/20261023_classpp_act_preset_timing);
+# - nonlinear_min_k_max = 10: the continuation past the default 2/Mpc (#470) is off at dark acoustic oscillations (C_L^phiphi by up to 9%; make_runs.py);
+# - halofit, as the earlier runs, and their evolver_perturbations 1 and tol_perturb_integration 1e-7;
+# - l_max_scalars is Cobaya's, from ACT-lite's 9000.
+#
+# The two parts of this data set, runs/sidr_drmd_wc_low and runs/sidr_drmd_wc_high, have byte-identical copies of this file,
+# as client.py combine requires: the same objective, the training box differing in delta_Neff only.
+# 24 sampled parameters: the second set's 21 and P_act, Tcal, Ecal.
+likelihood:
+  planck_2018_lowl.TT: null
+  planck_2018_lowl.EE_sroll2: null
+  planck_NPIPE_highl_CamSpec.TTTEEE:
+    dataset_params:
+      use_cl: 143x143 217x217 143x217 TE EE
+      use_range:                 # l < 1000 in TT, l < 600 in TE and EE (217 and 143x217 start at 500)
+        143x143: 30-999
+        217x217: 500-999
+        143x217: 500-999
+        TE: 30-599
+        EE: 30-599
+  act_dr6_cmbonly: null          # ACT-lite, DR6-ACT-lite at ACT_LITE_COMMIT (env.sh)
+  candl.interface.CandlCobayaLikelihood:
+    data_set_file: spt_candl_data.SPT3G_D1_TnE_lite
+    clear_internal_priors: true  # its tau and Tcal priors; Tcal's is in params below, tau has none (SPT's SPA file)
+    feedback: false
+  act_dr6_lenslike.ACTDR6LensLike:
+    lens_only: false
+    lmax: 4000
+    variant: actplanck_baseline
+  muse3glike.cobaya.spt3g_2yr_delensed_ee_optimal_pp_muse:
+    components: ["ϕϕ"]           # lensing only, not the delensed EE
+  bao.desi_dr2.desi_bao_all: null
+  sn.pantheonplus: null           # uncalibrated: M_B marginalised analytically
+theory:
+  classy:
+    extra_args:
+      N_ur: 0.00441
+      nui1.type: ncdm_self_interacting
+      nui1.deg: 3
+      nui1.T: 0.71611
+      non_linear: halofit        # as the earlier runs (ACT, SPT and their likelihoods' authors use HMcode 2020)
+      evolver_perturbations: 1
+      tol_perturb_integration: 1.0e-07
+      nonlinear_min_k_max: 10   # modes solved to this k (1/Mpc) for halofit: the dark acoustic oscillations (make_runs.py)
+      # pre/act_dr6.pre of CLASS++ bfe6729e, every line but nonlinear_min_k_max = 70:
+      delta_l_max: 1800
+      accurate_lensing: 1
+      radiation_streaming_trigger_tau_over_tau_k: 240
+      l_linstep: 20
+      perturb_sampling_stepsize: 0.05
+      l_max_ur: 35
+      ur_fluid_trigger_tau_over_tau_k: 130
+      q_logstep_limber: 1.025
+      neglect_CMB_sources_below_visibility: 0.0001
+      ncdm_fluid_trigger_tau_over_tau_k: 15
+      l_max_ncdm: 10
+      tol_ncdm_synchronous: 0.03
+      transfer_neglect_delta_k_S_t0: 0.15
+      transfer_neglect_delta_k_S_t1: 0.04
+      transfer_neglect_delta_k_S_t2: 0.12
+      transfer_neglect_delta_k_S_e: 1
+      transfer_neglect_l_half_S_t0: 0
+      transfer_neglect_l_half_S_t1: 0
+      transfer_neglect_l_half_S_t2: 0
+      transfer_neglect_l_half_S_e: 0
+    stop_at_error: false
+    renames:
+      As: A_s
+      ns: n_s
+      nrun: alpha_s
+      nrunrun: beta_s
+      nt: n_t
+      ntrun: alpha_t
+      rdrag: rs_drag
+      omegak: Omega_k
+      omegal: Omega_Lambda
+      w: w0_fld
+      wa: wa_fld
+      omegabh2: omega_b
+      omegab: Omega_b
+      omegach2: omega_cdm
+      omegac: Omega_cdm
+      omegam: Omega_m
+      omegan: Omega_nu
+      tau: tau_reio
+      zrei: z_reio
+      deltazrei: reionization_width
+      helium_redshift: helium_fullreio_redshift
+      helium_delta_redshift: helium_fullreio_width
+      yhe: YHe
+      yheused: YHe
+      theta_s_100: 100*theta_s
+params:
+  omega_b:
+    prior:
+      min: 0.0203
+      max: 0.0255
+    ref: 0.02274
+    proposal: 0.0002
+    latex: \omega_b
+  omega_cdm:
+    prior:
+      min: 0.079
+      max: 0.181
+    ref: 0.126
+    proposal: 0.003
+    latex: \omega_{\rm dm}
+  H0:
+    prior:
+      min: 57.8
+      max: 85.0
+    ref: 70.5
+    proposal: 1.0
+    latex: H_0
+  logA:
+    prior:
+      min: 2.80
+      max: 3.28
+    ref: 3.04
+    proposal: 0.015
+    drop: true
+    latex: \ln(10^{10} A_s)
+  A_s:
+    value: 'lambda logA: 1e-10*np.exp(logA)'
+    latex: A_s
+  n_s:
+    prior:
+      min: 0.88
+      max: 1.06
+    ref: 0.969
+    proposal: 0.005
+    latex: n_s
+  tau_reio:
+    prior:
+      min: 0.01
+      max: 0.1
+    ref: 0.056
+    proposal: 0.006
+    latex: \tau_{\rm reio}
+  m_int:
+    prior:
+      min: 0.06
+      max: 0.3
+    ref: 0.08
+    proposal: 0.01
+    drop: true
+    latex: \Sigma m_{\nu}\,[{\rm eV}]
+  nui1.m:
+    value: 'lambda m_int: m_int/3'
+    derived: false
+  logGeff:
+    prior:
+      min: -5.5
+      max: -0.8
+    ref: -4.0
+    proposal: 0.2
+    drop: true
+    latex: \log_{10}(G_{\rm eff}\,{\rm MeV}^2)
+  nui1.log10G_eff:
+    value: 'lambda logGeff: logGeff'
+    derived: false
+  delta_Neff_drmd:
+    prior:
+      min: 0.0
+      max: 2.0
+    ref: 0.37
+    proposal: 0.1
+    latex: \Delta N_{\rm eff}
+  f_idm_drmd:
+    prior:
+      min: 0.0
+      max: 0.4
+    ref: 0.012
+    proposal: 0.005
+    latex: f_{\rm idm}
+  log10_zstop:
+    prior:
+      min: 2.0
+      max: 5.0
+    ref: 4.0
+    proposal: 0.2
+    drop: true
+    latex: \log_{10} z_{\rm stop}
+  z_stop:
+    value: 'lambda log10_zstop: 10**log10_zstop'
+    derived: false
+  log10_G_over_aH:
+    prior:
+      min: 2.0
+      max: 14.0
+    ref: 7.3
+    proposal: 0.5
+    drop: true
+    latex: \log_{10}(G/aH)
+  G_over_aH_drmd_ini:
+    value: 'lambda log10_G_over_aH: 10**log10_G_over_aH'
+    derived: false
+  A_planck:
+    prior:
+      dist: norm
+      loc: 1
+      scale: 0.0025
+    ref:
+      dist: norm
+      loc: 1
+      scale: 0.002
+    proposal: 0.0005
+    latex: y_{\rm cal}
+  amp_143:
+    prior:
+      min: 0
+      max: 50
+    ref:
+      dist: norm
+      loc: 10
+      scale: 1
+    proposal: 1
+    latex: A^{\rm power}_{143}
+  amp_217:
+    prior:
+      min: 0
+      max: 50
+    ref:
+      dist: norm
+      loc: 20
+      scale: 1
+    proposal: 1
+    latex: A^{\rm power}_{217}
+  amp_143x217:
+    prior:
+      min: 0
+      max: 50
+    ref:
+      dist: norm
+      loc: 10
+      scale: 1
+    proposal: 1
+    latex: A^{\rm power}_{143\times217}
+  n_143:
+    prior:
+      min: 0
+      max: 5
+    ref:
+      dist: norm
+      loc: 1
+      scale: 0.2
+    proposal: 0.2
+    latex: \gamma^{\rm power}_{143}
+  n_217:
+    prior:
+      min: 0
+      max: 5
+    ref:
+      dist: norm
+      loc: 1
+      scale: 0.2
+    proposal: 0.2
+    latex: \gamma^{\rm power}_{217}
+  n_143x217:
+    prior:
+      min: 0
+      max: 5
+    ref:
+      dist: norm
+      loc: 1
+      scale: 0.2
+    proposal: 0.2
+    latex: \gamma^{\rm power}_{143\times217}
+  calTE:
+    prior:
+      dist: norm
+      loc: 1
+      scale: 0.01
+    ref:
+      dist: norm
+      loc: 1
+      scale: 0.01
+    proposal: 0.01
+    latex: c_{TE}
+  calEE:
+    prior:
+      dist: norm
+      loc: 1
+      scale: 0.01
+    ref:
+      dist: norm
+      loc: 1
+      scale: 0.01
+    proposal: 0.01
+    latex: c_{EE}
+  A_act:
+    value: 'lambda A_planck: A_planck'
+    latex: A_{\rm ACT}
+  P_act:
+    prior:
+      min: 0.9
+      max: 1.1
+    ref:
+      dist: norm
+      loc: 1.0
+      scale: 0.01
+    proposal: 0.01
+    latex: p_{\rm ACT}
+  Tcal:
+    prior:
+      dist: norm
+      loc: 1.0
+      scale: 0.0036
+    ref: 1.0
+    proposal: 0.005
+    latex: T_{\rm cal}
+  Ecal:
+    prior:
+      min: 0.8
+      max: 1.2
+    ref: 1.0
+    proposal: 0.01
+    latex: E_{\rm cal}
+  theta_s_100:
+    latex: 100\theta_s
+  sigma8:
+    latex: \sigma_8
+  Omega_m:
+    latex: \Omega_\mathrm{m}
+  S8:
+    derived: 'lambda sigma8, Omega_m: sigma8*np.sqrt(Omega_m/0.3)'
+    latex: S_8
+  rs_drag:
+    latex: r_\mathrm{drag}
+  z_reio:
+    latex: z_\mathrm{reio}
+  Neff:
+    latex: N_\mathrm{eff}
+  f_idr_drmd:
+    latex: f_\mathrm{idr}
+  log10_zdec:
+    derived: 'lambda z_dec_drmd: np.log10(z_dec_drmd)'
+    latex: \log_{10}z_\mathrm{dec}
