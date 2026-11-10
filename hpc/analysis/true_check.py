@@ -3,6 +3,7 @@ network's error where its own posterior is.
 
     mpirun -n N python analysis/true_check.py RUN_DIR --cobaya runs/RUN/cobaya.yaml --domain runs/RUN/domain_bounds.json
                                              [--networks 10 15] [--points 500] [--seed 1] [--discard-chains]
+                                             [--linear-prior NAME ...]
 
 --domain is the run's training box when the launcher gave it one (launch.py); a run whose box
 came from prior.n_sigma has none, and the points are inside its box in any case.
@@ -30,6 +31,12 @@ For each network, with D = truth minus network at its own posterior samples:
   corrected mean and width      of every parameter with the weights w, against the network's
                                 own, in units of its width: what the remaining error does to
                                 the result. Only as good as the effective points behind it.
+
+With --linear-prior (as analysis/report.py has it) the samples are of the posterior with a prior flat in 10^p
+for the named parameters, which the run sampled flat in p. ln(10) p is the same in the truth and the network, so D
+is the network's error as before, and the weights w turn the samples into those of the true posterior with that
+prior. The chains and results are then in RUN_DIR/analysis/linear_prior_<p>[+<q>...] (report.analysis_folder),
+never in analysis/true_check.json, whose entries the evidence summary corrects evidences with.
 
 A point the likelihood refuses (refused.py) has no D. It comes back as -inf, or, with
 CLIENT_REFUSED_VALUE in the job's environment (the job script reads the run's job.env), as the
@@ -222,6 +229,9 @@ def main():
     parser.add_argument("--seed", type=int, default=1)
     parser.add_argument("--steps", type=int, default=20000, help="steps of a T = 1 chain sampled here")
     parser.add_argument("--discard-chains", action="store_true", help="do not keep the T = 1 chains sampled here (posterior_it_N.npz)")
+    parser.add_argument("--linear-prior", nargs="+", default=[], metavar="NAME",
+                        help="parameters p sampled with a prior flat in p: check the posterior with a prior flat in 10^p "
+                             "(analysis/report.py --linear-prior), in analysis/linear_prior_<names>/")
     args = parser.parse_args()
 
     comm = MPI.COMM_WORLD
@@ -234,9 +244,10 @@ def main():
     points, blocks, run, refused_value = None, [], None, None
     sampled_targets, sampled_diagnostics = {}, {}
     if rank == 0:
-        from report import Run, sample_posterior          # TensorFlow on rank 0 only
+        from report import Run, analysis_folder, sample_posterior          # TensorFlow on rank 0 only
 
-        run = Run(args.run, Path(os.environ.get("CLIENT_REPO", Path(__file__).resolve().parents[2])))
+        run = Run(args.run, Path(os.environ.get("CLIENT_REPO", Path(__file__).resolve().parents[2])),
+                  linear_prior=args.linear_prior)
         if run.names != truth.param_names:
             raise RuntimeError(f"the run's parameters {run.names} are not the likelihood's {truth.param_names}")
         narrower = narrower_than_the_run(truth.prior_bounds, run.names, run.lower, run.upper)
@@ -257,8 +268,8 @@ def main():
         if truth.refused_value not in (None, refused_value):
             print(f"[true check] CLIENT_REFUSED_VALUE gives refused points {truth.refused_value:g} in this job, which is "
                   "not the run's value: a point with either is counted as refused", flush=True)
-        out = run.dir / "analysis"
-        out.mkdir(exist_ok=True)
+        out = analysis_folder(run.dir, run.linear_prior)
+        out.mkdir(parents=True, exist_ok=True)
         networks = args.networks
         if not networks:
             last = max(run.models)
@@ -295,7 +306,7 @@ def main():
         targets = np.asarray(truth.split_evaluations(values)[0], float).ravel()
         seconds = time.time() - started
         report = dict(run=run.dir.name, points=args.points, seed=args.seed, ranks=comm.size, seconds=seconds,
-                      best_training_value=run.best, parameters=run.names, networks=[])
+                      best_training_value=run.best, parameters=run.names, linear_prior=list(run.linear_prior), networks=[])
         print(f"\n{len(targets)} true evaluations in {seconds:.0f} s on {comm.size} ranks; best training value of the run {run.best:.2f}\n")
         start = 0
         for it, x, network in blocks:
@@ -311,14 +322,14 @@ def main():
                     entry[key] = None
                 entry["correction_unavailable"] = "; ".join(filter(None, [entry["correction_unavailable"], sampling_problem]))
             report["networks"].append(entry)
-            with atomic_path(run.dir / "analysis" / f"true_check_it_{it}.npz") as temporary:
+            with atomic_path(out / f"true_check_it_{it}.npz") as temporary:
                 np.savez_compressed(temporary, x=x, network=network, truth=true, refused=refused,
                                     names=np.array(run.names), target_json=json.dumps(entry["target"], sort_keys=True),
                                     sampling_json=json.dumps(entry["sampling"], sort_keys=True),
                                     sampling_correction_unavailable=sampling_problem or "")
             print(report_line(entry, run.ndim), flush=True)
         # Networks checked earlier stay in the file: a later call for other networks adds to it.
-        file = run.dir / "analysis" / "true_check.json"
+        file = out / "true_check.json"
         try:
             earlier = json.loads(file.read_text())["networks"] if file.exists() else []
         except (ValueError, KeyError):
@@ -328,7 +339,7 @@ def main():
                                     key=lambda entry: entry["iteration"])
         with atomic_path(file) as temporary:
             temporary.write_text(json.dumps(report, indent=1))
-        print(f"\nwritten: {run.dir / 'analysis' / 'true_check.json'}")
+        print(f"\nwritten: {file}")
 
 
 if __name__ == "__main__":

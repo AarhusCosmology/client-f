@@ -62,6 +62,8 @@ setting; [PERFORMANCE.md](PERFORMANCE.md) has the speed and memory work with its
   and `derived-view` ([guide](docs/derived_parameters.md)).
 - **The evidence.** `client.py evidence`, with the BEST nested sampler, in the run's own prior convention ([guide](docs/evidence.md)).
 - **Modes.** `client.py modes` for any saved network.
+- **Another prior for a logarithm.** `--linear-prior NAME ...` in `hpc/analysis/report.py` and `true_check.py`: the posterior
+  of a saved network with a prior flat in 10^p for parameters p sampled flat in p, and its true check ([hpc](hpc/README.md)).
 
 ## Running
 

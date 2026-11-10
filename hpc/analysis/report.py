@@ -3,6 +3,7 @@
     python analysis/report.py RUN_DIR [--out DIR] [--journal logs/evaluations_<job>.jsonl ...]
                               [--no-posteriors] [--networks N ...] [--last K] [--corner N ...]
                               [--corner-parameters 6] [--reference FILE] [--steps 20000] [--client PATH]
+                              [--linear-prior NAME ...]
 
 Writes RUN_DIR/analysis/ (or --out): report.md (the tables), report.json (every number),
 errors.png, convergence.png, posterior.png, training.png, corner.png, and posterior_it_N.npz
@@ -29,6 +30,13 @@ No true likelihood is evaluated. Saved files are read and saved networks are eva
                     for accuracy on the posterior see the boost points here and true_check.py.
   evaluations       the launcher's journal: points, failures and seconds of every batch.
 
+With --linear-prior, the named parameters p, which the run sampled with a prior flat in p (log10 of a
+quantity, such as log10Gamma), get a prior flat in 10^p instead: ln(10) p is added to every network's log
+posterior where it is sampled (LinearPrior). The held-out errors stay those of the networks themselves. Everything
+then goes to RUN_DIR/analysis/linear_prior_<p>[+<q>...] (analysis_folder), and the chains record the prior in their
+target, so that no reader of analysis/ takes them for the run's posterior. analysis/true_check.py checks them with
+the same option.
+
 It runs anywhere the run directory is.
 """
 import argparse
@@ -50,6 +58,47 @@ def iteration_of(path):
 
 def by_iteration(pattern):
     return {iteration_of(f): Path(f) for f in glob.glob(str(pattern))}
+
+
+LN10 = float(np.log(10.0))
+
+
+def linear_prior_names(names, wanted):
+    """The parameters named for --linear-prior, in the run's order and once each. A name that is not a parameter of
+    the run ends the program: a misspelt one would give the run's own posterior under the new prior's name."""
+    wanted = list(wanted or ())
+    unknown = [name for name in dict.fromkeys(wanted) if name not in names]
+    if unknown:
+        raise SystemExit(f"--linear-prior names what the run does not sample: {', '.join(unknown)}. "
+                         f"Its parameters: {', '.join(names)}")
+    return tuple(name for name in names if name in wanted)
+
+
+def analysis_folder(run_dir, linear_prior=()):
+    """Where the report and the true check keep their chains and results: RUN_DIR/analysis, and for a posterior with
+    a prior flat in 10^p (--linear-prior) RUN_DIR/analysis/linear_prior_<p>[+<q>...], beside the run's own, which the
+    corner plot, the evidence summary and the profiles' make_config read."""
+    folder = Path(run_dir) / "analysis"
+    return folder / ("linear_prior_" + "+".join(linear_prior)) if linear_prior else folder
+
+
+class LinearPrior:
+    """A sampled target with a prior flat in 10^p for the parameters in `columns`, which the run sampled with a prior
+    flat in p: the target's log density plus ln(10) times their sum. The region is the target's, and where the target
+    is -inf (outside the region) it stays -inf. A network learned the log posterior with the run's prior, so this is
+    the posterior with the new prior, up to a constant."""
+
+    def __init__(self, target, columns):
+        self.target, self.columns = target, list(columns)
+        self.region = target.region
+
+    def logpost(self, x):
+        import tensorflow as tf
+
+        x = tf.convert_to_tensor(x)
+        value = self.target.logpost(x)
+        tilt = LN10 * tf.reduce_sum(tf.gather(x, self.columns, axis=1), axis=1)
+        return value + tf.cast(tf.reshape(tilt, tf.shape(value)), value.dtype)
 
 
 def stats(error):
@@ -80,7 +129,7 @@ def keys(frame, names):
 
 
 class Run:
-    def __init__(self, directory, client):
+    def __init__(self, directory, client, linear_prior=()):
         import yaml
 
         self.dir = Path(directory)
@@ -98,6 +147,7 @@ class Run:
         self.lower = np.array([self.metadata.bounds[n][0] for n in self.names], float)
         self.upper = np.array([self.metadata.bounds[n][1] for n in self.names], float)
         self.ndim = len(self.names)
+        self.linear_prior = linear_prior_names(self.names, linear_prior)      # sampled with a prior flat in 10^p
         self.config = yaml.safe_load(settings_file(self.dir).read_text())
         self.temperature = float(self.config["sampling"]["temperature"])
         self.boost = (self.config.get("acquisition") or {}).get("boost") or None
@@ -146,7 +196,10 @@ class Run:
         from copy import deepcopy
 
         self.surrogate(iteration, region=True)  # pin the model and its region together
-        return deepcopy(self._model[2])
+        identity = deepcopy(self._model[2])
+        if getattr(self, "linear_prior", ()):
+            identity["linear_prior"] = list(self.linear_prior)      # another target: its chains are not the run's
+        return identity
 
     def predict(self, iteration, points, region=False):
         import tensorflow as tf
@@ -225,10 +278,14 @@ def training(run, iteration):
 
 
 def sample_posterior(run, iteration, steps, walkers, rng):
-    """T = 1 samples of network N (inside its region when it has one): (samples, acceptance)."""
+    """T = 1 samples of network N (inside its region when it has one): (samples, acceptance). With the run's
+    linear_prior, of its posterior with a prior flat in 10^p for those parameters (LinearPrior)."""
     from sampling.base import build_sampler
 
     surrogate = run.surrogate(iteration, region=True)
+    linear = getattr(run, "linear_prior", ())
+    if linear:
+        surrogate = LinearPrior(surrogate, [run.names.index(name) for name in linear])
     burn = steps // 4
     if surrogate.region is not None and len(surrogate.region) > 1:
         # A region of several ellipsoids (a posterior with several modes). One ensemble started
@@ -368,11 +425,14 @@ def main():
     parser.add_argument("--steps", type=int, default=20000, help="steps of each T = 1 chain")
     parser.add_argument("--walkers", type=int, default=256)
     parser.add_argument("--client", type=Path, default=Path(os.environ.get("CLIENT_REPO", Path(__file__).resolve().parents[2])))
+    parser.add_argument("--linear-prior", nargs="+", default=[], metavar="NAME",
+                        help="parameters p sampled with a prior flat in p (log10 of a quantity): sample with a prior flat in "
+                             "10^p instead, and write to analysis/linear_prior_<names>/")
     args = parser.parse_args()
 
     started = time.monotonic()
-    run = Run(args.run, args.client)
-    out = args.out or run.dir / "analysis"
+    run = Run(args.run, args.client, linear_prior=args.linear_prior)
+    out = args.out or analysis_folder(run.dir, run.linear_prior)
     out.mkdir(parents=True, exist_ok=True)
     iterations = sorted(run.models)
     if not iterations:  # a run still in its design: no network to report on yet
@@ -382,7 +442,7 @@ def main():
     boost_start = run.boost["start_iteration"] if run.boost else None
     run.refused_value = refused_value_of(run.dir, args.journal)
     report = dict(run=run.dir.name, parameters=run.names, temperature=run.temperature, best_true=run.best,
-                  networks=iterations, boost=run.boost, iterations=[])
+                  networks=iterations, boost=run.boost, linear_prior=list(run.linear_prior), iterations=[])
     print(f"{run.dir.name}: networks {iterations[0]} to {last}, {run.ndim} parameters, best true value {run.best:.2f}", flush=True)
 
     # ---- per iteration: sizes, held-out errors, audit, training, boost ---------------------
@@ -495,12 +555,21 @@ def main():
     print(f"written: {out}/report.md, report.json and figures ({report['seconds']:.0f} s)")
 
 
+def linear_prior_line(names):
+    """The report's statement of a prior changed with --linear-prior."""
+    flat = " and ".join(f"10^{name}" for name in names)
+    added = " + ".join(f"ln(10) {name}" for name in names)
+    return (f"The posteriors have a prior flat in {flat} instead of the run's (--linear-prior): {added} is added to "
+            "every network's log posterior where it is sampled. The held-out errors are those of the networks themselves.")
+
+
 def write_markdown(report, run, out, boost_start):
     n, T = run.ndim, run.temperature
     lines = [f"# {report['run']}: convergence and errors", "",
              f"{len(report['networks'])} networks ({report['networks'][0]} to {report['networks'][-1]}), {n} parameters, "
              f"acquisition temperature {T:g}, best true value found {report['best_true']:.2f}."
              + (f" Boosts from iteration {boost_start}." if boost_start is not None else ""), "",
+             *([linear_prior_line(report["linear_prior"]), ""] if report.get("linear_prior") else []),
              "All errors are network minus truth, in log-likelihood units.", "",
              "## Held-out errors: network N at the points it acquired", "",
              f"The tempered batch lies about T n / 2 = {0.5 * T * n:.0f} below the peak; boost points are posterior points (T = 1).", "",

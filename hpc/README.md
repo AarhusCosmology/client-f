@@ -70,6 +70,22 @@ error where its posterior is. The summary corrects each evidence by those true v
 when more than 5% of the evidence's own posterior lies where the true check has no sample, when the two do not
 record the same target, and when a chain's weights are marked as not reliable.
 
+A parameter sampled as the logarithm of a quantity (`log10Gamma`, any `log10...` input of CLASS++) has a prior flat
+in the logarithm. For the posterior with a prior flat in the quantity itself, name such parameters to both programs:
+
+```bash
+python analysis/report.py results/<timestamp>_RUN --networks 15 --linear-prior log10Gamma
+mpirun -n N python analysis/true_check.py results/<timestamp>_RUN --cobaya runs/RUN/cobaya.yaml \
+    --domain runs/RUN/domain_bounds.json --networks 15 --points 500 --linear-prior log10Gamma
+```
+
+A network learned the log posterior with the run's prior, so a prior flat in 10^p adds ln(10) p to it: nothing is
+trained again. The term is the same in the truth and the network, and the true check measures the network's error at
+the new posterior's samples as before. That posterior may lie where the run put few points (a prior flat in 10^p
+weighs the upper end of p's box most), so check it. Both write to `analysis/linear_prior_<p>[+<q>...]/`, and their
+chains record the prior in their target: the run's own chains, `true_check.json` and the evidence summary are left
+as they are.
+
 ## Branching a run
 
 ```bash

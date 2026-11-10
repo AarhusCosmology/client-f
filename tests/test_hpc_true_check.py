@@ -343,7 +343,8 @@ class MixtureConsumers(unittest.TestCase):
                 old_x = np.linspace(-3, 3, 200).reshape(-1, 1)
                 save_samples(cache, old_x, ['x'], target)
                 run = SimpleNamespace(dir=root, names=['x'], ndim=1, lower=np.array([-10.]), upper=np.array([10.]),
-                                      models={4: None}, boost=None, best=1., mixtures={}, target_identity=lambda it: target,
+                                      models={4: None}, boost=None, best=1., mixtures={}, linear_prior=(),
+                                      target_identity=lambda it: target,
                                       surrogate=lambda it, region: SimpleNamespace(region=[0, 1]),
                                       predict=lambda it, x, region: -.5*x[:, 0]**2)
                 truth = SimpleNamespace(param_names=['x'], prior_bounds={'x': (-10., 10.)}, refused_value=None,
@@ -401,6 +402,61 @@ class MixtureConsumers(unittest.TestCase):
                     self.assertIn('correction unavailable', true_check.report_line(entry, 1))
                     self.assertIsNone(correction['value'])
                     self.assertIn('unreliable region-cell', correction['unavailable'])
+
+
+
+class LinearPrior(unittest.TestCase):
+    """--linear-prior: the check of a posterior with a prior flat in 10^p (report.py --linear-prior). The added
+    ln(10) p is the same in the truth and the network, so their difference is the network's error as before; the
+    samples are those of the new posterior, and every file of it goes to analysis/linear_prior_<names>/."""
+
+    def test_its_chain_and_results_go_to_their_own_folder(self):
+        import report
+        from sampling.provenance import sampler_identity, target_identity
+        from contextlib import ExitStack
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / 'trained_models').mkdir()
+            (root / 'trained_models/model_it_4.keras').write_bytes(b'controlled network')
+            (root / 'metadata.json').write_text('{}')
+            target = dict(target_identity(root, 4, SimpleNamespace(param_names=['x'], bounds={'x': [-10., 10.]}), None),
+                          linear_prior=['x'])
+            run = SimpleNamespace(dir=root, names=['x'], ndim=1, lower=np.array([-10.]), upper=np.array([10.]),
+                                  models={4: None}, boost=None, best=1., mixtures={}, linear_prior=('x',),
+                                  target_identity=lambda it: target, surrogate=lambda it, region: SimpleNamespace(region=None),
+                                  predict=lambda it, x, region: -.5 * x[:, 0] ** 2)
+            truth = SimpleNamespace(param_names=['x'], prior_bounds={'x': (-10., 10.)}, refused_value=None,
+                                    evaluate_with_derived=lambda x: None, split_evaluations=lambda x: (x, None))
+
+            def evaluate(samples, evaluator):
+                return samples, -.5 * samples[:, 0] ** 2 + 0.1
+
+            with ExitStack() as stack:
+                stack.enter_context(mock.patch.object(true_check, 'MPI', SimpleNamespace(COMM_WORLD=SimpleNamespace(rank=0, size=1))))
+                stack.enter_context(mock.patch('loading.build_in_turn', return_value=truth))
+                stack.enter_context(mock.patch('refused.refuse_logged_errors'))
+                stack.enter_context(mock.patch('refused.read_record', return_value=None))
+                made = stack.enter_context(mock.patch.object(report, 'Run', return_value=run))
+                stack.enter_context(mock.patch('utils.mpi_utils.broadcast_and_evaluate', side_effect=evaluate))
+                stack.enter_context(mock.patch.object(report, 'sample_posterior',
+                                                      return_value=(np.linspace(0.5, 3.5, 200).reshape(10, 20, 1), .6)))
+                stack.enter_context(mock.patch.object(sys, 'argv', ['true_check.py', str(root), '--cobaya', 'unused',
+                                                                    '--networks', '4', '--points', '200', '--linear-prior', 'x']))
+                stack.enter_context(contextlib.redirect_stdout(io.StringIO()))
+                true_check.main.__wrapped__()
+            self.assertEqual(made.call_args.kwargs.get('linear_prior'), ['x'])
+            folder = root / 'analysis' / 'linear_prior_x'
+            self.assertEqual(sorted(p.name for p in (root / 'analysis').iterdir()), ['linear_prior_x'])
+            self.assertEqual(sorted(p.name for p in folder.iterdir()), ['posterior_it_4.npz', 'true_check.json', 'true_check_it_4.npz'])
+            with np.load(folder / 'true_check_it_4.npz') as saved:
+                np.testing.assert_allclose(saved['network'], -.5 * saved['x'][:, 0].astype(float) ** 2, rtol=1e-6)
+                np.testing.assert_allclose(saved['truth'] - saved['network'], 0.1, atol=1e-6)
+                self.assertEqual(json.loads(str(saved['target_json'].item()))['linear_prior'], ['x'])
+            found = json.loads((folder / 'true_check.json').read_text())
+            self.assertEqual(found['linear_prior'], ['x'])
+            self.assertAlmostEqual(found['networks'][0]['truth_minus_network']['mean'], 0.1, places=5)
+            self.assertAlmostEqual(found['networks'][0]['effective_points'], 200.0, places=3)
 
 
 if __name__ == "__main__":
