@@ -176,6 +176,37 @@ surfaces (`tests/test_surface_continuation.py`) and in a laptop run of the corne
 the workflow with a stand-in truth (network 18 plus a bump in the corner: 81 nodes, 4007 calls, 74
 converged and 7 stalled); not yet measured on a real likelihood.
 
+### Narrower ranges for parameters off the grid (`search_ranges`)
+
+Opt-in, 7 November 2026. The parameters that are not on the grid are searched over the network's
+whole box. Where one of them has several separated maxima at fixed grid coordinates, the scan can
+miss the highest: the hybrid scan's walkers all start at the best point of the box and step a few
+widths of the maximum there, and the older scan continues each node from its neighbours. In the
+PDP+ (A_osc, phi) study for omega <= 200, with omega free over [1, 200], the nodes at
+A_osc >= 0.04 ended at omega = 100.7 or at the prior's end omega = 1, up to 23 lower in chi^2
+than the (A_osc, omega) plane's nodes at omega = 179 and 196 (true values; the network has those
+maxima higher too). With
+
+```yaml
+search_ranges:
+  omega: [176.5, 185.5]     # a parameter not on the grid: [low, high] inside the network's box
+```
+
+the scan and the true stage search omega only in that range, and the scan starts from the
+training points inside it. A node is then the profile over that range, not over the box. Studies
+with the same grid and different ranges are joined node by node by taking the largest value: the
+result is the profile over the union of the ranges wherever each study found its range's
+maximum, and a lower bound on the profile over the box everywhere. Choose the ranges from the
+other planes' true optima, and check the joined surface against them.
+
+The ranges enter the manifest and the true stage's signature (the bounds), so a resumed study
+cannot change them. The setting needs `dimension: 2`,
+`retrain: false` and `ranges` for both grid parameters. A range outside the network's box is
+refused before anything is computed, and one that holds no training point before the scan (after
+the audit's few calls). Without the key the box, the
+starting points and the signature are as before. Tested on an analytic two-mode surface with both
+scans (`tests/test_profile_search_ranges.py`).
+
 Every true node is saved separately with its successor state; restart imports
 completed journal values and resumes unfinished nodes. The node checkpoints are tied to
 the surrogate grid's optima, so a resumed study with the hybrid scan reads the grid it finished
@@ -281,6 +312,8 @@ python -m unittest discover -s tests -p 'test_profiles_2d.py' -v
 
 `tests/test_surface_continuation.py` covers `continuation`: each node's start, both seed starts,
 serial = parallel, resume and the signature, and the settings.
+`tests/test_profile_search_ranges.py` covers `search_ranges`: the surface over a narrower range
+with both scans, the whole box without the key, resume and its refusals, and the settings.
 
 Tests include a correlated conditional optimum with two simultaneous constraints,
 a saved-network-to-augmented-surface integration, exact requested data size,

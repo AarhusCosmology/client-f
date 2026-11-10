@@ -29,6 +29,21 @@ def execute_surface(out, c, data, model, md, ledger, status, see=None, region=No
             return scan(model, md, data, names, grids, config)
         return scan_hybrid(model, md, data, names, grids, config, hybrid=hybrid_settings(c))
     bounds = np.array([md.bounds[n] for n in md.param_names])
+    search_ranges = getattr(c, "search_ranges", None)
+    if search_ranges:
+        # Opt-in (ProfileConfig.search_ranges): parameters off the grid are searched over
+        # narrower ranges, by the scan and by the true stage (both take these bounds), and
+        # the scan starts from the training points inside them. Without the key nothing here
+        # changes. (retrain is false with the key, so the training data are used for nothing
+        # else.)
+        for n, (low, high) in search_ranges.items():
+            bounds[md.param_names.index(n)] = [low, high]
+        inside = np.all((data[:, :-1] >= bounds[:, 0]) & (data[:, :-1] <= bounds[:, 1]), axis=1)
+        if not inside.any():
+            raise ValueError("no training point lies inside search_ranges: the scan has no start there")
+        print(f"search ranges {search_ranges}: {int(inside.sum())} of {len(data)} training points inside",
+              flush=True)
+        data = data[inside]
     indices = [md.param_names.index(n) for n in c.parameters]
 
     def finished_scan(path, scan_axes, pair, names):

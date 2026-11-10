@@ -105,6 +105,15 @@ class ProfileConfig:
     # optima are no start. Needs chain_length: null (one seed a row).
     # None: every node starts from the network's optimum (every study before the key).
     continuation: dict | None = None
+    # Opt-in (2D, retrain: false; 7 November 2026): narrower ranges for
+    # parameters that are not on the grid, {name: [low, high]} inside the network's box. The
+    # scan and the true stage search those parameters only there, and the scan starts from the
+    # training points inside. For a free parameter with many separated maxima (the axion
+    # run's omega at fixed (A_osc, phi)): the hybrid scan's walkers start at the best point of
+    # the box and step locally, so it can miss a maximum far from that point, which a study
+    # with a range around it finds. Each node is then the profile over that range only.
+    # None: the whole box (every study made before the key).
+    search_ranges: dict | None = None
 
     @classmethod
     def load(cls, path=None, **overrides):
@@ -250,6 +259,24 @@ class ProfileConfig:
                 or r[0] >= r[1]
             ):
                 raise ValueError(f"invalid range for {n}: use [low, high] or prior")
+        if self.search_ranges is not None:
+            if not isinstance(self.search_ranges, dict) or not self.search_ranges:
+                raise ValueError("search_ranges must be null or a mapping of parameter names to [low, high]")
+            for n, r in self.search_ranges.items():
+                if not isinstance(n, str) or not n or n in self.parameters:
+                    raise ValueError("search_ranges must name parameters that are not on the grid")
+                if (not isinstance(r, list) or len(r) != 2
+                        or any(isinstance(x, bool) or not isinstance(x, (float, int)) or not math.isfinite(x)
+                               for x in r)
+                        or r[0] >= r[1]):
+                    raise ValueError(f"invalid search range for {n}: use [low, high]")
+            if self.dimension != 2:
+                raise ValueError("search_ranges requires a 2D study")
+            if self.retrain:
+                raise ValueError("search_ranges requires retrain: false")
+            # The range scan that chooses omitted ranges searches the whole box.
+            if set(self.parameters) - set(self.ranges):
+                raise ValueError("search_ranges requires ranges for both grid parameters")
         if self.backend_module is not None and (
             not isinstance(self.backend_module, str) or not self.backend_module
         ):

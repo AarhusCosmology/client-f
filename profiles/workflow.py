@@ -38,6 +38,11 @@ def preflight(run, config):
             r[0] < bounds[names.index(n), 0] or r[1] > bounds[names.index(n), 1]
         ):
             raise ValueError(f"{n} range outside saved metadata domain")
+    for n, r in (config.search_ranges or {}).items():
+        if n not in names:
+            raise ValueError(f"unknown parameter in search_ranges: {n}")
+        if r[0] < bounds[names.index(n), 0] or r[1] > bounds[names.index(n), 1]:
+            raise ValueError(f"{n} search range outside saved metadata domain")
     if config.dimension == 2 and config.retrain and len(names) < 3:
         raise ValueError(
             "2D augmentation requires at least one nuisance coordinate; use retrain=false and added_points=0 for a two-parameter objective"

@@ -64,6 +64,9 @@ setting; [PERFORMANCE.md](PERFORMANCE.md) has the speed and memory work with its
 - **Modes.** `client.py modes` for any saved network.
 - **Another prior for a logarithm.** `--linear-prior NAME ...` in `hpc/analysis/report.py` and `true_check.py`: the posterior
   of a saved network with a prior flat in 10^p for parameters p sampled flat in p, and its true check ([hpc](hpc/README.md)).
+- **Narrower ranges off the grid of a 2D profile.** `search_ranges: {name: [low, high]}` searches parameters that are not on the
+  grid only there, in the scan and the true stage, for a parameter with several separated maxima at fixed grid values
+  ([2D](docs/create_profiles_2d.md)). A node is then the profile over that range.
 
 ## Running
 

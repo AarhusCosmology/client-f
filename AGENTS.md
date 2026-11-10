@@ -721,6 +721,12 @@ The launcher of true-profile studies; `hpc/README.md` has the use. Keep these:
   it there is no `continuation` in `method.json`.
   It needs `chain_length: null`: a node's start comes from its own chain, never from another
   row or from anything that depends on completion order.
+* `search_ranges` (2D, opt-in, 7 November 2026; docs/create_profiles_2d.md, "Narrower ranges for
+  parameters off the grid") narrows the box of parameters that are not on the grid for the scan and
+  the true stage, and the scan's starting points to the training rows inside. Without it the box,
+  the data and the signature are as before. A node is then the profile over that range: never
+  report it as the profile over the box. The largest value of several such studies is the profile
+  over the union of their ranges only where each study found its range's maximum.
 * A study's manifest is compared on resume by what the run's files hold (their hashes) and
   by their place inside the run, never by absolute paths: a run directory that was moved or
   synced elsewhere with the same files resumes. The stored manifest is not rewritten.

@@ -33,3 +33,5 @@ audit_tolerance: 0.01  # the saved labels of the audit_points best rows are reco
 backend_module: null  # set classy to fingerprint/guard a CLASS or CLASS++ build
 backend_sha256: null # optional required module-file hash
 run_config: null     # set if multiple run YAML files exist
+
+# search_ranges: {omega: [176.5, 185.5]}  # 2D, retrain: false: a parameter off the grid searched only there
