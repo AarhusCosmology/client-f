@@ -153,6 +153,18 @@ a rerun must give its outputs the same names. `--profiles` rereads the node file
 build uses its cache (`CLIENT_PAPER_CACHE`). `analysis/binning200.py` needs `COBAYA_PACKAGES_PATH` (the ACT and SPT data)
 and `analysis/bands200.py` the networks of the parts.
 
+Without the outputs of the jobs, the paper's data folder holds every file the build reads or checks for, listed with
+its hash in `DATA_MANIFEST.txt`: the jobs' `logs/` and `results/` under `kit/` (with the final networks of the parts and
+their call journals), the two smaller studies under `results/`, and the two outputs of the analysis scripts under
+`paper/plots/data/`. The run files are this folder's own. With `DATA` the data folder:
+
+```bash
+ln -s $DATA/kit/logs logs && ln -s $DATA/kit/results results
+mkdir -p paper/plots/data && cp $DATA/paper/plots/data/*.json paper/plots/data/
+export CLIENT_PAPER_KIT=$PWD CLIENT_PAPER_DATA=$DATA
+cd paper && python build200.py --profiles && cd plots && python make_all.py
+```
+
 ## What a rerun reproduces
 
 - **Not bit for bit, on any code.** AIES proposals under XLA do not reproduce from a seed, the Boltzmann code has a
@@ -167,6 +179,7 @@ and `analysis/bands200.py` the networks of the parts.
   calls in a node's diagnostics and in the handling of points that CLASS++ refuses.
 - **Data.** The likelihood data installed through Cobaya has no version pins.
 - **Tested on this branch:** the run and profile files load with CLiENT's schema and all shell scripts parse
-  (`tests/test_papers.py`). The build, run from this folder on the data of the paper, reproduces the paper's numbers and
-  tables byte for byte and its figures (see the data manifest). Nothing here has been run with CLASS++ or a real
-  likelihood from this branch, and the `submit_*.sh` and `queue_*.sh` scripts have not been submitted from it.
+  (`tests/test_papers.py`). The build, run from a clean copy of this folder on the data folder alone, reproduces the
+  paper's numbers, tables and figure data byte for byte, and its figures pixel for pixel. Nothing here has been run
+  with CLASS++ or a real likelihood from this branch, and the `submit_*.sh` and `queue_*.sh` scripts have not been
+  submitted from it.
