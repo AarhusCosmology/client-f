@@ -1,0 +1,35 @@
+# The fallback of profiles_aosc_phi_om30.yaml: the same study with CLiENT's older scan, used only if its hybrid scan ends at its 20
+# hops with nodes still improving. Its own output directory.
+#
+# The true 2D profile of PDP+ in (A_osc, phi) for omega <= 200 with omega searched in a narrow range, from the
+# combined emulator of the low part and the five zones at their final networks (results/<time>_axion_pp_combined200,
+# network 0), with the true likelihood (CLASS++ 0a57bbc6, runs/axion_pp_combined200/job.env). 7 November 2026,
+# make_profiles200_aosc_phi_windows.py in results/20261102_high_omega_ladder: profiles_aosc_phi.yaml (omega free
+# over [1, 200]) missed the maxima of other omega ranges at many nodes. This one: omega [27.5, 32.5], the maximum at omega 30.
+# Needs CLiENT's search_ranges. The surface is the largest of the studies' values at each node.
+#
+#   sbatch true_profiles/submit_profiles.sh results/<time>_axion_pp_combined200 runs/axion_pp_combined200/fallback/profiles_aosc_phi_om30_legacy.yaml results_profiles/axion_pp200_aosc_phi_om30_legacy --iteration 0
+#
+# 50 x 50 nodes: A_osc [0, 0.04] in steps of 0.0008, phi in steps of 0.13 rad (the grid of profiles_aosc_phi.yaml in phi).
+# region: run (the combined region, one cell per part, edge 1.5).
+#
+dimension: 2
+parameters: [A_osc, phi]
+profile_points: 50
+ranges:
+  A_osc: [0.0, 0.04]
+  phi: [-2.71919265359, 3.56399265359]
+workers: 46                 # backend processes on the node; may be changed when resuming
+retrain: false              # the saved network as it is
+added_points: 0
+surrogate_optimizer: legacy      # the hybrid_* settings below are then not used
+maxfun: 150
+total_call_budget: 375000   # of the whole study: 2500 nodes at their limit of 150 (maxfun), so it never binds
+audit_points: 3             # best saved training values recomputed before anything else
+audit_tolerance: 0.01
+region: run
+hybrid_walkers: 8
+hybrid_hops: 20             # hops of the network scan at most (CLiENT's default 12), as the other planes
+seed: 42
+search_ranges:              # omega searched only here (CLiENT's search_ranges)
+  omega: [27.5, 32.5]

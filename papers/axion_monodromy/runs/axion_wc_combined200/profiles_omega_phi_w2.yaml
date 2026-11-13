@@ -1,0 +1,28 @@
+# The true 2D profile of H0WC in (omega, phi) for omega <= 200, from the combined emulator of the low part and the seven
+# zones at their final networks (results/<time>_axion_wc_combined200, network 0). At every node the third
+# oscillation parameter and all others are optimised with the true likelihood (runs/axion_wc_combined200/job.env).
+# 7 November 2026, make_profiles200_wc.py in results/20261102_high_omega_ladder. Window 2 of 4 in omega, [50.75, 100.5].
+#
+#   sbatch true_profiles/submit_profiles.sh results/<time>_axion_wc_combined200 runs/axion_wc_combined200/profiles_omega_phi_w2.yaml results_profiles/axion_wc200_omega_phi_w2 --iteration 0
+#
+# 50 x 50 nodes: omega in steps of 1.015, phi in steps of 0.13 rad over the runs' window (its two ends are the same phase).
+# region: run (the combined region, one cell per part, edge 1.5). Settings as PDP+'s studies.
+#
+dimension: 2
+parameters: [omega, phi]
+profile_points: 50
+ranges:
+  omega: [50.75, 100.5]
+  phi: [-2.66339265359, 3.61979265359]
+workers: 46                 # backend processes on the node; may be changed when resuming
+retrain: false              # the saved network as it is
+added_points: 0
+surrogate_optimizer: hybrid
+maxfun: 150
+total_call_budget: 375000   # of the whole study: 2500 nodes at their limit of 150 (maxfun), so it never binds
+audit_points: 3             # best saved training values recomputed before anything else
+audit_tolerance: 0.01
+region: run
+hybrid_walkers: 8
+hybrid_hops: 20             # hops of the network scan at most (CLiENT's default 12), as the TT studies
+seed: 42

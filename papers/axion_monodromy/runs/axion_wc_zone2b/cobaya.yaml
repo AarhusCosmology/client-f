@@ -1,0 +1,302 @@
+# Probe input for omega up to 200 (2 November 2026; made by make_omega200.py of results/20261102_high_omega_ladder of the laptop work folder) from runs/axion_wc_combined:
+# the same data, model and parameters, with
+#   - the omega prior [1, 200] and the training box omega [5.5, 200] (domain_bounds.json);
+#   - CLASS++'s sampling of the high-omega ladder, converged to omega 200 (oscillation signal at A_osc 0.02 within a
+#     noise-weighted chi^2 of 0.006 of l_logstep 1.005, l_linstep 2, q 0.025/22, 2000 points per decade):
+#     l_logstep 1.013, l_linstep 8, q_linstep_trans 0.15, q_logstep_trans 90, accurate lensing, and a primordial table
+#     of 1000 points per decade (custom7, read by this folder's generate_Pk.py). The runs' settings are off by
+#     2.0 (a signal of 2.0, so wholly) at omega 200.
+# The high part of omega [5.5, 200] (4 November 2026; make_runs_high200.py of the same folder): the omega prior
+# [1, 200], the training box omega [5.5, 200] (domain_bounds.json), the phi window of the earlier parts
+# (-2.66339 to 3.61979, phi0 +0.4782). A low part made from this file, with only its training box
+# changed, is combined with it by client.py combine. The earlier low part (runs/axion_wc_low) has
+# the older CLASS++ sampling and the omega prior [1, 60], and client.py combine refuses it as it is.
+#
+# The FAST likelihood of the axion monodromy model on H0WC (30 October 2026): the true likelihood of the H0WC profiles'
+# true stage (Steen, 30 October: "use the faster ones"). Not a CLiENT run. The model, data, likelihoods, priors and
+# nuisances are those of the runs (runs/axion_wc_high/cobaya.yaml, whose header says what they are); three things differ:
+#   - CLASS++'s precision lines are those of pre/act_dr6.pre after CLASSpp #486 (merged 29 October; a preset-only change,
+#     so CLASS++ 0a57bbc6 of job.env is the code), except nonlinear_min_k_max, left at the default as in the runs. Gone
+#     against the runs: k_max_tau0_above_l_max, the eight transfer cuts, hyper_sampling_flat, the ur and ncdm lines and the
+#     visibility cut;
+#   - l sampling l_logstep 1.026, l_linstep 20 instead of 1.026 and 8;
+#   - ACT-lite through likelihoods/act_lite_trimmed.py (Thomas Tram's subclass in #486's design note), so that C_l are
+#     computed to l = 6327 instead of 9001; its chi^2 is unchanged to the last bit (smoke/act_lite_trim_check.py).
+# CLASS++ alone, one laptop thread (results/20261030_wc_classpp_speed): 7.2 s per call against the runs' 25.7 s, the
+# oscillation signal (A_osc 0.02) within 0.002, 0.04 and 0.007 at omega 30, 50 and 60 of the converged one (noise-weighted
+# chi^2 with ACT-like noise; signals 29, 14, 10), as close as the runs' settings; the LambdaCDM spectra move by 0.80 in
+# that norm (the preset lines). On Grendel about 20 s per evaluation with the node full, against 71 s.
+# smoke/submit_wc_fast_check.sh evaluates it at training points of both H0WC runs and compares with their values.
+likelihood:
+  planck_2018_lowl.TT: null
+  planck_2018_lowl.EE_sroll2: null
+  planck_NPIPE_highl_CamSpec.TTTEEE:
+    dataset_params:
+      use_cl: 143x143 217x217 143x217 TE EE
+      use_range:                 # l < 1000 in TT, l < 600 in TE and EE (217 and 143x217 start at 500)
+        143x143: 30-999
+        217x217: 500-999
+        143x217: 500-999
+        TE: 30-599
+        EE: 30-599
+  act_lite_trimmed.ACTDR6CMBonlyTrimmed:   # ACT-lite (ACT_LITE_COMMIT, env.sh) asking for C_l to 6327, not 9001
+    python_path: likelihoods               # hpc_client/likelihoods/act_lite_trimmed.py; jobs run in hpc_client/
+  candl.interface.CandlCobayaLikelihood:
+    data_set_file: spt_candl_data.SPT3G_D1_TnE_lite
+    clear_internal_priors: true  # its tau and Tcal priors; Tcal's is in params below, tau has none (SPT's SPA file)
+    feedback: false
+  act_dr6_lenslike.ACTDR6LensLike:
+    lens_only: false
+    lmax: 4000
+    variant: actplanck_baseline
+  muse3glike.cobaya.spt3g_2yr_delensed_ee_optimal_pp_muse:
+    components: ["ϕϕ"]           # lensing only, not the delensed EE
+  bao.desi_dr2.desi_bao_all: null
+  sn.pantheonplus: null           # uncalibrated: M_B marginalised analytically
+theory:
+  classy:
+    extra_args:
+      P_k_ini type: external_Pk
+      command: python3 runs/axion_wc_high200/generate_Pk.py
+      custom7: 1000              # points per decade of the primordial table (generate_Pk.py; 200 in the runs)
+      N_ur: 3.044
+      N_ncdm: 0
+      non_linear: halofit        # as the PDP+ runs and the SIDR + DRMD H0WC runs
+      # pre/act_dr6.pre of CLASSpp #486 (29 October 2026), every line but nonlinear_min_k_max = 10 (the runs' default kept):
+      radiation_streaming_trigger_tau_over_tau_k: 240
+      perturb_sampling_stepsize: 0.05
+      delta_l_max: 1800
+      accurate_lensing: 1        # needed for the oscillation: without it the signal is off by 5-6 at omega 50-60
+      q_logstep_limber: 1.025
+      l_logstep: 1.013           # high-omega ladder: the runs' 1.026 with l_linstep 20, off at omega >~ 100
+      l_linstep: 8               # the runs' 20 (the ACT preset's)
+      q_linstep_trans: 0.15      # high-omega ladder (2 November 2026): CLASS++'s 0.45, three times denser
+      q_logstep_trans: 90        # CLASS++'s 400
+    stop_at_error: false
+    renames:
+      As: A_s
+      ns: n_s
+      nrun: alpha_s
+      nrunrun: beta_s
+      nt: n_t
+      ntrun: alpha_t
+      rdrag: rs_drag
+      omegak: Omega_k
+      omegal: Omega_Lambda
+      w: w0_fld
+      wa: wa_fld
+      omegabh2: omega_b
+      omegab: Omega_b
+      omegach2: omega_cdm
+      omegac: Omega_cdm
+      omegam: Omega_m
+      omegan: Omega_nu
+      tau: tau_reio
+      zrei: z_reio
+      deltazrei: reionization_width
+      helium_redshift: helium_fullreio_redshift
+      helium_delta_redshift: helium_fullreio_width
+      yhe: YHe
+      yheused: YHe
+params:
+  omega_b:
+    prior:
+      min: 0.0210
+      max: 0.0238
+    ref: 0.02243
+    proposal: 0.0002
+    latex: \omega_b
+  omega_cdm:
+    prior:
+      min: 0.110
+      max: 0.129
+    ref: 0.1176
+    proposal: 0.001
+    latex: \omega_{\rm cdm}
+  theta_s_100:
+    prior:
+      min: 1.0390
+      max: 1.0448
+    ref: 1.041807
+    proposal: 0.0003
+    drop: true
+    latex: 100\theta_s
+  100*theta_s:
+    value: 'lambda theta_s_100: theta_s_100'
+    derived: false
+  logA:
+    prior:
+      min: 2.90
+      max: 3.20
+    ref: 3.0517
+    proposal: 0.014
+    drop: true
+    latex: \ln(10^{10} A_s)
+  n_s:
+    prior:
+      min: 0.92
+      max: 1.02
+    ref: 0.9724
+    proposal: 0.004
+    drop: true
+    latex: n_s
+  nrun:
+    prior:
+      min: -0.1
+      max: 0.1
+    ref: 0.0
+    proposal: 0.007
+    drop: true
+    latex: '{\rm d}n_s/{\rm d}\ln k'
+  tau_reio:
+    prior:
+      min: 0.01
+      max: 0.12
+    ref: 0.0621
+    proposal: 0.007
+    latex: \tau_{\rm reio}
+  A_osc:
+    prior:
+      min: 0.0
+      max: 0.5
+    ref: 0.01
+    proposal: 0.005
+    drop: true
+    latex: A_{\rm osc}
+  omega:
+    prior:
+      min: 1.0
+      max: 200.0
+    ref: 25.0
+    proposal: 1.0
+    drop: true
+    latex: \omega
+  phi:
+    prior:
+      min: -2.66339265359
+      max: 3.61979265359
+    ref: 0.4782
+    proposal: 0.3
+    drop: true
+    latex: \phi
+  custom1:
+    value: 'lambda logA: 1e-10*np.exp(logA)'
+    derived: false
+  custom2:
+    value: 'lambda n_s: n_s'
+    derived: false
+  custom3:
+    value: 'lambda nrun: nrun'
+    derived: false
+  custom4:
+    value: 'lambda A_osc: A_osc'
+    derived: false
+  custom5:
+    value: 'lambda omega: omega'
+    derived: false
+  custom6:
+    value: 'lambda phi: phi'
+    derived: false
+  A_planck:
+    prior:
+      dist: norm
+      loc: 1
+      scale: 0.0025
+    ref: 1.00015                # the H0WC reference point (header)
+    proposal: 0.0005
+    latex: y_{\rm cal}
+  amp_143:
+    prior:
+      min: 0
+      max: 50
+    ref: 8.2139
+    proposal: 1
+    latex: A^{\rm power}_{143}
+  amp_217:
+    prior:
+      min: 0
+      max: 50
+    ref: 22.887
+    proposal: 1
+    latex: A^{\rm power}_{217}
+  amp_143x217:
+    prior:
+      min: 0
+      max: 50
+    ref: 6.0276
+    proposal: 1
+    latex: A^{\rm power}_{143\times217}
+  n_143:
+    prior:
+      min: 0
+      max: 5
+    ref: 0.21538
+    proposal: 0.2
+    latex: \gamma^{\rm power}_{143}
+  n_217:
+    prior:
+      min: 0
+      max: 5
+    ref: 3.8640
+    proposal: 0.2
+    latex: \gamma^{\rm power}_{217}
+  n_143x217:
+    prior:
+      min: 0
+      max: 5
+    ref: 3.6363
+    proposal: 0.2
+    latex: \gamma^{\rm power}_{143\times217}
+  calTE:
+    prior:
+      dist: norm
+      loc: 1
+      scale: 0.01
+    ref: 0.99752
+    proposal: 0.01
+    latex: c_{TE}
+  calEE:
+    prior:
+      dist: norm
+      loc: 1
+      scale: 0.01
+    ref: 0.99968
+    proposal: 0.01
+    latex: c_{EE}
+  A_act:
+    value: 'lambda A_planck: A_planck'
+  P_act:
+    prior:
+      min: 0.9
+      max: 1.1
+    ref: 1.00307
+    proposal: 0.01
+    latex: p_{\rm ACT}
+  Tcal:
+    prior:
+      dist: norm
+      loc: 1.0
+      scale: 0.0036
+    ref: 0.99612
+    proposal: 0.005
+    latex: T_{\rm cal}
+  Ecal:
+    prior:
+      min: 0.8
+      max: 1.2
+    ref: 1.00626
+    proposal: 0.01
+    latex: E_{\rm cal}
+  H0:
+    latex: H_0
+  sigma8:
+    latex: \sigma_8
+  Omega_m:
+    latex: \Omega_\mathrm{m}
+  S8:
+    derived: 'lambda sigma8, Omega_m: sigma8*np.sqrt(Omega_m/0.3)'
+    latex: S_8
+  rs_drag:
+    latex: r_\mathrm{drag}
+  z_reio:
+    latex: z_\mathrm{reio}

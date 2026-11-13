@@ -1,0 +1,284 @@
+# Probe input for omega up to 200 (2 November 2026; made by make_omega200.py of results/20261102_high_omega_ladder of the laptop work folder) from runs/axion_pp_high:
+# the same data, model and parameters, with
+#   - the omega prior [1, 200] and the training box omega [2.5, 200] (domain_bounds.json);
+#   - CLASS++'s sampling of the high-omega ladder, converged to omega 200 (oscillation signal at A_osc 0.02 within a
+#     noise-weighted chi^2 of 0.010 of l_logstep 1.005, l_linstep 2, q 0.025/22, 2000 points per decade):
+#     l_logstep 1.013, l_linstep 8, q_linstep_trans 0.15, q_logstep_trans 90, accurate lensing, and a primordial table
+#     of 1000 points per decade (custom7, read by this folder's generate_Pk.py). The runs' settings are off by
+#     0.35 (a signal of 1.5, so by about half) at omega 200.
+# The high part of omega [2.5, 200] (4 November 2026; make_runs_high200.py of the same folder): the omega prior
+# [1, 200], the training box omega [2.5, 200] (domain_bounds.json), the phi window of the earlier parts
+# (-2.71919 to 3.56399, phi0 +0.4224). A low part made from this file, with only its training box
+# changed, is combined with it by client.py combine. The earlier low part (runs/axion_pp_low) has
+# the older CLASS++ sampling and the omega prior [1, 60], and client.py combine refuses it as it is.
+#
+# Axion monodromy (logarithmic oscillations in the primordial spectrum) with running of the spectral index, on PDP+
+# (28 October 2026; the second stage of the axion study, on the SIDR + DRMD paper's data without SH0ES):
+#   Planck Commander low-l TT + SimAll low-l EE + NPIPE CamSpec TTTEEE + Planck PR4 lensing
+#   + DESI DR2 BAO (all tracers) + Pantheon+ (uncalibrated),
+# the likelihoods, their options and the 9 CamSpec nuisance parameters of runs/sidr_drmd2_pp_low (A_planck shared
+# with PR4 lensing).
+#
+# The model (Steen, 28 October 2026):
+#   - LambdaCDM with massless neutrinos (N_ur 3.044, no massive species): the neutrino mass is not degenerate with
+#     the oscillation, and the study is after the difference the oscillation makes;
+#   - no tensors (r = 0);
+#   - the primordial spectrum of generate_Pk.py, which CLASS++ runs at every evaluation (external_Pk):
+#       P(k) = A_s x^(n_s - 1 + alpha_s ln(x) / 2) [1 + A_osc sin(omega ln x + phi)],  x = k / (0.05/Mpc),
+#     R. Lumbye's template with the running alpha_s = dn_s/dlnk (sampled as nrun): at low omega the oscillation is
+#     degenerate with tilt and running (about A_osc omega cos phi and -A_osc omega^2 sin phi at the pivot).
+#
+# Priors, each also the training box (domain_bounds.json), except A_osc and omega:
+#   - about 10 sigma of Planck LCDM + running in omega_b, omega_cdm, 100 theta_s, ln(10^10 A_s); n_s [0.92, 1.02],
+#     wider, for the shift of n_s at low omega; tau [0.01, 0.12]; nrun [-0.1, 0.1], wide enough for the running to
+#     cancel the oscillation's own (A_osc omega^2 ~ 0.1 at omega ~ 2);
+#   - A_osc U[0, 0.5] as R. Lumbye's (the training box stops at 0.1: the posterior has no mass above it);
+#   - omega U[1, 60]: R. Lumbye's U[1, 50] widened (Steen, 28 October) to hold the strongest peak of the probes, at
+#     omega ~ 51.4 (chi2 gain 10.2 over A_osc = 0 at the reference point, 8.5 at 50, 0.3 by 54; above 54 at most 4.3 up
+#     to omega 100: probe job 6973710 with a copy of this file's prior widened to 100), split between the two parts'
+#     boxes (below);
+#   - phi over [phi0 - pi, phi0 + pi], phi0 = +0.4224 from the probe (job 6973447, smoke/axion_probe.py);
+#   - 100 theta_s sampled, H0 derived.
+#
+# The parameter space is sliced in omega, as the SIDR + DRMD runs are in delta_Neff: runs/axion_pp_low has the training
+# box omega [1, 3.1], runs/axion_pp_high [2.5, 60], and their networks are blended over [2.6, 3.0] (client.py combine),
+# inside both boxes by a quarter of the band's width. In the first study (Planck 2018 TT) the region omega ~ 1-2,
+# A_osc 0.015-0.035, n_s high was missed by every run on the whole box and found by an omega in [1, 3] run on its own.
+# The two parts have byte-identical copies of this file, as client.py combine requires (the same objective, the
+# training box differing in omega only); both run runs/axion_pp_high/generate_Pk.py.
+# 19 sampled parameters: 10 cosmological and 9 CamSpec nuisances.
+#
+# CLASS++ master 0a57bbc6 (27 October 2026, job.env), unpatched, with its precision defaults (Bessel sampling 12, radiation
+# streaming 45, lensing headroom 1000): against bfe6729e of the SIDR + DRMD World Cup runs the LambdaCDM spectra move
+# towards converged (noise-weighted chi^2 0.93 at the reference point), the oscillation signal by < 0.002.
+# CLASS++'s l-sampling made denser (l_logstep 1.026, l_linstep 8; laptop ladder of 28 October 2026 with 0a57bbc6 and
+# bfe6729e, one thread, the reference point). With CLASS++'s defaults the oscillation's C_l signal at A_osc 0.02 is off by
+# a noise-weighted chi^2 of about 2 at omega 30, and of 3.5 (bfe6729e) to 5 (0a57bbc6) at omega 50, where the whole signal
+# is 14 and 7. With these settings it is off by less than 0.01 against l_logstep 1.01, l_linstep 3 and four times denser
+# transfer wavenumbers (l_logstep 1.05, l_linstep 16: 0.03 at omega 50). The probe repeats the check with the real
+# likelihoods (smoke/axion_probe.py, its sampling ladder).
+likelihood:
+  planck_2018_lowl.TT: null
+  planck_2018_lowl.EE: null
+  planck_NPIPE_highl_CamSpec.TTTEEE: null
+  planckpr4lensing.PlanckPR4Lensing: null      # pip package, install/06_external_likelihoods.sh
+  bao.desi_dr2.desi_bao_all: null
+  sn.pantheonplus: null
+theory:
+  classy:
+    extra_args:
+      P_k_ini type: external_Pk
+      command: python3 runs/axion_pp_high200/generate_Pk.py
+      custom7: 1000              # points per decade of the primordial table (generate_Pk.py; 200 in the runs)
+      N_ur: 3.044
+      N_ncdm: 0
+      non_linear: halofit        # for the lensing potential (PR4 lensing) and the lensed spectra
+      l_logstep: 1.013           # high-omega ladder: the runs' 1.026, CLASS++'s default 1.12
+      l_linstep: 8               # CLASS++'s default 50 (40 before 0a57bbc6)
+      q_linstep_trans: 0.15      # high-omega ladder (2 November 2026): CLASS++'s 0.45, three times denser
+      q_logstep_trans: 90        # CLASS++'s 400
+      accurate_lensing: 1        # as the H0WC runs: the fast mode is off by 0.01-0.02 at omega 160-200
+    stop_at_error: false
+    renames:
+      As: A_s
+      ns: n_s
+      nrun: alpha_s
+      nrunrun: beta_s
+      nt: n_t
+      ntrun: alpha_t
+      rdrag: rs_drag
+      omegak: Omega_k
+      omegal: Omega_Lambda
+      w: w0_fld
+      wa: wa_fld
+      omegabh2: omega_b
+      omegab: Omega_b
+      omegach2: omega_cdm
+      omegac: Omega_cdm
+      omegam: Omega_m
+      omegan: Omega_nu
+      tau: tau_reio
+      zrei: z_reio
+      deltazrei: reionization_width
+      helium_redshift: helium_fullreio_redshift
+      helium_delta_redshift: helium_fullreio_width
+      yhe: YHe
+      yheused: YHe
+params:
+  omega_b:
+    prior:
+      min: 0.0210
+      max: 0.0238
+    ref: 0.02230
+    proposal: 0.0002
+    latex: \omega_b
+  omega_cdm:
+    prior:
+      min: 0.110
+      max: 0.129
+    ref: 0.1178
+    proposal: 0.001
+    latex: \omega_{\rm cdm}
+  theta_s_100:
+    prior:
+      min: 1.0390
+      max: 1.0448
+    ref: 1.04199
+    proposal: 0.0003
+    drop: true
+    latex: 100\theta_s
+  100*theta_s:
+    value: 'lambda theta_s_100: theta_s_100'
+    derived: false
+  logA:
+    prior:
+      min: 2.90
+      max: 3.20
+    ref: 3.0413
+    proposal: 0.014
+    drop: true
+    latex: \ln(10^{10} A_s)
+  n_s:
+    prior:
+      min: 0.92
+      max: 1.02
+    ref: 0.9671
+    proposal: 0.004
+    drop: true
+    latex: n_s
+  nrun:
+    prior:
+      min: -0.1
+      max: 0.1
+    ref: 0.0
+    proposal: 0.007
+    drop: true
+    latex: '{\rm d}n_s/{\rm d}\ln k'
+  tau_reio:
+    prior:
+      min: 0.01
+      max: 0.12
+    ref: 0.0566
+    proposal: 0.007
+    latex: \tau_{\rm reio}
+  A_osc:
+    prior:
+      min: 0.0
+      max: 0.5
+    ref: 0.01
+    proposal: 0.005
+    drop: true
+    latex: A_{\rm osc}
+  omega:
+    prior:
+      min: 1.0
+      max: 200.0
+    ref: 25.0
+    proposal: 1.0
+    drop: true
+    latex: \omega
+  phi:
+    prior:
+      min: -2.71919265359
+      max: 3.56399265359
+    ref: 0.4224
+    proposal: 0.3
+    drop: true
+    latex: \phi
+  custom1:
+    value: 'lambda logA: 1e-10*np.exp(logA)'
+    derived: false
+  custom2:
+    value: 'lambda n_s: n_s'
+    derived: false
+  custom3:
+    value: 'lambda nrun: nrun'
+    derived: false
+  custom4:
+    value: 'lambda A_osc: A_osc'
+    derived: false
+  custom5:
+    value: 'lambda omega: omega'
+    derived: false
+  custom6:
+    value: 'lambda phi: phi'
+    derived: false
+  A_planck:
+    prior:
+      dist: norm
+      loc: 1
+      scale: 0.0025
+    ref: 1.00071                # the PDP+ LCDM best fit (SIDR + DRMD runs): the probe's reference point
+    proposal: 0.0005
+    latex: y_{\rm cal}
+  amp_143:
+    prior:
+      min: 0
+      max: 50
+    ref: 17.7402                # the PDP+ LCDM best fit (SIDR + DRMD runs): the probe's reference point
+    proposal: 1
+    latex: A^{\rm power}_{143}
+  amp_217:
+    prior:
+      min: 0
+      max: 50
+    ref: 11.7708                # the PDP+ LCDM best fit (SIDR + DRMD runs): the probe's reference point
+    proposal: 1
+    latex: A^{\rm power}_{217}
+  amp_143x217:
+    prior:
+      min: 0
+      max: 50
+    ref: 8.59677                # the PDP+ LCDM best fit (SIDR + DRMD runs): the probe's reference point
+    proposal: 1
+    latex: A^{\rm power}_{143\times217}
+  n_143:
+    prior:
+      min: 0
+      max: 5
+    ref: 1.04067                # the PDP+ LCDM best fit (SIDR + DRMD runs): the probe's reference point
+    proposal: 0.2
+    latex: \gamma^{\rm power}_{143}
+  n_217:
+    prior:
+      min: 0
+      max: 5
+    ref: 1.48357                # the PDP+ LCDM best fit (SIDR + DRMD runs): the probe's reference point
+    proposal: 0.2
+    latex: \gamma^{\rm power}_{217}
+  n_143x217:
+    prior:
+      min: 0
+      max: 5
+    ref: 1.6731                # the PDP+ LCDM best fit (SIDR + DRMD runs): the probe's reference point
+    proposal: 0.2
+    latex: \gamma^{\rm power}_{143\times217}
+  calTE:
+    prior:
+      dist: norm
+      loc: 1
+      scale: 0.01
+    ref: 0.998037                # the PDP+ LCDM best fit (SIDR + DRMD runs): the probe's reference point
+    proposal: 0.01
+    latex: c_{TE}
+  calEE:
+    prior:
+      dist: norm
+      loc: 1
+      scale: 0.01
+    ref: 0.999625                # the PDP+ LCDM best fit (SIDR + DRMD runs): the probe's reference point
+    proposal: 0.01
+    latex: c_{EE}
+  H0:
+    latex: H_0
+  sigma8:
+    latex: \sigma_8
+  Omega_m:
+    latex: \Omega_\mathrm{m}
+  S8:
+    derived: 'lambda sigma8, Omega_m: sigma8*np.sqrt(Omega_m/0.3)'
+    latex: S_8
+  rs_drag:
+    latex: r_\mathrm{drag}
+  z_reio:
+    latex: z_\mathrm{reio}

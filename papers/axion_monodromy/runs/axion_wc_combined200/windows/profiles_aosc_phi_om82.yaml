@@ -1,0 +1,30 @@
+# The true 2D profile of H0WC in (A_osc, phi) for omega <= 200, from the combined emulator of the low part and the seven
+# zones at their final networks (results/<time>_axion_wc_combined200, network 0). At every node the third
+# oscillation parameter and all others are optimised with the true likelihood (runs/axion_wc_combined200/job.env).
+# 7 November 2026, make_profiles200_wc.py in results/20261102_high_omega_ladder. omega searched only in [79.5, 83.5], the maximum of the scan at omega 81.5 (CLiENT's search_ranges); the surface is the largest of the (A_osc, phi) studies' values at each node.
+#
+#   sbatch true_profiles/submit_profiles.sh results/<time>_axion_wc_combined200 runs/axion_wc_combined200/windows/profiles_aosc_phi_om82.yaml results_profiles/axion_wc200_aosc_phi_om82 --iteration 0
+#
+# 50 x 50 nodes: A_osc [0, 0.09] in steps of 0.0018, phi in steps of 0.13 rad (the phi grid of profiles_aosc_phi.yaml).
+# region: run (the combined region, one cell per part, edge 1.5). Settings as PDP+'s studies.
+#
+dimension: 2
+parameters: [A_osc, phi]
+profile_points: 50
+ranges:
+  A_osc: [0.0, 0.09]
+  phi: [-2.66339265359, 3.61979265359]
+workers: 46                 # backend processes on the node; may be changed when resuming
+retrain: false              # the saved network as it is
+added_points: 0
+surrogate_optimizer: hybrid
+maxfun: 150
+total_call_budget: 375000   # of the whole study: 2500 nodes at their limit of 150 (maxfun), so it never binds
+audit_points: 3             # best saved training values recomputed before anything else
+audit_tolerance: 0.01
+region: run
+hybrid_walkers: 8
+hybrid_hops: 20             # hops of the network scan at most (CLiENT's default 12), as the other planes
+seed: 42
+search_ranges:              # omega searched only here (CLiENT's search_ranges)
+  omega: [79.5, 83.5]

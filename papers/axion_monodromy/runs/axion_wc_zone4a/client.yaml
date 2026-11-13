@@ -1,0 +1,102 @@
+# runs/axion_wc_high200/client.yaml (its settings unchanged) for zone 4a of the H0WC high part: omega [152.5, 176.25]
+# (5 November 2026, make_runs_wc_zones.py in results/20261102_high_omega_ladder): this folder's inputs;
+# training.members 12 with member_pilot 100 act on the networks trained on boost points only.
+# sbatch --nodes=2 --ntasks=96 --time=5-00:00:00 submit_client.sh axion_wc_zone4a   (or --nodes=4 --ntasks=192)
+# Axion monodromy with running on H0WC (29 October 2026): the H0 World Cup papers' data without SH0ES (CamSpec PR4 cut to
+# TT < 1000, TE/EE < 600; Commander low-l TT, SRoll2 low-l EE; ACT-lite; SPT-3G D1 T&E lite; ACT DR6 + PR4 and SPT-3G MUSE
+# lensing; DESI DR2; Pantheon+), the model and priors of the PDP+ runs (runs/axion_pp_high): LambdaCDM with massless
+# neutrinos and r = 0, the primordial spectrum A_s x^(n_s - 1 + alpha_s ln(x)/2) [1 + A_osc sin(omega ln x + phi)];
+# 22 sampled parameters (runs/axion_wc_high200/cobaya.yaml, identical in all 7 parts, prior omega U[1, 200]).
+# Zone 4a of a domain split in omega: training box omega [152.5, 176.25] (domain_bounds.json), prior
+# omega U[1, 200]; cobaya.yaml is a byte-identical copy of runs/axion_wc_high200's. The probe's largest peaks in it:
+# 157.75 (6.2), 168 (4.9), 172 (4.9), 165.25 (4.5), 170.5 (4.4).
+# With the low part and the other zones it is combined by
+#   python client.py combine OUTPUT --parameter omega --part results/<time>_axion_wc_low200 \
+#       --part results/<time>_axion_wc_zone1 \
+#       --part results/<time>_axion_wc_zone2a \
+#       --part results/<time>_axion_wc_zone2b \
+#       --part results/<time>_axion_wc_zone3 \
+#       --part results/<time>_axion_wc_zone4a \
+#       --part results/<time>_axion_wc_zone4b \
+#       --band 6.0:6.1 --band 60.5:62.0 --band 87.25:88.75 --band 110.5:112.0 --band 153.5:155.0 --band 173.75:175.25
+#
+#   sbatch --nodes=2 --ntasks=96 --time=5-00:00:00 submit_client.sh axion_wc_zone4a
+#
+# Settings: those of the PDP+ runs, the axion TT run's pilot 10k branch (docs/boost.md's set for likelihoods known to
+# be non-Gaussian). No -i:
+#   the ordinary loop   3000 LHS points + 100 injected, then 3000 points at T = 7 + 100 injected per iteration, with
+#                       the optimum audit (chain search, threshold 5, posterior pilot), until the scatter of
+#                       network minus truth at the tempered batch has been below 1.2 x T = 8.4 for two networks
+#   the boosts          begin with that network (S), at the latest with network 30; ten boosts of 10 000 posterior
+#                       points with the density filter, the quadratic background, the region (edge 1.5, quantile
+#                       reach), the training domain (edge 1.25), modes by measured mixing and mode_depth auto.
+#
+# Paths are relative to hpc_client/. The training box is this folder's domain_bounds.json.
+likelihood:
+  wrapper: cobaya
+  input: runs/axion_wc_zone4a/cobaya.yaml
+  identity_files:            # the primordial spectrum is computed by this script, which CLASS++
+  - runs/axion_wc_high200/generate_Pk.py   # runs at every evaluation: part of the objective
+prior:
+  n_samples: 3000
+  sampling_strategy: lhs
+  n_sigma: null
+  n_inject: 100
+acquisition:
+  n_append: 3000
+  pool_factor: 20
+  n_neighbors: 20
+  target_temperature: 7.0
+  n_inject: 100             # fitted to the points near the best (inject_window 16, CLiENT's default)
+  audit: {chain: true, tau: 5, posterior: 150}   # chain search, threshold 5, posterior pilot
+  boost:                    # docs/boost.md, "Two recommended settings": known non-Gaussian
+    n: 10000                # posterior points (T = 1) per boost, accepted by the density filter
+    start_iteration: 30     # at the latest: the boosts begin when the ordinary loop has converged
+    boosts: 10              # the run ends after ten boosts
+    density_filter: true    # docs/posterior_density_boost.md
+    pool_factor: 20
+    background: quadratic   # docs/boost_background_region.md: fitted once, at the first training
+    region: 1.5
+    region_quantile: 0.999  # the region's reach by a quantile of the boost points' distances
+    train_domain: 1.25      # trained only near the posterior from the first boost on
+    mixing: 0.1             # the modes decided by measured mixing
+    min_share: 0.005
+    balance_floor: 0.1      # as both H0WC parts of the final combine (two modes, 90.6/9.4% in the low part)
+    mode_depth: auto        # T * ndim / 2 = 77 at 22 parameters
+model:
+  n_layers: 5
+  n_neurons: 512
+  activation: alsing
+training:
+  members: 12              # in the boost phase, several trainings per network (CLiENT docs/members.md): rank 0 warm,
+  member_pilot: 100        # eleven from random weights, kept by 1200 true evaluations at their own posterior points
+  n_epochs: 5000
+  batch_size: 128
+  loss: msre
+  sigma_level: 3
+  msre_ess_floor: 0.1
+  learning_rate: 0.0001
+  validation_split: 0.1
+  patience: 250
+  lr_schedule: plateau
+  lr_factor: 0.3
+  lr_patience: 75
+  lr_min: 1.0e-06
+  lr_grace: 100
+  warm_start: true
+sampling:
+  sampler: aies
+  temperature: 7.0
+  n_walkers: 432
+  n_steps: 60000
+  burn_in: 5000
+  thin: 5
+  chunk_size: 1000
+convergence:
+  metric: tempered_batch_scatter   # docs/tempered_convergence.md
+  threshold: 1.2                   # in units of sampling.temperature
+  consecutive: 2
+  max_iterations: 41               # networks 0 to 40 at most: 30 of the ordinary loop and ten boosts
+seed: 42
+derived:
+  inputs: auto
