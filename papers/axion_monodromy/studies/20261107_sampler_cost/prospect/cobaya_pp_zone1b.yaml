@@ -1,0 +1,100 @@
+params:
+  omega_b:
+    prior:
+      min: 0.021
+      max: 0.0238
+  omega_cdm:
+    prior:
+      min: 0.11
+      max: 0.129
+  theta_s_100:
+    prior:
+      min: 1.039
+      max: 1.0448
+  logA:
+    prior:
+      min: 2.9
+      max: 3.2
+  n_s:
+    prior:
+      min: 0.92
+      max: 1.02
+  nrun:
+    prior:
+      min: -0.1
+      max: 0.1
+  tau_reio:
+    prior:
+      min: 0.01
+      max: 0.12
+  A_osc:
+    prior:
+      min: 0.0
+      max: 0.1
+  omega:
+    prior:
+      min: 38.25
+      max: 60.5
+  phi:
+    prior:
+      min: -2.71919265359
+      max: 3.56399265359
+  A_planck:
+    prior:
+      min: 0.985
+      max: 1.015
+  amp_143:
+    prior:
+      min: 0.0
+      max: 50.0
+  amp_217:
+    prior:
+      min: 0.0
+      max: 50.0
+  amp_143x217:
+    prior:
+      min: 0.0
+      max: 50.0
+  n_143:
+    prior:
+      min: 0.0
+      max: 5.0
+  n_217:
+    prior:
+      min: 0.0
+      max: 5.0
+  n_143x217:
+    prior:
+      min: 0.0
+      max: 5.0
+  calTE:
+    prior:
+      min: 0.94
+      max: 1.06
+  calEE:
+    prior:
+      min: 0.94
+      max: 1.06
+likelihood:
+  emulator:
+    external: import_module('emulator_cobaya').loglike
+    input_params:
+    - omega_b
+    - omega_cdm
+    - theta_s_100
+    - logA
+    - n_s
+    - nrun
+    - tau_reio
+    - A_osc
+    - omega
+    - phi
+    - A_planck
+    - amp_143
+    - amp_217
+    - amp_143x217
+    - n_143
+    - n_217
+    - n_143x217
+    - calTE
+    - calEE

@@ -1,0 +1,34 @@
+# The true 2D profile of the PDP+ axion runs in (omega, phi), from the combined emulator of the two parts' final networks
+# (results/20261029_074412_axion_pp_combined, network 0: axion_pp_low and axion_pp_high at network 16, blended over
+# omega [2.6, 3.0]). At every node A_osc and the other parameters are optimised with the true likelihood (CLASS++
+# 0a57bbc6, runs/axion_pp_combined/job.env). 29 October 2026. The three studies
+# (profiles_aosc_omega.yaml, profiles_aosc_phi.yaml, profiles_omega_phi.yaml) cover the three pairs of the oscillation's
+# parameters from one network with one set of settings, those of the TT study's (runs/e2e_axion_tt15/profiles_*.yaml).
+#
+#   sbatch true_profiles/submit_profiles.sh results/20261029_074412_axion_pp_combined runs/axion_pp_combined/profiles_omega_phi.yaml results_profiles/axion_pp_omega_phi --iteration 0
+#
+# 50 x 50 nodes: omega over the prior [1, 60] in steps of 1.2, phi in steps of 0.13 rad over the runs' window (its
+# two ends are the same phase).
+# region: run (the combined region, one cell per part, edge 1.5); A_osc is free, and its optima lie well inside
+# (the best fit's amplitude is 0.023).
+#
+# Cost: the TT studies made 135 000 to 270 000 true calls; at 7.4 s per evaluation on 46 workers that is 6 to 12 hours
+# on one q48 node here (at most 17 hours if every node used its 150 calls).
+dimension: 2
+parameters: [omega, phi]
+profile_points: 50
+ranges:
+  omega: [1.0, 60.0]
+  phi: [-2.71919265359, 3.56399265359]
+workers: 46                 # backend processes on the node; may be changed when resuming
+retrain: false              # the saved network as it is
+added_points: 0
+surrogate_optimizer: hybrid
+maxfun: 150
+total_call_budget: 375000   # of the whole study: 2500 nodes at their limit of 150 (maxfun), so it never binds
+audit_points: 3             # best saved training values recomputed before anything else
+audit_tolerance: 0.01
+region: run
+hybrid_walkers: 8
+hybrid_hops: 20             # hops of the network scan at most (CLiENT's default 12), as the TT studies
+seed: 42

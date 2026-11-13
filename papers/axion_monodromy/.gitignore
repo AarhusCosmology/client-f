@@ -2,13 +2,11 @@
 results/
 results_profiles/
 logs/
-# CLIENT_PAPER_DATA's default (paper/build.py)
+# CLIENT_PAPER_DATA's default (paper/build200.py)
 data/
-# the build outputs (paper/build.py, build_wc.py)
+# the build outputs (paper/build200.py, paper/plots/make_all.py, paper/analysis/*.py) and the build's cache
 paper/tables/
 paper/plots/data/
 paper/Figures/
-paper/numbers.tex
-paper/numbers_wc.tex
-paper/build_summary.json
-paper/build_wc_summary.json
+paper/numbers200.tex
+paper/.cache/

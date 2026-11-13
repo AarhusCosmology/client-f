@@ -1,0 +1,36 @@
+# PROSPECT on the PDP+ combined emulator (emulator_cobaya.py) in the zone omega in [38.25, 60.5], with the settings of
+# PROSPECT's example input files (input/example_cobaya/example_cobaya.yaml, input/explanatory.yaml): 1000 steps in each
+# of 20 iterations, 2 repetitions per point, started from an MCMC (our zone Metropolis-Hastings run, chains/zone1b).
+# Run from results/20261107_sampler_cost:  PYTHONPATH=pylib:. mpirun -n 5 pylib/bin/prospect prospect/pp_zone1b_example.yaml
+io:
+  jobname: 'pp_zone1b_example'
+  write: True
+  dir: 'prospect/output_pp_zone1b_example'
+  overwrite_dir: False
+  snapshot_interval: 60.0
+run:
+  jobtype: 'profile'
+  mode: 'mpi'
+kernel:
+  type: 'cobaya'
+  param: 'prospect/cobaya_pp_zone1b.yaml'
+profile:
+  parameter: 'A_osc'
+  values: 'np.array([0.01, 0.02, 0.03, 0.04])'
+  optimiser: 'simulated annealing'
+  temperature_schedule: 'exponential'
+  temperature_range: [0.1, 0.001]
+  max_iterations: 20
+  step_size_schedule: 'adaptive'
+  step_size_adaptive_interval: [0.19, 0.21]
+  step_size_adaptive_multiplier: 0.3
+  step_size_adaptive_initial: 0.1
+  steps_per_iteration: 1000
+  repetitions: 2
+  start_from_mcmc: 'chains/zone1b/mcmc'
+  start_bin_fraction: 0.1
+  plot_profile: True
+  detailed_plot: False
+  plot_Delta_chi2: False
+  plot_schedule: True
+  confidence_levels: [0.68, 0.95]

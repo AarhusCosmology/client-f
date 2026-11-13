@@ -1,0 +1,38 @@
+# The true 2D profile of the PDP+ axion runs in (A_osc, omega), from the combined emulator of the two parts' final networks
+# (results/20261029_074412_axion_pp_combined, network 0: axion_pp_low and axion_pp_high at network 16, blended over
+# omega [2.6, 3.0]). At every node phi and the other parameters are optimised with the true likelihood (CLASS++
+# 0a57bbc6, runs/axion_pp_combined/job.env). 29 October 2026. The three studies
+# (profiles_aosc_omega.yaml, profiles_aosc_phi.yaml, profiles_omega_phi.yaml) cover the three pairs of the oscillation's
+# parameters from one network with one set of settings, those of the TT study's (runs/e2e_axion_tt15/profiles_*.yaml).
+#
+#   sbatch true_profiles/submit_profiles.sh results/20261029_074412_axion_pp_combined runs/axion_pp_combined/profiles_aosc_omega.yaml results_profiles/axion_pp_aosc_omega --iteration 0
+#
+# 50 x 50 nodes, CLiENT's largest 2D grid: A_osc over [0, 0.05] in steps of 0.001, omega over the prior [1, 60] in
+# steps of 1.2 (the peak at omega ~ 51 is about 3 wide in chi^2).
+# A_osc is not profiled over its whole prior [0, 0.5]: the network is searched inside its region (region: run; the
+# combined region, one cell per part, edge 1.5), and a 2D study stops when a node's optimum lies outside it. Checked on
+# the laptop: with the other parameters at the nearer cell's centre, every (A_osc, omega, phi) with A_osc up to 0.05
+# lies at most 1.02 of its reach from it (0.06: 1.17; 0.08: 1.48, the edge). The posterior's 97.5% point is 0.034, the
+# best fit's amplitude 0.023; only the low-omega ridge (omega ~ 1, A_osc 0.06-0.08, about 9 in chi^2 below the best fit)
+# lies above 0.05.
+#
+# Cost: the TT studies made 135 000 to 270 000 true calls; at 7.4 s per evaluation on 46 workers that is 6 to 12 hours
+# on one q48 node here (at most 17 hours if every node used its 150 calls).
+dimension: 2
+parameters: [A_osc, omega]
+profile_points: 50
+ranges:
+  A_osc: [0.0, 0.05]
+  omega: [1.0, 60.0]
+workers: 46                 # backend processes on the node; may be changed when resuming
+retrain: false              # the saved network as it is
+added_points: 0
+surrogate_optimizer: hybrid
+maxfun: 150
+total_call_budget: 375000   # of the whole study: 2500 nodes at their limit of 150 (maxfun), so it never binds
+audit_points: 3             # best saved training values recomputed before anything else
+audit_tolerance: 0.01
+region: run
+hybrid_walkers: 8
+hybrid_hops: 20             # hops of the network scan at most (CLiENT's default 12), as the TT studies
+seed: 42
