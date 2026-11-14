@@ -1724,7 +1724,7 @@ for name, windows in (("PP", PROF_WINDOWS), ("WC", WC_WINDOWS)):
 # Wall times of the standard methods, which no run measured: Metropolis-Hastings with MH_CHAINS chains (more chains do
 # not shorten the burn-in of each), each evaluation on EVAL_CORES cores at a speed-up of EVAL_SPEEDUP (CLASS++ does not
 # parallelise well beyond a few cores); nested sampling parallel over the live points, one evaluation per core on
-# NS_CORES cores; PROSPECT one annealing chain per point and repetition, its evaluations as for Metropolis-Hastings.
+# NS_CORES cores; PROSPECT one annealing chain per node and repetition, its evaluations as for Metropolis-Hastings.
 SAMPLER = DATA_ROOT / "results/20261107_sampler_cost/sampler_cost.json"
 MH_CHAINS, EVAL_CORES, EVAL_SPEEDUP, NS_CORES = 8, 4, 3, 96
 COST = {"pp": probe_cost(7010679), "wc": probe_cost(7010680)}        # core seconds per evaluation (Appendix app:classpp)
@@ -1844,7 +1844,7 @@ if SAMPLER.exists() and all(progress[p]["done"] for p in PARTS["pp"] + PARTS["wc
             num(f"SC{name}prWrong", ["", "one", "two", "three", "four", "five", "six"][len(wrong)])
             gaps = sorted({round(p["gap_at_20"], 1) for v in wrong.values() for p in v})
             num(f"SC{name}prWrongGaps", f"{gaps[0]:.1f} and {gaps[-1]:.1f}" if len(gaps) > 1 else f"{gaps[0]:.1f}")
-            rows[d].append(("Profile likelihood, one point", "Simulated annealing (PROSPECT) after Metropolis--Hastings",
+            rows[d].append(("Profile likelihood, one node", "Simulated annealing (PROSPECT) after Metropolis--Hastings",
                             f"${big(lo['calls_per_point'])}$--${sci(hi['calls_per_point'])}$", f"{human(seq(lo))}--{human(seq(hi))}"))
         # CLiENT
         early = {"pp": EARLY, "wc": EARLY_WC}[d]
@@ -1974,7 +1974,7 @@ if SAMPLER.exists() and all(progress[p]["done"] for p in PARTS["pp"] + PARTS["wc
          f"${sci(ch(calls_one), 2, True)}$", human(ns_wall(n_one, calls_one))),
         (f"Evidence, $\\sigma(\\ln Z) = {ns['cases']['2048']['sigma_lnZ']:.2f}$", "Nested sampling, 2048 live points",
          f"${sci(calls_high, 2, True)}$", f"${sci(ch(calls_high), 2, True)}$", human(ns_wall(2048, calls_high))),
-        ("Profile likelihood, one point", "Simulated annealing (PROSPECT) after Metropolis--Hastings",
+        ("Profile likelihood, one node", "Simulated annealing (PROSPECT) after Metropolis--Hastings",
          f"${big(lo['calls_per_point'])}$--${sci(hi['calls_per_point'])}$", f"{ch(lo['calls_per_point']):.0f}--{ch(hi['calls_per_point']):.0f}",
          f"{human(seq_wc(lo))}--{human(seq_wc(hi))}"),
         ("Posterior and evidence", f"\\client{{}}, {['', 'one', 'two', 'three', 'four', 'five', 'six'][EARLY_WC]} boosts",
