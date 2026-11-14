@@ -122,9 +122,9 @@ The study names of the paper are `axion_<pp|wc>200_` followed by the name of the
 reaches the time limit of its job continues when it is submitted again with the same arguments, `--iteration 0`
 included. `analysis/resubmit_wc_profiles200.sh` is the record of the resubmissions of H0WC.
 
-The profiles of H0WC were closed by hand on 13 November 2026, from the snapshot of 15:07, with 34 697 of the 35 000
-nodes refined with the true likelihood. The other 303, all at A_osc >= 0.084 and more than 5.5 below the best fit in
-chi^2, keep the value of the emulator, as the caption of Fig. 6 says (`WC_CLOSED` in `paper/build200.py`).
+The studies of H0WC finished all their 35 000 nodes on 14 November 2026. The build tells from the job logs whether the
+jobs of a study have stopped (`WC_CLOSED` in `paper/build200.py`); a study closed while nodes are still missing would
+show the emulator's value at those nodes and say so in the caption of its figure.
 
 ### 4. Further evaluations of the true likelihood
 

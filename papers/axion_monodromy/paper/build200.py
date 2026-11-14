@@ -1084,9 +1084,8 @@ def jobs_stopped(studies):
 WC_CLOSED, WC_RUNNING = jobs_stopped(sorted({w[0] for ws in WC_WINDOWS.values() for w in ws}))
 if os.environ.get("BUILD200_CLOSE_WC") == "1":
     WC_CLOSED = True
-# Steen, 13 November 2026: "we can call the profiles done now". Closed from the snapshot of 13 November 15:07 (34 697 of
-# 35 000 nodes; the 303 others all at A_osc >= 0.084 and more than 5.5 below the best fit), whether or not jobs still run.
-WC_CLOSED = True
+# On 13 November 2026 the profiles were closed by hand, from the snapshot of 15:07 (34 697 of 35 000 nodes). The jobs then
+# finished all 35 000 nodes (synced 14 November): the studies are final without closing, and the closing note is empty.
 print(f"H0WC profiles closed: {WC_CLOSED}" + ("" if WC_CLOSED else f" (jobs running: {', '.join(WC_RUNNING)})"))
 if WC_COMBS and all(any(in_snapshot(w[0]) or (w[1] and in_snapshot(w[1])) for w in ws) for ws in WC_WINDOWS.values()):
     WC_NAMES = [p["name"] for p in json.loads((WC_COMBS[-1] / "metadata.json").read_text())["parameters"]]
