@@ -186,37 +186,44 @@ if prompt_yes_no "Add 'conda activate ${ENV_NAME}' to your .bashrc?" "n"; then
 fi
 
 # ========================================
-# 2. CLASS Setup
+# 2. CLASS++ Setup
 # ========================================
-print_section "Step 2: CLASS (~1 GB)"
+# CLASS++ (AarhusCosmology/CLASSpp_public), the Boltzmann code of CLiENT's real runs. Never public
+# CLASS (lesgourg/class_public): it installs a Python module of the same name, classy.
+print_section "Step 2: CLASS++ (~1 GB)"
 
 CLASS_PATH=""
 CLASS_INSTALLED=false
 
-if prompt_yes_no "Do you want to use CLASS?" "y"; then
+if prompt_yes_no "Do you want to use CLASS++?" "y"; then
     DETECTED_CLASS_PATH=$(python -c "import classy, os; print(os.path.dirname(os.path.dirname(classy.__file__)))" 2>/dev/null || echo "")
-    [ -n "$DETECTED_CLASS_PATH" ] && print_info "Detected CLASS at: ${DETECTED_CLASS_PATH}"
-    
-    prompt_with_default "Enter absolute path to CLASS installation" "${RESOURCES_DIR}/class_public" CLASS_PATH
-    
-    if [ -d "$CLASS_PATH" ] && [ -f "$CLASS_PATH/class" ]; then
-        print_success "Using existing CLASS installation at: ${CLASS_PATH}"
+    [ -n "$DETECTED_CLASS_PATH" ] && print_info "A classy module is installed already, from: ${DETECTED_CLASS_PATH}"
+
+    prompt_with_default "Enter absolute path to the CLASS++ source directory" "${RESOURCES_DIR}/CLASSpp_public" CLASS_PATH
+
+    # make classy: pip install . (CMake through scikit-build-core) and the python/build/lib.*
+    # layout MontePython expects (CLASS++'s own Makefile). The source directory must stay.
+    if [ -d "$CLASS_PATH" ] && [ -f "$CLASS_PATH/CMakeLists.txt" ] && [ -f "$CLASS_PATH/scripts/montepython_layout.py" ]; then
+        print_success "Using existing CLASS++ source at: ${CLASS_PATH}"
         CLASS_INSTALLED=true
-        if ! python_package_exists classy && prompt_yes_no "Install CLASS Python wrapper?" "y"; then
-            print_info "Installing CLASS Python wrapper..."
-            (cd "$CLASS_PATH/python" && python setup.py build && python setup.py install)
-            print_success "CLASS Python wrapper installed!"
+        if ! python_package_exists classy && prompt_yes_no "Install the CLASS++ Python wrapper (classy)?" "y"; then
+            print_info "Installing the CLASS++ Python wrapper..."
+            (cd "$CLASS_PATH" && make classy)
+            print_success "CLASS++ Python wrapper installed!"
         fi
+    elif [ -e "$CLASS_PATH" ]; then
+        print_error "${CLASS_PATH} exists but is not a CLASS++ source directory (public CLASS?). Choose another path."
+        exit 1
     else
-        print_info "CLASS not found. Cloning and building..."
+        print_info "CLASS++ not found. Cloning and building..."
         mkdir -p "$(dirname "$CLASS_PATH")"
-        git clone https://github.com/lesgourg/class_public.git "$CLASS_PATH"
-        (cd "$CLASS_PATH" && make clean && make && cd python && python setup.py build && python setup.py install)
-        print_success "CLASS installed successfully!"
+        git clone https://github.com/AarhusCosmology/CLASSpp_public.git "$CLASS_PATH"
+        (cd "$CLASS_PATH" && make classy)
+        print_success "CLASS++ installed successfully!"
         CLASS_INSTALLED=true
     fi
 else
-    print_info "Skipping CLASS setup."
+    print_info "Skipping CLASS++ setup."
 fi
 
 # ========================================
@@ -368,7 +375,7 @@ elif prompt_yes_no "Do you want to install Cobaya?" "y"; then
     pip install cobaya && print_success "Cobaya installed!" && COBAYA_INSTALLED=true
 fi
 
-[ "$COBAYA_INSTALLED" = true ] && print_info "Install likelihoods with: cobaya-install <likelihood_name>"
+[ "$COBAYA_INSTALLED" = true ] && print_info "Install likelihoods by name: cobaya-install <likelihood_name>. Not with your input file: that also installs public CLASS or CAMB under packages_path/code, which Cobaya then uses instead of CLASS++"
 
 # ========================================
 # 6. MPI Support (mpi4py)
@@ -439,7 +446,7 @@ echo "Summary of installed components:"
 echo ""
 
 echo -e "  ${GREEN}✓${NC} Conda Environment: ${ENV_NAME}"
-[ -n "$CLASS_PATH" ] && echo -e "  ${GREEN}✓${NC} CLASS: ${CLASS_PATH}" || echo -e "  ${YELLOW}○${NC} CLASS: Not configured"
+[ -n "$CLASS_PATH" ] && echo -e "  ${GREEN}✓${NC} CLASS++: ${CLASS_PATH}" || echo -e "  ${YELLOW}○${NC} CLASS++: Not configured"
 [ -n "$MONTEPYTHON_PATH" ] && echo -e "  ${GREEN}✓${NC} MontePython: ${MONTEPYTHON_PATH}" || echo -e "  ${YELLOW}○${NC} MontePython: Not configured"
 [ -n "$CLIK_PATH" ] && echo -e "  ${GREEN}✓${NC} Planck Likelihood: ${CLIK_PATH}" || echo -e "  ${YELLOW}○${NC} Planck Likelihood: Not configured"
 [ "$COBAYA_INSTALLED" = true ] && echo -e "  ${GREEN}✓${NC} Cobaya: Installed" || echo -e "  ${YELLOW}○${NC} Cobaya: Not installed"

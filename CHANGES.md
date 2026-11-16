@@ -72,7 +72,11 @@ setting; [PERFORMANCE.md](PERFORMANCE.md) has the speed and memory work with its
 
 - **Safe continuation.** Phase records with hashes, a run lock, the objective identity, `--rewind`, call journals
   ([guide](docs/run_recovery.md)).
-- **Real likelihoods on a cluster.** [`hpc/`](hpc/README.md).
+- **Real likelihoods on a cluster.** [`hpc/`](hpc/README.md): the launcher with an explicit training box, refused points and a call
+  journal; the CLASS++ build a run asks for (`CLASSPP_GUARD_DIR`, `CLASSPP_BUILD_DIR`), and the CLiENT and CLASS++ commits recorded
+  in `logs/backend_<job>.json`; `CLIENT_HPC_DIR` for a site that keeps its runs and logs in a folder of its own; true checks and
+  corrected evidences; branches of a run at its boost start (`--at`) or inside the boosts (`--train-from`); true profiles, with
+  `make_config.py --hybrid-hops` and `--gtol` for the network scan.
 - **Strict settings.** Unknown keys and out-of-range values are refused.
 
 ## Deliberately not here

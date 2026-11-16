@@ -59,7 +59,7 @@ For expensive acquisition, MPI can distribute independent objective evaluations:
 mpirun -n 6 python client.py RUN_DIR -i 1
 ```
 
-Choose a rank count for the host and the backend's memory use; prevent nested numerical-library threads from oversubscribing its cores. **Do not put the profile command under `mpirun`**: it manages its own workers. See [inference workflows](inference.md).
+`mpirun` needs MPI and `mpi4py`, which `environment.yaml` does not install; on a laptop `conda install -c conda-forge openmpi mpi4py` gives both, and on a cluster build `mpi4py` against the cluster's own MPI ([real likelihoods on a cluster](cluster.md)). Choose a rank count for the host and the backend's memory use; prevent nested numerical-library threads from oversubscribing its cores. **Do not put the profile command under `mpirun`**: it manages its own workers. See [inference workflows](inference.md).
 
 ## Next steps
 

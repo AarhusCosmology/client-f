@@ -72,6 +72,8 @@ The selected network is paired with the latest `boost/region_it_M.npz` whose M i
 
 For 1D scans, an optimum beyond 98% of the region edge is marked outside. The workflow retains the consecutive inside segment around the best node, shortens the parameter range and redistributes the same number of nodes. It records `region_cuts` and `ranges.json`, allows at most four scans, and fails if fewer than two adjacent inside nodes remain or the retry limit is exhausted. This precedes the true slice refinements; setup and objective-audit calls can already have occurred.
 
+A 2D study can search the parameters off its grid over narrower ranges (`search_ranges`), for a parameter with several separated maxima at fixed grid values; each node is then the profile over that range only ([2D guide](_generated/library/docs/create_profiles_2d.md#narrower-ranges-for-parameters-off-the-grid-search_ranges)).
+
 **2D searches use the same confinement, and a rectangle is not trimmed:** a surface with nodes whose optimum lies at the region's edge or beyond stops after its scan, before any true call of a node, and names them; give ranges inside the region. These results concern the explored region; they do not establish a global profile over undiscovered modes.
 
 The resolved region file, hash and edge enter the manifest. Resume checks the resolved choice, not merely whether the YAML says `run`. For the bare network on a boosted run, select `region: null`; a run with no region file is always searched over the whole box.

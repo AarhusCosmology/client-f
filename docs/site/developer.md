@@ -10,7 +10,8 @@
 | Configuration | `config/config.py`, `profiles/config.py` | YAML parsing, defaults and validation |
 | Native objective | `likelihood/base.py`, backend adapters | Parameter order, native priors, derived outputs |
 | Acquisition | `dataset/`, `sampling/` | Designs, density selection, boosts and modes |
-| Model and training | `model/`, `training/` | Network/scalers, optimisation, audits |
+| Model and training | `model/`, `training/` | Network/scalers, optimisation, audits; several trainings per network (`training/members.py`) |
+| Devices | `utils/devices.py` | A GPU for rank 0 and each member rank, with memory growth; the other ranks hide the GPUs |
 | Profiles | `profiles/` | Surrogate scans and counted true refinement |
 | Diagnostics and handover | `utils/held_out.py`, `run/metrics.py`, `convergence/convergence.py` | Pre-training batch errors, persisted metrics and ordinary-loop verdict |
 | Profile region | `profiles/region.py` | Resolve/hash boost geometry, confine search and trim 1D grids |

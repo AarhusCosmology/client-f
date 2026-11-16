@@ -71,7 +71,7 @@ other backend installations must support ordinary spawned Python processes.
 
 ### Many workers
 
-With `corrected`/`newton`, a node starts from the state its predecessor in the chain
+In the true stage (residual Newton), a node starts from the state its predecessor in the chain
 left: gradient, curvature correction and error estimate. That saves calls, but a chain's
 nodes run one after another, and each node is about ten dependent rounds of calls. With
 one seed per profile, at the node nearest the best fit, and two chains outward from it

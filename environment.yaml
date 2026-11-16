@@ -1,18 +1,17 @@
 # The versions CLiENT was developed and validated with.
 #
 # The analytic targets (input/cobaya/banana_function.py and the inline Gaussians) need no
-# Boltzmann solver: CLASS, clik and MontePython are required only for the real-data
-# likelihoods.
+# Boltzmann solver: CLASS++ (or CAMB 2), and for MontePython clik, are required only for the
+# real-data likelihoods (README.md). Everything comes from conda-forge.
 channels:
   - conda-forge
-  - defaults
 
 dependencies:
   # core
   - python=3.10.18
   - numpy=2.0.2
   - pandas=2.3.3
-  - scipy=1.15.3
+  - scipy=1.15.2  # 1.15.3 is not on conda-forge; the real runs on Grendel used 1.15.2
   - scikit-learn=1.7.1
   - pyyaml=6.0.2
   - cython=3.1.4

@@ -1,7 +1,7 @@
 # CLiENT
 
 
-**CLiENT** (Cosmological Likelihood Emulator using Neural networks with TensorFlow) is a framework for emulating cosmological likelihood functions, bypassing the need for Einstein-Boltzmann solver codes like [CLASS](https://github.com/lesgourg/class_public) and [CAMB](https://github.com/cmbant/CAMB) for evaluation of the likelihood. CLiENT compares to observable emulators like [CONNECT](https://github.com/AarhusCosmology/connect_public), but has the advantage of producing a surrogate likelihood which is completely auto-differentiable.
+**CLiENT** (Cosmological Likelihood Emulator using Neural networks with TensorFlow) is a framework for emulating cosmological likelihood functions, bypassing the need for Einstein-Boltzmann solver codes like [CLASS++](https://github.com/AarhusCosmology/CLASSpp_public) and [CAMB](https://github.com/cmbant/CAMB) for evaluation of the likelihood. CLiENT compares to observable emulators like [CONNECT](https://github.com/AarhusCosmology/connect_public), but has the advantage of producing a surrogate likelihood which is completely auto-differentiable.
 
 **[Documentation](docs/README.md)** · [What this version adds](CHANGES.md) · [Moving from the first CLiENT](UPGRADING.md) · [Performance](PERFORMANCE.md)
 
@@ -12,7 +12,7 @@ To start, take `input/recommended_near_gaussian.yaml` for a likelihood close to 
 - [Getting Started](#getting-started)
   - [Installation](#installation)
   - [Prerequisites](#prerequisites)
-    - [CLASS Setup](#class-setup)
+    - [CLASS++ Setup](#class-setup)
     - [Planck Likelihood Setup (for MontePython)](#planck-likelihood-setup-for-montepython)
     - [MontePython Setup](#montepython-setup)
     - [Cobaya Setup](#cobaya-setup)
@@ -59,7 +59,7 @@ Then, from within the repository, run the interactive setup script:
 ./setup.sh
 ```
 
-The setup script will guide you through creating a conda environment (~6 GB) and installing all dependencies including CLASS (~1 GB), MontePython (~1 GB) or Cobaya (~5 MB), and the Planck likelihood (~200 MB). The complete installation requires approximately ~8 GB of disk space.
+The setup script will guide you through creating a conda environment (~6 GB) and installing all dependencies including CLASS++ (~1 GB), MontePython (~1 GB) or Cobaya (~5 MB), and the Planck likelihood (~200 MB). The complete installation requires approximately ~8 GB of disk space.
 
 ### Prerequisites
 
@@ -76,29 +76,26 @@ conda activate clienv
 ```
 or add this command to your `.bashrc` file to activate it automatically.
 
-CLiENT evaluates likelihoods through [Cobaya](https://github.com/CobayaSampler/cobaya) or [MontePython](https://github.com/brinckmann/montepython_public). `environment.yaml` installs Cobaya, and the analytic targets (`input/example_cobaya.yaml`, `input/gaussian.yaml`, `input/banana.yaml`) need nothing more. Real-data likelihoods also need a Boltzmann code such as [CLASS](https://github.com/lesgourg/class_public). If using MontePython, you will also need the C-based `clik` code for Planck likelihoods (see setup below). Cobaya can use either the newer Python-native Planck likelihoods or the original `clik`-based Planck 2018 likelihoods, both installed via `cobaya-install`. For performance, the neural network training and MCMC sampling can use GPU resources via TensorFlow when available. The environment file pins the plain `tensorflow==2.19.0` wheel; for a GPU install use the `tensorflow[and-cuda]` build of the same version in its place.
+CLiENT evaluates likelihoods through [Cobaya](https://github.com/CobayaSampler/cobaya) or [MontePython](https://github.com/brinckmann/montepython_public). `environment.yaml` installs Cobaya, and the analytic targets (`input/example_cobaya.yaml`, `input/gaussian.yaml`, `input/banana.yaml`) need nothing more. Real-data likelihoods also need a Boltzmann code: [CLASS++](https://github.com/AarhusCosmology/CLASSpp_public), which every real run of CLiENT has used, or [CAMB](https://github.com/cmbant/CAMB) 2 for a likelihood written for CAMB. If using MontePython, you will also need the C-based `clik` code for Planck likelihoods (see setup below). Cobaya can use either the newer Python-native Planck likelihoods or the original `clik`-based Planck 2018 likelihoods, both installed via `cobaya-install`. For performance, the neural network training and MCMC sampling can use GPU resources via TensorFlow when available. The environment file pins the plain `tensorflow==2.19.0` wheel; for a GPU install use the `tensorflow[and-cuda]` build of the same version in its place.
 
-#### CLASS Setup
+#### CLASS++ Setup
 
-Install the CLASS Boltzmann code in your chosen directory:
-
-```bash
-git clone https://github.com/lesgourg/class_public.git
-```
-
-Build CLASS from the `class_public` directory:
+Install CLASS++ and its Python wrapper `classy` into the active environment, in your chosen directory:
 
 ```bash
-make clean
-make
+git clone https://github.com/AarhusCosmology/CLASSpp_public.git
+cd CLASSpp_public
+make classy
 ```
 
-Install the Python wrapper from the `class_public/python` directory:
+`make classy` runs `pip install .` (CMake through scikit-build-core, which pip fetches) and also lays the build out as MontePython
+expects; with Cobaya, `pip install .` alone is enough. Keep the source directory: the library refers to it. To repeat a run
+exactly, check out the CLASS++ commit it used first (a run made with `hpc/launch.py` records it in `logs/backend_<job>.json`
+when its job names the commit).
+The [CLASS++ README](https://github.com/AarhusCosmology/CLASSpp_public) has the other ways to install it.
 
-```bash
-python setup.py build
-python setup.py install
-```
+Do not install public CLASS (`classy` 3.x) or CAMB 1 next to it: public CLASS installs a module of the same name, `classy`,
+and the runs and their checks are for CLASS++ and CAMB 2.
 
 #### Planck Likelihood Setup (for MontePython)
 
@@ -142,7 +139,7 @@ cp /path/to/montepython_public/default.conf.template /path/to/client/config/defa
 Edit `config/default.conf` to point to your actual installation paths:
 
 ```python
-path['cosmo']    = '/absolute/path/to/class_public'
+path['cosmo']    = '/absolute/path/to/CLASSpp_public'
 path['clik']     = '/absolute/path/to/plc-3.01/'
 ```
 
@@ -163,19 +160,16 @@ path: /absolute/path/to/montepython_public/montepython
 pip install cobaya==3.6.2
 ```
 
-To install likelihoods, you can either install individual likelihoods directly by name:
+Install the likelihoods by name, for example:
 
 ```bash
 cobaya-install planck_2018_highl_plik.TTTEEE
 ```
 
-or install all likelihoods referenced in your Cobaya input file:
-
-```bash
-cobaya-install your_cobaya_input.yaml
-```
-
-Use `--packages-path` to specify where likelihood codes and data will be installed, and add `--skip-global` to skip reinstalling packages already available globally (like CLASS). For more details, see the [Cobaya installation documentation](https://cobaya.readthedocs.io/en/latest/installation_cosmo.html).
+Do **not** give `cobaya-install` your input file (`cobaya-install your_cobaya_input.yaml`): it then also installs the theory
+code the file names, public CLASS or CAMB, under `packages_path/code`, and Cobaya takes that copy in place of the CLASS++ in your
+environment. If a `packages_path/code/classy`, `code/CAMB` or `code/camb` folder exists, remove it. Use `--packages-path` to
+specify where likelihood codes and data will be installed (or set `COBAYA_PACKAGES_PATH`). For more details, see the [Cobaya installation documentation](https://cobaya.readthedocs.io/en/latest/installation_cosmo.html).
 
 ## Usage
 
@@ -205,7 +199,9 @@ For parallel likelihood evaluation with MPI (requires OpenMPI and mpi4py, which 
 mpirun -n <N_processes> python client.py <input_yaml|run_directory>
 ```
 
-MPI parallelises initial sampling and resampling likelihood evaluations. Training and MCMC remain serial (with surrogate sampling performed on the master process).
+MPI parallelises initial sampling and resampling likelihood evaluations. Training and MCMC run on the master process, except
+that with `training.members` the networks of the boost phase are trained several times at once on ranks that would otherwise
+wait ([docs/members.md](docs/members.md)).
 
 ### Command Line Options
 

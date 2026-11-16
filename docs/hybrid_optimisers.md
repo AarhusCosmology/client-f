@@ -106,8 +106,8 @@ Goal: the most precise profile *of the surrogate*.
 
 ## True stage: `corrected`
 
-Goal: the fewest true-likelihood calls for a given accuracy. `corrected_method` has one
-value, `newton`.
+Goal: the fewest true-likelihood calls for a given accuracy. Its one method is `newton`, residual
+Newton; there is no setting to choose it. Its stages in the call journal are named `corrected/...`.
 
 ### Method `newton`
 
