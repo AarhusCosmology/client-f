@@ -478,7 +478,8 @@ settings = [
 split = next(k for k, row in enumerate(settings) if row[0] == "model")       # the points (a), the networks and tools (b)
 for name, rows in (("client_settings", settings[:split]), ("client_settings_b", settings[split:])):
     with open(TABLES / f"{name}.tex", "w") as f:
-        f.write("\\begin{tabular}{llp{5.6cm}l}\n\\cmidrule[\\heavyrulewidth](lr){2-4}\n"
+        # Gaps of 5 pt instead of 6: with 6 the table of the points was 5 pt wider than the text (18 November 2026)
+        f.write("\\setlength{\\tabcolsep}{5pt}\n\\begin{tabular}{llp{5.6cm}l}\n\\cmidrule[\\heavyrulewidth](lr){2-4}\n"
                 " & Setting & Meaning & Value \\\\\n\\cmidrule(lr){2-4}\n")
         for k, (group, key, meaning, value) in enumerate(rows):
             if group and k:
