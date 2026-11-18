@@ -1330,6 +1330,14 @@ for tag, comb in COMB.items():
         if len(parts) >= 2:
             v = [json.loads(p.read_text())["lnZ"] for p in parts]
             num(f"{tag}lcdmbands", f"{max(v) - min(v):.1f}")
+            # Appendix app:evidence (Luca Janken's comment, 18 November 2026): the parts' spread against the scatter of
+            # single runs between seeds (the four featureless runs). For PDP+ it is smaller (nested sampling alone), for
+            # H0WC larger, by an error of the emulators in quadrature; the text says so and stops being true otherwise.
+            sd_parts, sd_seed = float(np.std(v, ddof=1)), float(lnz0.std(ddof=1))
+            assert len(lnz0) == 4 and (sd_parts < sd_seed) == (tag == "PP"), (tag, sd_parts, sd_seed)
+            num(f"{tag}lcdmpartsd", f"{sd_parts:.2f}")
+            num(f"{tag}lcdmseedsd", f"{sd_seed:.2f}")
+            num(f"{tag}lcdmextra", f"{math.sqrt(max(sd_parts ** 2 - sd_seed ** 2, 0.0)):.2f}")
         else:
             num(f"{tag}lcdmbands", "\\prelim{?}")
     else:
@@ -1919,9 +1927,11 @@ if SAMPLER.exists() and all(progress[p]["done"] for p in PARTS["pp"] + PARTS["wc
     # n_proc processes, and PolyChord's parallel speed-up n_live ln(1 + n_proc / n_live) (Handley et al. 2015, eq. 20: nearly
     # linear up to n_proc ~ n_live, diminishing returns beyond). n_live sets the core hours and sigma(ln Z) = sqrt(H / n_live).
     # Two rows: sigma(ln Z) ~ 1 (n_live = H; too few live points for the maxima in omega, which the text says) and the 2048
-    # live points of the evidence runs. Core hours: evaluations times the core seconds of an evaluation, for all rows
-    # (CLiENT's runs held SCWCclientAlloc in all, training included). CLiENT: also after EARLY_WC boosts, when the posterior
-    # and the evidence had stopped changing (the posterior after EARLY_WC boosts above).
+    # live points of the evidence runs. Core hours: evaluations times the core seconds of an evaluation, except for the
+    # posterior and evidence of CLiENT: the core hours its runs held, training included (SCWCclientEarlyAlloc and
+    # SCWCclientAlloc, as the caption and the text say; until 18 November 2026 the table gave their evaluations times the
+    # core seconds, 1.3e4 against the text's 1.6e4, Luca Janken's comment). CLiENT: also after EARLY_WC boosts, when the
+    # posterior and the evidence had stopped changing (the posterior after EARLY_WC boosts above).
     s, cost = sc["wc"], COST["wc"]
     ns = s["nested"]
     per_live = ns["best"]["dead_per_live"] * ns["calls_per_point"]
@@ -1953,6 +1963,8 @@ if SAMPLER.exists() and all(progress[p]["done"] for p in PARTS["pp"] + PARTS["wc
     num("SCWCnsHighWall", human(ns_wall(2048, calls_high)))
     early_calls_wc = sum(journal_attempts(p, progress[p]["start"] + EARLY_WC) for p in PARTS["wc"])
     early_wall_wc = max(part_wall(p, progress[p]["start"] + EARLY_WC) for p in PARTS["wc"])
+    early_held_wc = sum(part_wall(p, progress[p]["start"] + EARLY_WC) for p in PARTS["wc"]) * wc_cores / 3600
+    final_held_wc = sum(part_wall(p) for p in PARTS["wc"]) * wc_cores / 3600
     r = int(round(calls_one / early_calls_wc))                                     # sigma ~ 1 against CLiENT after EARLY_WC
     num("SCWCnsOneRatio", {1: "the same number", 2: "twice", 3: "three times", 4: "four times"}.get(r, f"{r} times"))
     num("SCWCnsHighRatio", f"{round(calls_high / early_calls_wc, -1):.0f}")          # sigma = 0.13 against the same
@@ -1979,8 +1991,8 @@ if SAMPLER.exists() and all(progress[p]["done"] for p in PARTS["pp"] + PARTS["wc
          f"${big(lo['calls_per_point'])}$--${sci(hi['calls_per_point'])}$", f"{ch(lo['calls_per_point']):.0f}--{ch(hi['calls_per_point']):.0f}",
          f"{human(seq_wc(lo))}--{human(seq_wc(hi))}"),
         ("Posterior and evidence", f"\\client{{}}, {['', 'one', 'two', 'three', 'four', 'five', 'six'][EARLY_WC]} boosts",
-         f"${sci(early_calls_wc)}$", f"${sci(ch(early_calls_wc))}$", human(early_wall_wc)),
-        ("Posterior and evidence", "\\client{}, ten boosts (as run)", f"${sci(final_calls)}$", f"${sci(ch(final_calls))}$", human(final_wall)),
+         f"${sci(early_calls_wc)}$", f"${sci(early_held_wc)}$", human(early_wall_wc)),
+        ("Posterior and evidence", "\\client{}, ten boosts (as run)", f"${sci(final_calls)}$", f"${sci(final_held_wc)}$", human(final_wall)),
         ("Profile likelihood, one node", "\\client{}, refinement (mean)", mark(f"{node_mean:.0f}"), mark(f"{ch(node_mean):.1f}"), ""),
         ("2D profile likelihood, 2500 nodes", "\\client{}, refinement", mark(f"${sci(2500 * node_mean)}$"),
          mark(f"${sci(ch(2500 * node_mean))}$"), ""),

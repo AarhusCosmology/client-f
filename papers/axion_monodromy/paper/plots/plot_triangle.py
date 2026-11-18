@@ -1,4 +1,4 @@
-"""The posterior of the key parameters (68%, 95% and 99% contours) with the best fit of the true profiles as a diamond.
+"""The posterior of the key parameters (68%, 95% and 99.7% contours) with the best fit of the true profiles as a diamond.
 
     python plot_triangle.py
 
@@ -11,8 +11,9 @@ file still holds those of the omega <= 60 study, and its figure has no diamond u
 The posterior of omega over [1, 200] is many narrow peaks (the main one about 2 wide) with a standard deviation of about
 55, which no kernel width of GetDist's resolves: its automatic width fails and falls back to a wide one, and the 2D
 setting of 0.2 standard deviations is 11 in omega. The panels with omega are therefore drawn here from histograms in
-bins of 0.5 in omega (40 bins of the other parameter), smoothed by 1.5 bins (SMOOTH), with the same 68%, 95% and 99% levels (the
+bins of 0.5 in omega (40 bins of the other parameter), smoothed by 1.5 bins (SMOOTH), with the same 68%, 95% and 99.7% levels (the
 regions of highest density holding that share of the samples) and GetDist's colours; the other panels are GetDist's.
+The outer level is 99.7% (until 18 November 2026 GetDist's 99%, Luca Janken's comment), as the 11.83 of the profiles.
 """
 import numpy as np
 
@@ -22,7 +23,7 @@ PARAMS = ["n_s", "nrun", "A_osc", "omega", "phi"]
 LABEL_SIZE, TICK_SIZE, LEGEND_SIZE = 9, 6.5, 8.5
 OMEGA_BIN = 0.5
 OTHER_BINS = 40
-SHARES = (0.99, 0.95, 0.68)  # GetDist's contours (its default 0.68, 0.95, 0.99), outermost first
+SHARES = (0.997, 0.95, 0.68)  # the contours, outermost first; GetDist's panels get the same (posterior(contours=...))
 A_TICKS = [0.02, 0.05, 0.08]
 SMOOTH = 1.5               # bins: 0.75 in omega, a third of the width of the main peak
 
@@ -82,7 +83,7 @@ def omega_panels(g, samples, weights, names, limits, colours, line_colour):
 def figure(d, out):
     from getdist import plots
 
-    post = posterior(d, f"posterior200_{d}.npz")
+    post = posterior(d, f"posterior200_{d}.npz", contours=sorted(SHARES))
     g = plots.get_subplot_plotter(width_inch=TEXTWIDTH * 0.75)
     g.settings.scaling = False
     g.settings.num_plot_contours = len(SHARES)

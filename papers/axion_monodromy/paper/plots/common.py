@@ -27,16 +27,20 @@ def load_json(name):
     return json.loads((DATA_DIR / name).read_text())
 
 
-def posterior(d, file=None):
-    """The marginalised posterior of data set d as GetDist samples (file: another file in data/ than posterior_<d>.npz)."""
+def posterior(d, file=None, contours=None):
+    """The marginalised posterior of data set d as GetDist samples (file: another file in data/ than posterior_<d>.npz;
+    contours: the shares of GetDist's contours, if not its default 0.68, 0.95, 0.99)."""
     from getdist import MCSamples
 
     z = np.load(DATA_DIR / (file or f"posterior_{d}.npz"))
     names = [str(n) for n in z["names"]]
     ranges = json.loads(str(z["ranges"]))
+    settings = dict(smooth_scale_1D=-1, smooth_scale_2D=0.2)
+    if contours is not None:
+        settings["contours"] = " ".join(str(c) for c in contours)
     return MCSamples(samples=z["samples"].astype(np.float64), weights=z["weights"], names=names,
                      labels=[LABELS.get(n, n) for n in names], ranges={n: tuple(r) for n, r in ranges.items()},
-                     label=DATA[d], settings=dict(smooth_scale_1D=-1, smooth_scale_2D=0.2))
+                     label=DATA[d], settings=settings)
 # 1D: GetDist's automatic smoothing (29 October 2026): a fixed 0.3 standard deviations widened the peak at omega ~ 51
 # from 2.2 to 8.4 (full width at half maximum), since the standard deviation of the multimodal omega posterior is about
 # 13. 2D: 0.2 standard deviations; the automatic choice made the (omega, phi) panel patchy.
