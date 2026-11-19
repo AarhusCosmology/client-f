@@ -9,6 +9,7 @@ manifests when reproducing an older run. [CHANGES.md](CHANGES.md) says what is n
 |---|---|---|
 | `training.msre_ess_floor` | `0.1`: `msre`'s constant is raised while the weights collapse | `0.0` |
 | `training.warm_start` | `true` | `warm_start: false` |
+| `training.member_pilot_score` (runs with `member_pilot`) | `corrected`: each member's constant offset is left out of its score (19 November 2026) | `rms` |
 
 These have no setting: the raw predictions are kept when the scalers change, a warm-started training of the boost phase keeps its last weights, the
 selector commits ten candidates per pass (about 90% of the points differ and their distribution does not), and an injection fits only the points

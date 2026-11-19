@@ -43,7 +43,8 @@ setting; [PERFORMANCE.md](PERFORMANCE.md) has the speed and memory work with its
 - **Several trainings per network.** `training.members` trains each network of the boost phase K times, the extra ones from
   random weights on ranks that would otherwise wait, and keeps one; the tempered phase trains every network once. With
   `training.member_pilot` it is chosen by true evaluations at each member's own posterior points, which catches false
-  maxima that the boost points do not see. On GPUs each TensorFlow process takes one GPU with memory growth, so that
+  maxima that the boost points do not see; its score leaves out each member's constant offset, which changes no posterior
+  (`training.member_pilot_score`). On GPUs each TensorFlow process takes one GPU with memory growth, so that
   the members share them (`training.member_device`), the TensorFlow processes of a node in turn over its GPUs
   ([guide](docs/members.md)).
 - **Which points.** `density_filter` selects posterior candidates by the density-deficit rule ([guide](docs/posterior_density_boost.md)).

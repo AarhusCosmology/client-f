@@ -12,6 +12,7 @@ adapt them to your machine.
 | A network against the true likelihood at its own posterior samples | `analysis/true_check.py`, `analysis/report.py`, `analysis/corner.py`, `analysis/chain_sampling.py` |
 | Evidences corrected by those true values | `analysis/evidence_summary.py` |
 | A branch of a run at an earlier network, with other settings | `analysis/branch_run.py` |
+| A run's members' pilots scored again from its files, with and without each member's offset | `analysis/member_pilot_scores.py` |
 | True profiles with managed backend processes | `true_profiles/` |
 | A worked real-data example, LCDM on Planck + DESI | `runs/lcdm_planck_desi/` |
 

@@ -52,6 +52,7 @@ training:
   member_pilot_steps: 20000 # of its chain (T = 1, inside the network's region)
   member_pilot_walkers: 256 # at least 2 ndim (raised to that when lower)
   member_pilot_depth: null  # default: the msre scale 0.5 chi^2(sigma_level, ndim) below the best
+  member_pilot_score: corrected # the rms without each member's constant offset; rms: with it (before 19 November 2026)
 ```
 
 With `member_pilot: n > 0` the members are chosen after the region is built, by true evaluations,
@@ -64,10 +65,14 @@ and nothing is held out:
   journalled under the stage `members/itN`.
 - **The score.** A member's pilot error is the rms of its prediction minus the truth over the pool's
   points that the truth or that member puts within `member_pilot_depth` of the best value known
-  (the training set and the pool). Points whose true value is not finite, or is the fixed value a
+  (the training set and the pool), after its constant offset has been removed
+  (`member_pilot_score: corrected`, the default). The offset is the median of the member's error
+  over the pool's points that the truth puts within the depth, the same points for all members (0
+  when there are none). Points whose true value is not finite, or is the fixed value a
   launcher gives a point the likelihood cannot evaluate (`refused_value`), count for none. A member
   that puts a false plateau above the truth is judged where it puts its posterior; a member that
   misses a peak is judged where the truth is high. Points far below the best in both count for none.
+  `member_pilot_score: rms` keeps the offset in the score, as before 19 November 2026.
 - **The choice.** As by the selection loss: the warm network is kept unless another member's pilot
   error is lower by more than `member_margin`; without a warm network the lowest is kept.
 - **The points afterwards.** Those with a finite true value join the training set before the
@@ -75,7 +80,12 @@ and nothing is held out:
   posterior). They are saved in `trained_models/members/pilot_it_N.csv` with the member that drew
   each, the truth, the derived parameters (`derived:NAME`) and every member's prediction; a run
   continued from the saved network N adds them again. `members_it_N.json` has `choice: pilot`,
-  every member's `pilot_error` and its mean error at its own points (`pilot_own_bias`).
+  `pilot_score`, every member's `pilot_error` (the score used), `pilot_rms`, `pilot_offset` with
+  its standard error and its mean error at its own points (`pilot_own_bias`), and the kept
+  network's offset (`kept_offset`, `kept_offset_error`). The offset does not change a posterior or
+  a profile; it shifts an evidence of that network by its full value. It is recorded, not
+  applied. `hpc/analysis/member_pilot_scores.py RUN` scores a run's pilots again from these files
+  with both scores.
 
 Why: the selection loss judges the members where the previous network put its posterior, and a
 loss averaged over points does not see where a member will put its own. On network 8 of branches
@@ -146,6 +156,31 @@ members'.
   close a margin of 0.2 is inside the pilot's noise. A margin above 0.39 would have kept the warm
   network at H0WC 14, which was worse at the boost points of every run. The run ended level with
   the warm-started one (0.22 at network 15) and below the one from random weights (0.35).
+
+## The offset of a member (`member_pilot_score`, 19 November 2026)
+
+Trainings on the same points differ by a constant as well as in their scatter. On an exact
+58-parameter Gaussian (a branch with `members: 6` and `member_pilot: 100` of a run with 3000
+points per boost, from network 21 on) the six members of network 21 had at exact posterior draws:
+
+| member | offset | scatter | rms | pilot error, rms | pilot error, offset removed |
+|---|---|---|---|---|---|
+| 0 (warm) | −0.20 | 0.080 | 0.215 | 0.21 | 0.081 |
+| 1 | −0.08 | 0.107 | 0.131 | 0.133 | 0.109 |
+| 2 | +0.11 | 0.111 | 0.157 | 0.164 | 0.117 |
+| 3 | +0.18 | 0.108 | 0.210 | 0.213 | 0.103 |
+| 4 | −0.01 | 0.115 | 0.115 | 0.116 | 0.115 |
+| 5 | +0.06 | 0.101 | 0.118 | 0.127 | 0.108 |
+
+The pilot's 600 points rank the members as the exact draws do, but the rms kept member 4, whose
+scatter is the largest, and rejected the warm network, whose scatter is the smallest, for its
+offset. Without the offset the warm network is kept (0.081 against 0.103 for the best from random
+weights). On network 8 of the two axion branches with `members: 12` (the offline test above) the
+offsets are 0.1–0.5 against errors of 2–12, and both scores keep the same members (H0WC member 5,
+1.93; PDP+ member 7, 1.48 without the offset, 1.50 with it); the warm H0WC network's false plateau
+scores 12.4 without its offset against 12.5 with it. On that Gaussian the offsets of trainings on
+the same data varied by about ±0.2 from network to network, as much as their scatter, so that for
+an evidence the offset, not σ²/2, was the main error of a network.
 
 ## Why several trainings
 

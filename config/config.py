@@ -589,7 +589,7 @@ class TrainingConfig:
     # docs/members.md). member_pilot: n > 0 has every member draw n points of its own posterior
     # (T = 1, inside the network's region; member_pilot_steps steps of member_pilot_walkers walkers, at least 2 ndim),
     # evaluates the pool once with the true likelihood (it joins the training set) and keeps the
-    # member with the smallest rms error over the pool's points that the truth or that member puts
+    # member with the smallest error (member_pilot_score, below) over the pool's points that the truth or that member puts
     # within member_pilot_depth of the best (default: the msre scale 0.5 chi^2(sigma_level, ndim));
     # nothing is held out then. 0: the held-out selection set chooses (above).
     #
@@ -602,6 +602,18 @@ class TrainingConfig:
     member_pilot_steps: int = 20000
     member_pilot_walkers: int = 256
     member_pilot_depth: float | None = None
+    # member_pilot_score: corrected (the default) judges each member by its rms error with its own
+    # constant offset removed (the median of its error where the truth is within the depth); rms is
+    # the rms with the offset, the score before 19 November 2026. The points counted are the same.
+    #
+    # WHY. A constant does not change a posterior or a profile, only the evidence. On network 21 of
+    # a 58-parameter Gaussian the warm network had the smallest scatter of six members at exact
+    # posterior draws (0.080) and an offset of -0.19, and the rms (0.21 against 0.116) kept the
+    # member with the largest scatter (0.115); corrected keeps the warm one (0.081 against 0.103).
+    # On network 8 of the two axion branches with 12 members it keeps the members the rms kept
+    # (offsets 0.1-0.5 against errors of 2-12; a false plateau stays at 12.4). The kept network's
+    # offset is recorded (members_it_N.json, kept_offset) (docs/members.md).
+    member_pilot_score: str = "corrected"
 
     @classmethod
     def from_dict(cls, d):
@@ -634,6 +646,9 @@ class TrainingConfig:
         pilot_depth = d.get("member_pilot_depth")
         if pilot_depth is not None and not float(pilot_depth) > 0:
             raise ValueError("training.member_pilot_depth must be positive")
+        pilot_score = str(d.get("member_pilot_score", "corrected"))
+        if pilot_score not in ("corrected", "rms"):
+            raise ValueError("training.member_pilot_score must be corrected or rms")
         if not factor >= 1.0:
             raise ValueError("training.augment_schedule_factor must be at least 1 (1: the ordinary schedule)")
         return cls(
@@ -647,6 +662,7 @@ class TrainingConfig:
             member_pilot_steps=pilot_steps,
             member_pilot_walkers=pilot_walkers,
             member_pilot_depth=None if pilot_depth is None else float(pilot_depth),
+            member_pilot_score=pilot_score,
             learning_rate=float(d["learning_rate"]),
             loss=str(d["loss"]),
             sigma_level=float(d["sigma_level"]),

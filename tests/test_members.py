@@ -142,6 +142,78 @@ class Pilot(unittest.TestCase):
         self.assertAlmostEqual(members.pilot_scores(dict(a=np.array([-2.0, -1.0])), refused, 0.0, 10.0,
                                                     ignore=-30000.0)["a"], 1.0)
 
+    def test_the_corrected_score_removes_a_constant_offset_only(self):
+        rng = np.random.default_rng(0)
+        truth = -rng.uniform(0.0, 5.0, 400)
+        best, depth = 0.0, 10.0
+        offset = truth - 0.2 + 0.05 * rng.standard_normal(400)   # a constant offset, small scatter
+        scatter = truth + 0.10 * rng.standard_normal(400)         # no offset, twice the scatter
+        errors = members.pilot_errors(dict(a=offset, b=scatter), truth, best, depth)
+        self.assertAlmostEqual(errors["a"]["offset"], -0.2, delta=0.01)
+        self.assertLess(errors["a"]["offset_error"], 0.01)
+        self.assertGreater(errors["a"]["rms"], errors["b"]["rms"])
+        self.assertLess(errors["a"]["corrected"], errors["b"]["corrected"])
+        self.assertAlmostEqual(errors["a"]["corrected"], 0.05, delta=0.01)
+        for score, kept in (("rms", "b"), ("corrected", "a")):
+            scores = members.pilot_scores(dict(a=offset, b=scatter), truth, best, depth, score=score)
+            self.assertEqual(min(scores, key=scores.get), kept)
+        with self.assertRaises(ValueError):
+            members.pilot_scores(dict(a=offset), truth, best, depth, score="scatter")
+
+    def test_the_corrected_score_still_sees_false_plateaus_and_missed_peaks(self):
+        truth = np.array([-100.0, -100.0, -1.0, -2.0, -3.0, -1.5, -2.5, np.nan])
+        best, depth = 0.0, 10.0
+        plateau = np.array([-3.0, -100.0, -1.0, -2.0, -3.0, -1.5, -2.5, 0.0])     # 97 too high near the best
+        missed = np.array([-100.0, -100.0, -30.0, -2.0, -3.0, -1.5, -2.5, 0.0])   # one of five near points missed
+        errors = members.pilot_errors(dict(b=plateau, c=missed), truth, best, depth)
+        self.assertEqual(errors["b"]["offset"], 0.0)                 # the median of the near points
+        self.assertAlmostEqual(errors["b"]["corrected"], errors["b"]["rms"])
+        self.assertEqual(errors["c"]["offset"], 0.0)                 # a minority of missed peaks is no offset
+        self.assertAlmostEqual(errors["c"]["corrected"], np.sqrt(29.0 ** 2 / 5))
+        # no pool point near the best: no offset is taken, so a plateau keeps its full error
+        far = np.array([-50.0, -60.0])
+        errors = members.pilot_errors(dict(a=np.array([-1.0, -1.0])), far, 0.0, 10.0)
+        self.assertEqual(errors["a"]["offset"], 0.0)
+        self.assertAlmostEqual(errors["a"]["corrected"], errors["a"]["rms"])
+
+    def test_the_log_line_keeps_its_prefix_and_shows_the_offsets(self):
+        errors = {0: dict(rms=0.21, offset=-0.19, offset_error=0.005, corrected=0.081),
+                  1: dict(rms=0.116, offset=-0.01, offset_error=0.005, corrected=0.115)}
+        scores = {k: v["corrected"] for k, v in errors.items()}
+        line = members.pilot_line(scores, errors, {0: -0.18, 1: 0.0}, True, "corrected", "the warm network")
+        self.assertTrue(line.startswith("Members' pilot errors: 0 (warm) 0.081 (offset -0.19, rms 0.21"), line)
+        self.assertIn("without each member's offset", line)
+        line = members.pilot_line({k: v["rms"] for k, v in errors.items()}, errors, {0: None, 1: None}, True, "rms",
+                                  "member 1")
+        self.assertEqual(line, "Members' pilot errors: 0 (warm) 0.21; 1 0.116. Kept: member 1")
+
+    def test_the_setting(self):
+        self.assertEqual(TrainingConfig.from_dict(dict(TRAINING)).member_pilot_score, "corrected")
+        self.assertEqual(TrainingConfig.from_dict(dict(TRAINING, member_pilot_score="rms")).member_pilot_score, "rms")
+        with self.assertRaises(ValueError):
+            TrainingConfig.from_dict(dict(TRAINING, member_pilot_score="scatter"))
+
+    def test_a_run_scored_again_from_its_files(self):
+        import pandas as pd
+
+        sys.path.insert(0, str(ROOT / "hpc" / "analysis"))
+        import member_pilot_scores
+
+        rng = np.random.default_rng(1)
+        truth = -rng.uniform(0.0, 5.0, 300)
+        frame = pd.DataFrame(dict(loglkl=truth, member=np.repeat([0, 1, 2], 100),
+                                  pred_member0=truth - 0.2 + 0.05 * rng.standard_normal(300),
+                                  pred_member1=truth + 0.10 * rng.standard_normal(300),
+                                  pred_member2=truth + 0.30 * rng.standard_normal(300)))
+        record = dict(best=0.0, pilot_depth=10.0, warm=True, margin=0.2, kept=1, pilot_score="rms")
+        result = member_pilot_scores.replay(record, frame)
+        self.assertEqual(result["kept"], dict(corrected=0, rms=1))
+        self.assertEqual(result["run_kept"], 1)
+        text = "\n".join(member_pilot_scores.lines(21, result))
+        self.assertIn("rms keeps 1, corrected keeps 0  <- differ", text)
+        refused = frame.assign(loglkl=np.where(np.arange(300) < 10, -30000.0, truth))
+        self.assertEqual(member_pilot_scores.replay(record, refused, refused=-30000.0)["kept"]["corrected"], 0)
+
     def test_choice_keeps_warm_within_the_margin(self):
         kept, reason = members.choose_by_pilot({0: 2.0, 1: 1.7, 2: 3.0}, True, 0.2)
         self.assertEqual(kept, 0)

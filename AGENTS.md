@@ -528,7 +528,14 @@ chooses by true evaluations; read [docs/members.md](docs/members.md). Keep these
 * The pilot rejects false maxima reliably and ranks members without false structure only roughly
   (measured on two real runs, docs/members.md). A margin of 0.2 is inside the pilot's noise for
   close networks, but a larger one would have kept a worse warm network once. Do not change the
-  margin, the depth or the score without repeating that measurement.
+  margin, the depth or the score without repeating that measurement
+  (`hpc/analysis/member_pilot_scores.py` scores a run's saved pilots again).
+* The default score removes each member's constant offset (`member_pilot_score: corrected`, the
+  median of its error where the truth is near the best, the same points for all members, 0 when
+  there are none): a constant changes no posterior or profile, and the rms kept the member with the
+  largest scatter of six on an exact Gaussian for it (docs/members.md, "The offset of a member").
+  Keep the median and the common points: a mean, or each member's own points, lets a missed peak or
+  a false plateau pass as an offset. The kept network's offset is recorded, never applied.
 * `oversubscription` only warns; it changes nothing in the run.
 * Devices (`utils/devices.py`, docs/members.md "On GPUs"). Rank 0 and the member ranks take one GPU
   each, with memory growth, and every other rank hides the GPUs before the likelihood is built.

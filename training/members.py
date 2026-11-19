@@ -480,21 +480,55 @@ def serve_pilot(comm, evaluate):
     evaluate()
 
 
-def pilot_scores(predictions, truth, best, depth, ignore=None):
-    """Each member's rms error (prediction minus truth) over the pool's points that the truth or
-    that member puts within `depth` of `best`: a false plateau and a missed peak both count.
-    Points whose truth is not finite or is `ignore` (the fixed value a launcher may give a point
-    the likelihood cannot evaluate) count for none."""
+PILOT_SCORES = ("corrected", "rms")
+
+
+def pilot_errors(predictions, truth, best, depth, ignore=None):
+    """Each member's errors (prediction minus truth) at the pool's points: {member: {rms, offset,
+    offset_error, corrected}}.
+
+    rms: over the points that the truth or that member puts within `depth` of `best`, so that a
+    false plateau and a missed peak both count. offset: the member's constant offset, the median
+    of its error over the points that the truth puts within `depth` (the same points for every
+    member; 0 when there are none, so that a false plateau is never taken for an offset), and
+    offset_error its standard error (1.2533 sd / sqrt(n)). corrected: the rms of the error minus
+    the offset over the same points as rms. A constant does not change a posterior or a profile, but it shifts the evidence by its
+    full value: on network 21 of a 58-parameter Gaussian the warm network had the smallest scatter
+    of six members (0.081) and the largest rms but one (0.21, an offset of -0.19), so that the rms
+    kept a member with the largest scatter (docs/members.md). The median keeps a minority of
+    missed peaks out of the offset. Points whose truth is not finite or is `ignore` (the fixed
+    value a launcher may give a point the likelihood cannot evaluate) count for none."""
     truth = np.asarray(truth, float)
     ok = np.isfinite(truth)
     if ignore is not None:
         ok &= truth != ignore
-    scores = {}
+    near = ok & (truth > best - depth)
+    errors = {}
     for k, pred in predictions.items():
         pred = np.asarray(pred, float)
         relevant = ok & ((truth > best - depth) | (pred > best - depth))
-        scores[k] = float(np.sqrt(np.mean((pred[relevant] - truth[relevant]) ** 2))) if relevant.any() else float("inf")
-    return scores
+        if not relevant.any():
+            errors[k] = dict(rms=float("inf"), offset=float("nan"), offset_error=float("nan"),
+                             corrected=float("inf"))
+            continue
+        error = pred[relevant] - truth[relevant]
+        if near.any():
+            reference = pred[near] - truth[near]
+            offset = float(np.median(reference))
+            offset_error = 1.2533 * float(np.std(reference)) / np.sqrt(len(reference)) if len(reference) > 1 \
+                else float("nan")
+        else:
+            offset, offset_error = 0.0, float("nan")
+        errors[k] = dict(rms=float(np.sqrt(np.mean(error ** 2))), offset=offset, offset_error=offset_error,
+                         corrected=float(np.sqrt(np.mean((error - offset) ** 2))))
+    return errors
+
+
+def pilot_scores(predictions, truth, best, depth, ignore=None, score="rms"):
+    """Each member's pilot error: `score` of pilot_errors ("rms" or "corrected")."""
+    if score not in PILOT_SCORES:
+        raise ValueError(f"unknown pilot score {score!r}: one of {', '.join(PILOT_SCORES)}")
+    return {k: v[score] for k, v in pilot_errors(predictions, truth, best, depth, ignore=ignore).items()}
 
 
 def choose_by_pilot(scores, warm, margin):
@@ -569,14 +603,21 @@ def run_pilot(cfg, run, iteration, results, region_path, dataset_inputs, dataset
     known = np.isfinite(truth) & (True if ignore is None else truth != ignore)
     best = max(float(np.max(dataset_targets)), float(truth[known].max()) if known.any() else -np.inf)
     depth = cfg.training.member_pilot_depth or msre_scale(cfg.training.sigma_level, len(names))
-    scores = pilot_scores(predictions, truth, best, depth, ignore=ignore)
+    score = cfg.training.member_pilot_score
+    errors = pilot_errors(predictions, truth, best, depth, ignore=ignore)
+    scores = {k: v[score] for k, v in errors.items()}
     kept, reason = choose_by_pilot(scores, warm, cfg.training.member_margin)
     own = {k: (float(np.mean(predictions[k][(member_of == k) & known] - truth[(member_of == k) & known]))
                if np.any((member_of == k) & known) else None) for k in predictions}
     for r in results:
+        e = errors.get(r["member"], {})
         r["pilot_error"] = scores.get(r["member"])
+        r["pilot_rms"] = e.get("rms")
+        r["pilot_offset"] = e.get("offset")
+        r["pilot_offset_error"] = e.get("offset_error")
         r["pilot_own_bias"] = own.get(r["member"])
-    record = dict(iteration=iteration, kept=kept, reason=reason, warm=warm, choice="pilot",
+    record = dict(iteration=iteration, kept=kept, reason=reason, warm=warm, choice="pilot", pilot_score=score,
+                  kept_offset=errors[kept]["offset"], kept_offset_error=errors[kept]["offset_error"],
                   pilot_points=int(len(points)), pilot_per_member=cfg.training.member_pilot, pilot_depth=depth,
                   best=best, margin=cfg.training.member_margin, failed=[d["member"] for d in failed],
                   members=[{k: v for k, v in r.items() if k not in ("inputs", "targets")} for r in results])
@@ -593,11 +634,24 @@ def run_pilot(cfg, run, iteration, results, region_path, dataset_inputs, dataset
         frame[f"pred_member{k}"] = pred
     with atomic_path(members_dir / f"pilot_it_{iteration}.csv") as temporary:
         frame.to_csv(temporary, index=False)
-    print_master("Members' pilot errors: " + "; ".join(
-        f"{k}{' (warm)' if (k == 0 and warm) else ''} {scores[k]:.3g}"
-        + (f" (own points {own[k]:+.2f})" if own.get(k) is not None else "") for k in sorted(scores))
-        + f". Kept: {reason}")
+    print_master(pilot_line(scores, errors, own, warm, score, reason))
+    print_master(f"   the kept network's offset at the pilot's points: {errors[kept]['offset']:+.3g} "
+                 f"+- {errors[kept]['offset_error']:.2g} (a constant: it shifts the evidence, not the posterior)")
     return kept, record, inputs, targets, derived
+
+
+def pilot_line(scores, errors, own, warm, score, reason):
+    """The log line of a pilot: every member's score, with its offset when the score removes it."""
+    def member(k):
+        text = f"{k}{' (warm)' if (k == 0 and warm) else ''} {scores[k]:.3g}"
+        notes = []
+        if score == "corrected" and np.isfinite(errors[k]["offset"]):
+            notes.append(f"offset {errors[k]['offset']:+.2f}, rms {errors[k]['rms']:.3g}")
+        if own.get(k) is not None:
+            notes.append(f"own points {own[k]:+.2f}")
+        return text + (f" ({'; '.join(notes)})" if notes else "")
+    what = " (the rms without each member's offset)" if score == "corrected" else ""
+    return "Members' pilot errors: " + "; ".join(member(k) for k in sorted(scores)) + f"{what}. Kept: {reason}"
 
 
 def load_pilot(run_dir, iteration, names, derived_names=()):
