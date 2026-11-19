@@ -37,7 +37,8 @@ setting; [PERFORMANCE.md](PERFORMANCE.md) has the speed and memory work with its
 - **Where the network is believed.** `region` confines chains and searches to where verified boost points reach; `region_quantile`
   makes that reach robust against a far point ([guide](docs/boost_background_region.md)).
 - **Training.** `background` puts a fixed quadratic under the network; `train_domain` trains only near the posterior;
-  a warm-started training of the boost phase keeps the weights at the end of its schedule. The warm start stays the default in the
+  a warm-started training of the boost phase keeps the weights at the end of its schedule, and one from random weights
+  does with `training.random_start_weights: last`. The warm start stays the default in the
   boosts; `training.warm_start: false` (random weights) is for a likelihood on which warm-started networks stop improving
   ([guide](docs/boost.md)).
 - **Several trainings per network.** `training.members` trains each network of the boost phase K times, the extra ones from

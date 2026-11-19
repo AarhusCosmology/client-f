@@ -6,7 +6,8 @@ network when `training.warm_start` is on, the default). K - 1 members are traine
 weights, each with its own seed, on ranks that would otherwise wait for the next evaluation: during
 a training only rank 0 works, and on a cluster the other ranks' cores are idle for the whole of it.
 Members left over when the run has fewer ranks than members are trained on rank 0 after its own
-network.
+network. The members from random weights keep the epoch of their lowest validation loss, or their
+last weights with `training.random_start_weights: last` ([boost.md](boost.md)).
 
 It is a feature of the boosts. The members act from the first training on boost points (the
 network after the boosts' start, `acquisition.boost.start_iteration` or the hand-over of

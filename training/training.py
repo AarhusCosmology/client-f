@@ -76,6 +76,13 @@ class StopAfterScheduleExhausted(Callback):
             self.model.set_weights(self.best_weights)
 
 
+def keeps_last_weights(warm_started, boost_phase, random_start_weights="best"):
+    """Whether a training keeps the weights at the end of its schedule instead of the epoch of its
+    lowest validation loss: a warm-started training of the boost phase always does, one from random
+    weights in the boost phase when training.random_start_weights is last. The ordinary loop never."""
+    return bool(boost_phase and (warm_started or random_start_weights == "last"))
+
+
 def build_callbacks(lr_schedule, lr_factor, lr_patience, lr_min, lr_grace, patience, restore_best=True):
     """ReduceLROnPlateau plus a schedule-gated stopper, or the plain EarlyStopping.
 

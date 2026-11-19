@@ -817,7 +817,8 @@ the launcher, run `tests/mpi_train_domain_smoke.py` as well, which goes through 
 * **An uncleared audit does not stop the loop.** With `clear: false` the native loop goes on; see `docs/posterior_density_boost.md`.
 * **The validation set under a warm start** is drawn afresh at every training. Measured on an analytic target at four seeds, the printed validation loss is
   optimistic (12% above the training loss where a held-out set is 42% above), and the networks are no worse for it; a persistent set was, if anything, slightly
-  worse. Do not read `val_loss` as a network's error. A warm-started training of the boost phase keeps its last weights: with
+  worse. Do not read `val_loss` as a network's error. A training of the boost phase from random weights keeps its best epoch unless `training.random_start_weights: last`
+  (opt-in, 19 November 2026; docs/boost.md). A warm-started training of the boost phase keeps its last weights: with
   the best ones, most boost-phase trainings kept their first of about 400 epochs. Branches of three runs with `last` were 0.48 to 0.86 of the originals' error at true
   values where those had kept an early epoch, and the same where they had not (client.py, `restore_best`). Not measured in the ordinary loop, whose networks decide the
   hand-over (the 1.2 T threshold was measured with `best`): do not extend it there without that measurement.

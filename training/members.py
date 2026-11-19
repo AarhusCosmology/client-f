@@ -200,7 +200,7 @@ def train_member(task):
                             **({} if task["background"] is None else {"background": task["background"]}))
         loss = build_loss(**task["loss"], max_loglkl=float(np.max(targets)), targets=targets)
         history, metrics = train_model(model=model, inputs=inputs, targets=targets, loss=loss,
-                                       restore_best=True, **s)
+                                       restore_best=task.get("restore_best", True), **s)
         result.update(epoch=int(metrics["epoch"]), loss=float(metrics["loss"]), val_loss=float(metrics["val_loss"]),
                       epochs=len(history.history["loss"]),
                       selection_loss=(float("nan") if task.get("selection_inputs") is None else

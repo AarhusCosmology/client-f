@@ -221,6 +221,25 @@ pilot were clean on the plateau at 1.3 in the first. What identifies the case is
 the boost points levelling off well above that of comparable runs; try a branch with random
 weights from a few networks back and compare.
 
+### Weights kept by a training from random weights (`training.random_start_weights`, 19 November 2026)
+
+A training of the boost phase that starts from random weights keeps the epoch of its lowest validation loss
+(`random_start_weights: best`, the default), as the branches in the table did. With `last` it keeps the weights at
+the end of its schedule, as a warm-started training does. It applies to `warm_start: false`, to the first training
+after the background is fitted and to the members from random weights of `training.members`; the ordinary loop is
+unchanged. The log says "Random start: the last weights are kept" when it acts.
+
+The lowest validation loss is a poor guide to the error at the posterior, and which choice is better depends on the
+likelihood:
+
+| network trained again from random weights | best epoch | last weights | warm-started network |
+|---|---|---|---|
+| Euclid network truth (44 parameters), networks 18, 24, 35, two seeds each: scatter at posterior points | 2 of 6 kept epoch 159 or 79, twice the error | all 6 within 3-10% of the warm-started run | |
+| analytic egg-box (22 parameters, a comb of 10 x 10 peaks in two that the networks had not resolved), network 7, two seeds: error along the 20 Gaussian directions | 0.29, 0.31 (epochs 131, 101) | 0.38, 0.53 (epochs 454, 488) | 2.11 |
+
+On the egg-box the early epoch had not yet fitted the unresolved comb as noise, which the warm-started network had
+done along the Gaussian directions. Opt-in until branches of whole runs have measured it.
+
 ## Optional posterior density filter
 
 Set `density_filter: true` and optionally `pool_factor: 20` in the boost block to

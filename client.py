@@ -725,7 +725,7 @@ def run_client(args):
         from model.network import build_model, load_model, transfer_warm_start
         from sampling.base import build_sampler
         from training.losses import build_loss
-        from training.training import save_history, train_model
+        from training.training import keeps_last_weights, save_history, train_model
 
         def loss_for(values):
             """The training loss for a network trained on the targets `values`."""
@@ -903,7 +903,7 @@ def run_client(args):
                         print_master(f"Warm start SKIPPED: {error}; using random initialisation")
                     else:
                         warm_started = True
-                        keep_last = boost_start is not None and iteration > boost_start
+                        keep_last = keeps_last_weights(True, boost_start is not None and iteration > boost_start)
                         print_master(
                             f"Warm start: inherited {len(model.trainable_weights)} weight "
                             f"tensors from iteration {iteration - 1} "
@@ -916,6 +916,10 @@ def run_client(args):
                         "training from a random initialisation"
                     )
             previous_model = None
+            if not warm_started and keeps_last_weights(False, boost_start is not None and iteration > boost_start,
+                                                       cfg.training.random_start_weights):
+                keep_last = True
+                print_master("Random start: the last weights are kept (boost phase, training.random_start_weights: last)")
             loss = loss_for(targets)
             # The first training with points from `client.py augment` runs a longer
             # schedule: a warm start assumes a training set that changed little.
@@ -965,6 +969,7 @@ def run_client(args):
                         loss=dict(name=cfg.training.loss, sigma_level=cfg.training.sigma_level,
                                   chi2_dof=ndim, ess_floor=cfg.training.msre_ess_floor),
                         schedule=schedule,
+                        restore_best=not keeps_last_weights(False, True, cfg.training.random_start_weights),
                         model_path=str(members_dir / f"model_it_{iteration}_member{k}.keras"),
                         history_path=str(run.training_history_dir / f"history_it_{iteration}_member{k}.csv"),
                         rank=ranks[k - 1] if k - 1 < len(ranks) else 0))

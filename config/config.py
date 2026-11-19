@@ -525,6 +525,22 @@ class TrainingConfig:
     # sit near the ~0.018-0.026 measurement floor and its maxima are better at both
     # iterations. One seed per run. Set warm_start: false to restore cold starts.
     warm_start: bool = True
+    # random_start_weights: which weights a training of the boost phase that starts from random
+    # weights keeps (warm_start: false, the first training after the background is fitted, and the
+    # members from random weights of training.members): best (the default) the epoch of the lowest
+    # validation loss, as before; last the weights at the end of the schedule, as a warm-started
+    # training of the boost phase always does. The ordinary loop is unchanged.
+    #
+    # WHY. The lowest validation loss is a poor guide to the error at the posterior, and which
+    # choice is better depends on the likelihood. Networks 18, 24 and 35 of a Euclid network-truth
+    # run trained again from random weights on their own training sets (two seeds each, 18 November
+    # 2026): two of the six kept an early epoch (159 and 79) with twice the error at the posterior
+    # points; with the last weights all six were within 3-10% of the warm-started run. On network 7 of
+    # an analytic egg-box run with an unresolved comb (19 November) the best epochs (101, 131 of about
+    # 470) fitted the Gaussian directions to 0.29 and 0.31 and the last weights to 0.38 and 0.53 (the
+    # warm-started network 2.11): there the early epoch had not yet fitted the comb as noise
+    # (docs/boost.md, "Weights kept by a training from random weights"). Opt-in until measured on runs.
+    random_start_weights: str = "best"
     # The first training that includes points added by `client.py augment`
     # (dataset/augment.py, docs/augment_training.md) runs with lr_patience, lr_grace and
     # patience multiplied by this factor. Every later iteration uses the ordinary schedule
@@ -646,6 +662,9 @@ class TrainingConfig:
         pilot_depth = d.get("member_pilot_depth")
         if pilot_depth is not None and not float(pilot_depth) > 0:
             raise ValueError("training.member_pilot_depth must be positive")
+        random_start_weights = str(d.get("random_start_weights", "best"))
+        if random_start_weights not in ("best", "last"):
+            raise ValueError("training.random_start_weights must be best or last")
         pilot_score = str(d.get("member_pilot_score", "corrected"))
         if pilot_score not in ("corrected", "rms"):
             raise ValueError("training.member_pilot_score must be corrected or rms")
@@ -672,6 +691,7 @@ class TrainingConfig:
             patience=int(d["patience"]),
             msre_ess_floor=float(d.get("msre_ess_floor", 0.1)),
             warm_start=bool(d.get("warm_start", True)),
+            random_start_weights=random_start_weights,
             lr_schedule=str(d.get("lr_schedule", "none")),
             lr_factor=float(d.get("lr_factor", 0.3)),
             lr_patience=int(d.get("lr_patience", 75)),

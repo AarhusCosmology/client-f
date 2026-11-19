@@ -320,6 +320,49 @@ class Settings(unittest.TestCase):
                 TrainingConfig.from_dict(dict(TRAINING, **bad))
 
 
+class RandomStartWeights(unittest.TestCase):
+    """training.random_start_weights: which weights a boost-phase training from random weights keeps."""
+
+    def test_the_rule(self):
+        from training.training import keeps_last_weights
+
+        self.assertTrue(keeps_last_weights(True, True))                   # warm, boost phase: always the last
+        self.assertFalse(keeps_last_weights(True, False))                 # the ordinary loop: never
+        self.assertFalse(keeps_last_weights(False, True))                 # random weights: best by default
+        self.assertTrue(keeps_last_weights(False, True, "last"))
+        self.assertFalse(keeps_last_weights(False, False, "last"))        # not in the ordinary loop
+
+    def test_the_setting(self):
+        self.assertEqual(TrainingConfig.from_dict(dict(TRAINING)).random_start_weights, "best")
+        self.assertEqual(TrainingConfig.from_dict(dict(TRAINING, random_start_weights="last")).random_start_weights,
+                         "last")
+        with self.assertRaises(ValueError):
+            TrainingConfig.from_dict(dict(TRAINING, random_start_weights="first"))
+
+    def test_a_member_keeps_its_last_weights_when_asked(self):
+        rng = np.random.default_rng(0)
+        x = rng.uniform(-1, 1, size=(400, 3)).astype(np.float32)
+        y = (-0.5 * 20 * (x ** 2).sum(1)).astype(np.float32).reshape(-1, 1)
+        with tempfile.TemporaryDirectory() as d:
+            task = dict(member=1, seed=7, threads=1, inputs=x, targets=y, selection_inputs=None,
+                        selection_targets=None, background=None, restore_best=False,
+                        model=dict(n_layers=2, n_neurons=16, activation="alsing"),
+                        loss=dict(name="msre", sigma_level=3, chi2_dof=3, ess_floor=0.1),
+                        schedule=dict(learning_rate=1e-3, n_epochs=4, batch_size=32, validation_split=0.2,
+                                      patience=5, lr_schedule="none", lr_factor=0.3, lr_patience=75, lr_min=1e-6,
+                                      lr_grace=100),
+                        model_path=str(Path(d) / "m.keras"), history_path=str(Path(d) / "h.csv"))
+            from unittest import mock
+
+            import training.training as tt
+
+            with mock.patch.object(tt, "train_model", wraps=tt.train_model) as trained:
+                result = members.train_on_master(task)
+            self.assertIsNone(result.get("error"), result.get("error"))
+            self.assertIs(trained.call_args.kwargs["restore_best"], False)
+            self.assertEqual((result["epochs"], result["epoch"]), (4, 4))   # the last of four epochs (from 1)
+
+
 class PhaseFiles(unittest.TestCase):
     def test_training_phase_lists_the_members(self):
         with tempfile.TemporaryDirectory() as d:
