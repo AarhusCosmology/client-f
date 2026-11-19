@@ -91,18 +91,28 @@ $$
 With `training.members`, members $k=0,\dots,K-1$ ($k=0$ the warm-started network) are trained on the
 same set. With `training.member_pilot` each draws $n$ points of its own T=1 posterior inside the
 region, and the pool $P$ of all $nK$ points is evaluated once with the true objective. Member $k$'s
-pilot error is the rms over the points that the truth or that member puts within the depth $d$ of the
-best value $\ell_{\rm best}$ known (training set and pool):
+pilot error is the rms, without its constant offset $b_k$, over the points that the truth or that
+member puts within the depth $d$ of the best value $\ell_{\rm best}$ known (training set and pool):
 
 $$
-\epsilon_k^2=\frac{1}{|P_k|}\sum_{x\in P_k}\bigl[s_k(x)-\ell(x)\bigr]^2,\qquad
+\epsilon_k^2=\frac{1}{|P_k|}\sum_{x\in P_k}\bigl[s_k(x)-\ell(x)-b_k\bigr]^2,\qquad
 P_k=\{x\in P:\ \ell(x)>\ell_{\rm best}-d\ \ \text{or}\ \ s_k(x)>\ell_{\rm best}-d\},
 $$
 
-with $d$ the msre scale $\tfrac12\chi^2(\sigma,n_{\rm dim})$ by default. A false plateau of member
+$$
+b_k=\operatorname{median}_{x\in P_\ell}\bigl[s_k(x)-\ell(x)\bigr],\qquad
+P_\ell=\{x\in P:\ \ell(x)>\ell_{\rm best}-d\},
+$$
+
+with $d$ the msre scale $\tfrac12\chi^2(\sigma,n_{\rm dim})$ by default. The offset is taken over the
+same points $P_\ell$ for every member, and is zero when $P_\ell$ is empty. A constant changes no
+posterior or profile, only the evidence, by its full value; `member_pilot_score: rms` sets $b_k=0$, the
+score before 19 November 2026, and the kept network's $b_k$ is recorded. A false plateau of member
 $k$ is judged where $k$ puts its posterior, a missed peak where the truth is high. The warm network
 is kept unless $\min_{k>0}\epsilon_k<(1-m)\,\epsilon_0$, with margin $m$ (`member_margin`); without
 a warm network the lowest $\epsilon_k$ is kept. The pool also contains the points of a rejected
 member, which can decide the ranking of the others: members that agree at the posterior's points can
-differ there by a raised region well below the best, which a profile would show.
+differ there by a raised region well below the best, which a profile would show. The members from random
+weights keep the epoch of their lowest validation loss, or with `training.random_start_weights: last` the
+weights at the end of their schedule, as the warm network does.
 

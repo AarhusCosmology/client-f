@@ -88,8 +88,11 @@ acquisition:
 ```
 
 The tempered phase trains every network once. Each member samples its own posterior; the pool of
-`member_pilot` points per member is evaluated once with the true objective, and the warm network is
-kept unless another member's error is lower by more than `member_margin` (20%). The pilot's points
+`member_pilot` points per member is evaluated once with the true objective, each member's error is
+taken without its constant offset (`member_pilot_score: corrected`, the default; a constant changes no
+posterior or profile), and the warm network is kept unless another member's error is lower by more
+than `member_margin` (20%). The members from random weights keep the epoch of their lowest validation
+loss unless `random_start_weights: last`, which keeps the weights at the end of their schedule. The pilot's points
 join the training set. Members train on ranks that would otherwise wait, so the training lasts about
 as long as its slowest member while each has cores (or a share of a GPU) of its own; the log warns
 when they do not. On two oscillating likelihoods the pilot rejected a warm network with a false
