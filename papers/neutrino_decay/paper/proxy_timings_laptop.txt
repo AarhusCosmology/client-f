@@ -1,0 +1,11 @@
+# The proxy's wall-clock time on the laptop (Apple M3 Pro, OMP_NUM_THREADS=1, CLASS++ cb2255f4, 9 November 2026), on
+# the inputs of figure 2 (campaigns/proxy_rta/px_ours_G<log10Gamma>_m<mass>.ini). time_proxy.sh measures them again.
+# mass  log10Gamma  seconds
+0.3   05.0    55
+0.3   07.0    45
+0.3   09.0   132
+0.3   10.0   454
+0.3   11.0  1547
+0.3   12.0  4958
+0.06  09.0   746
+0.06  10.0  2172

@@ -3,7 +3,8 @@
     source runs/dncdm_proxy_wc/job.env                   # from this folder: the run's CLASS++ build
     python smoke/eval_threads.py [RUN] [--threads 1 3] [--repeat 1]
 
-RUN is dncdm_proxy_wc by default. The point is the best fit of the run's true profile of log10Gamma around the peak
+RUN is dncdm_proxy_wc by default. Run it without python -I, since job.env selects the CLASS++ build through
+PYTHONPATH. The point is the best fit of the run's true profile of log10Gamma around the peak
 (results_profiles/dncdm_proxy_<ds>_peak_gamma/true_profiles.json, best_x). Each thread count runs in a fresh process,
 since OpenMP reads OMP_NUM_THREADS once. The script also times the background of CLASS++ alone (one thread, the run's
 settings and the same point), which is the serial part that more threads cannot shorten. The paper's numbers were
@@ -36,6 +37,7 @@ def child(run, what):
     if what == "background":
         from classy import Class
         args = dict(info["theory"]["classy"].get("extra_args") or {})
+        args.pop("non_linear", None)                   # CLASS refuses a non-linear request without spectra
         cosmo = {k: v for k, v in x.items() if k in ("omega_b", "omega_cdm", "H0")}   # what the background reads
         cosmo["dncdm1.log10Gamma"] = x["log10Gamma"]                                     # as cobaya.yaml passes it
         c = Class()
@@ -64,7 +66,7 @@ def main():
     jobs = [(n, "logpost") for n in a.threads] * a.repeat + [(1, "background")]
     for n, what in jobs:
         env = dict(os.environ, OMP_NUM_THREADS=str(n))
-        out = subprocess.run([sys.executable, "-I", __file__, a.run, "--child", what], env=env, capture_output=True,
+        out = subprocess.run([sys.executable, __file__, a.run, "--child", what], env=env, capture_output=True,
                              text=True, check=True).stdout.strip().splitlines()[-1]
         r = json.loads(out)
         extra = f", logpost {r['logpost']:.3f}" if "logpost" in r else ""
