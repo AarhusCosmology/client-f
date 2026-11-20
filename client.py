@@ -861,7 +861,26 @@ def run_client(args):
                 if previous_model_path.exists():
                     previous_model = load_model(previous_model_path)
                     background = model_background(previous_model)
-                if background is None:
+                if background is None and cfg.acquisition.boost.background_fit == "least_squares":
+                    from model.network import fit_background_least_squares
+
+                    try:
+                        background = fit_background_least_squares(
+                            inputs, targets, temperature=cfg.acquisition.target_temperature,
+                            window=cfg.acquisition.boost.background_window)
+                    except ValueError as error:
+                        print_master(f"No quadratic background this iteration: {error}")
+                    else:
+                        cold_start = True
+                        print_master(
+                            f"Quadratic background fitted by least squares to the "
+                            f"{background['rows']} training points within "
+                            f"{background['depth']:.0f} log-units of the best (fit rms "
+                            f"{background['resid']:.3g}, {background['flipped']} curvatures "
+                            f"flipped); it stays fixed from here on, and this training starts "
+                            f"from random weights"
+                        )
+                elif background is None:
                     try:
                         background = fit_background(
                             inputs, targets,

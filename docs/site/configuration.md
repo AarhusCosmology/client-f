@@ -30,6 +30,7 @@ Most new methods are opt-in, so a run that takes only the defaults is not the me
 | `boost.boosts` | `null` | The run's last iteration decides how many boosts there are |
 | `boost.density_filter` | `false` | Unfiltered, equally allocated mode samples; the real runs use `true` |
 | `boost.background`, `boost.region`, `boost.mixing` | `null` | Each extension is off |
+| `boost.background_fit` | `crude` | With `background: quadratic`, the mean and covariance of the rows within T · ndim of the best and one scale; `least_squares` fits the quadratic by least squares to the rows within `boost.background_window` (16) times T · ndim / 2 of the best ([guide](_generated/library/docs/boost_background_region.md)) |
 | `boost.region_quantile`, `boost.train_domain`, `boost.mode_depth`, `boost.balance_floor` | `null` | Each extension is off |
 | Profile `retrain`, `added_points` | `false`, `0` | Use saved network without pre-profile training |
 | Profile `chain_length` | `2` | Short deterministic continuation chains |

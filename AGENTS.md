@@ -261,6 +261,13 @@ Keep these:
   training starts from random weights. Afterwards it is read from the previous model
   (`model_background`) and never refitted: a network cannot absorb a change of it, so a refit
   is a cold start.
+* `background_fit: least_squares` (opt-in) fits the quadratic with the injection's
+  `_fit_quadratic` to the rows within `background_window` · T · ndim / 2 of the best. Keep the
+  negative curvatures as fitted: the injection's floor at 1e-3 of the largest raises true
+  curvatures of a correlated likelihood in standardised coordinates (529 rms at the posterior of
+  the 58-parameter Gaussian; `tests/test_boost_background_region.py` catches it). Without the key
+  the crude fit is as it was, and the training domain is built from the rows within T · ndim of
+  the best whichever fit is used.
 * The background alone is not safe on a likelihood that is not Gaussian: where the truth is
   flatter than the quadratic the network must add a rising correction, and it carries it into
   the empty corners (the twin: maxima 2000 above the best). Do not recommend it without the

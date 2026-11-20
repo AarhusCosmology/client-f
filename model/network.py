@@ -213,6 +213,53 @@ def fit_background(inputs, targets, depth):
                 rows=int(near.sum()))
 
 
+def fit_background_least_squares(inputs, targets, temperature, window=None):
+    """The least-squares quadratic background: dict(mean, precision, top, rows, depth, resid, flipped).
+
+    The injection's fit (dataset/peak_samples.py, `_fit_quadratic`) to the rows within
+    window * T * ndim / 2 log-units of the best, never fewer than three per coefficient, selected
+    as the injection selects them (window None: INJECT_WINDOW, the injection's own). In the fit's
+    standardised coordinates z = (x - m0) / s the quadratic is c + b.z + z'Hz / 2. Curvatures of
+    H that are not negative are flipped (`flipped` counts them), the others are kept as fitted;
+    written as top - (x - mean)' precision (x - mean) / 2, mean is the stationary point, top the
+    value there and precision = -H / (s s'). With nothing flipped it is the fitted quadratic
+    itself, so on an exactly Gaussian likelihood it is the truth. Raises ValueError when the rows
+    cannot carry it, and when the stationary point lies farther from the fitted rows' centre
+    than the farthest of them (a curvature the rows do not determine).
+    """
+    from dataset.peak_samples import INJECT_WINDOW, _fit_quadratic, near_best
+
+    x = np.asarray(inputs, dtype=np.float64)
+    y = np.asarray(targets, dtype=np.float64).ravel()
+    ndim = x.shape[1]
+    n_coefficients = 1 + ndim + ndim * (ndim + 1) // 2
+    depth = (INJECT_WINDOW if window is None else float(window)) * 0.5 * float(temperature) * ndim
+    pick = near_best(y, depth, 3 * n_coefficients)
+    if pick.sum() < 3 * n_coefficients:
+        raise ValueError(f"least-squares background: {int(pick.sum())} rows, {3 * n_coefficients} needed "
+                         f"(three per coefficient)")
+    fit = _fit_quadratic(x[pick], y[pick])
+    w = fit["w"]
+    # Only the curvatures that are not negative are flipped (magnitude kept, at least 1e-3 of the
+    # largest, as the injection's). The injection's floor raises every curvature below 1e-3 of the
+    # largest, which in standardised coordinates of a correlated likelihood includes true ones: on
+    # the 58-parameter Gaussian it left the exact fit 529 rms off at the posterior.
+    w_used = np.where(w < 0, w, -np.maximum(np.abs(w), 1e-3 * np.abs(w).max()))
+    H_neg = fit["V"] @ np.diag(w_used) @ fit["V"].T
+    z0 = -np.linalg.solve(H_neg, fit["b"])
+    if not np.linalg.norm(z0) <= fit["radius"]:
+        raise ValueError(f"least-squares background: the stationary point lies {np.linalg.norm(z0):.3g} "
+                         f"from the fitted rows' centre, beyond the farthest of them ({fit['radius']:.3g})")
+    std = fit["std"]
+    precision = -H_neg / np.outer(std, std)
+    top = float(fit["coef"][0] + 0.5 * fit["b"] @ z0)
+    flipped = int(np.sum(fit["w"] >= 0))
+    if not (np.isfinite(precision).all() and np.isfinite(top)):
+        raise ValueError("least-squares background: the fitted quadratic is not finite")
+    return dict(mean=fit["mean"] + std * z0, precision=precision, top=top, rows=int(pick.sum()),
+                depth=float(depth), resid=float(fit["resid"]), flipped=flipped)
+
+
 def background_values(background, points):
     """The background at `points`, at double precision."""
     z = np.asarray(points, dtype=np.float64) - np.asarray(background["mean"], dtype=np.float64)

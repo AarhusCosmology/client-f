@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from config.config import AuditConfig, BoostConfig
 from likelihood.surrogate import ParameterInfo, SurrogateLikelihood, SurrogateMetadata
 from model.network import (build_model, background_values, copy_model_dtype, fit_background,
-                           load_model, model_background, transfer_warm_start)
+                           fit_background_least_squares, load_model, model_background, transfer_warm_start)
 from sampling.region import FLOOR, STRENGTH, Region, boost_clouds, boost_region
 from training.audit import audit_optima
 from training.losses import build_loss
@@ -98,6 +98,48 @@ class Background(unittest.TestCase):
             transfer_warm_start(plain, new)
         with self.assertRaises(ValueError):
             transfer_warm_start(old, plain)
+
+
+class LeastSquaresBackground(unittest.TestCase):
+    """acquisition.boost.background_fit: least_squares on a correlated Gaussian, whose standardised
+    Hessian has curvatures far below 1e-3 of the largest (the injection's floor would raise them)."""
+
+    def setUp(self):
+        rng = np.random.default_rng(7)
+        q, _ = np.linalg.qr(rng.normal(size=(NDIM, NDIM)))
+        cov = (q * np.array([1.0, 1e-2, 1e-4, 1e-6])) @ q.T * 0.01          # condition number 1e6
+        self.mean, self.icov = np.full(NDIM, 0.5), np.linalg.inv(cov)
+        self.truth = lambda x: 3.0 - 0.5 * np.einsum("ni,ij,nj->n", x - self.mean, self.icov, x - self.mean)
+        self.x = self.mean + rng.multivariate_normal(np.zeros(NDIM), 7.0 * cov, size=2000)
+        self.y = self.truth(self.x)
+
+    def test_an_exact_gaussian_is_reproduced(self):
+        bg = fit_background_least_squares(self.x, self.y, temperature=7.0)
+        self.assertEqual(bg["flipped"], 0)
+        self.assertEqual(bg["depth"], 16.0 * 0.5 * 7.0 * NDIM)          # the injection's window
+        far = self.mean + 3 * (self.x[:200] - self.mean)
+        np.testing.assert_allclose(background_values(bg, far), self.truth(far), rtol=1e-8, atol=1e-6)
+        np.testing.assert_allclose(bg["mean"], self.mean, atol=1e-8)
+        self.assertAlmostEqual(bg["top"], 3.0, places=7)
+        crude = fit_background(self.x, self.y, depth=7.0 * NDIM)        # one scale cannot do it
+        self.assertGreater(np.std(background_values(crude, self.x) - self.y), 1e-3)
+        model = build_model(self.x, self.y, 1, 8, "alsing", background=bg)
+        np.testing.assert_allclose(model_background(model)["precision"], bg["precision"], rtol=1e-6)
+
+    def test_the_window_selects_rows_near_the_best_with_a_floor(self):
+        narrow = fit_background_least_squares(self.x, self.y, temperature=7.0, window=0.01)
+        self.assertEqual(narrow["rows"], 3 * (1 + NDIM + NDIM * (NDIM + 1) // 2))
+        wide = fit_background_least_squares(self.x, self.y, temperature=7.0, window=1000)
+        self.assertEqual(wide["rows"], len(self.y))
+        with self.assertRaises(ValueError):
+            fit_background_least_squares(self.x[:20], self.y[:20], temperature=7.0)
+
+    def test_a_curvature_the_rows_do_not_determine_is_refused(self):
+        rng = np.random.default_rng(3)
+        x = rng.random((500, NDIM))
+        y = -0.5 * np.sum(((x[:, 1:] - 0.5) / 0.05) ** 2, axis=1) + 40.0 * x[:, 0]   # rising along p0
+        with self.assertRaises(ValueError):
+            fit_background_least_squares(x, y, temperature=7.0)
 
 
 class Regions(unittest.TestCase):
@@ -274,6 +316,21 @@ class Configuration(unittest.TestCase):
 
     def test_values_are_checked(self):
         for bad in (dict(background="cubic"), dict(background=True), dict(region=1), dict(region=0.5), dict(region=True)):
+            with self.assertRaises(ValueError, msg=str(bad)):
+                BoostConfig.from_dict(dict(n=10, start_iteration=2, **bad))
+
+    def test_the_fit_of_the_background(self):
+        plain = BoostConfig.from_dict(dict(n=10, start_iteration=2, background="quadratic"))
+        self.assertEqual((plain.background_fit, plain.background_window), ("crude", 16.0))
+        lsq = BoostConfig.from_dict(dict(n=10, start_iteration=2, background="quadratic",
+                                         background_fit="least_squares", background_window=1))
+        self.assertEqual((lsq.background_fit, lsq.background_window), ("least_squares", 1.0))
+        self.assertIsInstance(lsq.background_window, float)
+        for bad in (dict(background_fit="least_squares"),                                  # no background
+                    dict(background="quadratic", background_fit="exact"),
+                    dict(background="quadratic", background_window=2),                      # crude fit
+                    dict(background="quadratic", background_fit="least_squares", background_window=0),
+                    dict(background="quadratic", background_fit="least_squares", background_window=True)):
             with self.assertRaises(ValueError, msg=str(bad)):
                 BoostConfig.from_dict(dict(n=10, start_iteration=2, **bad))
 

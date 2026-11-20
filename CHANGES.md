@@ -36,7 +36,8 @@ setting; [PERFORMANCE.md](PERFORMANCE.md) has the speed and memory work with its
   below the highest; `balance_floor` gives very light modes less than an equal share ([guide](docs/boost_modes_mixing.md)).
 - **Where the network is believed.** `region` confines chains and searches to where verified boost points reach; `region_quantile`
   makes that reach robust against a far point ([guide](docs/boost_background_region.md)).
-- **Training.** `background` puts a fixed quadratic under the network; `train_domain` trains only near the posterior;
+- **Training.** `background` puts a fixed quadratic under the network (`background_fit: least_squares` fits it by least
+  squares to the rows near the best, as the injection does); `train_domain` trains only near the posterior;
   a warm-started training of the boost phase keeps the weights at the end of its schedule, and one from random weights
   does with `training.random_start_weights: last`. The warm start stays the default in the
   boosts; `training.warm_start: false` (random weights) is for a likelihood on which warm-started networks stop improving

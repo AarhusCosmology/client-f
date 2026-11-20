@@ -58,6 +58,7 @@ Detection and sampling operate on the network. A missed or severely underestimat
 | `mode_depth` | Leaves out modes whose highest maximum lies this far below the highest mode's; `auto` is `temperature * ndim / 2`. |
 | `balance_floor` | Gives a mode lighter than the floor less than an equal share. |
 | `background: quadratic` | Fits a fixed quadratic at the boost transition and cold-starts the residual network. |
+| `background_fit: least_squares` | Needs `background`. Fits that quadratic by least squares to the rows within `background_window` (16) times T ndim / 2 of the best, as the injection does, instead of one covariance and one scale. Exact on an exact Gaussian; on a near-Gaussian network truth 6–15% more accurate after 15 000 boost points, more with a narrow window. |
 | `region: 2.0` | Restricts exploration using genuinely evaluated boost clouds; this describes known modes, not exhaustive coverage. |
 | `region_quantile` | Needs `region`. Sets the region's reach by a quantile of the distances, not by the farthest point. |
 | `train_domain` | Needs `region`. Trains only on points near the posterior from the first boost on. An oscillating likelihood needed it, and it cost near-Gaussian runs accuracy. |

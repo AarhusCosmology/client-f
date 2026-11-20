@@ -88,6 +88,60 @@ and it carries that rising correction into the corners, where there is no data. 
 with the boosts (69 after three, to +4187). A background of up to 12 Gaussians changes
 nothing: the far rows fall faster than any Gaussian.
 
+### A least-squares fit (`background_fit: least_squares`, opt-in, 20 November 2026)
+
+The crude quadratic is not the best quadratic, even for an exactly Gaussian likelihood: one
+covariance read off the tempered rows and one scale leave the network a quadratic correction
+with up to d(d + 3)/2 coefficients. On the 58-parameter Gaussian that correction was 1.63 rms at
+the posterior, and the networks' error there was 4 to 6% of it.
+`background_fit: least_squares` (`fit_background_least_squares`) fits the quadratic by least
+squares instead, with the injection's fit (`dataset/peak_samples.py`, `_fit_quadratic`) to the
+rows within `background_window` · T · ndim / 2 log-units of the best, never fewer than three per
+coefficient: the injection's rule, with its window of 16 by default. Curvatures that are not
+negative are flipped and the others kept as fitted. The injection's floor at 1e-3 of the largest
+curvature is not applied to them: in standardised coordinates of a correlated likelihood it
+raises true curvatures, and it left the exact fit of the 58-parameter Gaussian 529 rms off at
+the posterior. A fit whose stationary point lies beyond the farthest fitted row is refused, and
+that training has no background, as when the crude fit fails. Like the crude one it is fitted
+once and never refitted.
+
+Fitted to the training sets of the two runs' first boost networks (network 16 of the Gaussian,
+network 14 of a 44-parameter Euclid network truth; T = 7), background minus truth, as a
+standard deviation:
+
+| | at exact posterior draws | over the training set | within T · ndim of the best |
+|---|---|---|---|
+| Gaussian, 58 parameters: crude | 1.63 | 121 000 | 38.1 |
+| least squares, any window from 0.5 to 16 | below 1e-5 | 0.008 to 0.015 | below 1e-4 |
+| Euclid network truth: crude | 10.4 | 384 | 24.1 |
+| least squares, window 16 | 8.1 | 291 | 22.3 |
+| least squares, window 1 | 2.4 | 293 | 47.6 |
+
+On the Gaussian the far design points set the scale of the network's targets with the crude
+fit, and only the rounding of their single-precision values with the least-squares one. On the
+network truth no window removes the far points' scale, and a narrow window is better at the
+posterior and worse in the tempered rows. The model evaluates the background in single
+precision, which leaves 0.0015 rms of rounding at the posterior of the 58-parameter Gaussian
+(0.0009 for the crude fit).
+
+Branches of the two runs at their first boost network, otherwise as the runs, measured what the
+networks gain (exact posterior draws, 20 November 2026; one seed each):
+
+| | crude (the run) | least squares, window 16 | least squares, window 1 |
+|---|---|---|---|
+| Gaussian 58, network 16 (3000 boost points) | 0.120 | 0.0015 | |
+| Euclid truth, network 15 (6000) | 0.957 | 0.971 | 0.925 |
+| Euclid truth, network 16 (9000) | 0.644 | 0.628 | 0.580 |
+| Euclid truth, network 17 (12 000) | 0.546 | 0.511 | 0.471 |
+| Euclid truth, network 18 (15 000) | 0.484 | 0.453 | 0.409 |
+
+On the Gaussian the network has nothing left to learn but the background's rounding: the run's
+networks never got below 0.07 in 87 000 boost points, and the branch's next network is again at
+0.0015. On the network truth the gain is smaller and has grown with the boosts, to 15% with a
+window of 1 and 6% with 16 at network 18 (the first network, the one trained from random weights,
+was worse in both branches: 2.80 and 3.10 against 2.50). These are four networks of runs of thirty;
+the default window stays the injection's until a narrower one has been measured on more runs.
+
 ## The region
 
 `sampling/region.py`. Built from the boost rows alone: the T = 1 posterior points whose true
@@ -166,6 +220,8 @@ Measured with the edge at 2:
 | key | default | |
 |---|---|---|
 | `background` | absent | `quadratic`: see above; the first training with boost points is a cold start |
+| `background_fit` | `crude` | with `background`: `least_squares` fits the quadratic by least squares (above) |
+| `background_window` | 16 | with `background_fit: least_squares`: the rows fitted, in units of T · ndim / 2 below the best |
 | `region` | absent | a number above 1, the edge in multiples of the boost points' reach; 2 is the measured setting |
 | `region_quantile` | absent | with `region`: a number in (0, 1], each cloud's reach is that quantile of its points' distances instead of the farthest point (below) |
 | `train_domain` | absent | with `region`: a number of at least 1, the boost networks are trained only inside that edge of a fixed ellipsoid (below) |

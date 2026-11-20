@@ -204,6 +204,18 @@ class BoostConfig:
     # concave quadratic plus a network trained on the difference; that first training starts
     # from random weights, later ones warm-start with the quadratic unchanged.
     background: str | None = None
+    # With background quadratic: how the quadratic is fitted. "crude": as above, the mean and
+    # covariance of the rows within T * ndim of the best and one scale (model/network.py
+    # fit_background). "least_squares": the injection's least-squares quadratic, fitted to the
+    # rows within background_window * T * ndim / 2 of the best, at least three per coefficient,
+    # as the injection selects them (fit_background_least_squares). On the 58-parameter Gaussian the crude fit
+    # left the network a quadratic correction of 1.6 rms at the posterior (20 November 2026).
+    background_fit: str = "crude"
+    # With background_fit least_squares: the rows fitted are those within this many T * ndim / 2
+    # of the best (at least three per coefficient), as the injection's window. 16, the
+    # injection's, takes nearly every tempered row at T = 7; on a Euclid network truth 1 left
+    # 2.4 rms at the posterior, 16 left 8.1 and the crude fit 10.4 (20 November 2026).
+    background_window: float = 16.0
     # A number > 1 (2 is the measured setting): chains, the boost's own sampling and the
     # audit's searches see the network only inside the region the boost points reach, this
     # many times as far as the farthest of them (sampling/region.py). null: no region.
@@ -263,6 +275,16 @@ class BoostConfig:
             raise ValueError("acquisition.boost.density_filter must be a boolean")
         if d.get("background") not in (None, "quadratic"):
             raise ValueError("acquisition.boost.background must be 'quadratic' or absent")
+        if d.get("background_fit", "crude") not in ("crude", "least_squares"):
+            raise ValueError("acquisition.boost.background_fit must be 'crude' or 'least_squares'")
+        if d.get("background_fit", "crude") != "crude" and d.get("background") != "quadratic":
+            raise ValueError("acquisition.boost.background_fit needs acquisition.boost.background: quadratic")
+        if "background_window" in d:
+            w = d["background_window"]
+            if isinstance(w, (bool, str)) or w is None or not float(w) > 0:
+                raise ValueError("acquisition.boost.background_window must be a positive number")
+            if d.get("background_fit", "crude") != "least_squares":
+                raise ValueError("acquisition.boost.background_window needs acquisition.boost.background_fit: least_squares")
         if d.get("region") is not None and (isinstance(d["region"], bool) or not float(d["region"]) > 1):
             raise ValueError("acquisition.boost.region must be a number above 1 or absent")
         q = d.get("region_quantile")
@@ -285,7 +307,7 @@ class BoostConfig:
             raise ValueError("acquisition.boost.balance_floor must be a number in (0, 1] or absent")
         if d.get("boosts") is not None and (isinstance(d["boosts"], bool) or int(d["boosts"]) < 1):
             raise ValueError("acquisition.boost.boosts must be an integer of at least 1 or absent")
-        special = {"background": lambda v: v, "region": lambda v: None if v is None else float(v),
+        special = {"background": lambda v: v, "background_fit": lambda v: v, "region": lambda v: None if v is None else float(v),
                    "region_quantile": lambda v: None if v is None else float(v),
                    "train_domain": lambda v: None if v is None else float(v),
                    "mode_depth": lambda v: None if v is None else v if v == "auto" else float(v),
