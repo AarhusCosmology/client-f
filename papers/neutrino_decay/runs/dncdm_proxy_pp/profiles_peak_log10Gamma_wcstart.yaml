@@ -1,0 +1,40 @@
+# The PDP+ true 1D profile of log10Gamma over the H0WC peak, [11.5, 13.75] x 37, started at every node from the H0WC
+# true optimum instead of the PDP+ network's. 9 November 2026 (Thomas): a narrow PDP+ peak that the network missed
+# would be missed by the true profile too, which starts at the network's optimum; is there one at the bottom of the
+# H0WC peak (log10Gamma 12.81, n_s 0.979)?
+#
+# The settings are those of profiles_peak_log10Gamma.yaml, line for line (the resume check compares them with the
+# manifest of results_profiles/dncdm_proxy_pp_peak_gamma, from which the study is made); only the starts differ.
+# start_from_wc_peak.py makes the study folder from the two finished peak studies: the copied manifest, audit and
+# ranges, and surrogate_profiles.json with node j's start = the PDP+ true optimum at node j with its six cosmological
+# parameters (omega_b, omega_cdm, H0, logA, n_s, tau_reio) replaced by the H0WC true optimum's at node j. The Planck
+# nuisances stay PDP+'s: H0WC's CamSpec is cut at l < 1000 in TT, its foreground amplitudes are not PDP+'s. The chains
+# begin at the H0WC best fit's node, 12.8125. The record is the study's start_override.json.
+#
+#   python runs/dncdm_proxy_pp/start_from_wc_peak.py          # login node, seconds; makes the folder below
+#   sbatch true_profiles/submit_profiles.sh results/20261106_121906_dncdm_proxy_pp runs/dncdm_proxy_pp/profiles_peak_log10Gamma_wcstart.yaml results_profiles/dncdm_proxy_pp_peak_gamma_wcstart
+#
+# The folder has a manifest, so the job resumes it (no new surrogate scan; the true stage reads the edited starts).
+# Cost: 37 nodes from starts about 1 sigma off in n_s, logA, tau_reio and omega_b; the PDP+ peak study took 1228 calls
+# (median 18 a node) from the network's starts, so perhaps 2000-3000 calls here: 2-5 hours on one q48 node.
+#
+iteration: 14
+profile_points: 37          # 0.0625 apart, ends included
+workers: 46                 # backend processes on the node; may be changed when resuming
+retrain: false              # the saved network as it is
+added_points: 0
+surrogate_optimizer: hybrid
+corrected_tol: null         # null: 1e-2 in the log-objective, as the other PDP+ and H0WC studies
+chain_length: 2             # a cold start after every two chained nodes: keeps the processes busy
+maxfun: 108                 # true calls a node may use: six gradient rounds of 17
+total_call_budget: 4300     # above the dry run's conservative ceiling (every node and the anchor at maxfun): it never binds
+audit_points: 3             # best saved training values recomputed before anything else
+audit_tolerance: 0.01
+region: run                 # searched inside the region of the boosts (the run's own edge, 1.5)
+hybrid_walkers: 8
+hybrid_hops: 30             # hops of the network scan at most (CLiENT default 12)
+seed: 42
+parameters:
+  - log10Gamma
+ranges:
+  log10Gamma: [11.5, 13.75]

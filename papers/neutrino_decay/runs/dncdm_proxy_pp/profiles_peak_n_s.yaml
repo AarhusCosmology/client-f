@@ -1,0 +1,32 @@
+# The true 2D profile of the PDP+ decaying-neutrino proxy in (log10Gamma, n_s) over [11.5, 13.75] x [0.963, 0.991],
+# from network 14 of results/20261106_121906_dncdm_proxy_pp. 8 November 2026 (Thomas): the grid of
+# runs/dncdm_proxy_wc/profiles_peak_n_s.yaml node for node, so the two datasets' maps over the H0WC peak compare
+# directly (H0WC: n_s 0.979 in its peak at log10Gamma 12.9; that file's header says why n_s). At every node the other
+# 14 parameters are optimised with the true likelihood (CLASS++ cb2255f4, runs/dncdm_proxy_pp/job.env).
+#
+#   sbatch true_profiles/submit_profiles.sh results/20261106_121906_dncdm_proxy_pp runs/dncdm_proxy_pp/profiles_peak_n_s.yaml results_profiles/dncdm_proxy_pp_peak_ns
+#
+# The PDP+ ridge (pp14_preview.txt): n_s at the optimum 0.9704 / 0.9752 / 0.9814 at log10Gamma 11.5 / 12.75 / 13.75.
+# Cost: 289 nodes, 14 free parameters, a gradient round is 16 calls: about 31 calls a node (the PDP+ 2D study 7053824),
+# about 9000 true calls, about 9 hours on one q48 node.
+dimension: 2
+iteration: 14
+parameters: [log10Gamma, n_s]
+profile_points: 17          # per axis: 289 nodes
+ranges:
+  log10Gamma: [11.5, 13.75]
+  n_s: [0.963, 0.991]
+workers: 46                 # backend processes on the node; may be changed when resuming
+retrain: false              # the saved network as it is
+added_points: 0
+surrogate_optimizer: hybrid
+corrected_tol: null         # null: 1e-2 in the log-objective, as the other studies
+chain_length: 2             # a cold start after every two chained nodes: keeps the processes busy
+maxfun: 96                  # true calls a node may use: six gradient rounds of 16
+total_call_budget: 28300    # above the dry run's conservative ceiling (every node and the anchor at maxfun): it never binds
+audit_points: 3             # best saved training values recomputed before anything else
+audit_tolerance: 0.01
+region: run                 # searched inside the region of the boosts (the run's own edge, 1.5)
+hybrid_walkers: 8
+hybrid_hops: 30             # hops of the network scan at most (CLiENT's default 12), as the other studies
+seed: 42

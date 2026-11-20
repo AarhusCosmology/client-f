@@ -1,0 +1,243 @@
+# The decaying-neutrino proxy (CLASS++ ncdm_decay_dr, dr_representation = proxy) on PDP+ (5 November 2026, Thomas):
+#   Planck Commander low-l TT + SimAll low-l EE + NPIPE CamSpec TTTEEE + Planck PR4 lensing
+#   + DESI DR2 BAO (all tracers) + Pantheon+ (without SH0ES).
+# The likelihoods are those of runs/sidr_drmd2_pp_low (the PDP+ of the SIDR + DRMD paper), and the same six as the
+# hpc_client harness's runs/proxy_campaign_2k_log of 29 September 2026, which this run repeats from scratch with
+# CLASS++ master cb2255f4 (job.env) and client-f: since that run, #495 (the parent's stress-energy in the Einstein
+# equations was read from a stale state: TT +0.4% at low l, -0.15% at high l) and #499 (the momentum quadrature's
+# drivers normalised to rho + p, DNCDM included) changed the spectra of this model.
+#
+# The model is that run's, unchanged (scenario A1, normal ordering, arXiv:2203.09075 scenario A): the heaviest state
+# nu3 (dncdm1, m 0.05 eV) decays to a massless nu1 plus a massless scalar phi, with inverse decays, through the proxy
+# representation (exact coarse background + RTA perturbations); nu1 starts thermally populated, phi empty; nu2
+# (0.0087 eV) is a stable spectator; N_ur = 3.044 - 3 x 1.0132. At log10Gamma -2 the parent is stable to ~6e-5, so the
+# bottom of the box is LambdaCDM with masses 0.05 + 0.0087 (+ 0 for nu1).
+#
+# Sampled in log10Gamma (Gamma in km/s/Mpc, NOT 1/Mpc), flat over [-2, 14]: the mass loss happens over 0..6 and the
+# isotropisation limit near 12-13, decades apart, which a linear design cannot see both of. A flat-in-Gamma constraint
+# is obtained afterwards from the network by adding ln(10) * log10Gamma to its log-prior.
+# H0 is sampled, never 100*theta_s: every shooting step would re-solve the expensive serial proxy background.
+#
+# Changed from proxy_campaign_2k_log: the prior IS the training box for every parameter (domain_bounds.json repeats
+# it), as in our runs since 21 October; the cosmological ranges are those of runs/axion_pp_high (H0 in place of
+# 100 theta_s: [62, 74]); the CamSpec nuisances and their boxes are runs/sidr_drmd2_pp_low's; derived parameters are
+# recorded. non_linear stays hmcode at the default k_max floor (measured 15 September: CamSpec Delta chi2 0.05 against
+# a floor of 20); CLASS++ precision at its defaults.
+# 16 sampled parameters: log10Gamma, six LambdaCDM and nine CamSpec nuisances.
+likelihood:
+  planck_2018_lowl.TT: null
+  planck_2018_lowl.EE: null
+  planck_NPIPE_highl_CamSpec.TTTEEE: null
+  planckpr4lensing.PlanckPR4Lensing: null      # pip package, install/06_external_likelihoods.sh
+  bao.desi_dr2.desi_bao_all: null
+  sn.pantheonplus: null
+theory:
+  classy:
+    extra_args:
+      non_linear: hmcode
+      N_ur: 0.0044                # 3.044 - 3 x 1.0132: nu2, the parent nu3 and the daughter nu1
+      evolver_background: 3       # etd; ndf15 fails on the proxy's background
+      nu2.type: ncdm_standard
+      nu2.m: 0.0087
+      nu2.T: 0.71611
+      nu2.deg: 1
+      dncdm1.type: ncdm_decay_dr
+      dncdm1.dr_representation: proxy
+      dncdm1.m: 0.05
+      dncdm1.T: 0.71611
+      dncdm1.deg: 1
+      dncdm1.dr_f_ini_l: 1        # the daughter nu1 starts thermally populated ...
+      dncdm1.dr_f_ini_phi: 0      # ... and phi empty
+      dncdm1.quadrature_strategy: 3   # required with momenta_bins
+      dncdm1.momenta_bins: 16         # parent: 12 biases h by -0.11 sigma, 16 by <= 0.03 sigma
+    stop_at_error: false
+    renames:
+      As: A_s
+      ns: n_s
+      nrun: alpha_s
+      nrunrun: beta_s
+      nt: n_t
+      ntrun: alpha_t
+      rdrag: rs_drag
+      omegak: Omega_k
+      omegal: Omega_Lambda
+      w: w0_fld
+      wa: wa_fld
+      omegabh2: omega_b
+      omegab: Omega_b
+      omegach2: omega_cdm
+      omegac: Omega_cdm
+      omegam: Omega_m
+      omegan: Omega_nu
+      tau: tau_reio
+      zrei: z_reio
+      deltazrei: reionization_width
+      helium_redshift: helium_fullreio_redshift
+      helium_delta_redshift: helium_fullreio_width
+      yhe: YHe
+      yheused: YHe
+      theta_s_100: 100*theta_s
+params:
+  log10Gamma:
+    prior:
+      min: -2.0
+      max: 14.0
+    ref: 6.0
+    proposal: 1.0
+    drop: true
+    latex: \log_{10}(\Gamma\,[\mathrm{km\,s^{-1}\,Mpc^{-1}}])
+  dncdm1.log10Gamma:
+    value: 'lambda log10Gamma: log10Gamma'
+    derived: false
+  omega_b:
+    prior:
+      min: 0.0210
+      max: 0.0238
+    ref: 0.02236
+    proposal: 0.00015
+    latex: \omega_b
+  omega_cdm:
+    prior:
+      min: 0.110
+      max: 0.129
+    ref: 0.1185
+    proposal: 0.001
+    latex: \omega_{\rm cdm}
+  H0:
+    prior:
+      min: 62.0
+      max: 74.0
+    ref: 67.8
+    proposal: 0.5
+    latex: H_0
+  logA:
+    prior:
+      min: 2.90
+      max: 3.20
+    ref: 3.044
+    proposal: 0.015
+    drop: true
+    latex: \ln(10^{10} A_s)
+  A_s:
+    value: 'lambda logA: 1e-10*np.exp(logA)'
+    latex: A_s
+  n_s:
+    prior:
+      min: 0.92
+      max: 1.02
+    ref: 0.9665
+    proposal: 0.004
+    latex: n_s
+  tau_reio:
+    prior:
+      min: 0.01
+      max: 0.12
+    ref: 0.057
+    proposal: 0.007
+    latex: \tau_{\rm reio}
+  A_planck:
+    prior:
+      dist: norm
+      loc: 1
+      scale: 0.0025
+    ref:
+      dist: norm
+      loc: 1
+      scale: 0.002
+    proposal: 0.0005
+    latex: y_{\rm cal}
+  amp_143:
+    prior:
+      min: 0
+      max: 50
+    ref:
+      dist: norm
+      loc: 10
+      scale: 1
+    proposal: 1
+    latex: A^{\rm power}_{143}
+  amp_217:
+    prior:
+      min: 0
+      max: 50
+    ref:
+      dist: norm
+      loc: 20
+      scale: 1
+    proposal: 1
+    latex: A^{\rm power}_{217}
+  amp_143x217:
+    prior:
+      min: 0
+      max: 50
+    ref:
+      dist: norm
+      loc: 10
+      scale: 1
+    proposal: 1
+    latex: A^{\rm power}_{143\times217}
+  n_143:
+    prior:
+      min: 0
+      max: 5
+    ref:
+      dist: norm
+      loc: 1
+      scale: 0.2
+    proposal: 0.2
+    latex: \gamma^{\rm power}_{143}
+  n_217:
+    prior:
+      min: 0
+      max: 5
+    ref:
+      dist: norm
+      loc: 1
+      scale: 0.2
+    proposal: 0.2
+    latex: \gamma^{\rm power}_{217}
+  n_143x217:
+    prior:
+      min: 0
+      max: 5
+    ref:
+      dist: norm
+      loc: 1
+      scale: 0.2
+    proposal: 0.2
+    latex: \gamma^{\rm power}_{143\times217}
+  calTE:
+    prior:
+      dist: norm
+      loc: 1
+      scale: 0.01
+    ref:
+      dist: norm
+      loc: 1
+      scale: 0.01
+    proposal: 0.01
+    latex: c_{TE}
+  calEE:
+    prior:
+      dist: norm
+      loc: 1
+      scale: 0.01
+    ref:
+      dist: norm
+      loc: 1
+      scale: 0.01
+    proposal: 0.01
+    latex: c_{EE}
+  theta_s_100:
+    latex: 100\theta_s
+  sigma8:
+    latex: \sigma_8
+  Omega_m:
+    latex: \Omega_\mathrm{m}
+  S8:
+    derived: 'lambda sigma8, Omega_m: sigma8*np.sqrt(Omega_m/0.3)'
+    latex: S_8
+  rs_drag:
+    latex: r_\mathrm{drag}
+  z_reio:
+    latex: z_\mathrm{reio}

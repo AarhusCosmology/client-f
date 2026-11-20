@@ -1,0 +1,87 @@
+# The decaying-neutrino proxy on PDP+ (5 November 2026, Thomas): runs/dncdm_proxy_pp/cobaya.yaml, 16 sampled
+# parameters, the training box this folder's domain_bounds.json (= the priors).
+#
+#   sbatch --nodes=3 --ntasks=144 --time=4-00:00:00 submit_client.sh dncdm_proxy_pp
+#
+# The paper's run: job 7047807 on 144 ranks (3 q48 nodes), 24 hours, results/20261106_121906_dncdm_proxy_pp.
+#
+# Timing job 7047712 (6 November 2026, CLASS++ cb2255f4, a full q48 node, 192 points uniform in the box): 174 s per
+# evaluation on average (median 159, p90 264, max 275), every one finite, 2.5 GB per rank at most.
+#
+# Settings: docs/boost.md's set for likelihoods known to be non-Gaussian, as runs/sidr_drmd2_pp_low (whose settings
+# these are, key for key), with the batch sizes of docs/boost.md's recommendation (3000 per boost) and 3000 per design
+# and tempered batch in place of 6000/5000/10 000. The proxy costs about 15 times a SIDR + DRMD evaluation (140 core-s
+# per evaluation on a full q48 node in the harness run of 29 September 2026, 9 there), and its posterior has one
+# mode: a ridge in log10Gamma (stable end, the mass-loss step at 0..6, a plateau, the isotropisation cliff at 12-13.5)
+# along which n_s and H0 move. The harness ran 2000 + 2000 per iteration for twenty networks and then five boosts of
+# 2000 with the density filter, the quadratic background and the region (its arm A): rms truth - network 0.05 to 0.13 in
+# every log10Gamma bin, where five plain boosts (arm B) left 0.12 to 1.4 (Thomas, 9 October 2026: "one must use the
+# recipe").
+#
+# No -i: the batch criterion hands over to the boosts, and the run ends after ten boosts. Expected evaluations:
+# 3000 + (about 10) x 3100 + 10 x 3000, about 65 000: 3100 core-hours, 33 hours of evaluation on two nodes, plus the
+# training and sampling on rank 0.
+#
+# Paths are relative to this folder (papers/neutrino_decay/). The training box is this folder's domain_bounds.json.
+likelihood:
+  wrapper: cobaya
+  input: runs/dncdm_proxy_pp/cobaya.yaml
+prior:
+  n_samples: 3000
+  sampling_strategy: lhs
+  n_sigma: null
+  n_inject: 100
+acquisition:
+  n_append: 3000
+  pool_factor: 20
+  n_neighbors: 20
+  target_temperature: 7.0
+  n_inject: 100             # fitted to the points near the best (inject_window 16, CLiENT's default)
+  audit: {chain: true, tau: 5, posterior: 150}   # chain search, threshold 5, posterior pilot
+  boost:                    # docs/boost.md, "Two recommended settings": known non-Gaussian
+    n: 3000                 # posterior points (T = 1) per boost, accepted by the density filter
+    start_iteration: 30     # at the latest: the boosts begin when the ordinary loop has converged
+    boosts: 10              # the run ends after ten boosts
+    density_filter: true    # docs/posterior_density_boost.md
+    pool_factor: 20
+    background: quadratic   # docs/boost_background_region.md: fitted once, at the first training
+    region: 1.5
+    region_quantile: 0.999  # the region's reach by a quantile of the boost points' distances
+    train_domain: 1.25      # trained only near the posterior from the first boost on
+    mixing: 0.1             # the modes decided by measured mixing
+    min_share: 0.005
+model:
+  n_layers: 5
+  n_neurons: 512
+  activation: alsing
+training:
+  n_epochs: 5000
+  batch_size: 128
+  loss: msre
+  sigma_level: 3
+  msre_ess_floor: 0.1
+  learning_rate: 0.0001
+  validation_split: 0.1
+  patience: 250
+  lr_schedule: plateau
+  lr_factor: 0.3
+  lr_patience: 75
+  lr_min: 1.0e-06
+  lr_grace: 100
+  warm_start: true
+sampling:
+  sampler: aies
+  temperature: 7.0
+  n_walkers: 432
+  n_steps: 60000
+  burn_in: 5000
+  thin: 5
+  chunk_size: 1000
+convergence:
+  metric: tempered_batch_scatter   # docs/tempered_convergence.md
+  threshold: 1.2                   # in units of sampling.temperature
+  consecutive: 2
+  max_iterations: 41               # networks 0 to 40 at most: 30 of the ordinary loop and ten boosts
+seed: 42
+derived:
+  inputs: auto

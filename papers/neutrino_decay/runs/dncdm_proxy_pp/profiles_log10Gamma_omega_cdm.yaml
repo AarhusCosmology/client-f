@@ -1,0 +1,41 @@
+# The true 2D profile of the PDP+ decaying-neutrino proxy in (log10Gamma, omega_cdm), from network 14 of
+# results/20261106_121906_dncdm_proxy_pp (ten boosts, held-out rms 0.03 at its posterior). At every node the other 14
+# parameters are optimised with the true likelihood (CLASS++ cb2255f4, runs/dncdm_proxy_pp/job.env). 7 November 2026.
+# Run it after profiles_log10Gamma.yaml (same network, same settings): that study's gain of the true stage
+# (status.py) says whether the network's optima are right before this one spends its calls.
+#
+#   sbatch true_profiles/submit_profiles.sh results/20261106_121906_dncdm_proxy_pp runs/dncdm_proxy_pp/profiles_log10Gamma_omega_cdm.yaml results_profiles/dncdm_proxy_pp_gamma_ocdm
+#
+# 25 x 25 nodes: log10Gamma over [-2, 13.5] in steps of 0.65 (as the 1D study's range), omega_cdm over
+# [0.1162, 0.1204] in steps of 0.000175 (0.28 posterior sigma; posterior 0.11815 +- 0.00062). A network-only preview
+# (analysis/net_profile_preview/, local L-BFGS from the chain's best samples, 7 November) put the 6.18 contour inside
+# this rectangle everywhere (network Delta chi2 >= 8 at both omega_cdm edges, >= 23 at log10Gamma 13.5) and every one
+# of its 608 optima inside the boost region, so the study should not stop on a node outside it.
+# The low-log10Gamma "island" of the 68% marginal contour is the stable plateau sitting at that contour's level
+# (64 to 81 chain counts per bin against a level of 62), not a maximum: the preview has one basin.
+#
+# Cost: 14 free parameters, a gradient round is 16 calls. At one to two rounds a node about 15 000 to 20 000 true
+# calls; at about 200 core-s a call (the run's journal: 253 core-s per point with its overheads; the timing job 174 s)
+# on 46 workers that is 18 to 24 hours on one q48 node; the budget below allows every node its maxfun (about 70 h).
+# 21 x 21 (profile_points: 21) would cost 30% less. The job script's 72 h limit applies; the same sbatch resumes.
+dimension: 2
+iteration: 14
+parameters: [log10Gamma, omega_cdm]
+profile_points: 25          # per axis: 625 nodes
+ranges:
+  log10Gamma: [-2.0, 13.5]
+  omega_cdm: [0.1162, 0.1204]
+workers: 46                 # backend processes on the node; may be changed when resuming
+retrain: false              # the saved network as it is
+added_points: 0
+surrogate_optimizer: hybrid
+corrected_tol: null         # null: 1e-2 in the log-objective. Not below twice the noise floor the probe prints
+chain_length: 2             # a cold start after every two chained nodes: keeps the processes busy
+maxfun: 96                  # true calls a node may use: six gradient rounds of 16
+total_call_budget: 61000    # (nodes + 1) x maxfun + nodes + 3, rounded up: every node at its maxfun, so it never binds
+audit_points: 3             # best saved training values recomputed before anything else
+audit_tolerance: 0.01
+region: run                 # searched inside the region of the boosts (the run's own edge, 1.5)
+hybrid_walkers: 8
+hybrid_hops: 30             # hops of the network scan at most (CLiENT's default 12), as profiles_log10Gamma.yaml
+seed: 42

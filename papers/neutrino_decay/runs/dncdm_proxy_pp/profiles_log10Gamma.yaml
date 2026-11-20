@@ -1,0 +1,32 @@
+# True 1D profiles of 1 of the 16 parameters of 20261106_121906_dncdm_proxy_pp,
+# starting from network 14. Written by true_profiles/make_config.py; the ranges are the
+# +-3 sigma quantiles of posterior_it_14.npz, cut at the training box.
+#
+#   sbatch true_profiles/submit_profiles.sh results/20261106_121906_dncdm_proxy_pp runs/dncdm_proxy_pp/profiles_log10Gamma.yaml results_profiles/dncdm_proxy_pp_gamma
+#
+# 7 November 2026: log10Gamma over [-2, 13.5] in steps of 0.25. A network-only preview (analysis/net_profile_preview/)
+# has the stable plateau at Delta chi2 ~3 below log10Gamma 2.5, the minimum at 5-9, 4 at ~11.5 and 25 at 13.5, every
+# optimum inside the boost region. The profile does not depend on the prior's measure in Gamma (flat in log10Gamma
+# here), so it gives the frequentist limit on Gamma directly. Cost: 15 free parameters, 17 calls a gradient round;
+# at one to two rounds a node about 1100 to 2200 true calls, 1.5 to 3 hours on one q48 node.
+#
+iteration: 14
+profile_points: 63          # nodes per parameter, ends included: 63 nodes in all
+workers: 46                 # backend processes on the node; may be changed when resuming
+retrain: false              # the saved network as it is
+added_points: 0
+surrogate_optimizer: hybrid
+corrected_tol: null         # null: 1e-2 in the log-objective. Not below twice the noise floor of the likelihood
+chain_length: 2             # a cold start after every two chained nodes: keeps the processes busy
+maxfun: 108                 # true calls a node may use: six gradient rounds of 17 (the default 150 is for ~16 parameters)
+total_call_budget: 7000   # of the whole study, resumed attempts included; what the plan can use, every node and the best fit at maxfun (four gradient rounds a node would be 5000)
+audit_points: 3             # best saved training values recomputed before anything else
+audit_tolerance: 0.01
+region: run              # a network trained on boosts is searched inside the region of its boosts (the run's own edge)
+hybrid_walkers: 8
+hybrid_hops: 30              # hops of the network scan at most (CLiENT default 12)
+seed: 42
+parameters:
+  - log10Gamma
+ranges:
+  log10Gamma: [-2, 13.5]   # posterior 5.8872 +- 3.2; range set by hand

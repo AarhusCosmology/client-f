@@ -1,0 +1,38 @@
+# The true 2D profile of the H0WC peak in (log10Gamma, n_s), from network 14 of
+# results/20261106_122443_dncdm_proxy_wc. 8 November 2026 (Thomas). At every node the other 17 parameters are optimised
+# with the true likelihood (CLASS++ cb2255f4, runs/dncdm_proxy_wc/job.env).
+#
+#   sbatch true_profiles/submit_profiles.sh results/20261106_122443_dncdm_proxy_wc runs/dncdm_proxy_wc/profiles_peak_n_s.yaml results_profiles/dncdm_proxy_wc_peak_ns
+#
+# Why n_s: in the posterior of network 14 the peak at log10Gamma 12.9 has n_s 0.9791 +- 0.0030 against 0.9731 +- 0.0029
+# at log10Gamma 4 to 10 (omega_cdm moves by 0.4 sigma only: profiles_log10Gamma_omega_cdm.yaml has it on the PDP+ grid).
+# 17 x 17 nodes: log10Gamma over [11.5, 13.75] in steps of 0.14 (the barrier at 11-12, the peak, the wall at 13.4),
+# n_s over [0.963, 0.991] in steps of 0.00175 (0.45 posterior sigma). The grid is the same node for node in
+# runs/dncdm_proxy_pp/profiles_peak_n_s.yaml (Thomas, 8 November: the two datasets' profiles side by side), so the
+# window holds both ridges with about 0.0075 (2.5 conditional sigma) to spare: the networks' 1D profiles have n_s at
+# the optimum 0.9755 / 0.9788 / 0.9835 at log10Gamma 11.5 / 12.75 / 13.75 for H0WC (wc14_preview.txt) and
+# 0.9704 / 0.9752 / 0.9814 for PDP+ (pp14_preview.txt).
+#
+# Cost: 289 nodes, 17 free parameters, a gradient round is 19 calls: about 37 calls a node (the PDP+ 2D study's 31,
+# scaled by 19/16), about 10 700 true calls, about 28 hours on one q48 node.
+dimension: 2
+iteration: 14
+parameters: [log10Gamma, n_s]
+profile_points: 17          # per axis: 289 nodes
+ranges:
+  log10Gamma: [11.5, 13.75]
+  n_s: [0.963, 0.991]
+workers: 46                 # backend processes on the node; may be changed when resuming
+retrain: false              # the saved network as it is
+added_points: 0
+surrogate_optimizer: hybrid
+corrected_tol: null         # null: 1e-2 in the log-objective, as the other studies
+chain_length: 2             # a cold start after every two chained nodes: keeps the processes busy
+maxfun: 114                 # true calls a node may use: six gradient rounds of 19
+total_call_budget: 33500    # above the dry run's conservative ceiling (every node and the anchor at maxfun): it never binds
+audit_points: 3             # best saved training values recomputed before anything else
+audit_tolerance: 0.01
+region: run                 # searched inside the region of the boosts (the run's own edge, 1.5)
+hybrid_walkers: 8
+hybrid_hops: 30             # hops of the network scan at most (CLiENT's default 12), as the other studies
+seed: 42

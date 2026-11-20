@@ -1,0 +1,40 @@
+# True 1D profile of log10Gamma of the H0WC decaying-neutrino proxy, from network 14 of
+# results/20261106_122443_dncdm_proxy_wc (ten boosts, held-out rms 0.07 at its posterior). At every node the other
+# 18 parameters are optimised with the true likelihood (CLASS++ cb2255f4, runs/dncdm_proxy_wc/job.env). 8 November 2026.
+# The settings are those of runs/dncdm_proxy_pp/profiles_log10Gamma.yaml (same grid, tolerance, region and hops), so the
+# PDP+ and H0WC profiles are made the same way; only maxfun and the budget follow the larger number of free parameters.
+#
+#   sbatch true_profiles/submit_profiles.sh results/20261106_122443_dncdm_proxy_wc runs/dncdm_proxy_wc/profiles_log10Gamma.yaml results_profiles/dncdm_proxy_wc_gamma
+#
+# The PDP+ study (job 7053823, 7 November): 63 nodes in 2 h 12 min, 2181 true calls (median 31 a node), 56 converged
+# and 7 stalled at the default tolerance, the true stage's gain over the network's optimum median 0.000 (90% under
+# 0.021). Its noise probe put the PDP+ noise floor at 1.1e-2 and asked for corrected_tol >= 6.7e-2; the default 1e-2 is
+# kept here as there (8 November, Thomas), and the H0WC probe is run alongside.
+# Cost: 18 free parameters, 20 calls a gradient round; scaled from PDP+ about 2600 true calls. An H0WC call is about
+# 2.7 times a PDP+ one (true checks 7053820 / 7053819: 470 / 175 core-s a point), about 290 s against PDP+'s 108 s, so
+# about 4.5 hours of evaluation and 6 to 8 hours on one q48 node.
+#
+# Network-only preview (8 November, analysis/net_profile_preview/wc14_preview.txt, L-BFGS in network 14): Delta chi2
+# 6.5 on the plateau below log10Gamma 3, 2.4 at the minimum at 5 to 7.25, 4 to 5 over the barrier at 11 to 12, 0 at
+# 12.75, 0.6 at 13.0, 5.5 at 13.25, 16 at 13.5, 34 at 13.75, 63 at 14; every optimum inside the boost region.
+#
+iteration: 14
+profile_points: 63          # nodes per parameter, ends included: 63 nodes in all
+workers: 46                 # backend processes on the node; may be changed when resuming
+retrain: false              # the saved network as it is
+added_points: 0
+surrogate_optimizer: hybrid
+corrected_tol: null         # null: 1e-2 in the log-objective, as the PDP+ study. The probe says whether that is above twice the noise floor
+chain_length: 2             # a cold start after every two chained nodes: keeps the processes busy
+maxfun: 120                 # true calls a node may use: six gradient rounds of 20
+total_call_budget: 7900     # above the dry run's conservative ceiling of 7866 (every node and the anchor at maxfun): it never binds
+audit_points: 3             # best saved training values recomputed before anything else
+audit_tolerance: 0.01
+region: run                 # a network trained on boosts is searched inside the region of its boosts (the run's own edge)
+hybrid_walkers: 8
+hybrid_hops: 30             # hops of the network scan at most (CLiENT default 12)
+seed: 42
+parameters:
+  - log10Gamma
+ranges:
+  log10Gamma: [-2, 13.5]    # set by hand, as PDP+: steps of 0.25

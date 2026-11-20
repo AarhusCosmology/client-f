@@ -1,0 +1,33 @@
+# A fine true 1D profile of log10Gamma over the H0WC peak and its wall, from network 14 of
+# results/20261106_122443_dncdm_proxy_wc. 8 November 2026 (Thomas). Same settings as profiles_log10Gamma.yaml
+# (the 0.25 grid over [-2, 13.5]); this one has 0.0625 steps over [11.5, 13.75]: the barrier at 11-12, the peak at
+# 12.9 (the best training value -2869.285 at 12.92) and the wall at 13.4 (training values 36 below the best above 13.5).
+#
+# Network-only preview (8 November, analysis/net_profile_preview/wc14_preview.txt, L-BFGS in network 14): Delta chi2
+# 6.5 on the plateau below log10Gamma 3, 2.4 at the minimum at 5 to 7.25, 4 to 5 over the barrier at 11 to 12, 0 at
+# 12.75, 0.6 at 13.0, 5.5 at 13.25, 16 at 13.5, 34 at 13.75, 63 at 14; every optimum inside the boost region.
+#
+#   sbatch true_profiles/submit_profiles.sh results/20261106_122443_dncdm_proxy_wc runs/dncdm_proxy_wc/profiles_peak_log10Gamma.yaml results_profiles/dncdm_proxy_wc_peak_gamma
+#
+# Cost: 37 nodes, 18 free parameters, 20 calls a gradient round: about 1500 true calls, about 4 hours on one q48 node.
+#
+iteration: 14
+profile_points: 37          # 0.0625 apart, ends included
+workers: 46                 # backend processes on the node; may be changed when resuming
+retrain: false              # the saved network as it is
+added_points: 0
+surrogate_optimizer: hybrid
+corrected_tol: null         # null: 1e-2 in the log-objective, as the other H0WC and PDP+ studies
+chain_length: 2             # a cold start after every two chained nodes: keeps the processes busy
+maxfun: 120                 # true calls a node may use: six gradient rounds of 20
+total_call_budget: 4800     # above the dry run's conservative ceiling (every node and the anchor at maxfun): it never binds
+audit_points: 3             # best saved training values recomputed before anything else
+audit_tolerance: 0.01
+region: run                 # searched inside the region of the boosts (the run's own edge, 1.5)
+hybrid_walkers: 8
+hybrid_hops: 30             # hops of the network scan at most (CLiENT default 12)
+seed: 42
+parameters:
+  - log10Gamma
+ranges:
+  log10Gamma: [11.5, 13.75]

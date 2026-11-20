@@ -1,0 +1,31 @@
+# A fine true 1D profile of log10Gamma of the PDP+ decaying-neutrino proxy over [11.5, 13.75], from network 14 of
+# results/20261106_121906_dncdm_proxy_pp. 8 November 2026 (Thomas): the grid of runs/dncdm_proxy_wc/
+# profiles_peak_log10Gamma.yaml node for node, so the two datasets' profiles over the H0WC peak and its wall can be
+# shown side by side (H0WC has its global maximum at log10Gamma 12.9 there; PDP+ rises steadily, its true profile
+# 7053823 at Delta chi2 4.2 / 5.9 / 11.3 / 28.3 at 12.0 / 12.5 / 13.0 / 13.5). Settings as profiles_log10Gamma.yaml.
+# Network-only preview (analysis/net_profile_preview/pp14_preview.txt): every optimum to log10Gamma 14 inside the region.
+#
+#   sbatch true_profiles/submit_profiles.sh results/20261106_121906_dncdm_proxy_pp runs/dncdm_proxy_pp/profiles_peak_log10Gamma.yaml results_profiles/dncdm_proxy_pp_peak_gamma
+#
+# Cost: 37 nodes, 15 free parameters, 17 calls a gradient round: about 1300 true calls, about 2 hours on one q48 node.
+#
+iteration: 14
+profile_points: 37          # 0.0625 apart, ends included
+workers: 46                 # backend processes on the node; may be changed when resuming
+retrain: false              # the saved network as it is
+added_points: 0
+surrogate_optimizer: hybrid
+corrected_tol: null         # null: 1e-2 in the log-objective, as the other PDP+ and H0WC studies
+chain_length: 2             # a cold start after every two chained nodes: keeps the processes busy
+maxfun: 108                 # true calls a node may use: six gradient rounds of 17
+total_call_budget: 4300     # above the dry run's conservative ceiling (every node and the anchor at maxfun): it never binds
+audit_points: 3             # best saved training values recomputed before anything else
+audit_tolerance: 0.01
+region: run                 # searched inside the region of the boosts (the run's own edge, 1.5)
+hybrid_walkers: 8
+hybrid_hops: 30             # hops of the network scan at most (CLiENT default 12)
+seed: 42
+parameters:
+  - log10Gamma
+ranges:
+  log10Gamma: [11.5, 13.75]

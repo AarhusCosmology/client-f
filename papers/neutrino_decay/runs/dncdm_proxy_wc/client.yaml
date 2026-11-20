@@ -1,0 +1,79 @@
+# The decaying-neutrino proxy on H0WC (5 November 2026, Thomas): runs/dncdm_proxy_wc/cobaya.yaml, 19 sampled
+# parameters, the training box this folder's domain_bounds.json (= the priors).
+#
+#   sbatch --nodes=4 --ntasks=192 --time=7-00:00:00 submit_client.sh dncdm_proxy_wc
+#
+# The paper's run: job 7047808 on 192 ranks (4 q48 nodes), 40 hours, results/20261106_122443_dncdm_proxy_wc.
+#
+# Settings: runs/dncdm_proxy_pp/client.yaml's, key for key (whose header says why); only the likelihood input differs.
+# An evaluation costs 2.5 times one of PDP+, from l_max 6327 and the preset's precision. Timing job 7047713 (6 November
+# 2026, CLASS++ cb2255f4, a full q48 node, 192 points uniform in the box): 442 s on average (median 447, p90 518, max 568;
+# PDP+ 174), every one finite, 2.4 GB per rank at most.
+#
+# No -i: the batch criterion hands over to the boosts, and the run ends after ten boosts. Expected evaluations:
+# 3000 + (about 10) x 3100 + 10 x 3000, about 65 000: 8000 core-hours, 83 hours of evaluation on two nodes, plus the
+# training and sampling on rank 0.
+#
+# Paths are relative to this folder (papers/neutrino_decay/). The training box is this folder's domain_bounds.json.
+likelihood:
+  wrapper: cobaya
+  input: runs/dncdm_proxy_wc/cobaya.yaml
+prior:
+  n_samples: 3000
+  sampling_strategy: lhs
+  n_sigma: null
+  n_inject: 100
+acquisition:
+  n_append: 3000
+  pool_factor: 20
+  n_neighbors: 20
+  target_temperature: 7.0
+  n_inject: 100             # fitted to the points near the best (inject_window 16, CLiENT's default)
+  audit: {chain: true, tau: 5, posterior: 150}   # chain search, threshold 5, posterior pilot
+  boost:                    # docs/boost.md, "Two recommended settings": known non-Gaussian
+    n: 3000                 # posterior points (T = 1) per boost, accepted by the density filter
+    start_iteration: 30     # at the latest: the boosts begin when the ordinary loop has converged
+    boosts: 10              # the run ends after ten boosts
+    density_filter: true    # docs/posterior_density_boost.md
+    pool_factor: 20
+    background: quadratic   # docs/boost_background_region.md: fitted once, at the first training
+    region: 1.5
+    region_quantile: 0.999  # the region's reach by a quantile of the boost points' distances
+    train_domain: 1.25      # trained only near the posterior from the first boost on
+    mixing: 0.1             # the modes decided by measured mixing
+    min_share: 0.005
+model:
+  n_layers: 5
+  n_neurons: 512
+  activation: alsing
+training:
+  n_epochs: 5000
+  batch_size: 128
+  loss: msre
+  sigma_level: 3
+  msre_ess_floor: 0.1
+  learning_rate: 0.0001
+  validation_split: 0.1
+  patience: 250
+  lr_schedule: plateau
+  lr_factor: 0.3
+  lr_patience: 75
+  lr_min: 1.0e-06
+  lr_grace: 100
+  warm_start: true
+sampling:
+  sampler: aies
+  temperature: 7.0
+  n_walkers: 432
+  n_steps: 60000
+  burn_in: 5000
+  thin: 5
+  chunk_size: 1000
+convergence:
+  metric: tempered_batch_scatter   # docs/tempered_convergence.md
+  threshold: 1.2                   # in units of sampling.temperature
+  consecutive: 2
+  max_iterations: 41               # networks 0 to 40 at most: 30 of the ordinary loop and ten boosts
+seed: 42
+derived:
+  inputs: auto

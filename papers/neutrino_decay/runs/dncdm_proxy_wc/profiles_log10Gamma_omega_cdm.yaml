@@ -1,0 +1,39 @@
+# The true 2D profile of the H0WC decaying-neutrino proxy in (log10Gamma, omega_cdm), from network 14 of
+# results/20261106_122443_dncdm_proxy_wc (ten boosts, held-out rms 0.07 at its posterior). At every node the other 17
+# parameters are optimised with the true likelihood (CLASS++ cb2255f4, runs/dncdm_proxy_wc/job.env). 8 November 2026.
+# The grid is runs/dncdm_proxy_pp/profiles_log10Gamma_omega_cdm.yaml's node for node (Thomas, 8 November), so the
+# PDP+ and H0WC maps compare directly; only maxfun and the budget follow the larger number of free parameters.
+#
+#   sbatch true_profiles/submit_profiles.sh results/20261106_122443_dncdm_proxy_wc runs/dncdm_proxy_wc/profiles_log10Gamma_omega_cdm.yaml results_profiles/dncdm_proxy_wc_gamma_ocdm
+#
+# H0WC differs from PDP+: its posterior (network 14) has a second, higher peak at log10Gamma 12.9 (30% of the samples
+# above 12, the best training value -2869.285 at 12.92, a wall at 13.4), which the true check of network 10 confirmed
+# (152 of its 500 points there, truth - network +0.007 +- 0.135). The rows of this grid at 12.85 and 13.5 are on the
+# peak and beyond the wall; profiles_peak_n_s.yaml resolves the peak. omega_cdm: posterior 0.11823 +- 0.00061, inside
+# the peak 0.11844 +- 0.00058 (its 3 sigma quantiles 0.1166 to 0.1202): the PDP+ window [0.1162, 0.1204] holds both.
+#
+# Cost: 17 free parameters, a gradient round is 19 calls. The PDP+ study (job 7053824) finished 330 of its 625 nodes in
+# 10.5 hours, 31 true calls a node on average (14 free parameters); scaled by 19/16 that is about 23 000 true calls here.
+# An H0WC call costs about 2.6 times a PDP+ one, so about 60 hours on one q48 node: under the job's 72 h limit, but
+# close. A study that stops on the time limit is resumed by the same sbatch.
+dimension: 2
+iteration: 14
+parameters: [log10Gamma, omega_cdm]
+profile_points: 25          # per axis: 625 nodes
+ranges:
+  log10Gamma: [-2.0, 13.5]
+  omega_cdm: [0.1162, 0.1204]
+workers: 46                 # backend processes on the node; may be changed when resuming
+retrain: false              # the saved network as it is
+added_points: 0
+surrogate_optimizer: hybrid
+corrected_tol: null         # null: 1e-2 in the log-objective, as the PDP+ study. The H0WC probe says whether that is above twice the noise floor
+chain_length: 2             # a cold start after every two chained nodes: keeps the processes busy
+maxfun: 114                 # true calls a node may use: six gradient rounds of 19
+total_call_budget: 72200    # above the dry run's conservative ceiling (every node and the anchor at maxfun): it never binds
+audit_points: 3             # best saved training values recomputed before anything else
+audit_tolerance: 0.01
+region: run                 # searched inside the region of the boosts (the run's own edge, 1.5)
+hybrid_walkers: 8
+hybrid_hops: 30             # hops of the network scan at most (CLiENT's default 12), as the PDP+ studies
+seed: 42
