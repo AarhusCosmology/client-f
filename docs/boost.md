@@ -344,14 +344,32 @@ the bias itself. The boost does both of the last two in one step.
    <exp(D)> in (1) is known equally well, and because the mode the network under-rates is the
    one a proportional split would starve.
 4. **Weights.** Zhat_k comes from bridge sampling (Meng and Wong) between the mode's chain and
-   a Gaussian mixture g fitted to half of it, widened by 1.3 in variance and cut to R_k: with
-   l = exp(f) / g, N1 samples x of the chain and N2 draws y of g, s1 = N1 / (N1 + N2) and
-   s2 = N2 / (N1 + N2), it is the fixed point of
+   a Gaussian mixture g fitted to the walkers of one half of it, widened by 1.3 in variance and
+   cut to R_k: with l = exp(f) / g, N1 samples x of the other half's walkers and N2 draws y of
+   g, s1 = N1 / (N1 + N2) and s2 = N2 / (N1 + N2), it is the fixed point of
 
        Zhat = [ (1/N2) sum_y l(y) / (s1 l(y) + s2 Zhat) ] / [ (1/N1) sum_x 1 / (s1 l(x) + s2 Zhat) ].
 
    The log reports the weights Zhat_k / sum Zhat as the network has them, the spread of
-   log Zhat_k over three random halves, and the efficiency of g as an importance proposal.
+   log Zhat_k over three halvings of the walkers, and the efficiency of g as an importance
+   proposal.
+
+   The x must be points g was not fitted to. A mixture lies higher at the points it was fitted
+   to than at other draws of the posterior, so that l(x) is too small there and Zhat too low.
+   Until 21 November 2026 the two halves were random rows of the chain, and a walker's
+   successive stored rows are nearly the same point when its autocorrelation time spans many
+   of them. On two 44-parameter Euclid networks (512 walkers, 10 000 steps, thin 20: 256 000
+   rows, an autocorrelation time of 675 steps, some 7600 independent rows) random rows gave
+   ln Zhat 0.27 and 0.26 below halves by walker, halves by time and importance sampling with
+   the widened mixture, which agreed to 0.01, with a spread over the repeats of 0.01. On AR(1)
+   chains in 16 parameters (`tests/test_bridge_split.py`; 64 walkers of 1000 rows, an
+   autocorrelation time of 199 rows) random rows were 0.16 low over 20 seeds, halves by walker
+   0.004 +- 0.019, and the spread of the walker halvings, 0.019 on average, is the scatter
+   between the seeds. Network 32 of the physical Euclid run, its boost chain run again, now gives
+   6.466 +- 0.011 over three calls, where random rows gave 6.194 on the same chain and the boost
+   itself 6.168. Fitted to half the walkers, the mixture is a somewhat poorer proposal: its
+   efficiency was 0.088 there against 0.114 with random rows, and 0.53 against 0.61 on 16-parameter
+   chains of 64 walkers and 4000 steps.
    Then (1) with the boost's true values gives the corrected weights, and the effective number
    of points behind each mean, (sum w)^2 / sum w^2 with w = exp(D).
 

@@ -45,7 +45,8 @@ def sample_region_mixture(surrogate, bounds, sampling, n_steps, thin, seed=None,
             if len(x) < max(40, 4 * len(lower)) or not np.isfinite(f).all():
                 raise ValueError('Not enough finite region-cell samples for bridge weights; increase the chain length')
             inside = lambda y, k=k: (np.all((y >= lower) & (y <= upper), axis=1) & (region.labels(y) == k))
-            log_z, spread, efficiency = bridge_log_evidence(x, f, values, inside, lower, upper, 6, rng)
+            log_z, spread, efficiency = bridge_log_evidence(x, f, values, inside, lower, upper, 6, rng,
+                                                            walkers=chain.shape[1])
             if not np.isfinite([log_z, spread, efficiency]).all() or efficiency <= 0:
                 raise ValueError('Region-cell bridge estimate failed; no posterior mixture was written')
             if efficiency < MIN_RELIABLE_ESS:

@@ -15,8 +15,9 @@ not a good estimate of their weights at T = 1, and a T = 1 chain stays where it 
   3. each mode gets its own T = 1 chain, started on its walkers and kept in its region (the
      region of a mode: where its Gaussian, fitted to its T = 1 walkers, is the nearest);
   4. the evidence of each mode, the integral of exp(log-likelihood) over its region, by bridge
-     sampling between the mode's chain and a Gaussian mixture fitted to half of it. The weights
-     of the modes are the ratios of the evidences.
+     sampling between the mode's chain and a Gaussian mixture fitted to the walkers of one half
+     of it, bridged with the other half. The weights of the modes are the ratios of the
+     evidences.
 
 With one mode, steps 1 and 3 are a T = 1 chain and step 4 its evidence.
 
@@ -346,23 +347,60 @@ def _fill(cloud, n, lower, upper, accept, rng):
     return np.concatenate(out).astype(np.float32)
 
 
+def _halves(count, walkers, repeat, rng):
+    """Rows of a chain of `count` rows, (stored step, walker) as chain().reshape(-1, ndim) has
+    them, in two halves that do not depend on each other: the walkers of a random half and the
+    others, drawn afresh at every repeat; for one walker the first and the second half of its
+    steps, in turn."""
+    if walkers == 1:
+        first, second = np.arange(count // 2), np.arange(count // 2, count)
+        return (first, second) if repeat % 2 == 0 else (second, first)
+    chosen = np.zeros(walkers, bool)
+    chosen[rng.permutation(walkers)[:walkers // 2]] = True
+    in_fit = np.tile(chosen, count // walkers)
+    return np.flatnonzero(in_fit), np.flatnonzero(~in_fit)
+
+
 def bridge_log_evidence(x, f, values, inside, lower, upper, components, rng, n=20000, widen=1.3,
-                        repeats=3):
+                        repeats=3, walkers=None):
     """log of the integral of exp(values) over the region `inside`, from samples x of
     exp(values) there (f = values(x)): bridge sampling (Meng and Wong) against a Gaussian
-    mixture fitted to one half of the samples, widened, and cut to the region. Returns the mean
-    over `repeats` random halves, their spread, and the efficiency of the mixture as an
-    importance proposal (1: it is the posterior; near 0: do not trust the number)."""
+    mixture fitted to one half of the samples, widened, and cut to the region, with n samples
+    of the other half. Returns the mean over `repeats` halvings, their spread, and the
+    efficiency of the mixture as an importance proposal (1: it is the posterior; near 0: do
+    not trust the number).
+
+    The mixture must not have seen the samples it is bridged with: a mixture fitted to points
+    lies higher at them than at other draws of the posterior, and the estimate comes out low.
+    For x from an ensemble chain, pass `walkers`, its number of walkers, with the rows as
+    chain().reshape(-1, ndim) gives them (stored step, then walker): the mixture is fitted to
+    the walkers of one random half and bridged with the others, a new halving at every repeat
+    (one walker: the first and the second half of its steps). Random rows, the halves until
+    21 November 2026, share their points where the autocorrelation time spans many stored
+    rows: on two 44-parameter Euclid networks (512 walkers, 10 000 steps, an autocorrelation
+    time of 675 steps) they gave ln Z 0.27 and 0.26 below halves by walker, halves by time and
+    importance sampling (docs/boost.md, "Weights"). Without `walkers` the rows are taken to be
+    independent draws and halved at random, as before."""
     from scipy.special import logsumexp
     from sklearn.mixture import GaussianMixture
 
     x, f = np.asarray(x, float), np.asarray(f, float)
     lower, width = np.asarray(lower, float), np.asarray(upper, float) - np.asarray(lower, float)
-    n = min(n, len(x) // 2)
+    if walkers is None:
+        n = min(n, len(x) // 2)
+    else:
+        walkers = int(walkers)
+        if walkers < 1 or len(x) % walkers or len(x) < 2 * walkers:
+            raise ValueError(f"{len(x)} samples are not a chain of {walkers} walkers of at least two stored steps each")
+        n = min(n, len(x) // 2 if walkers == 1 else walkers // 2 * (len(x) // walkers))
     out, efficiency = [], []
     for repeat in range(repeats):
-        order = rng.permutation(len(x))
-        fit, use = order[:n], order[n:2 * n]
+        if walkers is None:
+            order = rng.permutation(len(x))
+            fit, use = order[:n], order[n:2 * n]
+        else:
+            fit, use = _halves(len(x), walkers, repeat, rng)
+            fit, use = rng.choice(fit, n, replace=False), rng.choice(use, n, replace=False)
         unit = lambda y: (y - lower) / width
         mixture = GaussianMixture(min(components, max(1, n // (20 * x.shape[1]))), covariance_type="full",
                                   reg_covar=1e-9, random_state=int(rng.integers(2 ** 31))).fit(unit(x[fit]))
@@ -394,10 +432,10 @@ def bridge_log_evidence(x, f, values, inside, lower, upper, components, rng, n=2
     return float(np.mean(out)), float(np.std(out, ddof=1)) if repeats > 1 else 0.0, float(np.mean(efficiency))
 
 
-def mode_log_evidence(k, *arguments):
+def mode_log_evidence(k, *arguments, **options):
     """bridge_log_evidence of mode k, or a stop before any true call: all the modes' weights are
     fractions of one sum, so one that is not finite leaves none of them known."""
-    log_z, spread, efficiency = bridge_log_evidence(*arguments)
+    log_z, spread, efficiency = bridge_log_evidence(*arguments, **options)
     if not np.isfinite([log_z, spread, efficiency]).all() or efficiency <= 0:
         raise ValueError(f"mode {k + 1}: the bridge estimate of its evidence failed (log evidence {log_z}, "
                          f"proposal efficiency {efficiency}), so the modes' weights are not known")
@@ -598,9 +636,11 @@ def posterior_modes(predict, lower, upper, tempered, temperature, *, barrier=4.0
         target.assign(k)
         sampler.run(n_steps=steps, initial_positions=_fill(own if len(own) else cloud, walkers, lower, upper, in_region, rng),
                     burn_in=max(1, steps // 5), progress=False, thin=20, chunk_size=5000)
-        x = np.array(sampler.chain()).reshape(-1, len(lower))
+        chain = np.array(sampler.chain())                  # (stored steps, walkers, ndim)
+        x = chain.reshape(-1, len(lower))
         f = np.array(sampler.log_prob(), float).reshape(-1)
-        log_z, spread, efficiency = mode_log_evidence(k, x, f, values, inside, lower, upper, components, rng)
+        log_z, spread, efficiency = mode_log_evidence(k, x, f, values, inside, lower, upper, components, rng,
+                                                      walkers=chain.shape[1])
         peak = peaks[labels == k][np.argmax(values(peaks[labels == k]))]
         modes.append(dict(x=x, f=f, log_evidence=log_z, log_evidence_spread=spread, efficiency=efficiency,
                           walkers=int(len(cloud)), peak=peak, peak_value=float(values(peak[None])[0]),

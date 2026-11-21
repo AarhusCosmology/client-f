@@ -272,10 +272,17 @@ used. A longer chain clears the mark only where the chain was too short for the 
 fit; the efficiency is that of a Gaussian mixture as a proposal for the cell, and a cell
 it does not follow stays marked at any length (the one saved real two-mode network, a
 poorly trained one: 0.047 at 20 000 steps, 0.035 at 80 000, its weight unchanged). A
-failed/nonfinite estimate stops output. With short chains the evidence of a cell comes out low (0.1 in ln Z at 64
-walkers and 4000 steps in 16 dimensions), which cancels between like cells and not between
-unlike ones (a bent mode of true weight 0.0098 came out at 0.0083): use chains as long as
-the boost's own for weights that matter. Repeat
+failed/nonfinite estimate stops output. Until 21 November 2026 the evidence of a cell came
+out low with short chains (0.1 in ln Z at 64 walkers and 4000 steps in 16 dimensions), which
+cancelled between like cells and not between unlike ones (a bent mode of true weight 0.0098
+came out at 0.0083). That was the bridge's mixture fitted to random rows of the chain and
+bridged with other random rows of it ([boost.md](boost.md), "Weights"). It is now fitted to
+the walkers of one half and bridged with the other: on chains of that size, of a Gaussian and
+a mildly bent one of the same known ln Z (three seeds each), ln Z came out 0.007 low on average and at
+most 0.024, against 0.10 to 0.12 with random rows. The bent mode's weight has not been
+measured again. The mixture is fitted to half the walkers, so its efficiency is lower than it
+was (0.53 against 0.61 on those chains, 0.088 against 0.114 on a 44-parameter network), and
+a cell near the mark of 0.1 may now be marked where it was not. Repeat
 spread measures numerical bridge stability, not uncertainty from incomplete exploration.
 A `.target.json` also records the exact network/region snapshot. Neither method makes new
 true-objective calls; `--exact` below is the separate check of the surrogate against truth.

@@ -12,8 +12,12 @@ manifests when reproducing an older run. [CHANGES.md](CHANGES.md) says what is n
 | `training.member_pilot_score` (runs with `member_pilot`) | `corrected`: each member's constant offset is left out of its score (19 November 2026) | `rms` |
 
 These have no setting: the raw predictions are kept when the scalers change, a warm-started training of the boost phase keeps its last weights, the
-selector commits ten candidates per pass (about 90% of the points differ and their distribution does not), and an injection fits only the points
-near the best.
+selector commits ten candidates per pass (about 90% of the points differ and their distribution does not), an injection fits only the points
+near the best, and the bridge evidence of a boost's mode or a region's cell fits its mixture to one half of the chain's walkers and bridges with
+the other half (21 November 2026). Random rows of the chain, as before, made that ln Z 0.26 to 0.27 low on 44-parameter networks, and less with
+fewer parameters ([guide](docs/boost.md), "Weights"): a boost's ln Z and its modes' weights differ from those of the same network sampled before.
+Cached chains of a region of several cells (`posterior_it_N.npz`, derived chains) keep the weights they were drawn with until they are sampled
+again.
 
 The learning rate stays fixed unless `training.lr_schedule: plateau` is asked for, which real runs have done.
 

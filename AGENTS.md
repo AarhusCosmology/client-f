@@ -103,6 +103,14 @@ network, the same number from every mode; read [docs/boost.md](docs/boost.md). K
   chain's split between modes: that was off by 0.2 in log-odds per network, measured. An evidence
   that is not finite stops the boost before any true call (`mode_log_evidence`): the weights are
   fractions of one sum, so it would leave none of them known.
+* The bridge's mixture is fitted to the walkers of one half of the chain and bridged with the other
+  half, a new halving at every repeat (`bridge_log_evidence(..., walkers=)`; both callers,
+  `posterior_modes` and `sampling/mixture.py`, pass their chain's walkers). Never random rows of one
+  chain: a mixture lies higher at the points it was fitted to, and where the autocorrelation time
+  spans many stored rows, random rows share their points. That made ln Z 0.26 to 0.27 low on two
+  44-parameter networks, with a repeat spread of 0.01 that hid it (docs/boost.md, "Weights";
+  `tests/test_bridge_split.py`). The repeat spread means something only with halves that do not
+  depend on each other.
 * The corrected weights are only as good as the effective number of points behind them. Keep
   that number in the log and the report. A point the likelihood refused (a -inf return, or
   the run's refused value) has weight zero and stays in the denominator of its mode's mean,
