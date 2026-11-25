@@ -18,6 +18,17 @@ from utils.mpi_utils import (
 )
 
 
+def write_run_index(run_dir):
+    """RUN/run.json (run/layout.py): what the run holds per iteration. Only an index, built
+    from the files: a failure to write it is reported and the run goes on."""
+    from run.layout import write_index
+
+    try:
+        write_index(run_dir)
+    except Exception as error:          # noqa: BLE001 - the index must never stop a run
+        print_master(f"Warning: run.json not written ({type(error).__name__}: {error})")
+
+
 def draw_peak_samples(cfg, likelihood, inputs, targets, master,
                       n_draw, seed, context=""):
     """Points drawn from the Gaussian the quadratic response surface implies.
@@ -592,11 +603,9 @@ def run_client(args):
                 target_temperature=cfg.acquisition.target_temperature,
                 derived=derived,
             )
-            dataset.save(run.training_data_dir / "data_it_0.csv")
-            dataset.save_derived(run.derived_data_dir / "derived_it_0.csv")
-            phases.complete("initial", [run.training_data_dir / "data_it_0.csv",
-                                        run.derived_data_dir / "derived_it_0.csv",
-                                        run.run_dir / "metadata.json"])
+            written = dataset.save_set(run.run_dir, 0)          # the first set is always whole
+            phases.complete("initial", [*written, run.run_dir / "metadata.json"])
+            write_run_index(run.run_dir)
         else:
             dataset = None
 
@@ -611,8 +620,10 @@ def run_client(args):
                 iteration=run.start_iteration,
                 derived_data_dir=run.derived_data_dir,
             )
+            from run.layout import set_files
             print_master(
-                f"Loaded {len(dataset.inputs)} training samples from data_it_{run.start_iteration}.csv"
+                f"Loaded {len(dataset.inputs)} training samples from "
+                + " + ".join(f.name for f in set_files(run.run_dir, run.start_iteration))
             )
             # Points selected by `client.py augment` for this training set (dataset/augment.py).
             augment_path = run.run_dir / "augmentation" / f"augment_it_{run.start_iteration}.csv"
@@ -1615,15 +1626,12 @@ def run_client(args):
             if master:
                 # This size includes injections; n_evaluated remains the acquisition batch.
                 metrics_tracker.acquisition_metrics[iteration].dataset_size = len(dataset.inputs)
-                dataset.save(run.training_data_dir / f"data_it_{iteration + 1}.csv")
-                dataset.save_derived(
-                    run.derived_data_dir / f"derived_it_{iteration + 1}.csv"
-                )
-                phases.complete(f"acquisition_it_{iteration}", [
-                    run.training_data_dir / f"data_it_{iteration + 1}.csv",
-                    run.derived_data_dir / f"derived_it_{iteration + 1}.csv"])
+                written = dataset.save_set(run.run_dir, iteration + 1,
+                                           increments=cfg.storage.training_sets == "increments")
+                phases.complete(f"acquisition_it_{iteration}", written)
                 from run.objective_calls import summarize
                 summarize(run.run_dir)
+                write_run_index(run.run_dir)
 
         if master:
             iteration_elapsed_time = time.monotonic() - iteration_start_time
@@ -1675,6 +1683,7 @@ if __name__ == "__main__":
         "modes": "sampling.detect",
         "combine": "run.combine",
         "export": "run.export",
+        "index": "run.layout",
     }
     if len(sys.argv) > 1 and sys.argv[1] in commands:
         importlib.import_module(commands[sys.argv[1]]).main(sys.argv[2:])

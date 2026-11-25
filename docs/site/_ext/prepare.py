@@ -28,7 +28,7 @@ def configuration(root):
                 'AcquisitionConfig':'acquisition', 'AuditConfig':'acquisition.audit',
                 'BoostConfig':'acquisition.boost', 'ModelConfig':'model',
                 'TrainingConfig':'training', 'SamplingConfig':'sampling',
-                'DerivedConfig':'derived', 'ConvergenceConfig':'convergence',
+                'DerivedConfig':'derived', 'ConvergenceConfig':'convergence', 'StorageConfig':'storage',
                 'Config':'top level', 'ProfileConfig':'profile YAML'}
     result = []
     for rel in ['config/config.py', 'profiles/config.py']:

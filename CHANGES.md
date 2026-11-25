@@ -70,6 +70,9 @@ setting; [PERFORMANCE.md](PERFORMANCE.md) has the speed and memory work with its
 - **Narrower ranges off the grid of a 2D profile.** `search_ranges: {name: [low, high]}` searches parameters that are not on the
   grid only there, in the scan and the true stage, for a parameter with several separated maxima at fixed grid values
   ([2D](docs/create_profiles_2d.md)). A node is then the profile over that range.
+- **Scan walkers started from training points.** `hybrid_training_starts: n` starts `n` of each node's walkers from the best
+  training points near the node instead of the network's best point, for a profile with a branch the scan's steps do not reach
+  ([guide](docs/hybrid_optimisers.md)). Opt-in; measured on one network.
 
 ## Running
 
@@ -81,6 +84,11 @@ setting; [PERFORMANCE.md](PERFORMANCE.md) has the speed and memory work with its
   corrected evidences; branches of a run at its boost start (`--at`) or inside the boosts (`--train-from`); true profiles, with
   `make_config.py --hybrid-hops` and `--gtol` for the network scan.
 - **Strict settings.** Unknown keys and out-of-range values are refused.
+- **Smaller runs.** Networks are saved without the optimizer's state (two thirds of every file, never read);
+  `storage.training_sets: increments`, opt-in, writes only the rows each iteration added (a tenth of the bytes of the
+  training sets of the October–November 2026 runs); `python client.py index RUN` and `RUN/run.json` list what a run
+  holds per iteration; the true stages of a new profile study keep their nodes in one journal instead of a file per
+  node ([guide](docs/run_files.md)).
 
 ## Deliberately not here
 

@@ -110,6 +110,9 @@ def main():
     parser.add_argument("--maxfun", type=int)
     parser.add_argument("--hybrid-hops", type=int, help="hops of the network scan at most (CLiENT's default 12 when not given); "
                         "30 for the SIDR + DRMD studies, whose first scan stopped at 12 still improving")
+    parser.add_argument("--training-starts", type=int, help="walkers of each node of the network scan (of its 8) that start from the "
+                        "best training points near the node instead of the network's best point (CLiENT's default 0 when not "
+                        "given); for a profile with a branch far from the best point, which the scan otherwise does not reach")
     parser.add_argument("--gtol", type=float, help="gradient tolerance of the network scan's certification (CLiENT's "
                         "default 1e-4 when not given); 1e-3 for the SIDR + DRMD pp studies, whose scans stopped at one node "
                         "with a gradient of 8e-4, a remaining gain of 1e-5, far below the true likelihood's noise of 0.1")
@@ -190,6 +193,8 @@ def main():
         "hybrid_walkers: 8",
     ] + ([f"hybrid_hops: {args.hybrid_hops}              # hops of the network scan at most (CLiENT default 12)"]
          if args.hybrid_hops is not None else []) + (
+        [f"hybrid_training_starts: {args.training_starts}   # walkers of a node started from the best training points near it (CLiENT default 0)"]
+        if args.training_starts is not None else []) + (
         [f"gtol: {args.gtol:g}                  # certification of the network scan (CLiENT default 1e-4)"]
         if args.gtol is not None else []) + [
         "seed: 42",

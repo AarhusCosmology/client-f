@@ -75,9 +75,13 @@ class Part:
         if self.iteration not in models:
             raise ValueError(f"{self.run}: no network {self.iteration}")
         self.model_path = models[self.iteration]
-        self.data_path = self.run / "training_data" / f"data_it_{self.iteration}.csv"
-        if not self.data_path.exists():
-            raise ValueError(f"{self.run}: no training set data_it_{self.iteration}.csv")
+        from run.layout import set_files
+
+        try:
+            self.data_paths = set_files(self.run, self.iteration)    # whole, or with increments (run/layout.py)
+        except FileNotFoundError:
+            raise ValueError(f"{self.run}: no training set data_it_{self.iteration}.csv") from None
+        self.data_path = self.data_paths[0]
         self.metadata = SurrogateMetadata.load(self.run / "metadata.json")
         self.names = self.metadata.param_names
         self.yaml = settings_file(self.run)
@@ -255,7 +259,7 @@ def combined_region(parts, lower, upper, cell_sources=None):
 
 def _source_files(part):
     """All bytes consumed by combination, including optional files and recursive inputs."""
-    files = [part.model_path, part.data_path, part.yaml, part.run / "metadata.json",
+    files = [part.model_path, *part.data_paths, part.yaml, part.run / "metadata.json",
              part.run / "objective_identity.json"]
     if part.region_path is not None:
         files.append(part.region_path)
@@ -348,7 +352,9 @@ def _write_combined(output, parts, parameter, bands, walls=True, log=print):
 
     frames = []
     for p in parts:
-        d = pd.read_csv(p.data_path)[names + ["loglkl"]]
+        from run.layout import training_set
+
+        d = training_set(p.run, p.iteration)[names + ["loglkl"]]
         keep = np.isfinite(d["loglkl"]) & ((d["loglkl"] != p.refused) if p.refused is not None else True)
         frames.append(d[keep])
         log(f"training points of {p.source_run.name} (network {p.iteration}): {int(keep.sum())} of {len(d)}"
@@ -387,7 +393,7 @@ def _write_combined(output, parts, parameter, bands, walls=True, log=print):
         bands=[list(b) for b in bands], walls=bool(walls), box=list(whole), settings_from=str(base.source_run),
         region_cell_sources=cell_sources,
         parts=[dict(run=str(p.source_run), artifacts=p.artifact_hashes, iteration=p.iteration, box=list(p.box(parameter)),
-                    model_sha256=p.hash_of(p.model_path), data_sha256=p.hash_of(p.data_path),
+                    model_sha256=p.hash_of(p.model_path), data_sha256=p.hash_of(p.data_path) if len(p.data_paths) == 1 else [p.hash_of(f) for f in p.data_paths],
                     region=None if p.region_path is None else dict(file=f"boost/{p.region_path.name}",
                                                                     sha256=p.hash_of(p.region_path)))
                for p in parts],

@@ -77,6 +77,13 @@ class ProfileConfig:
     # after two hops in a row in which no node improved; on a rugged network (several
     # phase maxima at every node) a 2500-node surface can still be settling at hop 12.
     hybrid_hops: int | None = None
+    # Walkers of each node of the hybrid scan that start from training points instead of the
+    # neighbourhood of the network's best point: the points with the highest label within one
+    # node spacing of the node, moved to the node's value (profiles/hybrid.py, training_starts).
+    # 0: none, the scan of every study made before 11 November 2026. The walkers otherwise all
+    # start at the best point and step with the size and shape of that maximum, so that a
+    # branch of the profile far from it is not reached even where the network has it right.
+    hybrid_training_starts: int = 0
     corrected_tol: float | None = None
     backend_module: str | None = None
     backend_sha256: str | None = None
@@ -195,6 +202,13 @@ class ProfileConfig:
         ):
             raise ValueError(
                 "region must be run, a positive number of reaches, or null for the bare network")
+        # One walker of a node always starts at the network's best point.
+        if (
+            isinstance(self.hybrid_training_starts, bool)
+            or not isinstance(self.hybrid_training_starts, int)
+            or not 0 <= self.hybrid_training_starts < self.hybrid_walkers
+        ):
+            raise ValueError("hybrid_training_starts must be an integer from 0 to hybrid_walkers - 1")
         # 4 is the scan's hops_min: it hops at least that often whatever the limit.
         if self.hybrid_hops is not None and (
             isinstance(self.hybrid_hops, bool)

@@ -45,10 +45,13 @@ import math
 import re
 import shutil
 import struct
+import sys
 import time
 from pathlib import Path
 
 import yaml
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))   # the CLiENT checkout, for run.layout
 
 # The iteration in a file's name. Not followed by a digit, whatever else follows: with a dot
 # required, evidence_it_25_nlive2000.json and phases/history/training_it_25-<stamp>.json had
@@ -131,7 +134,13 @@ def inherited_values(source, iteration, checkpoint=None):
     refused_file = source / "refused_value.json"
     refused = json.loads(refused_file.read_text()).get("value") if refused_file.exists() else None
     files, unique = {}, set()
-    for relative in (f"training_data/data_it_{iteration}.csv",
+    from run.layout import set_files
+
+    try:   # the training set of N: one whole file, or one with the increments after it (run/layout.py)
+        set_relative = [str(p.relative_to(source)) for p in set_files(source, iteration)]
+    except FileNotFoundError:
+        set_relative = []
+    for relative in (*set_relative,
                      *([f"audit/audit_it_{iteration}.csv"] if checkpoint == iteration else []),
                      f"augmentation/augment_it_{iteration}.csv"):
         path = source / relative
@@ -191,8 +200,10 @@ def main():
     checkpoint = at - 1 if fresh else at     # the last network the branch takes over
     if fresh and at < 1:
         raise SystemExit("--train-from: give a network after the boosts' start")
+    from run.layout import has_set
+
     for needed in (f"trained_models/model_it_{checkpoint}.keras", f"training_data/data_it_{at}.csv"):
-        if not (source / needed).exists():
+        if not ((source / needed).exists() or (needed.startswith("training_data/") and has_set(source, at))):
             raise SystemExit(f"{source} has no {needed}: it cannot be branched at network {at}")
     settings = [*source.glob("*.yaml"), *source.glob("*.yml")]
     if len(settings) != 1:
@@ -258,7 +269,8 @@ def main():
             # branch starts; every other file of N belongs to network N or what came after it.
             if match and int(match.group(1)) == at and (
                     relative.parts[0] in ("training_data", "augmentation")
-                    or (relative.parts[0] == "derived_data" and relative.name.startswith("derived_it_"))):
+                    or (relative.parts[0] == "derived_data"
+                        and relative.name.startswith(("derived_it_", "derived_added_it_")))):
                 return False
             return bool(match) and int(match.group(1)) >= at
         # a chain summary of network N is written again when the branch samples it, and so is

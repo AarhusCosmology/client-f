@@ -192,12 +192,15 @@ class RegionIsTheYamls(unittest.TestCase):
             default = made()
             self.assertEqual((default.hybrid_hops, default.gtol), (ProfileConfig.hybrid_hops, ProfileConfig.gtol))
             self.assertNotIn("hybrid_hops", out.read_text())
+            self.assertEqual(default.hybrid_training_starts, 0)
+            self.assertNotIn("hybrid_training_starts", out.read_text())
             # 50 nodes of 2 parameters at maxfun 24: four gradient rounds a node (1000) is less than the plan
             # can use, every node and the global best fit at maxfun with the nodes' and audit's calls (2000)
             self.assertEqual(default.maxfun, 24)
             self.assertEqual(default.total_call_budget, 2000)
             chosen = made("--hybrid-hops", "30", "--gtol", "1e-3", "--budget", "1500")
             self.assertEqual((chosen.hybrid_hops, chosen.gtol, chosen.total_call_budget), (30, 1e-3, 1500))
+            self.assertEqual(made("--training-starts", "4").hybrid_training_starts, 4)
 
 
 class NewtonSettings(unittest.TestCase):

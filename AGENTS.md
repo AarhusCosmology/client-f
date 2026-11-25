@@ -456,6 +456,26 @@ read [docs/run_recovery.md](docs/run_recovery.md). Keep these:
   command line, each once refused) cover this, and `tests/mpi_loop_recovery_smoke.py` runs
   the loop itself on two ranks, killed inside an acquisition and continued twice.
 
+## Before changing `run/layout.py`, `save_model` or `profiles/nodes.py`
+
+What a run and a profile study write; read [docs/run_files.md](docs/run_files.md). Keep these:
+
+* Read training sets through `run/layout.py` (`training_set`, `set_files`, `set_rows`), never by opening
+  `data_it_N.csv`: with `storage.training_sets: increments` it exists for the first set only.
+  `tests/test_run_layout.py` checks that increments put together are the whole file byte for byte.
+* `TrainingDataset.save_set` writes an increment only when the earlier set is the one this dataset was read as or
+  last wrote, its rows are unchanged and it is on disk; otherwise a whole file. Never write an increment against
+  a set the dataset has not seen.
+* An increment is immutable once committed: its sha256 is in the acquisition's phase record like a whole file's.
+  `phase_outputs` and the rewind know `added_it_N.csv` and `derived_added_it_N.csv`.
+* `run.json` is an index built from the files. Nothing may need it to read or continue a run, and writing it
+  must never stop a run (`client.write_run_index`).
+* `save_model` leaves the optimizer state out; nothing loads a network compiled. Keep the optimizer detached for
+  the save only, so a model still being trained is unchanged.
+* `profiles/nodes.py`: a stage with node files keeps writing node files; a new stage writes `nodes.jsonl`. A node's
+  record is the JSON round trip of what was computed, as a node file read back gave it, so resumed studies are
+  unchanged. A cut last line is set aside, never left for the next append to join.
+
 ## Before changing `training/audit.py`
 
 `acquisition.audit` evaluates the true likelihood at a new network's own maxima before the
@@ -749,9 +769,17 @@ The launcher of true-profile studies; `hpc/README.md` has the use. Keep these:
   the data and the signature are as before. A node is then the profile over that range: never
   report it as the profile over the box. The largest value of several such studies is the profile
   over the union of their ranges only where each study found its range's maximum.
+* `hybrid_training_starts` (opt-in, 11 November 2026; docs/hybrid_optimisers.md, "Starts from training points") starts the last
+  walkers of every node of the hybrid scan from the training points with the highest label near the node. Without it the
+  walkers' starts, and with them every scan, are as before (`tests/test_hybrid_training_starts.py`); one walker of a node always
+  starts at the anchor. It finds a branch only where the training set has points on it and the network is right there. Measured
+  on one 14-parameter network with an exact reference: do not make it a default on that.
 * A study's manifest is compared on resume by what the run's files hold (their hashes) and
   by their place inside the run, never by absolute paths: a run directory that was moved or
   synced elsewhere with the same files resumes. The stored manifest is not rewritten.
+  Of `iteration` the resolved network is compared (the manifest's own `iteration` and its
+  sources), never the setting: `--iteration N` and no `--iteration` with N the latest are one
+  study (`tests/test_profiles_workflow.py`).
 * A resumed 2D study reads the scan it finished and checked (`surrogate_surface.json` with
   the names, for the same axes) instead of scanning again: the node checkpoints' signature
   holds every start, so a scan done again had to be identical bit for bit.

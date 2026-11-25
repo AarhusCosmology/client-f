@@ -21,6 +21,23 @@ from pathlib import Path
 import numpy as np
 
 
+def finished_nodes(directory):
+    """{name: record} of the finished nodes: the stage's journal (nodes.jsonl) and node files,
+    through profiles/nodes.py of the checkout this file is in; node files alone without it."""
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+    try:
+        from profiles.nodes import read_nodes
+    except ImportError:
+        found = {}
+        for path in sorted(Path(directory).glob("node_*.json")):
+            try:
+                found[path.stem] = json.loads(path.read_text())
+            except json.JSONDecodeError:
+                continue
+        return found
+    return read_nodes(directory)
+
+
 def main():
     if len(sys.argv) != 2:
         raise SystemExit(__doc__)
@@ -55,12 +72,10 @@ def main():
           + (f"; a call takes {np.nanmedian(seconds):.1f} s (median)" if seconds else ""))
 
     nodes = []
-    for path in sorted((out / "true").glob("node_*.json")):
-        try:
-            node = json.loads(path.read_text())
-        except json.JSONDecodeError:
+    for name, node in sorted(finished_nodes(out / "true").items()):
+        if not name.startswith("node_"):
             continue
-        p, j = (int(x) for x in path.stem.split("_")[1:3])
+        p, j = (int(x) for x in name.split("_")[1:3])
         d = node.get("diagnostics", {})
         nodes.append(dict(parameter=parameters[p], index=j, reason=d.get("reason", "?"), calls=d.get("backend_calls", 0),
                           rounds=d.get("gradient_rounds", 0), gain=(node["logl"] - node["direct_logl"])

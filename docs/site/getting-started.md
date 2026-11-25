@@ -32,7 +32,7 @@ The command prints the timestamped run directory. It holds a copy of the setting
 
 | In the run directory | What to look for |
 |---|---|
-| `training_data/` | Native objective values and parameter order |
+| `training_data/` | Native objective values and parameter order; read a set with `run.layout.training_set(RUN, N)` ([a run's files](_generated/library/docs/run_files.md)) |
 | `trained_models/` | Saved model for each completed iteration |
 | `training_history/` | Training and validation loss of each training |
 | `convergence_stats/` | Summaries of the sampled chains, used by the convergence test |
@@ -40,6 +40,7 @@ The command prints the timestamped run directory. It holds a copy of the setting
 | `objective_calls/` | The journal of true evaluations |
 | `objective_identity.json`, `phases/` | What a continued run is checked against ([recovery guide](_generated/library/docs/run_recovery.md)) |
 | `likelihood_input/` | Copied backend input for the run |
+| `run.json` | An index of the run per iteration, rebuilt after each acquisition; `python client.py index RUN_DIR` prints it |
 
 These files answer different questions. Low validation loss measures the fit to held-out training data; it need not measure accuracy in the posterior core or an unseen mode.
 

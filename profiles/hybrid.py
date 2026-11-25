@@ -363,14 +363,54 @@ class HybridConfig:
     hop_gtol_factor: float = 10.0  # hop ascents only locate basins; certification polishes
     hop_max_iter: int = 100
     seed: int = 42
+    training_starts: int = 0  # walkers of a node started from training points near it
 
 
 def hybrid_settings(config):
-    """The HybridConfig of a profile study's settings: hybrid_walkers, seed, gtol and, when
-    set, hybrid_hops as the limit on the hops (otherwise HybridConfig's own)."""
+    """The HybridConfig of a profile study's settings: hybrid_walkers, seed, gtol, the walkers
+    started from training points (hybrid_training_starts) and, when set, hybrid_hops as the
+    limit on the hops (otherwise HybridConfig's own)."""
     hops = getattr(config, "hybrid_hops", None)
     return HybridConfig(walkers=config.hybrid_walkers, seed=config.seed, gtol=config.gtol,
+                        training_starts=getattr(config, "hybrid_training_starts", 0),
                         **({} if hops is None else dict(hops_max=hops)))
+
+
+def training_starts(sb, data, fixed_mask, fixed_u, count, pool=4):
+    """Starts from the training set for `count` walkers of every node, in box coordinates.
+
+    A node's candidates are the training points within one node spacing of it in its fixed
+    coordinates (the `pool * count` nearest when there are fewer); its starts are those with
+    the highest label, moved to the node's values. The walkers of a scan otherwise all start
+    at the network's best point and step with that maximum's size and shape: a branch of a
+    profile far from it (another end of a degeneracy, a second maximum at the node) is then
+    not reached, although the training points near the node lie on it. Returns (K, count, N),
+    NaN for a node without fixed coordinates and where the training set has no finite label.
+    """
+    data = np.asarray(data, float)
+    U, y = sb.box(data[:, :-1]), data[:, -1]
+    usable = np.isfinite(y)
+    K, N = fixed_mask.shape
+    out = np.full((K, count, N), np.nan)
+    spacing = np.ones(N)
+    for i in np.flatnonzero(fixed_mask.any(axis=0)):
+        values = np.unique(fixed_u[fixed_mask[:, i], i])
+        if len(values) > 1:
+            spacing[i] = float(np.median(np.diff(values)))
+    for k in range(K):
+        fixed = np.flatnonzero(fixed_mask[k])
+        if not len(fixed) or not usable.any():
+            continue
+        distance = np.max(np.abs(U[:, fixed] - fixed_u[k, fixed]) / spacing[fixed], axis=1)
+        distance[~usable] = np.inf
+        near = np.flatnonzero(distance <= 1.0)
+        if len(near) < pool * count:
+            near = np.argsort(distance, kind="stable")[:min(pool * count, int(usable.sum()))]
+        best = near[np.argsort(-y[near], kind="stable")[:count]]
+        rows = U[best].copy()
+        rows[:, fixed] = fixed_u[k, fixed]
+        out[k, :len(rows)] = rows
+    return out
 
 
 def curvature_geometry(hessian, *, maximum_step=.5, relative_floor=1e-6):
@@ -547,6 +587,13 @@ def scan_hybrid(model, metadata, data, names, grids, config=None, *, hybrid=None
     for k in range(K):
         init[k * W] = u_anchor
         init[k * W + 1: (k + 1) * W] = u_anchor + cfg.step0 * (rng.standard_normal((W - 1, N)) @ geometry.T)
+    if cfg.training_starts:
+        # Opt-in: the last walkers of every node start from training points near the node.
+        S = min(int(cfg.training_starts), W - 1)
+        starts = training_starts(sb, data, fixed_mask, fixed_u, S)
+        placed = np.isfinite(starts).all(axis=2)
+        init.reshape(K, W, N)[:, W - S:][placed] = starts[placed]
+        log(f"starts from training points: {int(placed.sum())} of {K * W} walkers ({S} per node)", flush=True)
     log(f"profile hopping: {K - 1} nodes + anchor, {W} walkers each", flush=True)
     best_f, best_U, hop_info = hop(sb, fixed_mask, fixed_u, init, neighbours, geometry, cfg, rng, log)
     if af[0] > best_f[0]:

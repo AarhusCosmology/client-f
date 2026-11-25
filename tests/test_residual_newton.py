@@ -342,10 +342,11 @@ class TestResidualNewton(unittest.TestCase):
         # is a failed step, but its gain went into the node's history as -inf, the checkpoint
         # (JSON without infinities) could not be written, and every resume stopped there again.
         sb, truth, source, exact, bounds = study(curvature_error=-0.4)
-        name = Path("true") / "node_000_00002.json"
+        from profiles.nodes import read_nodes
+
         with tempfile.TemporaryDirectory() as d:
             run(sb, truth, source, bounds, d, chain_length=2)
-            node = json.loads((Path(d) / name).read_text())
+            node = read_nodes(Path(d) / "true")["node_000_00002"]
             first = next(h for h in node["diagnostics"]["history"] if h["kind"] == "round")
             events = [json.loads(line) for line in (Path(d) / "calls.jsonl").read_text().splitlines()]
             call = next(e["call"] for e in events if e["event"] == "return" and e["stage"] == "corrected/node/p0/2"
@@ -359,7 +360,7 @@ class TestResidualNewton(unittest.TestCase):
             return truth(x)
         with tempfile.TemporaryDirectory() as d:
             record, _ = run(sb, failing, source, bounds, d, chain_length=2)
-            node = json.loads((Path(d) / name).read_text())
+            node = read_nodes(Path(d) / "true")["node_000_00002"]
             rounds = [h for h in node["diagnostics"]["history"] if h["kind"] == "round"]
             self.assertIsNone(rounds[0]["actual"])
             self.assertTrue(all(np.isfinite(v) for n in source["names"] for v in record["profiles"][n]["logl"]))
@@ -377,8 +378,10 @@ class TestResidualNewton(unittest.TestCase):
             # its state ended on their budget (722 calls for the study in place of 289).
             self.assertEqual((node["diagnostics"]["reason"], node["diagnostics"]["flag"]), ("converged", 0))
             self.assertLess(gap, 1e-3)
-            flagged = [p.name for p in (Path(d) / "true").glob("node_*.json")
-                       if json.loads(p.read_text())["diagnostics"]["flag"] != 0]
+            from profiles.nodes import read_nodes
+
+            flagged = [name for name, node in read_nodes(Path(d) / "true").items()
+                       if name.startswith("node_") and node["diagnostics"]["flag"] != 0]
             self.assertEqual(flagged, [])
 
     def test_a_round_that_ends_at_the_budget_still_gets_its_verdict(self):
@@ -419,7 +422,9 @@ class TestResidualNewton(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             record, ledger = run(sb, truth, source, bounds, d)
             self.assertEqual(ledger.counts["invalid_requests"], 0)
-            node = json.loads((Path(d) / "true" / "node_000_00002.json").read_text())
+            from profiles.nodes import read_nodes
+
+            node = read_nodes(Path(d) / "true")["node_000_00002"]
             self.assertEqual(node["surrogate_x"][5], 3.0)
             self.assertTrue(np.isfinite(node["direct_logl"]))
             self.assertTrue(all(np.isfinite(v) for n in source["names"] for v in record["profiles"][n]["logl"]))
@@ -495,7 +500,11 @@ class TestResidualNewton(unittest.TestCase):
             with self.assertRaises(CallBudgetExceeded):
                 refine_profiles_newton(None, source, bounds, WorkflowLedger(Pool(truth), bounds, calls, total // 2),
                                        d, workers=3, surrogate=sb, log=lambda *a, **k: None)
-            done = len(list((Path(d) / "true").glob("node_*.json")))
+            from profiles.nodes import JOURNAL, read_nodes
+
+            self.assertEqual(list((Path(d) / "true").glob("node_*.json")), [])       # one journal, no node files
+            self.assertTrue((Path(d) / "true" / JOURNAL).exists())
+            done = sum(name.startswith("node_") for name in read_nodes(Path(d) / "true"))
             self.assertLess(done, 15)
             ledger = WorkflowLedger(Pool(truth), bounds, calls, 20000)
             refine_profiles_newton(None, source, bounds, ledger, d, workers=3, surrogate=sb,

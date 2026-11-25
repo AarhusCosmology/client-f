@@ -161,7 +161,9 @@ class HybridSurfaceTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             result, ledger = run(d, sb, truth, bounds, cfg, source)
             self.assertEqual(ledger.counts['invalid_requests'], 0)
-            node = json.loads((Path(d)/'true_surface/node_0002_0002.json').read_text())
+            from profiles.nodes import read_nodes
+
+            node = read_nodes(Path(d)/'true_surface')['node_0002_0002']
             self.assertTrue(np.isfinite(node['direct_logl']))
             np.testing.assert_allclose(result['logl'], exact, atol=1e-6)
 

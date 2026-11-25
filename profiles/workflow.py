@@ -47,11 +47,13 @@ def preflight(run, config):
         raise ValueError(
             "2D augmentation requires at least one nuisance coordinate; use retrain=false and added_points=0 for a two-parameter objective"
         )
+    from run.layout import has_set, set_files
+
     iteration = config.iteration
     if iteration is None:
         ids = [
             n for n in iterations(run / "trained_models", "model_it_*.keras")
-            if (run / "training_data" / f"data_it_{n}.csv").exists()
+            if has_set(run, n)
         ]
         if not ids:
             raise ValueError(
@@ -59,7 +61,9 @@ def preflight(run, config):
             )
         iteration = max(ids)
     model = run / "trained_models" / f"model_it_{iteration}.keras"
-    data = run / "training_data" / f"data_it_{iteration}.csv"
+    # The files of training set N: one whole data_it_N.csv, or one followed by increments
+    # (run/layout.py), each with the same header.
+    data_files = set_files(run, iteration)
     configs = (
         [run / config.run_config]
         if config.run_config
@@ -69,14 +73,19 @@ def preflight(run, config):
         raise ValueError("ambiguous run YAML: set run_config in profile config")
     cfg = yaml.safe_load(configs[0].read_text())
     backend = run / "likelihood_input" / Path(cfg["likelihood"]["input"]).name
-    with data.open() as f:
-        header = f.readline().strip().split(",")
-    if header[:-1] != names:
-        raise ValueError("training CSV column order differs from metadata")
+    for data in data_files:
+        with data.open() as f:
+            header = f.readline().strip().split(",")
+        if header[:-1] != names:
+            raise ValueError("training CSV column order differs from metadata")
     # Match the original network input representation before adding any labels.
-    training = np.loadtxt(
-        data, delimiter=",", skiprows=1, ndmin=2, dtype=np.float32
-    ).astype(float)
+    # Parsed as before (np.loadtxt at single precision), file by file; an iteration that added
+    # no rows has a header-only increment, left out.
+    parts = []
+    for data in data_files:
+        if data is data_files[0] or sum(1 for _ in data.open()) > 1:
+            parts.append(np.loadtxt(data, delimiter=",", skiprows=1, ndmin=2, dtype=np.float32))
+    training = np.concatenate(parts).astype(float)
     if training.shape[1] != len(names) + 1 or not np.isfinite(training).all():
         raise ValueError("invalid original training data")
     tolerance = (
@@ -88,7 +97,7 @@ def preflight(run, config):
         raise ValueError("original data outside metadata bounds")
     if config.maxfun < len(names) + 3:
         raise ValueError(f"maxfun must be >= {len(names)+3} for anchor interpolation")
-    files = [run / "metadata.json", configs[0], model, data, backend]
+    files = [run / "metadata.json", configs[0], model, *data_files, backend]
     backend_identity = None
     if config.backend_module:
         import importlib.util
@@ -286,6 +295,13 @@ def run_workflow(run, output, config, *, resume=False, dry_run=False):
                 # depends on what the files hold (their hashes), and a run directory that was
                 # moved or synced to another place with the same files is the same source.
                 # (The absolute paths were compared, and such a study could not be resumed.)
+                # Likewise the network: the manifest holds the iteration resolved (`iteration`,
+                # and the model's and data's files and hashes in `sources`), and that is
+                # compared, not whether --iteration was given. A study begun with --iteration N
+                # and resumed without it, or the other way round, is the same study when the
+                # latest network is N, and is refused when it is another one. (The setting was
+                # compared, and a study begun with --iteration 0 on a run whose only network is 0
+                # could not be resumed without it.)
                 def in_run(path):
                     try:
                         return str(Path(path).relative_to(m["run"]))
@@ -294,7 +310,7 @@ def run_workflow(run, output, config, *, resume=False, dry_run=False):
 
                 return dict(m, run=None, sources={in_run(k): v for k, v in m["sources"].items()},
                             configuration={k: v for k, v in m["configuration"].items()
-                                           if k not in EXECUTION_SETTINGS and k != "region"})
+                                           if k not in EXECUTION_SETTINGS and k not in ("region", "iteration")})
 
             if comparable(stored_manifest) != comparable(manifest):
                 raise ValueError("source/configuration changed; resume refused")

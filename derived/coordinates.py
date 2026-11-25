@@ -443,10 +443,12 @@ def make_view(run, output, targets, pivots=None, exclude=(), iteration=None):
     metadata, network = surrogate.metadata, surrogate.model
     names = metadata.param_names
     bounds = [metadata.bounds[n] for n in names]
-    read_here = [model_path(run / "derived_data", iteration), run / "training_data" / f"data_it_{iteration}.csv"]
+    from run.layout import set_files, training_set
+
+    read_here = [model_path(run / "derived_data", iteration), *set_files(run, iteration)]
     source_files = {str(path.relative_to(run)): digest(path) for path in read_here}
     emulator = load_derived_model(read_here[0])
-    data = pd.read_csv(read_here[1])
+    data = training_set(run, iteration)
     if {str(path.relative_to(run)): digest(path) for path in read_here} != source_files:
         raise RuntimeError(f"the derived emulator or the training set of iteration {iteration} changed while the "
                            "view was being made; make it again when the run is not training")

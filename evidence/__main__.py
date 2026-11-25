@@ -95,14 +95,15 @@ def reference_value(run, iteration):
     precision, or (0.0, None) when the run has no training set left. Any constant near the peak
     will do: BEST is given the network minus it, and it is added back to what BEST returns. So
     when the network's own file is gone (a run tidied up), the nearest iteration's serves."""
-    import pandas as pd
+    from run.layout import has_set, set_files, set_iterations, training_set
 
-    found = iterations(run / "training_data", "data_it_*.csv")
+    found = [n for n in set_iterations(run) if has_set(run, n)]
     for number in sorted(found, key=lambda n: (abs(n - iteration), n)):
-        values = pd.read_csv(found[number], usecols=["loglkl"])["loglkl"].to_numpy(float)
+        values = training_set(run, number, usecols=["loglkl"])["loglkl"].to_numpy(float)
         values = values[np.isfinite(values)]
         if len(values):
-            return float(np.float32(values.max())), f"training_data/{found[number].name}"
+            files = set_files(run, number)
+            return float(np.float32(values.max())), "+".join(f"training_data/{p.name}" for p in files)
     return 0.0, None
 
 

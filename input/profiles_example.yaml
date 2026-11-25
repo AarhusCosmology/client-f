@@ -25,6 +25,7 @@ gtol: 1.0e-4
 # The scan and the residual Newton true stage (docs/hybrid_optimisers.md).
 surrogate_optimizer: hybrid   # hybrid | legacy
 hybrid_walkers: 8
+hybrid_training_starts: 0     # walkers of a node started from the best training points near it; 0 = none
 corrected_tol: null           # native log-objective stopping tolerance; null = 1e-2
 maxfun: 150                   # per-node true-call budget
 total_call_budget: 100000

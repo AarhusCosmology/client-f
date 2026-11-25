@@ -101,15 +101,20 @@ def refine_surface_newton(model, source, bounds, ledger, out, config, *, surroga
     if identity.exists():
         if json.loads(identity.read_text())["signature"] != signature:
             raise ValueError("surface checkpoint inputs or method changed")
-    elif any(directory.glob("node_*.json")) or (directory / "anchor.json").exists():
-        raise ValueError("surface checkpoints without a method record cannot be reused")
     else:
+        from profiles.nodes import has_nodes
+
+        if has_nodes(directory):
+            raise ValueError("surface checkpoints without a method record cannot be reused")
         save(identity, dict(signature=signature, **contract))
 
+    # Finished nodes for resume: one journal, or node files where the stage has them (profiles/nodes.py).
+    from profiles.nodes import NodeStore
+
+    nodes_done = NodeStore(directory)
+
     def checkpoint(path, compute):
-        if not path.exists():
-            save(path, compute())
-        return json.loads(path.read_text())
+        return nodes_done.checkpoint(Path(path).stem, compute)
 
     shared = ConcurrentLedger(ledger, workers=config.workers)
     rows = {}
@@ -123,7 +128,7 @@ def refine_surface_newton(model, source, bounds, ledger, out, config, *, surroga
                 # toward the seed: done, since a chain starts when its seed is
                 # (run_seeded_chains), and read from its checkpoint.
                 k = order[0] + (1 if order[0] < j0 else -1)
-                neighbour = json.loads((directory / f"node_{i:04d}_{k:04d}.json").read_text())["x"]
+                neighbour = nodes_done.get(f"node_{i:04d}_{k:04d}")["x"]
                 previous = None if neighbour is None else np.asarray(neighbour, float)
             for j in order:
                 values = np.array([axes[0][i], axes[1][j]])

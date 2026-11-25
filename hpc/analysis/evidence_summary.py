@@ -62,12 +62,15 @@ import argparse
 import glob
 import json
 import re
+import sys
 from pathlib import Path
 
 import numpy as np
 from scipy.special import logsumexp
 
 from chain_sampling import chain_sampling
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))   # the CLiENT checkout, for run.layout
 
 
 def log_mean_exp(d):
@@ -328,10 +331,10 @@ def collect(run):
                 else:
                     entry["correction" if found["value"] is not None else "correction_unavailable"] = found
                     entry["target_recorded"] = recorded
-        data = run / "training_data" / f"data_it_{iteration}.csv"
-        if data.exists():
-            with open(data) as handle:
-                row["training_points"] = sum(1 for _ in handle) - 1
+        from run.layout import has_set, set_rows
+
+        if has_set(run, iteration):
+            row["training_points"] = set_rows(run, iteration)
     return dict(sorted(rows.items()))
 
 

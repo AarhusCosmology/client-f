@@ -486,6 +486,37 @@ class ProfilesIntegrationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "source/configuration changed"):
                 run_workflow(moved, out, c, resume=True)
 
+    def test_a_study_is_resumed_with_or_without_the_iteration_of_the_same_network(self):
+        # The setting was compared: a study begun with --iteration 0 and resumed without it was
+        # refused on a run whose only network is 0. What is
+        # compared is the network the iteration resolves to.
+        import shutil
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            run = make_toy_run(root)                      # one network, 2
+            settings = dict(parameters=["x_0"], ranges={"x_0": [-2., 2.]}, profile_points=3, scan_points=5, workers=2)
+            named, latest = ProfileConfig(iteration=2, **settings), ProfileConfig(**settings)
+            for begun, resumed, out in ((named, latest, root / "named"), (latest, named, root / "latest")):
+                run_workflow(run, out, begun)
+                before = aggregate_counts(out / "calls")["backend_attempts"]
+                manifest = (out / "manifest.json").read_text()
+                (out / "complete.json").unlink()
+                run_workflow(run, out, resumed, resume=True)
+                self.assertEqual(aggregate_counts(out / "calls")["backend_attempts"], before)  # nothing evaluated again
+                self.assertEqual((out / "manifest.json").read_text(), manifest)                # the record is as it was
+            # another network, 3, is now the latest: without the setting a resume would use it
+            for name in ("trained_models/model_it_{}.keras", "training_data/data_it_{}.csv"):
+                shutil.copy(run / name.format(2), run / name.format(3))
+            for out in (root / "named", root / "latest"):
+                (out / "complete.json").unlink()
+                with self.assertRaisesRegex(ValueError, "source/configuration changed"):
+                    run_workflow(run, out, latest, resume=True)
+                with self.assertRaisesRegex(ValueError, "source/configuration changed"):
+                    run_workflow(run, out, ProfileConfig(iteration=3, **settings), resume=True)
+                run_workflow(run, out, named, resume=True)                                     # network 2, named
+                self.assertTrue((out / "complete.json").exists())
+
     def test_a_refusal_says_where_it_was_raised(self):
         import contextlib, io
         from unittest import mock

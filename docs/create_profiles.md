@@ -176,6 +176,7 @@ CLI options override YAML values. A dry run prints the fully resolved settings.
 | `surrogate_optimizer` | hybrid | Batched basin hopping and projected BFGS; `legacy` selects the L-BFGS-B scan with polish and continuation passes |
 | `hybrid_walkers` | 8 | Basin-hopping walkers per surrogate node |
 | `hybrid_hops` | null | Hops of the hybrid scan at most; null keeps its 12. The scan has converged only after two hops in a row in which no node improved, and a study stops before its true stage when it has not |
+| `hybrid_training_starts` | 0 | Walkers of each node (fewer than `hybrid_walkers`) that start from the training points with the highest label near the node instead of the network's best point: for a profile with a branch far from that point ([hybrid optimisers](hybrid_optimisers.md)) |
 | `corrected_tol` | null | Native log-objective gain tolerance; null selects 1e-2 |
 | `max_passes`, `gtol` | 15, 1e-4 | Legacy scan pass cap; projected-gradient tolerance for both surrogate methods |
 | `maxfun` | 150 | Per true local solve evaluation budget, including interpolation |
@@ -390,7 +391,10 @@ python client.py profiles results/MY_RUN \
 Without a new `--config`, this uses the stored profile configuration. A changed
 source model, data, metadata, likelihood YAML, backend fingerprint or configuration
 is rejected. Of `region` the resolved region is compared, not the setting
-([Networks trained on boosts](#networks-trained-on-boosts)). The run's files are
+([Networks trained on boosts](#networks-trained-on-boosts)). Of `iteration` (`--iteration`)
+too the network it resolves to is compared, not the setting: a study begun with
+`--iteration N` resumes without it, and the other way round, as long as N is the latest
+network of the run, and is refused once a later network exists. The run's files are
 compared by what they hold (their hashes) and by their place inside the run, so a study is
 resumed as well after its run directory was moved or synced elsewhere with the same files
 (the command says where the run stood when the study began, and the

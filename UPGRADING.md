@@ -32,6 +32,7 @@ The learning rate stays fixed unless `training.lr_schedule: plateau` is asked fo
 - A saved profile study whose manifest lacks a current key cannot be continued, or one that used a removed method: start a new study.
 - `search_ranges` (10 November 2026) is such a key: a profile study made with an earlier client-f, 1D or 2D, cannot be continued
   with this one. Finish it with the client-f it was started with, or start it again.
+- `hybrid_training_starts` (11 November 2026) is another: the same holds for a study made before it.
 
 ## Things that surprise people
 

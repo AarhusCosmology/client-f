@@ -66,7 +66,9 @@ def check_points(run, iteration, names, n=512, seed=1):
     `iteration` and some spread over the run's training set."""
     import pandas as pd
 
-    data = pd.read_csv(Path(run) / "training_data" / f"data_it_{iteration}.csv")
+    from run.layout import training_set
+
+    data = training_set(run, iteration)
     data = data[np.isfinite(data["loglkl"])]
     best = data.nlargest(n // 2, "loglkl")
     rest = data.sample(min(n - len(best), len(data)), random_state=seed)

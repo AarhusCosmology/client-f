@@ -30,8 +30,24 @@ def write_json(path, value):
 
 
 def save_model(model, path):
+    """Save a network without its optimizer's state.
+
+    Every reader loads a saved network with compile=False (model/network.py load_model,
+    derived/emulator.py) and a warm start builds a new optimizer, so the state was never read:
+    with Adam it is two moments per weight, two thirds of every file (measured on the Grendel
+    runs, November 2026). Keras 3 has no include_optimizer; the optimizer is detached for the
+    save and put back, so a model still being trained is not changed. Files written before
+    carry the state and load as before."""
+    optimizer = getattr(model, "optimizer", None)
     with atomic_path(path) as temporary:
-        model.save(temporary)
+        if optimizer is None:
+            model.save(temporary)
+        else:
+            model.optimizer = None
+            try:
+                model.save(temporary)
+            finally:
+                model.optimizer = optimizer
 
 
 def digest(path):
@@ -98,7 +114,9 @@ def phase_outputs(root, phase):
                     f'trained_models/members/pilot_it_{n}.csv',
                     f'training_history/history_it_{n}_member*.csv']
     else:
+        # the training set of N + 1, whole or as the rows it added (run/layout.py)
         patterns = [f'training_data/data_it_{n + 1}.csv', f'derived_data/derived_it_{n + 1}.csv',
+                    f'training_data/added_it_{n + 1}.csv', f'derived_data/derived_added_it_{n + 1}.csv',
                     f'boost/boost_it_{n}.csv', f'boost/boost_it_{n}.json', f'boost/fallback_it_{n}.json']
     found = [path for pattern in patterns for path in sorted(root.glob(pattern))]
     if kind == 'training':
@@ -182,7 +200,9 @@ def set_later_aside(root, iteration, log=print):
     iterations go with the files they commit. Returns the folder, or None when the run
     holds nothing later."""
     root = Path(root)
-    if type(iteration) is not int or iteration < 0 or not (root / f'training_data/data_it_{iteration}.csv').is_file():
+    from run.layout import has_set
+
+    if type(iteration) is not int or iteration < 0 or not has_set(root, iteration):
         raise ValueError(f'Cannot rewind to iteration {iteration}: need a nonnegative iteration with saved training data')
     recover_rewind(root, log=log)
     files = later_files(root, iteration)

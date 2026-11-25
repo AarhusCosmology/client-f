@@ -107,7 +107,9 @@ def previous_rows(run_dir, iteration):
 
         return int(np.isfinite(pd.read_csv(path, usecols=["loglkl"])["loglkl"].to_numpy(float)).sum())
 
-    return (rows(run_dir / "training_data" / f"data_it_{iteration - 1}.csv")
+    from run.layout import set_rows
+
+    return (set_rows(run_dir, iteration - 1)
             + pilot_rows(run_dir / "trained_models" / "members" / f"pilot_it_{iteration - 1}.csv")
             + rows(run_dir / "audit" / f"audit_it_{iteration - 1}.csv"))
 

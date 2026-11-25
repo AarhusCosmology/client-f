@@ -307,15 +307,17 @@ def main(argv=None):
     names = md.param_names
     bounds = np.array([md.bounds[n] for n in names], float)
     iteration = a.iteration if a.iteration is not None else _start_iteration(run)
-    data_path = run / "training_data" / f"data_it_{iteration}.csv"
-    if not data_path.exists():
-        raise FileNotFoundError(f"{data_path} does not exist")
+    from run.layout import has_set, training_set
+
+    data_path = run / "training_data" / f"data_it_{iteration}.csv"   # named in messages; the set is read whole or in increments
+    if not has_set(run, iteration):
+        raise FileNotFoundError(f"{run}: no training set {iteration} ({data_path.name}, or its increments)")
     out_dir = (a.output or run / "augmentation").resolve()
     out_csv = out_dir / f"augment_it_{iteration}.csv"
     if out_csv.exists() and not a.force:
         raise FileExistsError(f"{out_csv} exists; --force replaces it")
 
-    data = pd.read_csv(data_path)
+    data = training_set(run, iteration)
     if list(data.columns) != list(names) + ["loglkl"]:
         raise ValueError(f"{data_path}: columns are not the run's parameters followed by loglkl")
     dataset = TrainingDataset(data[names].to_numpy(float), data["loglkl"].to_numpy(float),

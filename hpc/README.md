@@ -113,7 +113,8 @@ python true_profiles/status.py results_profiles/NAME
 ```
 
 `make_config.py` takes `--hybrid-hops` and `--gtol` for the network scan, which a rugged network may need above
-CLiENT's defaults (12 and 1e-4), and sets the study's call budget to what its plan can use unless `--budget` is given.
+CLiENT's defaults (12 and 1e-4), `--training-starts` for a profile with a branch far from the network's best point
+(`hybrid_training_starts`, docs/hybrid_optimisers.md), and sets the study's call budget to what its plan can use unless `--budget` is given.
 The profile code starts its own backend processes: do not use `mpirun`. A refused point is -inf in a profile, never
 the run's refused value. `CLIENT_CAMB_ACCURACY_TARGET` and `CLIENT_PROFILE_NEWTON` (overrides of `NewtonConfig`,
 outside what that stage was validated with) are written beside the study, and a resumed study must be given the same.

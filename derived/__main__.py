@@ -32,11 +32,9 @@ def default_thin(sampling, n_steps):
 def latest_iteration(derived_data_dir, trained_models_dir=None):
     """The latest iteration with recorded derived values (and, if a directory is
     given, a trained surrogate as well)."""
-    iterations = [
-        int(match.group(1))
-        for path in Path(derived_data_dir).glob("derived_it_*.csv")
-        if (match := re.fullmatch(r"derived_it_(\d+)", path.stem))
-    ]
+    from run.layout import DERIVED, set_iterations
+
+    iterations = list(set_iterations(derived_data_dir, DERIVED))    # whole, or increments (run/layout.py)
     if trained_models_dir is not None:
         iterations = [
             i for i in iterations
@@ -139,7 +137,9 @@ def main(argv=None):
     except FileNotFoundError:
         # Names from the data file itself; with no recorded dependencies, 'auto'
         # falls back to every input.
-        metadata = metadata_from_csv(derived_dir / f"derived_it_{iteration}.csv", param_names)
+        from run.layout import DERIVED, set_files
+
+        metadata = metadata_from_csv(set_files(derived_dir, iteration, DERIVED)[0], param_names)
         print(f"No derived_parameters.json in {derived_dir}; using the columns of "
               f"derived_it_{iteration}.csv and all inputs")
 

@@ -54,8 +54,10 @@ def _local_likelihood_config(run_dir: Path, config: Config) -> Config:
 def latest_iteration(run_dir: Path) -> int:
     """The latest network or training set on disk, -1 without any: where a continued run
     starts when it is not told (-s)."""
+    from run.layout import set_iterations
+
     return max([*iterations(Path(run_dir) / "trained_models", "model_it_*.keras"),
-                *iterations(Path(run_dir) / "training_data", "data_it_*.csv")], default=-1)
+                *set_iterations(run_dir)], default=-1)
 
 
 def _start_iteration(run_dir: Path) -> int:

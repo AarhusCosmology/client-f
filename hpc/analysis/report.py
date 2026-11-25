@@ -128,6 +128,41 @@ def keys(frame, names):
     return [row.tobytes() for row in values]
 
 
+class TrainingSets:
+    """A run's training sets by iteration, read through run/layout.py when asked for, the last
+    two kept: `N in sets`, `sets[N]`, `sets.best()`. Needs the CLiENT checkout on sys.path."""
+    def __init__(self, directory):
+        from run.layout import set_iterations
+
+        self.dir = Path(directory)
+        self.iterations = sorted(set_iterations(self.dir))
+        self._kept = {}
+
+    def __contains__(self, iteration):
+        from run.layout import has_set
+
+        return iteration in self.iterations and has_set(self.dir, iteration)
+
+    def __getitem__(self, iteration):
+        from run.layout import training_set
+
+        if iteration not in self._kept:
+            if iteration not in self:
+                raise KeyError(iteration)
+            self._kept = {k: v for k, v in self._kept.items() if abs(k - iteration) <= 1}
+            self._kept[iteration] = training_set(self.dir, iteration)
+        return self._kept[iteration]
+
+    def best(self):
+        """The highest log L in any set, each file's column read once."""
+        from run.layout import set_files
+
+        files = {path for n in self.iterations if n in self for path in set_files(self.dir, n)}
+        values = [np.nanmax(pd.read_csv(path, usecols=["loglkl"])["loglkl"].to_numpy(float), initial=-np.inf)
+                  for path in sorted(files)]
+        return max(values, default=float("nan"))
+
+
 class Run:
     def __init__(self, directory, client, linear_prior=()):
         import yaml
@@ -157,7 +192,9 @@ class Run:
         if self.boost and early.exists():
             self.boost = dict(self.boost, start_iteration=min(int(self.boost["start_iteration"]),
                                                               int(json.loads(early.read_text())["start_iteration"])))
-        self.data = {k: pd.read_csv(f) for k, f in sorted(by_iteration(self.dir / "training_data" / "data_it_*.csv").items())}
+        # Training sets through run/layout.py (whole files, or increments), read when asked for:
+        # holding every set of a long run at once took gigabytes.
+        self.data = TrainingSets(self.dir)
         self.models = by_iteration(self.dir / "trained_models" / "model_it_*.keras")
         self.audits = {k: json.loads(f.read_text()) for k, f in by_iteration(self.dir / "audit" / "audit_it_*.json").items()}
         self.audit_points = by_iteration(self.dir / "audit" / "audit_it_*.csv")
@@ -170,7 +207,7 @@ class Run:
             self.metrics = json.loads((self.dir / "metrics.json").read_text())
         except (OSError, ValueError):
             self.metrics = {}
-        self.best = max((float(np.nanmax(d["loglkl"])) for d in self.data.values()), default=float("nan"))
+        self.best = self.data.best()
         self._model = (None, None)
         self.mixtures = {}              # per network: the cells of a region with several ellipsoids, as sampled
 

@@ -62,6 +62,9 @@ class TrainingDataset:
         self.target_temperature = target_temperature
         self.iteration = None
         self._knn_index = None
+        # The set as it was last read or written (iteration, inputs, targets, derived): an
+        # increment after it is written only while these rows stay as they are (save_set).
+        self._stored = None
 
     def _as_derived(self, derived, n_rows):
         # Missing derived values are NaN rows, so the array always lines up with
@@ -104,14 +107,76 @@ class TrainingDataset:
         with atomic_path(path) as temporary:
             df.to_csv(temporary, index=False)
 
+    def _remember_stored(self, iteration):
+        self._stored = (int(iteration), self.inputs.copy(), self.targets.copy(), self.derived.copy())
+
+    def _unchanged_rows(self, iteration, derived=False):
+        """The number of rows of set iteration - 1 as read or written here, when they are
+        still the leading rows (the inputs and targets, or with `derived` the inputs and
+        derived values); None when an increment cannot be written."""
+        if self._stored is None or self._stored[0] != int(iteration) - 1:
+            return None
+        _, inputs, targets, derived_values = self._stored
+        n = len(inputs)
+        if n > len(self.inputs) or not np.array_equal(inputs, self.inputs[:n]):
+            return None
+        if derived:
+            same = np.array_equal(derived_values, self.derived[:n], equal_nan=True)
+        else:
+            same = np.array_equal(targets, self.targets[:n], equal_nan=True)
+        return n if same else None
+
+    def save_set(self, run_dir, iteration, increments=False):
+        """Write training set `iteration` (and its derived parameters) of a run; returns the
+        files written. With increments (storage.training_sets: increments, run/layout.py)
+        only the rows added since set iteration - 1 are written, when that set is the one
+        this dataset was read as or last written as, its rows are unchanged and it is on
+        disk; otherwise, and without increments, the whole set. run/layout.py reads the
+        same set either way."""
+        from run.layout import DERIVED, TRAINING, has_set
+
+        run_dir = Path(run_dir)
+        written = []
+        for kind, derived in ((TRAINING, False), (DERIVED, True)):
+            if derived and not self.derived_names:
+                continue
+            start = None
+            if increments and iteration > 0 and has_set(run_dir, iteration - 1, kind):
+                start = self._unchanged_rows(iteration, derived=derived)
+            path = kind.whole_path(run_dir, iteration) if start is None else kind.added_path(run_dir, iteration)
+            (self._write_derived if derived else self._write)(path, slice(start or 0, None))
+            written.append(path)
+        self._remember_stored(iteration)
+        return written
+
+    def _write(self, path, rows=slice(None)):
+        df = pd.DataFrame(self.inputs[rows], columns=self.param_names)
+        df["loglkl"] = self.targets[rows, 0]
+        Path(path).parent.mkdir(parents=True, exist_ok=True)
+        with atomic_path(path) as temporary:
+            df.to_csv(temporary, index=False)
+
+    def _write_derived(self, path, rows=slice(None)):
+        df = pd.DataFrame(self.inputs[rows], columns=self.param_names)
+        for j, name in enumerate(self.derived_names):
+            df[name] = self.derived[rows, j]
+        Path(path).parent.mkdir(parents=True, exist_ok=True)
+        with atomic_path(path) as temporary:
+            df.to_csv(temporary, index=False)
+
     def _load_derived(self, path):
         # Leaves NaN wherever the file cannot vouch for a value: runs recorded before
         # derived parameters existed, and derived parameters added to the likelihood
         # since. A file whose rows no longer match the inputs is ignored outright.
-        path = Path(path)
-        if not self.derived_names or not path.exists():
+        if not self.derived_names:
             return
-        df = pd.read_csv(path)
+        if isinstance(path, pd.DataFrame):
+            df, path = path, Path("derived set")
+        else:
+            path = Path(path)
+            if not path.exists():
+                return
+            df = pd.read_csv(path)
         inputs = df[self.param_names].to_numpy(dtype=np.float32)
         if inputs.shape != self.inputs.shape or not np.array_equal(inputs, self.inputs):
             warnings.warn(
@@ -133,21 +198,23 @@ class TrainingDataset:
         iteration=None,
         derived_data_dir=None,
     ):
-        # If no iteration is specified, load the latest available
-        # data_it_<iteration>.csv file.
+        # Without an iteration, the latest set. Through run/layout.py: a set is a whole
+        # data_it_<N>.csv, or one followed by the rows later iterations added.
+        from run.layout import DERIVED, TRAINING, has_set, latest_set, read_set
+
         if iteration is None:
-            iteration = max(
-                int(p.stem.rsplit("_", 1)[1]) for p in Path(training_data_dir).iterdir()
-            )
-        path = Path(training_data_dir) / f"data_it_{iteration}.csv"
-        df = pd.read_csv(path)
+            iteration = latest_set(training_data_dir, TRAINING)
+            if iteration is None:
+                raise FileNotFoundError(f"no training set in {training_data_dir}")
+        df = read_set(training_data_dir, iteration, TRAINING)
         param_names = likelihood.param_names
         inputs = df[param_names].to_numpy(dtype=np.float32)
         targets = df[["loglkl"]].to_numpy(dtype=np.float32)
         dataset = cls(inputs, targets, likelihood, n_neighbors, target_temperature)
         dataset.iteration = iteration
-        if derived_data_dir is not None:
-            dataset._load_derived(Path(derived_data_dir) / f"derived_it_{iteration}.csv")
+        if derived_data_dir is not None and has_set(derived_data_dir, iteration, DERIVED):
+            dataset._load_derived(read_set(derived_data_dir, iteration, DERIVED))
+        dataset._remember_stored(iteration)
         return dataset
 
     def add_data(self, inputs, targets, derived=None):

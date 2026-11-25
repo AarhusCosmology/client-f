@@ -48,6 +48,7 @@ Old manifests preserve their original retraining policy.
 surrogate_optimizer: hybrid     # or legacy
 hybrid_walkers: 8               # basin-hopping walkers per grid node
 hybrid_hops: null               # hops at most; null = 12
+hybrid_training_starts: 0       # walkers of a node started from training points; 0 = none
 corrected_tol: null             # native log-objective units; null = 1e-2
 ```
 
@@ -78,6 +79,22 @@ Goal: the most precise profile *of the surrogate*.
   were still improving at a handful of nodes at hop 12, with every node stationary
   and the anchor above them all; `hybrid_hops: 20` lets such a scan settle. A larger
   limit changes nothing for a scan that settles before 12.
+* **Starts from training points (opt-in).** The walkers of every node start at the anchor, the
+  network's best point, and step with the size and shape of that maximum (at most 5 sigma). A
+  branch of a profile far from it, such as the other end of a degeneracy or a second maximum at
+  the node's value, is then not reached, even where the network has it right, and the true stage
+  refines only locally. With `hybrid_training_starts: n` the last `n` of a node's walkers start
+  instead from the training points with the highest label within one node spacing of the node
+  (the `4 n` nearest when there are fewer), moved to the node's value; in 2D the spacing is taken
+  in both grid parameters. The other walkers, the hops and the certification are unchanged, and
+  without the key the scan is the one it was. Measured on one network: a 14-parameter neutrino
+  oscillation likelihood with an exact reference, final network of a run with boosts, 31 nodes
+  each of two parameters, `hybrid_walkers: 14` with 7 from training points. In the tail of one
+  parameter the standard scan stayed on the central branch at ten nodes although the network was
+  right to 0.1 to 0.8 in chi-squared on the other branch at the first three; the true profile
+  was then 0.6 to 15 above the exact one. With the starts it was above by more than 1 at one node
+  (1.7), where the network itself is wrong on the right branch. A training set that holds no
+  point on a branch gives no start there: this does not replace training points.
 * **Local ascent.** Batched projected BFGS in prior-box coordinates. Its Hessian model
   starts from the exact autodiff Hessian (whitening) and is carried across hops; bounds are
   exact via an epsilon-active set; there is no relative-`ftol` stop. (The legacy

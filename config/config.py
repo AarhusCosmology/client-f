@@ -874,6 +874,28 @@ class ConvergenceConfig:
 
 
 @dataclass(frozen=True)
+class StorageConfig:
+    # How a run writes its training sets (run/layout.py). cumulative: data_it_N.csv whole at
+    # every iteration, as runs always have. increments: only the rows an iteration added
+    # (added_it_N.csv), with a whole file whenever the earlier rows did not stay as they were;
+    # on the Grendel runs of Oct-Nov 2026 that is a tenth of the bytes. The sets read the
+    # same either way, through run/layout.py; scripts that open data_it_N.csv themselves
+    # find it only for the first set of a run with increments, hence opt-in.
+    training_sets: str = "cumulative"
+
+    CHOICES = ("cumulative", "increments")
+
+    @classmethod
+    def from_dict(cls, d):
+        d = {} if d is None else d
+        _validate_mapping(cls, d)
+        out = cls(training_sets=str(d.get("training_sets", "cumulative")))
+        if out.training_sets not in cls.CHOICES:
+            raise ValueError(f"storage.training_sets: expected one of {list(cls.CHOICES)}")
+        return out
+
+
+@dataclass(frozen=True)
 class Config:
     likelihood: LikelihoodConfig
     prior: PriorConfig
@@ -889,6 +911,8 @@ class Config:
     # Optional `derived:` section. None (absent) trains no derived-parameter emulator
     # during the run; derived values are recorded with every true evaluation either way.
     derived: DerivedConfig | None = None
+    # Optional `storage:` section: how the run's files are written (StorageConfig).
+    storage: StorageConfig = StorageConfig()
 
     @classmethod
     def from_dict(cls, d):
@@ -905,6 +929,7 @@ class Config:
             seed=(None if d.get("seed") is None else int(d["seed"])),
             # as acquisition.audit and .boost: absent or false is off; null, true or {} every default
             derived=AcquisitionConfig._section(DerivedConfig, d, "derived"),
+            storage=StorageConfig.from_dict(d.get("storage")),
         )
         if config.training.members > 1 and config.acquisition.boost is None:
             raise ValueError("training.members acts only on networks trained on boost points: it needs "

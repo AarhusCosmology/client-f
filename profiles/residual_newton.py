@@ -695,11 +695,13 @@ def refine_profiles_newton(model, source, bounds, ledger, out, config=None, log=
     directory.mkdir(parents=True, exist_ok=True)
     sb = surrogate if surrogate is not None else BatchedSurrogate(model, bounds)
     cfg = config or NewtonConfig()
+    # Finished nodes for resume: one journal, or node files where the stage has them (profiles/nodes.py).
+    from profiles.nodes import NodeStore
+
+    nodes_done = NodeStore(directory)
+
     def checkpoint(path, compute):
-        if path.exists():
-            return json.loads(path.read_text())
-        save(path, compute())
-        return json.loads(path.read_text())
+        return nodes_done.checkpoint(Path(path).stem, compute)
 
     shared = ConcurrentLedger(ledger, workers=workers)
     try:
