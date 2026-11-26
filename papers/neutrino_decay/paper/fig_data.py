@@ -236,10 +236,14 @@ for ax, ds in zip(axes, ("pp", "wc")):
     done = np.isfinite(d2)
     from matplotlib.colors import BoundaryNorm
     levels = [0, 1, 2, 4, 6, 9, 16, 25, 100]
-    cs = ax.pcolormesh(xa, ya, np.ma.masked_invalid(d2).T, shading="nearest", cmap="Blues_r",
-                       norm=BoundaryNorm(levels, plt.get_cmap("Blues_r").N, extend="max"))
+    # One image of the uniform grid: pcolormesh draws a patch per cell, and PDF viewers show their seams as white lines
+    dx, dy = xa[1] - xa[0], ya[1] - ya[0]
+    assert np.allclose(np.diff(xa), dx) and np.allclose(np.diff(ya), dy)
+    cs = ax.imshow(np.ma.masked_invalid(d2).T, origin="lower", aspect="auto", interpolation="nearest",
+                   extent=(xa[0] - dx / 2, xa[-1] + dx / 2, ya[0] - dy / 2, ya[-1] + dy / 2), cmap="Blues_r",
+                   norm=BoundaryNorm(levels, plt.get_cmap("Blues_r").N, extend="max"))
     if done.all():
-        ax.contour(xa, ya, d2.T, levels=[1, 4, 9], colors="k", linewidths=0.7)
+        ax.contour(xa, ya, d2.T, levels=[1, 4, 9], colors="#ffc20a", linewidths=1.4)   # yellow: the complement of the blue map
     m = (gg >= xa[0]) & (gg <= xa[-1])
     ax.plot(gg[m], ns1[m], color="C3", lw=1.2, ls="--", label=r"$n_s$ along the 1D profile")
     ax.set_xlim(xa[0], xa[-1])
@@ -253,8 +257,9 @@ for ax, ds in zip(axes, ("pp", "wc")):
 axes[0].set_ylabel(r"$n_s$")
 fig.subplots_adjust(left=0.09, right=0.88, bottom=0.17, top=0.97, wspace=0.06)
 cax = fig.add_axes([0.9, 0.17, 0.02, 0.8])
-fig.colorbar(cs, cax=cax, label=r"$\Delta\chi^2$", ticks=[0, 1, 2, 4, 6, 9, 16, 25])
-fig.savefig(OUT / "fig_profile2d.pdf")
+cb = fig.colorbar(cs, cax=cax, label=r"$\Delta\chi^2$", ticks=[0, 1, 2, 4, 6, 9, 16, 25])
+cb.solids.set_rasterized(True)                            # the same seams between the bands of the colour bar
+fig.savefig(OUT / "fig_profile2d.pdf", dpi=600)           # the images at 600 dpi, so that the cell edges stay sharp
 plt.close(fig)
 
 (OUT / "numbers_data.txt").write_text("\n".join(lines) + "\n")
