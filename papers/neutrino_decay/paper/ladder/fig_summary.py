@@ -11,6 +11,7 @@ import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -71,6 +72,22 @@ def own_error(mass, band=FULL):
     return np.array(g), np.array(v)
 
 
+def label_minor_ticks(ax):
+    """Label the minor ticks at 2 and 5 times a power of ten on a log axis that spans more than a decade but shows
+    fewer than two labelled powers of ten (Matplotlib labels the minor ticks itself below one decade)."""
+    lo, hi = ax.get_ylim()
+    decades = [e for e in range(int(np.floor(np.log10(lo))), int(np.ceil(np.log10(hi))) + 1) if lo <= 10.0 ** e <= hi]
+    if len(decades) >= 2 or np.log10(hi / lo) <= 1:
+        return
+
+    def fmt(y, _):
+        e = int(np.floor(np.log10(y) + 1e-9))
+        m = round(y / 10.0 ** e)
+        return rf"${m}\times10^{{{e}}}$" if m in (2, 5) and abs(y / 10.0 ** e - m) < 1e-6 else ""
+
+    ax.yaxis.set_minor_formatter(mticker.FuncFormatter(fmt))
+
+
 def draw():
     fig, axes = plt.subplots(2, 2, figsize=(6.6, 5.2), sharex=True)
     for j, kind in enumerate(("cl", "pk")):
@@ -94,13 +111,17 @@ def draw():
             if np.isfinite(xc):
                 ax.axvline(xc, color=P.INK3, lw=0.7, ls="-.")
             ax.set_yscale("log")
-            ax.text(0.96, 0.05, MASS_LABEL[mass], transform=ax.transAxes, ha="right", va="bottom")
+            # boxed, so the vertical rule of the exact ceiling does not run through the label
+            ax.text(0.96, 0.05, MASS_LABEL[mass], transform=ax.transAxes, ha="right", va="bottom",
+                    bbox=dict(facecolor="white", edgecolor="0.6", boxstyle="round,pad=0.3"))
             if j == 0:
                 ax.set_ylabel(r"rms $\Delta C_\ell^{TT}/C_\ell^{TT}$ [\%]")
             else:
                 ax.set_ylabel(r"rms $\Delta P/P$ [\%]")
             if i == 1:
                 ax.set_xlabel(r"$\log_{10}(\Gamma\,/\,{\rm km\,s^{-1}Mpc^{-1}})$")
+    for ax in axes.flat:
+        label_minor_ticks(ax)
     # One legend for the four panels, above them; open symbols are explained in the caption.
     h, l = axes[0][0].get_legend_handles_labels()
     fig.legend(h, l, loc="upper center", ncol=2, bbox_to_anchor=(0.5, 0.995), handlelength=2.4)
