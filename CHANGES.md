@@ -85,8 +85,8 @@ setting; [PERFORMANCE.md](PERFORMANCE.md) has the speed and memory work with its
   `make_config.py --hybrid-hops` and `--gtol` for the network scan.
 - **Strict settings.** Unknown keys and out-of-range values are refused.
 - **Smaller runs.** Networks are saved without the optimizer's state (two thirds of every file, never read);
-  `storage.training_sets: increments`, opt-in, writes only the rows each iteration added (a tenth of the bytes of the
-  training sets of the October–November 2026 runs); `python client.py index RUN` and `RUN/run.json` list what a run
+  `storage.training_sets: increments`, the default, writes only the rows each iteration added (a tenth of the bytes
+  of the training sets of the October–November 2026 runs; `cumulative` writes every set whole, as before); `python client.py index RUN` and `RUN/run.json` list what a run
   holds per iteration; the true stages of a new profile study keep their nodes in one journal instead of a file per
   node ([guide](docs/run_files.md)).
 

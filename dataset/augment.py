@@ -34,8 +34,8 @@ density of the best training points (no extrapolation).
 
 Output. RUN/augmentation/augment_it_N.csv (the parameters, then loglkl) and augment_it_N.json
 (sources, counts, the density law, where each point came from). No existing file is changed.
-When RUN is continued from iteration N the loop adds these points on loading data_it_N.csv
-(client.py); from then on they are part of data_it_<N+1>.csv. Derived parameters of the added
+When RUN is continued from iteration N the loop adds these points on loading training set N
+(client.py); from then on they are part of training set N+1 and every later one. Derived parameters of the added
 points are unknown (NaN), as for any point recorded without them. Delete the two files to undo.
 
 The first training that includes the points runs a longer schedule
@@ -291,7 +291,7 @@ def main(argv=None):
                    help="CSV with the run's parameters and loglkl; repeat for several")
     p.add_argument("-n", "--n-max", type=int, default=300, help="at most this many points (300)")
     p.add_argument("-i", "--iteration", type=int,
-                   help="training set data_it_N.csv to augment (default: the one a continued run loads)")
+                   help="training set N to augment (default: the one a continued run loads)")
     p.add_argument("--seed", type=int, help="default: the run's seed plus the iteration")
     p.add_argument("--output", type=Path, help="write here instead of RUN/augmentation (a trial)")
     p.add_argument("--force", action="store_true", help="replace an existing augment_it_N.csv")

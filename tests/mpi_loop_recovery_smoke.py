@@ -17,6 +17,7 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))          # run.layout for the checks of the training sets
 LAUNCHER = [shutil.which("mpiexec") or "mpiexec", *shlex.split(os.environ.get("CLIENT_TEST_MPI_ARGS", "")), "-n", "2", sys.executable]
 
 KILLED = """import os, sys
@@ -62,7 +63,9 @@ with tempfile.TemporaryDirectory() as temporary:
 
     said = run([directory, "-i", 1])                       # the unfinished acquisition is set aside and done again
     assert "Phase acquisition_it_0 did not finish" in said, said[-3000:]
-    assert (directory / "training_data/data_it_1.csv").exists() and (directory / "trained_models/model_it_1.keras").exists()
+    from run.layout import has_set
+
+    assert has_set(directory, 1) and (directory / "trained_models/model_it_1.keras").exists()
     assert set(phases(directory).values()) == {"complete"}, phases(directory)
 
     said = run([directory, "-i", 1])                       # and a continuation with nothing to recover

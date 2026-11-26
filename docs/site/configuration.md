@@ -32,6 +32,7 @@ Most new methods are opt-in, so a run that takes only the defaults is not the me
 | `boost.background`, `boost.region`, `boost.mixing` | `null` | Each extension is off |
 | `boost.background_fit` | `crude` | With `background: quadratic`, the mean and covariance of the rows within T · ndim of the best and one scale; `least_squares` fits the quadratic by least squares to the rows within `boost.background_window` (16) times T · ndim / 2 of the best ([guide](_generated/library/docs/boost_background_region.md)) |
 | `boost.region_quantile`, `boost.train_domain`, `boost.mode_depth`, `boost.balance_floor` | `null` | Each extension is off |
+| `storage.training_sets` | `increments` | An iteration writes only the rows it added (`training_data/added_it_N.csv`), the first set and any set whose earlier rows changed whole; `cumulative` writes every set whole (`data_it_N.csv`), as runs did before 26 November 2026. The sets read the same either way ([a run's files](_generated/library/docs/run_files.md)) |
 | Profile `retrain`, `added_points` | `false`, `0` | Use saved network without pre-profile training |
 | Profile `chain_length` | `2` | Short deterministic continuation chains |
 | Profile `region` | `run` | A network trained on boosts is searched inside the region of its boosts; `null` is the bare network |

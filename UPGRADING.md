@@ -21,6 +21,18 @@ again.
 
 The learning rate stays fixed unless `training.lr_schedule: plateau` is asked for, which real runs have done.
 
+## What is written differently by default
+
+None of these changes a result ([a run's files](docs/run_files.md)):
+
+- Training sets are written as increments (`storage.training_sets: increments`, 26 November 2026): set N is the last whole
+  `training_data/data_it_K.csv` followed by `added_it_<K+1>.csv` ... `added_it_N.csv`, and `derived_data/` likewise. A program
+  of your own that opens `data_it_N.csv` must read the set through `run/layout.py` (`training_set(RUN, N)`) instead, or the
+  run must say `storage: {training_sets: cumulative}`. A run continued from an older one writes increments from then on.
+- Networks are saved without the optimizer's state; nothing loaded it.
+- A profile study begun now keeps the finished nodes of its true stage in one `nodes.jsonl`; read them with
+  `profiles.nodes.read_nodes`. A study with node files goes on writing node files.
+
 ## What is refused now
 
 - An unknown key anywhere in the YAML, or a value out of range. `acquisition.audit: false` is off (it gave an audit with all defaults).

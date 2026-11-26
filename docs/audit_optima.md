@@ -117,7 +117,7 @@ fewest rounds. The defaults trade the two for runs where true evaluations are pa
 | `RUN/audit/audit_derived_it_N.csv` | row-aligned inputs and derived values, restored on continuation; missing files or newly requested columns remain NaN |
 | `RUN/audit/audit_it_N.json` | the report: per round the highest maximum, the number flagged, how many starts reached each, the predictions and the true values; totals; the fit before and after |
 
-The points are also in `data_it_<N+1>.csv` and every later file. `data_it_N.csv` plus
+The points are also in training set N+1 and every later one. Training set N plus
 `audit_it_N.csv` supplies the genuine data used to train `model_it_N.keras`. A run
 continued from iteration N with that model loads both, together with the derived sidecar. Its input
 rows must match the audit CSV at training precision; mismatches are rejected. An audit

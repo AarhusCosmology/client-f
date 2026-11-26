@@ -42,7 +42,7 @@ def latest_iteration(derived_data_dir, trained_models_dir=None):
         ]
     if not iterations:
         raise FileNotFoundError(
-            f"No derived_it_<N>.csv in {derived_data_dir}"
+            f"No derived set (derived_it_<N>.csv or derived_added_it_<N>.csv) in {derived_data_dir}"
             + ("" if trained_models_dir is None else " with a matching trained model")
             + ": this run recorded no derived parameters (made before they were "
             "recorded, or its likelihood has none)."
@@ -141,7 +141,7 @@ def main(argv=None):
 
         metadata = metadata_from_csv(set_files(derived_dir, iteration, DERIVED)[0], param_names)
         print(f"No derived_parameters.json in {derived_dir}; using the columns of "
-              f"derived_it_{iteration}.csv and all inputs")
+              f"derived set {iteration} and all inputs")
 
     if cfg.seed is not None:
         tf.keras.utils.set_random_seed(cfg.seed)

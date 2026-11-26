@@ -174,7 +174,7 @@ its successor needs) and an interrupted node re-runs with its journaled calls se
 the cache. Calls that were started and had not returned when the job ended are charged to
 the node again (their starts are journaled, their values are not), so a node stopped inside
 a round near its call budget may not afford that round on resume and ends flagged. A
-gradient round that ends exactly at the budget still gets its verdict, which costs no call. Node checkpoints are `true/node_*.json`; the stages in the call journal are `corrected/anchor` and `corrected/{direct,node}/NAME/J`.
+gradient round that ends exactly at the budget still gets its verdict, which costs no call. Node checkpoints are the lines of `true/nodes.jsonl` (`true/node_*.json` in a study begun before 25 November 2026); the stages in the call journal are `corrected/anchor` and `corrected/{direct,node}/NAME/J`.
 
 **Why it is built this way** (all established on the real SINU likelihood, see the
 evidence below):
@@ -326,7 +326,7 @@ Both fixed physical values are pinned exactly on every backend request. The
 unrestricted true anchor is refined last from the best evaluated grid node.
 
 Each completed node saves its native value, coordinates, direct evaluation,
-solver diagnostics and continuation state in `true_surface/node_*.json`. A
+solver diagnostics and continuation state in a line of `true_surface/nodes.jsonl`. A
 checkpoint signature covers the grid, bounds, starts and Newton settings; the
 workflow manifest also guards the model and likelihood. Resume imports journaled
 finite values into the exact-coordinate cache, preserves lifetime call counts,

@@ -10,6 +10,19 @@ import sys
 import tempfile
 import yaml
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT))
+from run.layout import has_set, set_files  # noqa: E402  a set is data_it_K.csv and the increments after it
+
+
+def set_bytes(run,k):
+    """Training set k put together: byte for byte what data_it_k.csv holds when it is written whole."""
+    files=set_files(run,k)
+    return files[0].read_bytes()+b''.join(f.read_bytes().split(b'\n',1)[1] for f in files[1:])
+
+
+def files_of(run,k):
+    """The training files iteration k wrote (data_it_k.csv or added_it_k.csv), by name."""
+    return {p.name:p.read_bytes() for p in (run/'training_data').glob(f'*_it_{k}.csv')}
 
 def invoke(args, expected=0, wrapper=None, timeout=120):
     command=[sys.executable,str(ROOT/'client.py'),*map(str,args)] if wrapper is None else [sys.executable,str(wrapper),*map(str,args)]
@@ -72,10 +85,10 @@ with tempfile.TemporaryDirectory() as temporary:
     invoke([plain_cfg,'-i',2,'-o',d/'killed'],expected=1,wrapper=killer)
     killed=next((d/'killed').iterdir())
     assert json.loads((killed/'phases/acquisition_it_0.json').read_text())['status']=='incomplete'
-    assert not (killed/'training_data/data_it_1.csv').exists()
+    assert not has_set(killed,1)
     text=invoke([killed,'-i',1])
     assert 'Phase acquisition_it_0 did not finish' in text and 'Loading existing model' in text
-    assert (killed/'training_data/data_it_1.csv').exists() and (killed/'trained_models/model_it_1.keras').exists()
+    assert has_set(killed,1) and (killed/'trained_models/model_it_1.keras').exists()
     # Boosts with a region and the audit: a continued run reads the region its saved network
     # was audited in. Built again from a training set that holds that audit's points it could
     # differ, and the file is a committed one: the start after that would be refused.
@@ -112,26 +125,28 @@ with tempfile.TemporaryDirectory() as temporary:
     # iterations aside first.
     invoke([plain_cfg,'-i',3,'-o',d/'rewound'])
     rewound=next((d/'rewound').iterdir())
-    data=lambda k: (rewound/f'training_data/data_it_{k}.csv').read_bytes()
+    data=lambda k: set_bytes(rewound,k)
     assert (rewound/'trained_models/model_it_2.keras').exists()
     earlier={k:data(k) for k in (1,2)}
+    written_at_2=files_of(rewound,2)
     refused=invoke([rewound,'-s',1,'-i',1],expected=1)
     assert 'has gone on to iteration 2' in refused and '--rewind' in refused, refused[-2000:]
     assert data(2)==earlier[2] and not (rewound/'interrupted').exists()
     text=invoke([rewound,'-s',1,'-i',1,'--rewind'])
     assert '--rewind:' in text and 'are set aside in interrupted/rewind_to_it_1-' in text, text[-3000:]
     (aside,)=(rewound/'interrupted').iterdir()
-    assert (aside/'training_data/data_it_2.csv').read_bytes()==earlier[2] and (aside/'trained_models/model_it_2.keras').exists()
+    assert written_at_2 and all((aside/'training_data'/name).read_bytes()==b for name,b in written_at_2.items())
+    assert (aside/'trained_models/model_it_2.keras').exists()
     assert (aside/'phases/acquisition_it_1.json').exists() and (aside/'REWIND.json').exists()
     assert data(1)==earlier[1] and data(2)!=earlier[2]                 # iteration 1 was done again, from the same network
     assert all(json.loads(f.read_text())['status']=='complete' for f in (rewound/'phases').glob('*.json'))
     text=invoke([rewound,'-i',1])                                      # and the next start goes on from the new line
-    assert 'data_it_2.csv' in text and 'did not finish' not in text, text[-3000:]
+    assert 'Loaded' in text and ' + '.join(f.name for f in set_files(rewound,2)) in text and 'did not finish' not in text, text[-3000:]
     assert data(3).startswith(data(2).rstrip(b'\n'))
     # A job killed while rewinding has already moved some phase records, while later
     # networks/data may still exist. A plain continuation finishes that recorded operation
     # before choosing its starting network, instead of silently resuming the old line.
-    before_rewind = data(3)
+    before_rewind = files_of(rewound,3)
     killer.write_text("import sys, os\nsys.path.insert(0,"+repr(str(ROOT))+")\nimport run.storage\n"
                       "original=run.storage.shutil.move\ndef move(source,target):\n"
                       "    if '/trained_models/' in source: os._exit(137)\n"
@@ -140,9 +155,9 @@ with tempfile.TemporaryDirectory() as temporary:
     (pending,)=[p for p in rewound.glob('interrupted/rewind_to_it_*/REWIND.json')
                 if json.loads(p.read_text()).get('status')=='pending']
     text=invoke([rewound,'-i',1])
-    assert 'Finished interrupted rewind to iteration 1' in text and 'data_it_1.csv' in text, text[-3000:]
+    assert 'Finished interrupted rewind to iteration 1' in text and ' + '.join(f.name for f in set_files(rewound,1)) in text, text[-3000:]
     assert not (rewound/'trained_models/model_it_3.keras').exists()
     assert (rewound/'trained_models/model_it_2.keras').exists()
-    assert (pending.parent/'training_data/data_it_3.csv').read_bytes()==before_rewind
+    assert before_rewind and all((pending.parent/'training_data'/name).read_bytes()==b for name,b in before_rewind.items())
     assert json.loads(pending.read_text())['status']=='complete'
 print('Pipeline recovery smoke passed',flush=True)

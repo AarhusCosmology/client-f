@@ -227,8 +227,9 @@ wait ([docs/members.md](docs/members.md)).
   start, and the message says what can be done; a report or other analysis file written
   again or removed in the meantime is set aside as it is found and noted. The run then does
   the acquisition of N again and goes on. Do not
-  remove later files by hand instead: `phases/acquisition_it_N.json` commits
-  `training_data/data_it_<N+1>.csv`, and a start refuses when a committed file is missing.
+  remove later files by hand instead: `phases/acquisition_it_N.json` commits training set
+  N+1 (`training_data/added_it_<N+1>.csv`, or `data_it_<N+1>.csv` when it is written whole), and a
+  start refuses when a committed file is missing.
   To keep the run as it is and try something else from an earlier network, make another
   directory from it; for boosts from an earlier network that is the
   [branch tool](hpc/README.md#branching-a-run).

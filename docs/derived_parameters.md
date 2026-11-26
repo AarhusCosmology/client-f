@@ -171,7 +171,8 @@ params:
 ```
 derived_data/
   derived_parameters.json     names, labels, scales, and the inputs they depend on
-  derived_it_<N>.csv          inputs + derived values, row-aligned with training_data/data_it_<N>.csv
+  derived_it_<N>.csv          inputs + derived values, row-aligned with training set N
+  derived_added_it_<N>.csv    the same for the rows iteration N added (storage.training_sets: increments)
   derived_model_it_<N>.keras  the emulator trained on iteration N's data
   derived_history_it_<N>.csv  its training history
   derived_report_it_<N>.csv   its held-out accuracy
@@ -182,9 +183,10 @@ posterior_chains/
   surrogate_it_<N>_exact*.csv the exact check (below)
 ```
 
-`training_data/data_it_<N>.csv` and `metadata.json` hold no derived values. The profile workflow
+The training sets (`training_data/`) and `metadata.json` hold no derived values. The profile workflow
 and several benchmarks read the former by column position, and profile studies
-fingerprint the latter. `derived_it_<N>.csv` repeats the inputs, so it stands on its own.
+fingerprint the latter. The derived files repeat the inputs, so they stand on their own; the derived
+set N is read like training set N ([a run's files](run_files.md)) and need not split into files where it does.
 On loading, CLiENT checks that its rows still match the training data.
 
 ## The emulator

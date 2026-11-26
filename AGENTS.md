@@ -144,7 +144,7 @@ network, the same number from every mode; read [docs/boost.md](docs/boost.md). K
   it is not built (one seed each).
 * A true value that is not finite is not trained on (the loop's own filter) and is counted
   in the report.
-* `RUN/boost/boost_it_N.csv` is a record; the points themselves are in `data_it_<N+1>.csv`.
+* `RUN/boost/boost_it_N.csv` is a record; the points themselves are in training set N+1 (`run/layout.py`).
 * `finish_boost` matches each evaluated point to a drawn one at single precision. The launcher rounds a batch to single precision and keeps it inside the box as single
   precision holds it (`hpc/launch.py`, `evaluate`), so a point drawn in the last
   digit before an edge comes back one step inside. Such a point is the nearest unmatched
@@ -461,7 +461,8 @@ read [docs/run_recovery.md](docs/run_recovery.md). Keep these:
 What a run and a profile study write; read [docs/run_files.md](docs/run_files.md). Keep these:
 
 * Read training sets through `run/layout.py` (`training_set`, `set_files`, `set_rows`), never by opening
-  `data_it_N.csv`: with `storage.training_sets: increments` it exists for the first set only.
+  `data_it_N.csv`: with `storage.training_sets: increments`, the default since 26 November 2026, it exists for
+  the first set only.
   `tests/test_run_layout.py` checks that increments put together are the whole file byte for byte.
 * `TrainingDataset.save_set` writes an increment only when the earlier set is the one this dataset was read as or
   last wrote, its rows are unchanged and it is on disk; otherwise a whole file. Never write an increment against
@@ -500,7 +501,7 @@ acquisition chain runs; read [docs/audit_optima.md](docs/audit_optima.md). Keep 
   then a separate synthetic constraint if all fail. Never mix penalties into real
   data, derived training, validation, best-fit estimates or loss calibration. See the
   failure-policy section of the audit documentation.
-* `RUN/audit/audit_it_N.csv` plus `data_it_N.csv` supplies genuine training data;
+* `RUN/audit/audit_it_N.csv` plus training set N supplies genuine training data;
   optional `audit_penalties_it_*.csv` files separately record synthetic constraints.
   A continued run restores genuine audit additions when it keeps that network; a new
   training reapplies earlier constraints only under the enabled penalize policy.

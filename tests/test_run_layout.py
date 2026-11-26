@@ -202,8 +202,9 @@ class Index(unittest.TestCase):
 
 class Settings(unittest.TestCase):
     def test_storage_section(self):
-        self.assertEqual(StorageConfig.from_dict(None).training_sets, "cumulative")
-        self.assertEqual(StorageConfig.from_dict({"training_sets": "increments"}).training_sets, "increments")
+        self.assertEqual(StorageConfig.from_dict(None).training_sets, "increments")      # the default
+        self.assertEqual(StorageConfig.from_dict({}).training_sets, "increments")
+        self.assertEqual(StorageConfig.from_dict({"training_sets": "cumulative"}).training_sets, "cumulative")
         with self.assertRaises(ValueError):
             StorageConfig.from_dict({"training_sets": "deltas"})
         with self.assertRaises(ValueError):

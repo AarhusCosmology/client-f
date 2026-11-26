@@ -303,7 +303,8 @@ before interpreting a visually smooth interpolated contour.
 - `surface_diagnostics.json`: clipping, anchor and solver warnings.
 - `failed_surrogate_diagnostics.json`: an unconverged surrogate scan, written instead of `surrogate_surface.json` when the run stops.
 - `coarse_surface.json`, `acquisition_design.json`, `validation_coordinates.npz`: training provenance when retraining.
-- `true_surface/node_*.json`: reusable completed node computations.
+- `true_surface/nodes.jsonl`: reusable completed node computations, a line each (`true_surface/node_*.json` in a
+  study begun before 25 November 2026; `profiles.nodes.read_nodes` reads both).
 - Existing manifest, training histories, cost journals and completion markers remain available.
 
 ```sh

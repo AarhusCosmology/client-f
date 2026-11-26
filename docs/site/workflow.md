@@ -144,4 +144,4 @@ Audit fine-tunes are compiled without XLA, which avoids the persistent memory ma
 
 ## Stopping and continuing
 
-An interrupted run is continued with the same command: a phase without a record of completion is done again, and its partial files are moved to `RUN/interrupted/`. A continued run also checks that the objective is the one the run recorded. Read [continuing and recovering a run](_generated/library/docs/run_recovery.md). What a run writes, `storage.training_sets: increments` and `client.py index` are in [a run's files](_generated/library/docs/run_files.md).
+An interrupted run is continued with the same command: a phase without a record of completion is done again, and its partial files are moved to `RUN/interrupted/`. A continued run also checks that the objective is the one the run recorded. Read [continuing and recovering a run](_generated/library/docs/run_recovery.md). What a run writes, `storage.training_sets` and `client.py index` are in [a run's files](_generated/library/docs/run_files.md).

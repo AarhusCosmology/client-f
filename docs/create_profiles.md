@@ -31,7 +31,7 @@ python client.py profiles results/MY_RUN \
 
 `python -m profiles` accepts exactly the same arguments. Omit `--iteration` to
 select the latest numeric iteration having **both** `model_it_N.keras` and
-`data_it_N.csv`. Augmentation checkpoints with suffixes are not mistaken for
+training set N ([a run's files](run_files.md)). Augmentation checkpoints with suffixes are not mistaken for
 ordinary iterations. Parameter names must be sampled names from `metadata.json`,
 not derived quantities or display labels. To profile a derived parameter (H0 when
 θ_s is sampled, σ8, ...), first make a derived-coordinate view of the run, in which it
@@ -374,7 +374,7 @@ global-optimum or absolute Delta-chi-squared accuracy certificate.
 | `manifest.json`, `audit.json` | Resolved configuration, source hashes, backend identity, label audit |
 | `refused_points.json` | Only with `retrain: true`, when any: design and validation points the likelihood refused, by stage |
 | `calls/attempt_*.jsonl`, `counts.json` | Durable events and aggregate cost by stage across resumes |
-| `true/node_*.json`, `status.txt`, `failure.json` | Per-node checkpoints and progress/failure diagnostics |
+| `true/nodes.jsonl`, `status.txt`, `failure.json` | Per-node checkpoints, a line per finished node (a stage begun before 25 November 2026 keeps one file per node, `true/node_*.json`), and progress/failure diagnostics |
 | `complete.json` | All requested stages finished; **not** a numerical-accuracy certificate |
 
 The default command deliberately does not spend additional backend calls refining
@@ -416,8 +416,9 @@ may describe an earlier failure; `complete.json`/`status.txt` give final state.
 A node whose start the likelihood refuses (a prior edge, a Boltzmann failure) has no value:
 `logl`, `xopt` and `direct_logl` are null, its diagnostics say `refused start` with flag 1, and its
 chain goes on from the state it was given. The study stops only if every node is refused. Its
-checkpoint keeps this on a resume, so delete that node's file (`true/node_*.json`, in 2D
-`true_surface/node_*.json`) after a change that cures the backend there.
+checkpoint keeps this on a resume, so remove that node's checkpoint after a change that cures the backend there:
+its line in `true/nodes.jsonl` (in 2D `true_surface/nodes.jsonl`), or its file `node_*.json` in a stage that has
+node files.
 
 With `retrain: true`, a design or validation point the likelihood refuses is left out of the
 training and validation data, and listed in `refused_points.json`: it is not redrawn, so the network

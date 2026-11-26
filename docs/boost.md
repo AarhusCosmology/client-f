@@ -540,7 +540,7 @@ share is below one.
 
 Files: `RUN/boost/boost_it_N.csv` (the parameters, `loglkl`, the network's value `predicted`,
 `mode`) and `boost_it_N.json` (the report, with each mode's peak, mean and spread). The points
-are part of `data_it_<N+1>.csv`, so a continued run needs nothing else.
+are part of training set N+1, so a continued run needs nothing else.
 
 A boost costs the master a cooling, a climb and one chain per mode (three minutes at 16
 parameters with two modes), during which the MPI workers sleep, then `n` true evaluations.

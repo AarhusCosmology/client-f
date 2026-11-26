@@ -875,13 +875,14 @@ class ConvergenceConfig:
 
 @dataclass(frozen=True)
 class StorageConfig:
-    # How a run writes its training sets (run/layout.py). cumulative: data_it_N.csv whole at
-    # every iteration, as runs always have. increments: only the rows an iteration added
-    # (added_it_N.csv), with a whole file whenever the earlier rows did not stay as they were;
-    # on the Grendel runs of Oct-Nov 2026 that is a tenth of the bytes. The sets read the
-    # same either way, through run/layout.py; scripts that open data_it_N.csv themselves
-    # find it only for the first set of a run with increments, hence opt-in.
-    training_sets: str = "cumulative"
+    # How a run writes its training sets (run/layout.py). increments (the default since
+    # 26 November 2026): only the rows an iteration added (added_it_N.csv), with a whole file
+    # for the first set and whenever the earlier rows did not stay as they were; on the Grendel
+    # runs of Oct-Nov 2026 that is a tenth of the bytes. cumulative: data_it_N.csv whole at every
+    # iteration, as runs did before. The sets read the same either way, through run/layout.py;
+    # a script that opens data_it_N.csv itself finds it only for the first set of a run with
+    # increments, and needs cumulative until it reads through run/layout.py.
+    training_sets: str = "increments"
 
     CHOICES = ("cumulative", "increments")
 
@@ -889,7 +890,7 @@ class StorageConfig:
     def from_dict(cls, d):
         d = {} if d is None else d
         _validate_mapping(cls, d)
-        out = cls(training_sets=str(d.get("training_sets", "cumulative")))
+        out = cls(training_sets=str(d.get("training_sets", "increments")))
         if out.training_sets not in cls.CHOICES:
             raise ValueError(f"storage.training_sets: expected one of {list(cls.CHOICES)}")
         return out

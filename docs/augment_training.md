@@ -77,8 +77,8 @@ of 4186 at iteration 5).
 
 N is the training set the points were selected against, by default the one a continued run
 loads. No existing file is changed. When the run is continued from iteration N, the loop
-adds the points right after loading `data_it_N.csv` and says so; they are then part of
-`data_it_<N+1>.csv` and every later file. If `model_it_N.keras` already exists, that network
+adds the points right after loading training set N and says so; they are then part of
+training set N+1 and every later one ([a run's files](run_files.md)). If `model_it_N.keras` already exists, that network
 is used as it is and the points first enter the training of iteration N+1.
 
 Derived parameters of the added points are unknown and recorded as NaN, like any point

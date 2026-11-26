@@ -1,14 +1,15 @@
 """Where a run keeps its training sets, and an index of what a run holds (run.json).
 
-A training set N is the points network N is trained on. Runs have always written it whole,
-``training_data/data_it_N.csv``, every iteration, so every point is written again at every later
+A training set N is the points network N is trained on. Runs wrote it whole until November 2026,
+``training_data/data_it_N.csv``, every iteration, so every point was written again at every later
 iteration (on the Grendel runs of October and November 2026 the files of a run added up to 10 to 30
-times its last one). With ``storage.training_sets: increments`` an iteration writes only the rows
-it added, ``training_data/added_it_N.csv``: the rows of set N after those of set N - 1, in the same
-CSV format, header included. A set is then the last whole file at or before N followed by the
-increments after it, read in order. The two kinds mix in one run (a whole file is written when the
-rows before do not stay as they were, and by a run without the setting), and a run that only ever
-wrote whole files is read exactly as before. The derived parameters follow the same rule in
+times its last one). With ``storage.training_sets: increments``, the default since 26 November
+2026, an iteration writes only the rows it added, ``training_data/added_it_N.csv``: the rows of set
+N after those of set N - 1, in the same CSV format, header included. A set is then the last whole
+file at or before N followed by the increments after it, read in order. The two kinds mix in one
+run (a whole file is written for the first set, when the rows before do not stay as they were, and
+by a run with ``training_sets: cumulative``), and a run that only ever wrote whole files is read
+exactly as before. The derived parameters follow the same rule in
 ``derived_data/`` (``derived_it_N.csv``, ``derived_added_it_N.csv``).
 
 Read training sets through this module, never by opening ``data_it_N.csv``: for a run with

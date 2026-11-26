@@ -16,7 +16,6 @@ on boost points:
 
 Run by itself (it starts mpiexec): python tests/mpi_members_smoke.py
 """
-import hashlib
 import json
 import os
 import shlex
@@ -30,6 +29,7 @@ import numpy as np
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))          # run.layout for the checks of the training sets
 MPI = [shutil.which("mpiexec") or "mpiexec", *shlex.split(os.environ.get("CLIENT_TEST_MPI_ARGS", ""))]
 
 
@@ -119,21 +119,18 @@ def check_pilot(run_dir, networks, log):
         assert len(pilot) == record["pilot_points"] == 3 * 12, (len(pilot), record)
         assert sorted(set(pilot["member"])) == [0, 1, 2], pilot["member"].unique()
         assert {"pred_member0", "pred_member1", "pred_member2"} <= set(pilot.columns), pilot.columns
-        following = run_dir / "training_data" / f"data_it_{n + 1}.csv"
-        if following.exists():
+        from run.layout import has_set, training_set
+
+        if has_set(run_dir, n + 1):
             names = [c for c in pilot.columns if c not in ("member", "loglkl") and not c.startswith(("pred_", "derived:"))]
-            data = pd.read_csv(following)[names].to_numpy(np.float32)
+            data = training_set(run_dir, n + 1)[names].to_numpy(np.float32)
             rows = {r.tobytes() for r in data}
-            assert all(r.tobytes() in rows for r in pilot[names].to_numpy(np.float32)), f"pilot {n} not in {following.name}"
+            assert all(r.tobytes() in rows for r in pilot[names].to_numpy(np.float32)), f"pilot {n} not in training set {n + 1}"
         phase = json.dumps(json.loads((run_dir / "phases" / f"training_it_{n}.json").read_text()))
         assert f"pilot_it_{n}.csv" in phase, phase
     assert "Members' pilot errors:" in log and "pilot points added" in log, log[-3000:]
     assert "Members (" not in log, log[-3000:]          # no held-out selection set with the pilot
     return record
-
-
-def digest(path):
-    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
 MESSAGES = """import sys
@@ -184,10 +181,12 @@ with tempfile.TemporaryDirectory() as temporary:
     run([config(d, "one", members=1), "-i", 4, "-o", d / "one"])
     run([config(d, "none"), "-i", 4, "-o", d / "none"])
     a, b = only_run(d / "one"), only_run(d / "none")
+    from run.layout import has_set, set_files
+
     for n in range(5):
-        name = f"training_data/data_it_{n}.csv"
-        if (a / name).exists() or (b / name).exists():
-            assert digest(a / name) == digest(b / name), name
+        if has_set(a, n) or has_set(b, n):
+            files = [[p.read_bytes() for p in set_files(run, n)] for run in (a, b)]
+            assert files[0] == files[1], f"training set {n}"
     assert not (a / "trained_models/members").exists()
     print("3. members: 1 = no key: training sets identical, no member files")
 

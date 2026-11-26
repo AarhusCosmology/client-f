@@ -108,7 +108,7 @@ in single precision. A real log-likelihood is near −15656, where single-precis
 numbers are 10⁻³ apart, and near the bulk a batch raises ln Z by about that or less, so
 part of every addition would be rounded away. BEST is therefore given the network minus a
 reference: the best log-likelihood of the network's training set
-(`training_data/data_it_N.csv`), as a single-precision number, so that the difference is
+(training set N), as a single-precision number, so that the difference is
 exact. The reference is added back in double precision to ln Z, to ln Z_box and to the
 log-likelihood column of the chain; H and σ do not depend on it. BEST's own progress
 display is relative to the reference, which the first line of the output names. When the
