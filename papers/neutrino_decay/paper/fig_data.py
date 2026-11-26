@@ -157,43 +157,34 @@ fig.subplots_adjust(left=0.11, right=0.985, bottom=0.1, top=0.985, wspace=0.06, 
 fig.savefig(OUT / "fig_corner.pdf")
 plt.close(fig)
 
-# ---------------------------------------------------------------- 1D profiles by likelihood
+# ---------------------------------------------------------------- 1D profiles, the totals of both combinations
+# One panel with the total of each combination and its massless limit (27 November 2026, after the ERC CoG figure
+# 1b): the contribution of each likelihood is not plotted, only written to numbers_data.txt, which is where the text's
+# statements of which data pulls in which direction come from.
 BD = json.loads((KIT / "logs/node_breakdown_7063596.json").read_text())["rows"]
 LC = json.loads((KIT / "logs/lcdm_minimize_7057592.json").read_text())["summary"]
-GROUP = {"planck_2018_lowl.TT": r"Planck low-$\ell$ TT", "planck_2018_lowl.EE": r"Planck low-$\ell$ EE",
-         "planck_2018_lowl.EE_sroll2": r"Planck low-$\ell$ EE", "planck_NPIPE_highl_CamSpec.TTTEEE": r"Planck high-$\ell$",
+GROUP = {"planck_2018_lowl.TT": r"Planck low-l TT", "planck_2018_lowl.EE": r"Planck low-l EE",
+         "planck_2018_lowl.EE_sroll2": r"Planck low-l EE", "planck_NPIPE_highl_CamSpec.TTTEEE": r"Planck high-l",
          "planckpr4lensing.PlanckPR4Lensing": "CMB lensing", "act_dr6_lenslike.ACTDR6LensLike": "CMB lensing",
          "muse3glike.cobaya.spt3g_2yr_delensed_ee_optimal_pp_muse": "CMB lensing",
          "act_lite_trimmed.ACTDR6CMBonlyTrimmed": "ACT DR6", "candl.interface.CandlCobayaLikelihood": "SPT-3G D1",
          "bao.desi_dr2.desi_bao_all": "DESI BAO", "sn.pantheonplus": "Pantheon+"}
-ORDER = [r"Planck high-$\ell$", r"Planck low-$\ell$ EE", r"Planck low-$\ell$ TT", "CMB lensing", "DESI BAO",
-         "Pantheon+", "ACT DR6", "SPT-3G D1"]
-GCOL = {n: f"C{i}" for i, n in enumerate(ORDER)}
+MPC_KM = 3.0856775814913673e19     # 1/(km/s/Mpc) in seconds
 prof = {}
-fig, axes = plt.subplots(2, 1, figsize=(W, 1.05 * W), sharex=True)
-for ax, ds in zip(axes, ("pp", "wc")):
+fig, ax = plt.subplots(1, 1, figsize=(W, 0.5 * W))
+ax.axhline(0, color="0.5", lw=0.6, zorder=1)
+massless = {}
+for ds in ("pp", "wc"):
     rows = sorted(BD[ds], key=lambda r: r["log10Gamma"])
     gg = np.array([r["log10Gamma"] for r in rows])
     i0 = int(np.argmin(abs(gg + 2)))
     tot = -2 * np.array([r["logpost"] for r in rows])
     tot = tot - tot[i0]
     prof[ds] = (gg, tot, np.array([r["params"]["n_s"] for r in rows]), rows[i0]["logpost"])
-    groups = {}
-    for lk in rows[0]["chi2"]:
-        v = np.array([r["chi2"][lk] for r in rows])
-        groups[GROUP[lk]] = groups.get(GROUP[lk], 0) + v - v[i0]
     m0 = -2 * (LC[f"{ds}_m0"]["logpost_minus_ln16"] - rows[i0]["logpost"])
-    ax.axhline(0, color="0.5", lw=0.6)
-    for name in ORDER:
-        if name in groups:
-            ax.plot(gg, groups[name], color=GCOL[name], lw=1.0, label=name)
-    ax.plot(gg, tot, color="k", lw=2.0, label="total")
-    ax.axhline(m0, color="k", lw=1.0, ls=":", label=r"$\Lambda$CDM, massless $\nu_3$")
-    ax.set_ylim(-6.8 if ds == "wc" else -4.8, 6)
-    ax.set_ylabel(r"$\Delta\chi^2$")
-    ax.text(0.02, 0.04, NAME[ds], transform=ax.transAxes, ha="left", va="bottom",
-            bbox=dict(facecolor="white", edgecolor="0.6", boxstyle="round,pad=0.3"))
-    ax.legend(ncol=3, loc="upper left", fontsize=pubstyle.FONTSIZE * 0.8, handlelength=1.6, columnspacing=1.0)
+    massless[ds] = m0
+    ax.axhline(m0, color=COL[ds], lw=1.0, ls=":", zorder=2)
+    ax.plot(gg, tot, color=COL[ds], lw=1.8, label=NAME[ds], zorder=3)
     imin = int(np.argmin(tot))
     imin_lo = int(np.argmin(np.where(gg < 10, tot, np.inf)))
     lev = tot[imin] + 4
@@ -202,9 +193,30 @@ for ax, ds in zip(axes, ("pp", "wc")):
     lines.append(f"{NAME[ds]} profile against the stable node: low-Gamma minimum {tot[imin_lo]:.2f} at {gg[imin_lo]:.3f}; "
                  f"global minimum {tot[imin]:.2f} at {gg[imin]:.4f}; massless LambdaCDM {m0:.2f}; Delta chi^2 = 4 above "
                  f"the global minimum at log10Gamma {cross[0] if cross else float('nan'):.2f}")
-axes[1].set_xlabel(GLAB)
-axes[1].set_xlim(-2.1, 13.85)
-fig.subplots_adjust(hspace=0.05)
+    # the contribution of each likelihood, between two nodes of the profile
+    groups = {}
+    for lk in rows[0]["chi2"]:
+        v = np.array([r["chi2"][lk] for r in rows])
+        groups[GROUP[lk]] = groups.get(GROUP[lk], 0) + v
+    def breakdown(i, j, what):
+        parts = ", ".join(f"{n} {groups[n][j] - groups[n][i]:+.2f}" for n in groups)
+        lines.append(f"  {NAME[ds]} {what} (log10Gamma {gg[i]:.3f} -> {gg[j]:.3f}): total {tot[j] - tot[i]:+.2f}; {parts}")
+    breakdown(i0, imin_lo, "stable -> low-Gamma minimum")
+    breakdown(i0, int(np.argmin(abs(gg - 11.8))), "stable -> 11.8")
+    breakdown(imin_lo, int(np.argmin(abs(gg - 12.8125))), "low-Gamma minimum -> the SPA+BAO+SN peak")
+ax.text(-1.8, min(massless.values()) - 0.2, r"$\Lambda$CDM, massless $\nu_3$", ha="left", va="top",
+        fontsize=pubstyle.FONTSIZE * 0.8)
+ax.text(-1.8, 0.2, r"stable $\nu_3$", ha="left", va="bottom", fontsize=pubstyle.FONTSIZE * 0.8)
+ax.legend(loc="upper left", handlelength=1.8)
+ax.set_xlabel(GLAB)
+ax.set_ylabel(r"$\Delta\chi^2$")
+ax.set_xlim(-2.1, 13.85)
+ax.set_ylim(-6.6, 5.0)
+top = ax.secondary_xaxis("top", functions=(lambda x: x, lambda x: x))
+top.set_xticks([np.log10(MPC_KM) - k for k in (18, 15, 12, 9, 6)],
+               labels=[rf"$10^{{{k}}}$" for k in (18, 15, 12, 9, 6)])
+top.set_xticks([np.log10(MPC_KM) - k for k in range(6, 22) if -2.1 < np.log10(MPC_KM) - k < 13.85], minor=True)
+top.set_xlabel(r"$\tau_0\,[{\rm s}]$")
 pubstyle.cropsave(fig, OUT / "fig_profiles.pdf")
 plt.close(fig)
 

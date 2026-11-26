@@ -88,7 +88,7 @@ axes[0].annotate(r"$a_{\rm nr}$", xy=(A_NR, 0.02), xytext=(-2, 0),
                  textcoords="offset points", ha="right", va="bottom",
                  fontsize=6.8, color=ps.INK3)
 
-axes[0].legend(loc="center left", bbox_to_anchor=(0.0, 0.62), handlelength=1.5)
+axes[0].legend(loc="upper left", handlelength=1.5)
 
 axes[-1].annotate("quasi-equilibrium", xy=(np.sqrt(wins["1e11"][0] * wins["1e11"][1]), 0.945),
                   ha="center", va="center", fontsize=6.0, color=ps.INK2)

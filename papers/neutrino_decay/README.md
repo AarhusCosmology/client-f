@@ -52,7 +52,7 @@ of both.
 | Path | What |
 |---|---|
 | `runs/dncdm_proxy_pp`, `runs/dncdm_proxy_wc` | The two CLiENT runs (Planck+BAO+SN and SPA+BAO+SN of the paper): CLiENT's and Cobaya's input files, the training box (`domain_bounds.json`), the job environment (`job.env`, which selects the CLASS++ build) and the settings of the profile studies (`profiles_*.yaml`) |
-| `runs/dncdm_proxy_lcdm` | LambdaCDM with nu_3 at 0.05 eV and massless (the dotted line of figure 8), and the chi^2 of every likelihood at the nodes of the profiles (`node_breakdown.py`, the coloured lines of figure 8) |
+| `runs/dncdm_proxy_lcdm` | LambdaCDM with nu_3 at 0.05 eV and massless (the dotted lines of figure 8), and the chi^2 of every likelihood at the nodes of the profiles (`node_breakdown.py`: the totals of figure 8, and the contributions of the likelihoods in `paper/fig/numbers_data.txt`) |
 | `likelihoods/act_lite_trimmed.py` | ACT-lite as SPA+BAO+SN uses it (its `python_path` in `runs/dncdm_proxy_wc/cobaya.yaml`) |
 | `submit_client.sh`, `env.sh`, `EXPECTED_COMMIT` | The job script and the pinned versions. Set your own partition, modules and paths. `env.sh` sets `CLIENT_REPO` (this checkout) and `CLIENT_HPC_DIR` (this folder), and CLiENT's `hpc/` tools then keep their `runs/` and `logs/` here |
 | `install/` | Recipes for the environment, CLASS++ and the likelihoods |
