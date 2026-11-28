@@ -22,6 +22,7 @@ myst_enable_extensions = ['colon_fence', 'dollarmath', 'amsmath', 'deflist']
 myst_heading_anchors = 6
 html_theme = 'pydata_sphinx_theme'
 html_title = 'CLiENT documentation'
+html_baseurl = 'https://aarhuscosmology.github.io/client-f/'
 html_static_path = ['_static']
 html_css_files = ['client.css']
 html_theme_options = {

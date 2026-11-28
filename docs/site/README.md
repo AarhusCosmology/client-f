@@ -16,6 +16,6 @@ python -m http.server 8765 --directory docs/site/_build/html
 ```
 
 See `maintenance.md` for source ownership, generated files and examples. The documentation workflow builds the same
-HTML as an artifact.
+HTML as an artifact and, on a push to `features` or a manual run on it, publishes it at https://aarhuscosmology.github.io/client-f/.
 
 If pages have been removed or renamed since your last build, run `python -m sphinx -M clean docs/site docs/site/_build` first to remove stale generated output.

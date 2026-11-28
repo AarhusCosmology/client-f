@@ -1,7 +1,8 @@
 # CLiENT documentation
 
-The [searchable manual](site/README.md) brings these guides, the mathematics, worked examples and a generated
-configuration and API reference together. These links work directly on GitHub.
+The [searchable manual](https://aarhuscosmology.github.io/client-f/) ([built from `site/`](site/README.md)) brings these
+guides, the mathematics, worked examples and a generated configuration and API reference together. These links work
+directly on GitHub.
 
 ## Start here
 

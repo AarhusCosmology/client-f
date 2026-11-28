@@ -34,3 +34,44 @@ jobs:
         with:
           name: client-documentation-${{ github.sha }}
           path: docs/site/_build/html
+  # The manual of `features` (client-f's main) is published as client-f's GitHub Pages site,
+  # https://aarhuscosmology.github.io/client-f/, from client-f's branch gh-pages; client-f runs no
+  # workflow of its own for it. With .nojekyll, Pages deploys the files as they are, without Jekyll.
+  # A job of its own, so the deploy key never shares a job, or its PATH, with the packages the build
+  # installs and runs. Each publication replaces gh-pages with one commit: a generated site's
+  # history has no value, and one commit keeps the branch small. client-f's rulesets protect only
+  # main; the key is the one publish-features.yml uses.
+  publish:
+    needs: build
+    if: github.repository == 'AarhusCosmology/client' && github.ref == 'refs/heads/features'
+    runs-on: [self-hosted, linux, light]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: client-documentation-${{ github.sha }}
+          path: ${{ runner.temp }}/client_f_pages
+      - name: Push to client-f gh-pages
+        env:
+          DEPLOY_KEY: ${{ secrets.CLIENT_F_DEPLOY_KEY }}
+        run: |
+          key="$RUNNER_TEMP/client_f_key"
+          hosts="$RUNNER_TEMP/client_f_known_hosts"
+          site="$RUNNER_TEMP/client_f_pages"
+          trap 'rm -rf "$key" "$hosts" "$site"' EXIT
+          (umask 077 && printf '%s\n' "$DEPLOY_KEY" > "$key")
+          # GitHub's published host key (api.github.com/meta), so no key is trusted on first use.
+          echo 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' > "$hosts"
+          export GIT_SSH_COMMAND="ssh -i $key -o IdentitiesOnly=yes -o UserKnownHostsFile=$hosts -o StrictHostKeyChecking=yes"
+          # The revision in the manual's banner (conf.py: revision[:7]).
+          revision="${GITHUB_SHA::7}"
+          # Sphinx's build cache is not part of the site (upload-artifact leaves hidden files out).
+          rm -rf "$site/.doctrees" "$site/.buildinfo"
+          touch "$site/.nojekyll"
+          git init -q "$site"
+          git -C "$site" add .
+          git -C "$site" -c user.name='github-actions[bot]' \
+            -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+            commit -q -m "Manual of AarhusCosmology/client-f@$revision"
+          git -C "$site" push --force git@github.com:AarhusCosmology/client-f.git HEAD:refs/heads/gh-pages
+          echo "https://aarhuscosmology.github.io/client-f/ now shows the manual of $revision"

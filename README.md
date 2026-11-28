@@ -3,7 +3,7 @@
 
 **CLiENT** (Cosmological Likelihood Emulator using Neural networks with TensorFlow) is a framework for emulating cosmological likelihood functions, bypassing the need for Einstein-Boltzmann solver codes like [CLASS++](https://github.com/AarhusCosmology/CLASSpp_public) and [CAMB](https://github.com/cmbant/CAMB) for evaluation of the likelihood. CLiENT compares to observable emulators like [CONNECT](https://github.com/AarhusCosmology/connect_public), but has the advantage of producing a surrogate likelihood which is completely auto-differentiable.
 
-**[Documentation](docs/README.md)** · [What this version adds](CHANGES.md) · [Moving from the first CLiENT](UPGRADING.md) · [Performance](PERFORMANCE.md)
+**[Manual](https://aarhuscosmology.github.io/client-f/)** · [Documentation index](docs/README.md) · [What this version adds](CHANGES.md) · [Moving from the first CLiENT](UPGRADING.md) · [Performance](PERFORMANCE.md)
 
 To start, take `input/recommended_near_gaussian.yaml` for a likelihood close to a Gaussian, or `input/recommended_non_gaussian.yaml` for oscillations, several modes or curved ridges, and change its likelihood and sizes. Most methods are opt-in and these files switch them on: a YAML that sets only the required keys is not the method of the papers ([docs/boost.md](docs/boost.md#two-recommended-settings)).
 

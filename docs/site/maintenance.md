@@ -31,6 +31,6 @@ When removing or renaming pages, clean the old build with `python -m sphinx -M c
 
 ## Automated checks
 
-The documentation workflow builds on pull requests and pushes to `main` and `features` (on the organisation's self-hosted runners), runs the small analytic checks, checks configuration claims and validates local HTML targets and anchors. It uploads the HTML as a review artifact. It **does not publish a website or run expensive scientific examples**.
+The documentation workflow builds on pull requests and pushes to `main` and `features` (on the organisation's self-hosted runners), runs the small analytic checks, checks configuration claims and validates local HTML targets and anchors. It uploads the HTML as a review artifact. A push to `features`, or a manual run on it, also publishes it at <https://aarhuscosmology.github.io/client-f/>, client-f's `gh-pages` branch, which each publication replaces. The workflow **does not run expensive scientific examples**.
 
 The analytic script checks exact Gaussian/ridge and importance-weight identities. It is not an end-to-end training test. The short CLiENT Gaussian run is a separate reproducible smoke command, and real-likelihood examples retain their recorded validation provenance.
