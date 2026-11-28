@@ -1,0 +1,20 @@
+convergence
+===========
+
+.. py:module:: convergence
+
+.. autoapi-nested-parse::
+
+   Selected interfaces in convergence.
+
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/convergence/convergence/index
+
+

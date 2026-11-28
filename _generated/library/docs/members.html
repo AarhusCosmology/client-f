@@ -1,0 +1,1139 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Several trainings per network (training.members) &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=2443c677"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_generated/library/docs/members';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/_generated/library/docs/members.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Density-filtered posterior boosts" href="posterior_density_boost.html" />
+    <link rel="prev" title="Injection: fitting the quadratic to the points near the best" href="injection_window.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../AGENTS.html">Contributor guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGES.html">What this version adds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PERFORMANCE.html">CLiENT speed and memory changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UPGRADING.html">Moving from the first CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PROFILES_AND_EVIDENCE.html">Profile likelihoods and Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">CLiENT documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audit_optima.html">Auditing the network’s optima</a></li>
+<li class="toctree-l1"><a class="reference internal" href="augment_training.html">Adding profile points to a run’s training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost.html">Boost: training points from the posterior itself</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_background_region.html">Boost with a quadratic background and a region</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_modes_mixing.html">Boost: deciding the modes by measured mixing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_real_lcdm.html">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combine.html">Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles.html">Create profiles from a saved CLiENT iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles_2d.html">One two-dimensional profile per run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derived_parameters.html">Derived parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evidence.html">Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Exporting a network: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">export</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hybrid_optimisers.html">Hybrid profile optimisers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injection_window.html">Injection: fitting the quadratic to the points near the best</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="posterior_density_boost.html">Density-filtered posterior boosts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_files.html">A run’s files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_recovery.html">Continuing and recovering a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempered_convergence.html">Convergence of the ordinary loop: the error at the tempered batch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/README.html">Real likelihoods on a cluster</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../library.html" class="nav-link">Guides and reports</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Maintained source: <a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/docs/members.md">docs/members.md</a>. Measurements keep their original settings; consult the <a class="reference internal" href="../../../configuration.html"><span class="std std-doc">current defaults</span></a> before starting a new run.</p>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="several-trainings-per-network-training-members">
+<h1>Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)<a class="headerlink" href="#several-trainings-per-network-training-members" title="Link to this heading">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">training.members:</span> <span class="pre">K</span></code> trains every network of the boost phase K times on the same training set
+with the same settings and keeps one. Rank 0 trains it as before (warm-started from the previous
+network when <code class="docutils literal notranslate"><span class="pre">training.warm_start</span></code> is on, the default). K - 1 members are trained from random
+weights, each with its own seed, on ranks that would otherwise wait for the next evaluation: during
+a training only rank 0 works, and on a cluster the other ranks’ cores are idle for the whole of it.
+Members left over when the run has fewer ranks than members are trained on rank 0 after its own
+network. The members from random weights keep the epoch of their lowest validation loss, or their
+last weights with <code class="docutils literal notranslate"><span class="pre">training.random_start_weights:</span> <span class="pre">last</span></code> (<a class="reference internal" href="boost.html"><span class="std std-doc">boost.md</span></a>).</p>
+<p>It is a feature of the boosts. The members act from the first training on boost points (the
+network after the boosts’ start, <code class="docutils literal notranslate"><span class="pre">acquisition.boost.start_iteration</span></code> or the hand-over of
+<code class="docutils literal notranslate"><span class="pre">tempered_batch_scatter</span></code>) on; every network of the tempered phase, the hand-over’s included, is
+trained once, as without the key, and a run without <code class="docutils literal notranslate"><span class="pre">acquisition.boost</span></code> that sets it is refused.
+The log says so at the start (<code class="docutils literal notranslate"><span class="pre">training.members:</span> <span class="pre">K</span> <span class="pre">trainings</span> <span class="pre">of</span> <span class="pre">every</span> <span class="pre">network</span> <span class="pre">trained</span> <span class="pre">on</span> <span class="pre">boost</span> <span class="pre">points</span></code>).</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">training</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">members</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span><span class="w">              </span><span class="c1"># 1 (the default): one training per network, as before</span>
+<span class="w">  </span><span class="nt">selection_share</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span><span class="w">    </span><span class="c1"># of the points acquired since the previous training, held out to choose</span>
+<span class="w">  </span><span class="nt">member_margin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2</span><span class="w">      </span><span class="c1"># the warm network is kept unless another is better by more than this</span>
+<span class="w">  </span><span class="nt">member_threads</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span><span class="w">       </span><span class="c1"># TensorFlow threads of a member (default TF_NUM_INTRAOP_THREADS, else 4)</span>
+</pre></div>
+</div>
+<section id="how-one-is-chosen">
+<h2>How one is chosen<a class="headerlink" href="#how-one-is-chosen" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The selection set.</strong> A share of the points acquired since the previous training (its boost or
+batch and its injection; the previous network’s audit points are excluded, since the warm start
+has seen them) is held out from every member’s training this time. Every member, the warm one
+included, is judged on points it has not seen; a warm network’s own validation loss is partly
+in-sample. The points are trained on from the next network on. The draw has its own generator,
+so the run’s other draws are unchanged.</p></li>
+<li><p><strong>The choice.</strong> The selection loss is the training loss (msre) on the selection set. The warm
+network is kept unless a member from random weights has a selection loss lower by more than
+<code class="docutils literal notranslate"><span class="pre">member_margin</span></code>; without a warm network (warm start off, or the first training after a background
+fit) the lowest is kept. A member that fails is never kept and is named in the log.</p></li>
+<li><p><strong>What is kept.</strong> The chosen network becomes <code class="docutils literal notranslate"><span class="pre">trained_models/model_it_N.keras</span></code> and its history
+<code class="docutils literal notranslate"><span class="pre">training_history/history_it_N.csv</span></code>; the audit, the region, the boost and every later use see only
+it, and the next warm start starts from it. Every member is saved as
+<code class="docutils literal notranslate"><span class="pre">trained_models/members/model_it_N_memberK.keras</span></code> with <code class="docutils literal notranslate"><span class="pre">training_history/history_it_N_memberK.csv</span></code>
+(member 0 is rank 0’s), and <code class="docutils literal notranslate"><span class="pre">trained_models/members/members_it_N.json</span></code> records the seeds, the
+starts, the epochs, the losses and which was kept and why. These are files of the training phase
+(<code class="docutils literal notranslate"><span class="pre">run.storage.phase_outputs</span></code>). The run’s log has one line per training (<code class="docutils literal notranslate"><span class="pre">Members</span> <span class="pre">(...)</span></code>).</p></li>
+</ul>
+</section>
+<section id="the-choice-by-true-evaluations-training-member-pilot">
+<h2>The choice by true evaluations (<code class="docutils literal notranslate"><span class="pre">training.member_pilot</span></code>)<a class="headerlink" href="#the-choice-by-true-evaluations-training-member-pilot" title="Link to this heading">#</a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">training</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">members</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">12</span>
+<span class="w">  </span><span class="nt">member_pilot</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span><span class="w">         </span><span class="c1"># points of each member's own posterior, evaluated with the true likelihood</span>
+<span class="w">  </span><span class="nt">member_pilot_steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20000</span><span class="w"> </span><span class="c1"># of its chain (T = 1, inside the network's region)</span>
+<span class="w">  </span><span class="nt">member_pilot_walkers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256</span><span class="w"> </span><span class="c1"># at least 2 ndim (raised to that when lower)</span>
+<span class="w">  </span><span class="nt">member_pilot_depth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w">  </span><span class="c1"># default: the msre scale 0.5 chi^2(sigma_level, ndim) below the best</span>
+<span class="w">  </span><span class="nt">member_pilot_score</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">corrected</span><span class="w"> </span><span class="c1"># the rms without each member's constant offset; rms: with it (before 19 November 2026)</span>
+</pre></div>
+</div>
+<p>With <code class="docutils literal notranslate"><span class="pre">member_pilot:</span> <span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> the members are chosen after the region is built, by true evaluations,
+and nothing is held out:</p>
+<ul class="simple">
+<li><p><strong>The points.</strong> Every member samples its own posterior at T = 1 inside the region of rank 0’s
+network (<code class="docutils literal notranslate"><span class="pre">acquisition.boost.region</span></code>; without a region, from the best distinct training points),
+each on the rank that trained it, and n of its points are drawn. The pool (n times the members
+that could be sampled) is evaluated once with the true likelihood on all ranks; the calls are
+journalled under the stage <code class="docutils literal notranslate"><span class="pre">members/itN</span></code>.</p></li>
+<li><p><strong>The score.</strong> A member’s pilot error is the rms of its prediction minus the truth over the pool’s
+points that the truth or that member puts within <code class="docutils literal notranslate"><span class="pre">member_pilot_depth</span></code> of the best value known
+(the training set and the pool), after its constant offset has been removed
+(<code class="docutils literal notranslate"><span class="pre">member_pilot_score:</span> <span class="pre">corrected</span></code>, the default). The offset is the median of the member’s error
+over the pool’s points that the truth puts within the depth, the same points for all members (0
+when there are none). Points whose true value is not finite, or is the fixed value a
+launcher gives a point the likelihood cannot evaluate (<code class="docutils literal notranslate"><span class="pre">refused_value</span></code>), count for none. A member
+that puts a false plateau above the truth is judged where it puts its posterior; a member that
+misses a peak is judged where the truth is high. Points far below the best in both count for none.
+<code class="docutils literal notranslate"><span class="pre">member_pilot_score:</span> <span class="pre">rms</span></code> keeps the offset in the score, as before 19 November 2026.</p></li>
+<li><p><strong>The choice.</strong> As by the selection loss: the warm network is kept unless another member’s pilot
+error is lower by more than <code class="docutils literal notranslate"><span class="pre">member_margin</span></code>; without a warm network the lowest is kept.</p></li>
+<li><p><strong>The points afterwards.</strong> Those with a finite true value join the training set before the
+audit, as the acquisition’s do (they are true evaluations at points where some network puts its
+posterior). They are saved in <code class="docutils literal notranslate"><span class="pre">trained_models/members/pilot_it_N.csv</span></code> with the member that drew
+each, the truth, the derived parameters (<code class="docutils literal notranslate"><span class="pre">derived:NAME</span></code>) and every member’s prediction; a run
+continued from the saved network N adds them again. <code class="docutils literal notranslate"><span class="pre">members_it_N.json</span></code> has <code class="docutils literal notranslate"><span class="pre">choice:</span> <span class="pre">pilot</span></code>,
+<code class="docutils literal notranslate"><span class="pre">pilot_score</span></code>, every member’s <code class="docutils literal notranslate"><span class="pre">pilot_error</span></code> (the score used), <code class="docutils literal notranslate"><span class="pre">pilot_rms</span></code>, <code class="docutils literal notranslate"><span class="pre">pilot_offset</span></code> with
+its standard error and its mean error at its own points (<code class="docutils literal notranslate"><span class="pre">pilot_own_bias</span></code>), and the kept
+network’s offset (<code class="docutils literal notranslate"><span class="pre">kept_offset</span></code>, <code class="docutils literal notranslate"><span class="pre">kept_offset_error</span></code>). The offset does not change a posterior or
+a profile; it shifts an evidence of that network by its full value. It is recorded, not
+applied. <code class="docutils literal notranslate"><span class="pre">hpc/analysis/member_pilot_scores.py</span> <span class="pre">RUN</span></code> scores a run’s pilots again from these files
+with both scores.</p></li>
+</ul>
+<p>Why: the selection loss judges the members where the previous network put its posterior, and a
+loss averaged over points does not see where a member will put its own. On network 8 of branches
+with <code class="docutils literal notranslate"><span class="pre">members:</span> <span class="pre">12</span></code> of the two axion monodromy runs below, the member kept by the selection loss was
+35.6 (H0WC) and 3.2 (PDP+) too high on average at the points of its own pilot chain (a chain held on
+a false plateau weighs it more than a boost does: at the two networks’ boost points the means were
++1.4 and +0.2); the H0WC one then repeated the setback in its boost (scatter 4.0 at the boost points
+against 2.1-2.2 for every member from random weights at the same points). The pilot chooses member 5
+(error 1.8) and member 7 (1.5, against 4.3 for the kept one); on PDP+ the rank correlation between
+the selection loss and the pilot error was 0.19.</p>
+<p>Cost: n times K true evaluations per network (1200 for n = 100 and K = 12), on all ranks, and one
+chain per member, run in parallel on the members’ ranks.</p>
+</section>
+<section id="measured-on-two-axion-monodromy-runs">
+<h2>Measured on two axion monodromy runs<a class="headerlink" href="#measured-on-two-axion-monodromy-runs" title="Link to this heading">#</a></h2>
+<p>The two axion monodromy runs on which random weights were compared with warm starts
+(<a class="reference internal" href="boost.html"><span class="std std-doc">boost.md</span></a>, “Warm start is the default; random weights are an option”: H0WC with omega
+in [5.5, 60], PDP+ with omega in [2.5, 60]) were continued after network 7 with <code class="docutils literal notranslate"><span class="pre">members:</span> <span class="pre">12</span></code> and
+<code class="docutils literal notranslate"><span class="pre">member_pilot:</span> <span class="pre">100</span></code> on 96 ranks, their settings otherwise unchanged, and compared with three other
+continuations of the same runs: one warm-started training per network (the default), one training
+from random weights (<code class="docutils literal notranslate"><span class="pre">warm_start:</span> <span class="pre">false</span></code>), and <code class="docutils literal notranslate"><span class="pre">members:</span> <span class="pre">12</span></code> chosen by the selection loss. The
+table has the scatter of network minus truth at each network’s boost points, which no network had
+seen.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>network</p></th>
+<th class="head"><p>8</p></th>
+<th class="head"><p>9</p></th>
+<th class="head"><p>10</p></th>
+<th class="head"><p>11</p></th>
+<th class="head"><p>12</p></th>
+<th class="head"><p>13</p></th>
+<th class="head"><p>14</p></th>
+<th class="head"><p>15</p></th>
+<th class="head"><p>16</p></th>
+<th class="head"><p>17</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>H0WC, member pilot</p></td>
+<td><p>1.26</p></td>
+<td><p>1.26</p></td>
+<td><p>1.27</p></td>
+<td><p>1.37</p></td>
+<td><p>0.67</p></td>
+<td><p>0.45</p></td>
+<td><p>0.27</p></td>
+<td><p>0.19</p></td>
+<td><p>0.17</p></td>
+<td><p>0.14</p></td>
+</tr>
+<tr class="row-odd"><td><p>H0WC, warm start</p></td>
+<td><p>4.74</p></td>
+<td><p>3.96</p></td>
+<td><p>2.10</p></td>
+<td><p>1.82</p></td>
+<td><p>1.51</p></td>
+<td><p>1.45</p></td>
+<td><p>1.41</p></td>
+<td><p>1.33</p></td>
+<td><p>1.32</p></td>
+<td><p>1.31</p></td>
+</tr>
+<tr class="row-even"><td><p>H0WC, random weights</p></td>
+<td><p>1.36</p></td>
+<td><p>1.14</p></td>
+<td><p>1.22</p></td>
+<td><p>1.11</p></td>
+<td><p>2.99</p></td>
+<td><p>1.52</p></td>
+<td><p>0.41</p></td>
+<td><p>0.27</p></td>
+<td><p>0.21</p></td>
+<td><p>0.15</p></td>
+</tr>
+<tr class="row-odd"><td><p>H0WC, selection loss</p></td>
+<td><p>3.97</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>PDP+, member pilot</p></td>
+<td><p>0.92</p></td>
+<td><p>0.54</p></td>
+<td><p>0.32</p></td>
+<td><p>0.33</p></td>
+<td><p>0.24</p></td>
+<td><p>0.27</p></td>
+<td><p>0.28*</p></td>
+<td><p>0.22</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>PDP+, warm start</p></td>
+<td><p>1.11</p></td>
+<td><p>0.50</p></td>
+<td><p>0.31</p></td>
+<td><p>0.33</p></td>
+<td><p>0.29</p></td>
+<td><p>0.25</p></td>
+<td><p>0.20</p></td>
+<td><p>0.22</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>PDP+, random weights</p></td>
+<td><p>1.48</p></td>
+<td><p>0.50</p></td>
+<td><p>0.55</p></td>
+<td><p>0.57</p></td>
+<td><p>0.28</p></td>
+<td><p>0.25</p></td>
+<td><p>0.38</p></td>
+<td><p>0.35</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>PDP+, selection loss</p></td>
+<td><p>0.95</p></td>
+<td><p>0.47</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>* The main mode. The boost of that network found a second mode (9 walkers at omega near 26, weight
+4e-4), and the density filter, which aims at the same training density in every mode, gave it 9261
+of the 10 000 points (scatter 0.44 there, 0.43 over all of them). This is the boost’s doing, not the
+members’.</p>
+<ul class="simple">
+<li><p><strong>False maxima.</strong> On H0WC the warm-started member had a false maximum at every network from 8 to
+12, at A_osc 0.02-0.04 and omega 25-45, where the true likelihood lies 30-70 below the best: it
+was 46-80 too high on average at the points of its own pilot chain, and its pilot error was 15-25
+against 1.2-2.3 for the member kept. Members from random weights had false maxima of their own at
+networks 12 and 13 (two each, 32-115 too high). At the other runs’ boost points these networks are
+hardly worse than the rest (at network 10, 1.30-1.60 against 1.22-1.48): the boost points do not
+see the false maxima, the pilot does. Every choice from 8 to 12 rejected the warm network, and the
+run avoided the setbacks of the warm-started run (8 and 9) and of the run from random weights (12).</p></li>
+<li><p><strong>The fine structure.</strong> At H0WC network 12 two members from random weights resolved the structure
+(validation loss 5-6e-4 against 0.8-1.8e-3 for the others) and the pilot kept one of them. From
+network 13 on the warm start carried the resolved state on: the warm network was kept at 13 and
+15-17, and at 14 member 7 replaced it (pilot error 0.23 against 0.38; 0.21-0.27 against 0.28-0.42
+at the boost points of every run). The run had at network 17 the error the run from random weights
+reached at 18 (0.14); the warm-started one stayed at 1.3.</p></li>
+<li><p><strong>Ranking among sound members.</strong> Where no member has a false structure, the pilot ranks the members
+roughly as the boost points do (rank correlation 0.75-0.83 at H0WC 14, 0.55-0.73 at PDP+ 15).
+Where one has a false maximum, its pilot points can decide the ranking of the others: at H0WC
+network 11 three members put the rejected warm member’s points 13-23 too high, inside the depth,
+which alone gave them pilot errors of 1.8-2.0 (1.08-1.12 without those points, two of them the
+lowest). The member kept had a scatter of 1.37 at its boost points, against 1.19 for the best of
+the three. The score prefers a network without a raised region about 20 below the best, which a
+profile would show, to one slightly better at the posterior’s points. Scoring the others without
+the points of a member already rejected has not been tried.</p></li>
+<li><p><strong>The margin.</strong> On PDP+ the warm network was kept at 10-14 and 16 and replaced at 8 (pilot error
+3.55 against 0.90), 9 (0.60 against 0.46) and 15 (0.24 against 0.19). At 9 the warm member was
+slightly better at the boost points of every run, at 15 the two were equal: for networks this
+close a margin of 0.2 is inside the pilot’s noise. A margin above 0.39 would have kept the warm
+network at H0WC 14, which was worse at the boost points of every run. The run ended level with
+the warm-started one (0.22 at network 15) and below the one from random weights (0.35).</p></li>
+</ul>
+</section>
+<section id="the-offset-of-a-member-member-pilot-score-19-november-2026">
+<h2>The offset of a member (<code class="docutils literal notranslate"><span class="pre">member_pilot_score</span></code>, 19 November 2026)<a class="headerlink" href="#the-offset-of-a-member-member-pilot-score-19-november-2026" title="Link to this heading">#</a></h2>
+<p>Trainings on the same points differ by a constant as well as in their scatter. On an exact
+58-parameter Gaussian (a branch with <code class="docutils literal notranslate"><span class="pre">members:</span> <span class="pre">6</span></code> and <code class="docutils literal notranslate"><span class="pre">member_pilot:</span> <span class="pre">100</span></code> of a run with 3000
+points per boost, from network 21 on) the six members of network 21 had at exact posterior draws:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>member</p></th>
+<th class="head"><p>offset</p></th>
+<th class="head"><p>scatter</p></th>
+<th class="head"><p>rms</p></th>
+<th class="head"><p>pilot error, rms</p></th>
+<th class="head"><p>pilot error, offset removed</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0 (warm)</p></td>
+<td><p>−0.20</p></td>
+<td><p>0.080</p></td>
+<td><p>0.215</p></td>
+<td><p>0.21</p></td>
+<td><p>0.081</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>−0.08</p></td>
+<td><p>0.107</p></td>
+<td><p>0.131</p></td>
+<td><p>0.133</p></td>
+<td><p>0.109</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>+0.11</p></td>
+<td><p>0.111</p></td>
+<td><p>0.157</p></td>
+<td><p>0.164</p></td>
+<td><p>0.117</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>+0.18</p></td>
+<td><p>0.108</p></td>
+<td><p>0.210</p></td>
+<td><p>0.213</p></td>
+<td><p>0.103</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>−0.01</p></td>
+<td><p>0.115</p></td>
+<td><p>0.115</p></td>
+<td><p>0.116</p></td>
+<td><p>0.115</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>+0.06</p></td>
+<td><p>0.101</p></td>
+<td><p>0.118</p></td>
+<td><p>0.127</p></td>
+<td><p>0.108</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The pilot’s 600 points rank the members as the exact draws do, but the rms kept member 4, whose
+scatter is the largest, and rejected the warm network, whose scatter is the smallest, for its
+offset. Without the offset the warm network is kept (0.081 against 0.103 for the best from random
+weights). On network 8 of the two axion branches with <code class="docutils literal notranslate"><span class="pre">members:</span> <span class="pre">12</span></code> (the offline test above) the
+offsets are 0.1–0.5 against errors of 2–12, and both scores keep the same members (H0WC member 5,
+1.93; PDP+ member 7, 1.48 without the offset, 1.50 with it); the warm H0WC network’s false plateau
+scores 12.4 without its offset against 12.5 with it. On that Gaussian the offsets of trainings on
+the same data varied by about ±0.2 from network to network, as much as their scatter, so that for
+an evidence the offset, not σ²/2, was the main error of a network.</p>
+</section>
+<section id="why-several-trainings">
+<h2>Why several trainings<a class="headerlink" href="#why-several-trainings" title="Link to this heading">#</a></h2>
+<p>A training ends in one of two states: it resolves the fine structure of the likelihood or it stays
+on a plateau where that structure is smoothed out, and the random start decides which. Retrained on
+the saved training sets of the H0WC run above, every training sat on the same plateau at epoch 100;
+on the training set of network 13 one random start in three left it, on that of network 14 two in
+three, with an error at posterior points none had seen of 0.6-1.0 against 3.9-4.0 for the others. A
+longer or more patient learning-rate schedule did not help: it memorised the training set. The
+validation loss separated the two states (2-3e-4 against 1.2-1.3e-3). A warm start keeps the state
+it inherits, so a network that smoothed the structure passes it on; warm starts are nevertheless
+better on almost every likelihood tested, which is why rank 0 keeps its warm start and the extra
+members start from random weights. With a chance p of resolving per start, K starts miss with
+probability (1 - p)^K: 0.20 for p = 1/3 and K = 4.</p>
+<p>When the training set has too few points where the true posterior lies, no start resolves the
+structure (none of 8 on that run’s network 11); selection cannot help there, and more data can (with
+10 000 points from the final posterior added, both starts did).</p>
+</section>
+<section id="cost">
+<h2>Cost<a class="headerlink" href="#cost" title="Link to this heading">#</a></h2>
+<p>The members train while rank 0 trains its own, so an iteration’s training takes as long as the
+slowest of them (the schedules end at different epochs). Each member uses <code class="docutils literal notranslate"><span class="pre">member_threads</span></code> cores
+and its own memory (the training set, about 10 MB for 100 000 points of 23 parameters, and its
+network). On the two axion runs above (96 ranks, 12 members at 8 threads) an epoch took as long per
+training point as in the continuation with one training from random weights (H0WC) or 5% longer
+(PDP+): the members hardly slowed each other down. The training took 26% (H0WC, networks 9-17) and
+35% (PDP+, 9-15) longer than there, and the iteration (training, pilot, audit and a boost of
+10 000) 15% and 20% longer. The training sets were 2-8% larger (the pilot’s points), and the slowest
+member trained on average 14% (H0WC) and 15% (PDP+) more epochs than the median member of the same
+training, 57% more at H0WC network 12, where a member that resolved the structure trained longest.
+The pilot’s 1200 true evaluations took 250 s (H0WC) and 100 s (PDP+), against 1950 s and 790 s for a
+boost of 10 000. The warm-started continuations are no reference for the time: their steps were
+faster per point than in either of the other two.</p>
+<p>This holds while every member has cores of its own: at most 1 + (cores - rank 0’s threads) /
+<code class="docutils literal notranslate"><span class="pre">member_threads</span></code> members, 12 on two 48-core nodes at 8 threads and 6 on one. With more, the
+members share cores, or the ones left over train on rank 0 one after another, and the training
+takes several times as long. The log then has a warning after the members’ line
+(<code class="docutils literal notranslate"><span class="pre">members.oversubscription</span></code>), which takes the run’s cores as its ranks (one core per rank, as a
+cluster job usually starts them) or the cores of rank 0’s node if those are more. Replayed on the
+first five choices of the two runs, 6 members (the warm one and every set of 5 of the 11 others)
+made the same decisions as 12, and the warm network with a false peak was rejected with 2: more
+members help only where few trainings from random weights resolve the structure. With 6 the
+slowest member would have trained 10-11% more epochs than the median on average and with 4 8%,
+against 14-15% with 12: fewer members save little time while each has cores of its own.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">members:</span> <span class="pre">1</span></code> nothing is held out, no rank is asked and the run is as before, bit for bit
+(tests/mpi_members_smoke.py).</p>
+</section>
+<section id="on-gpus">
+<h2>On GPUs<a class="headerlink" href="#on-gpus" title="Link to this heading">#</a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">training</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">member_device</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span><span class="w">     </span><span class="c1"># a GPU when the member's process sees one, else the CPU; cpu; gpu (stop without one)</span>
+</pre></div>
+</div>
+<p>Only rank 0 and the ranks that train members run TensorFlow (<code class="docutils literal notranslate"><span class="pre">utils/devices.py</span></code>). Each of them takes
+one GPU of its node, the TensorFlow processes of a node in turn over its GPUs, with memory growth on.
+The turn is a process’s place among the node’s TensorFlow processes, not among all its ranks: the
+member ranks are spread at an even stride (8, 16, …, 88 of 96), and by the rank on the node every
+one of them took GPU 0 of two. Without
+it, the first TensorFlow process on a GPU reserves nearly all of its memory, and the members started
+after it there fail. Every other rank hides the GPUs from itself before the likelihood is built
+(<code class="docutils literal notranslate"><span class="pre">CUDA_VISIBLE_DEVICES</span></code> and <code class="docutils literal notranslate"><span class="pre">HIP_VISIBLE_DEVICES</span></code> empty), so that a likelihood code importing
+TensorFlow or JAX takes none; the launcher (<code class="docutils literal notranslate"><span class="pre">hpc/submit_client.sh</span></code>) no longer does it, and a run
+started with a plain <code class="docutils literal notranslate"><span class="pre">mpirun</span></code> behaves the same.</p>
+<p><code class="docutils literal notranslate"><span class="pre">training.member_device</span></code> decides for the members. With <code class="docutils literal notranslate"><span class="pre">auto</span></code>, the default, a member trains on a GPU
+when its process sees one and on the CPU otherwise; <code class="docutils literal notranslate"><span class="pre">cpu</span></code> keeps the members on the CPU; <code class="docutils literal notranslate"><span class="pre">gpu</span></code> stops
+a member that sees no GPU (it fails and is never kept). Rank 0 uses a GPU whenever it sees one.
+On a GPU, <code class="docutils literal notranslate"><span class="pre">member_threads</span></code> are the CPU threads of what TensorFlow keeps on the CPU, and the
+oversubscription warning counts only the members left over for rank 0.</p>
+<p>The log says where rank 0 trains (<code class="docutils literal notranslate"><span class="pre">TensorFlow</span> <span class="pre">on</span> <span class="pre">rank</span> <span class="pre">0:</span> <span class="pre">GPU</span> <span class="pre">0</span> <span class="pre">(...)</span></code> or <code class="docutils literal notranslate"><span class="pre">CPU</span></code>) and, after each
+training, where every member did (<code class="docutils literal notranslate"><span class="pre">members</span> <span class="pre">trained</span> <span class="pre">on:</span> <span class="pre">0-11</span> <span class="pre">GPU</span> <span class="pre">0</span> <span class="pre">(...)</span></code>); <code class="docutils literal notranslate"><span class="pre">members_it_N.json</span></code>
+records each member’s <code class="docutils literal notranslate"><span class="pre">device</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">tests/gpu_members_smoke.py</span></code> checks on a GPU node that rank 0 and the members train on the GPUs (both
+GPUs of a node with two), that none fails, and that <code class="docutils literal notranslate"><span class="pre">member_device:</span> <span class="pre">cpu</span></code> keeps the members on the
+CPU. <code class="docutils literal notranslate"><span class="pre">benchmarking/gpu_training.py</span></code> trains one network of a run again on a GPU with TF32
+(TensorFlow’s default on Ampere and newer GPUs, for every training there, rank 0’s included), on a
+GPU in full float32 and on the CPU, from the same random weights, and compares the times and the
+errors at that network’s boost points.</p>
+<p>Measured on Grendel’s NVIDIA L40S nodes (TensorFlow 2.19 with its CUDA wheels):</p>
+<ul class="simple">
+<li><p><strong>The members on one GPU.</strong> Rank 0 and three members trained on the same GPU at once, and none
+failed; the pilot’s chains ran on it too, and <code class="docutils literal notranslate"><span class="pre">member_device:</span> <span class="pre">cpu</span></code> kept the members on the CPU.</p></li>
+<li><p><strong>A network of the PDP+ axion run</strong> (network 10, 61 610 training points, the run’s full schedule,
+one seed). On the GPU in full float32 the training followed the CPU’s exactly: the same 506 epochs,
+the same validation loss and the same errors at the 10 000 boost points (scatter 0.372), in 259 s
+against 1284 s on 8 CPU threads. With TF32 it took 242 s and ended elsewhere, as another seed would
+(scatter 0.345, inside the 0.29 to 0.59 of that network’s twelve members). TF32 therefore stays as
+TensorFlow has it.</p></li>
+<li><p><strong>A node with two L40S.</strong> With the GPU chosen by the rank on the node, every process took GPU 0
+(job 7030123). With the choice by the place among the TensorFlow processes, rank 0 and the three
+members took GPU 0, 1, 0, 1, the pilot ran on both and no member failed, and <code class="docutils literal notranslate"><span class="pre">member_device:</span> <span class="pre">cpu</span></code>
+kept the members on the CPU and rank 0 on its GPU (job 7030203).</p></li>
+</ul>
+<p>Open: how many members share one GPU before they slow each other down (rank 0 and three members
+shared one L40S, on a small network).</p>
+</section>
+<section id="tests">
+<h2>Tests<a class="headerlink" href="#tests" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">tests/test_members.py</span></code> (the ranks, the selection set, the choice, the settings, the phase’s files,
+one member trained; the pilot’s score, choice, depth, starts, settings and saved points),
+<code class="docutils literal notranslate"><span class="pre">tests/test_devices.py</span></code> (which ranks keep the GPUs, which GPU a process takes, TensorFlow’s set-up
+without a GPU) and <code class="docutils literal notranslate"><span class="pre">tests/mpi_members_smoke.py</span></code> (the loop on three ranks and on one, <code class="docutils literal notranslate"><span class="pre">members:</span> <span class="pre">1</span></code>
+against no key; the pilot on three ranks and on one, and a pilot run stopped after training and
+continued). On a GPU node: <code class="docutils literal notranslate"><span class="pre">tests/gpu_members_smoke.py</span></code>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="injection_window.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Injection: fitting the quadratic to the points near the best</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="posterior_density_boost.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Density-filtered posterior boosts</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-one-is-chosen">How one is chosen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-choice-by-true-evaluations-training-member-pilot">The choice by true evaluations (<code class="docutils literal notranslate"><span class="pre">training.member_pilot</span></code>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measured-on-two-axion-monodromy-runs">Measured on two axion monodromy runs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-offset-of-a-member-member-pilot-score-19-november-2026">The offset of a member (<code class="docutils literal notranslate"><span class="pre">member_pilot_score</span></code>, 19 November 2026)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-several-trainings">Why several trainings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cost">Cost</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#on-gpus">On GPUs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tests">Tests</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/_generated/library/docs/members.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

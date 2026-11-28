@@ -1,0 +1,945 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Domain splitting: client.py combine &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=2443c677"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_generated/library/docs/combine';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/_generated/library/docs/combine.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Create profiles from a saved CLiENT iteration" href="create_profiles.html" />
+    <link rel="prev" title="The loop with boosts on a real likelihood: ΛCDM, Planck + DESI" href="boost_real_lcdm.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../AGENTS.html">Contributor guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGES.html">What this version adds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PERFORMANCE.html">CLiENT speed and memory changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UPGRADING.html">Moving from the first CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PROFILES_AND_EVIDENCE.html">Profile likelihoods and Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">CLiENT documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audit_optima.html">Auditing the network’s optima</a></li>
+<li class="toctree-l1"><a class="reference internal" href="augment_training.html">Adding profile points to a run’s training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost.html">Boost: training points from the posterior itself</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_background_region.html">Boost with a quadratic background and a region</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_modes_mixing.html">Boost: deciding the modes by measured mixing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_real_lcdm.html">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles.html">Create profiles from a saved CLiENT iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles_2d.html">One two-dimensional profile per run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derived_parameters.html">Derived parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evidence.html">Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Exporting a network: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">export</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hybrid_optimisers.html">Hybrid profile optimisers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injection_window.html">Injection: fitting the quadratic to the points near the best</a></li>
+<li class="toctree-l1"><a class="reference internal" href="members.html">Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="posterior_density_boost.html">Density-filtered posterior boosts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_files.html">A run’s files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_recovery.html">Continuing and recovering a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempered_convergence.html">Convergence of the ordinary loop: the error at the tempered batch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/README.html">Real likelihoods on a cluster</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../library.html" class="nav-link">Guides and reports</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code></span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Maintained source: <a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/docs/combine.md">docs/combine.md</a>. Measurements keep their original settings; consult the <a class="reference internal" href="../../../configuration.html"><span class="std std-doc">current defaults</span></a> before starting a new run.</p>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="domain-splitting-client-py-combine">
+<h1>Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code><a class="headerlink" href="#domain-splitting-client-py-combine" title="Link to this heading">#</a></h1>
+<p>A run on the whole box can miss a mode for good. Its chains follow the network, and a network
+that rates a region far too low never sends a point there. The axion monodromy run on Planck TT
+is the case in point. A long MCMC without an emulator puts 1.8% of the posterior on a ridge at
+ω &lt; 2 and A_osc &gt; 0.015, where n_s, ω_cdm and A_s trade off against the oscillation. Every network
+of the full-box run was 120 to 280 log-units too low there. Neither a hotter boost, a true
+profile, nor that profile’s points added to the training set brought it back
+(<a class="reference internal" href="boost.html"><span class="std std-doc">boost.md</span></a>, “A region the networks miss”).</p>
+<p>Domain splitting runs CLiENT more than once on the same objective, each time with the training
+box cut down in one parameter, and then combines the networks. In a box cut down to such a mode,
+the mode is the main feature of the posterior, and the ordinary loop finds it by itself. A run
+on the axion likelihood with ω in [1, 3] did exactly that:</p>
+<ul class="simple">
+<li><p>At its eighth network its best training point lay in the corner, 3.8 below the global best.</p></li>
+<li><p>After one boost its network matched the true values at the long MCMC’s corner points to 0.15
+to 0.18 rms.</p></li>
+<li><p>Its region held all of the long MCMC’s corner points.</p></li>
+</ul>
+<section id="the-runs">
+<h2>The runs<a class="headerlink" href="#the-runs" title="Link to this heading">#</a></h2>
+<p>Each part is an ordinary run with the same likelihood and the same prior. Only its training box
+differs, and only in the one parameter.</p>
+<p>With the launcher in <a class="reference internal" href="../hpc/README.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">hpc/</span></code></span></a>, give each part a byte-identical copy of the
+full run’s Cobaya file. The prior on the split parameter must stay the full one: a narrower prior would shift the objective
+by the logarithm of the ratio of the prior widths. Give each part its own <code class="docutils literal notranslate"><span class="pre">domain_bounds.json</span></code>.</p>
+<p>Choose the cut by the likelihood, not by where a network ran short of points. For the axion run,
+nothing fits well between the corner at ω ≈ 1 to 2 and the oscillation peaks from ω ≈ 10 up. The
+cut is therefore at ω = 3, and the full-box run supplies everything above it.</p>
+</section>
+<section id="the-command">
+<h2>The command<a class="headerlink" href="#the-command" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span>combine<span class="w"> </span>OUTPUT<span class="w"> </span>--parameter<span class="w"> </span>omega<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--part<span class="w"> </span>results/&lt;timestamp&gt;_low_omega<span class="w"> </span>--part<span class="w"> </span>results/&lt;timestamp&gt;_full_box:18<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--band<span class="w"> </span><span class="m">2</span>.6:3.0
+</pre></div>
+</div>
+<p><strong>Arguments.</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--part</span></code> takes <code class="docutils literal notranslate"><span class="pre">RUN[:N]</span></code> (default N: the latest network). List the parts in increasing order of
+the parameter.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--band</span> <span class="pre">LO:HI</span></code> marks where two adjacent parts are blended. There is one band fewer than parts.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--no-walls</span></code> lets each network be used outside its own region; not recommended.</p></li>
+</ul>
+<p><strong>What the command checks</strong>, refusing with a message when a check fails:</p>
+<ul class="simple">
+<li><p>The parts record the same objective. Their <code class="docutils literal notranslate"><span class="pre">objective_identity.json</span></code> must agree in everything
+except the split parameter’s bounds.</p></li>
+<li><p>Their boxes differ in that parameter only.</p></li>
+<li><p>Every band lies inside both adjacent boxes.</p></li>
+<li><p>Every part covers the whole range in which it will be used.</p></li>
+<li><p>Either every part has a saved region, or none does. Mixing restricted and unrestricted
+parts is rejected, including with <code class="docutils literal notranslate"><span class="pre">--no-walls</span></code>: an outer union of only the restricted
+parts would silently truncate the others in evidence, sampling and profile consumers.</p></li>
+<li><p>All saved regions have the same inflation edge.</p></li>
+</ul>
+<p>The command first copies the consumed files into temporary snapshots and verifies their
+hashes and the selected network/region before and after copying. A change during copying
+is rejected; later changes to a source cannot affect the combination. This includes the
+metadata, objective identity, settings, refusal value, chain summary and recursive
+<code class="docutils literal notranslate"><span class="pre">likelihood_input/</span></code> files, not just the network and training data. <code class="docutils literal notranslate"><span class="pre">combine.json</span></code> records
+the original source paths and the hashes of those consumed bytes (<code class="docutils literal notranslate"><span class="pre">parts[].artifacts</span></code>).
+The output is staged beside its destination and published by one directory rename only
+after it is complete, including its <code class="docutils literal notranslate"><span class="pre">combine.json</span></code> marker. Failure leaves no partial run;
+a nonempty destination is never overwritten.</p>
+</section>
+<section id="the-combined-network">
+<h2>The combined network<a class="headerlink" href="#the-combined-network" title="Link to this heading">#</a></h2>
+<p>OUTPUT is a new directory that reads as a finished run with one network, 0.</p>
+<p><strong>How the value is assembled.</strong></p>
+<ul class="simple">
+<li><p>Below the first band, part 1’s network is used. Above the last band, the last part’s is used.</p></li>
+<li><p>In a band the value is (1 − s) A + s B. Here s is the quintic smootherstep
+6t⁵ − 15t⁴ + 10t³ of the parameter’s position t in the band (<code class="docutils literal notranslate"><span class="pre">model.network.SmoothStep</span></code>).</p></li>
+<li><p>The smootherstep’s first and second derivatives vanish at the band’s ends, so the profile code
+can take curvatures across it.</p></li>
+<li><p>Outside the band both weights are exactly 0 or 1, so the value there is exactly one network’s.
+The form A + s(B − A) rounded it in float32 by up to 0.12 next to a wall.</p></li>
+</ul>
+<p><strong>Walls.</strong> Each part’s network is seen only inside its own boost region (<code class="docutils literal notranslate"><span class="pre">RegionWall</span></code>, inside the
+combined model). A network has maxima outside its region. One part’s region may also reach into
+the range where another part’s network is used, and with the walls that part is cut off there
+too.</p>
+<p><strong>Files.</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>file</p></th>
+<th class="head"><p>content</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">trained_models/model_it_0.keras</span></code></p></td>
+<td><p>the combined network: one flat Keras graph, with every part’s layers copied under <code class="docutils literal notranslate"><span class="pre">part&lt;k&gt;_</span></code> and the same weights (the profile code copies a model layer by layer at double precision)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">boost/region_it_0.npz</span></code></p></td>
+<td><p>the union of the parts’ region cells, re-expressed in the combined box’s units, with identical ellipsoids represented once</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">training_data/data_it_0.csv</span></code></p></td>
+<td><p>every part’s training points that have a value; refused ones are left out</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">metadata.json</span></code></p></td>
+<td><p>the combined box: the split parameter’s widest range, every other range as the parts’</p></td>
+</tr>
+<tr class="row-even"><td><p>the YAML, <code class="docutils literal notranslate"><span class="pre">likelihood_input/</span></code>, <code class="docutils literal notranslate"><span class="pre">refused_value.json</span></code></p></td>
+<td><p>from the part with the widest box</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">objective_identity.json</span></code></p></td>
+<td><p>that part’s, with the combined bounds</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">convergence_stats/chain_summary_it_0.npz</span></code></p></td>
+<td><p>pooled from the parts’ (<code class="docutils literal notranslate"><span class="pre">hpc/analysis/report.py</span></code> samples only networks that have one)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">combine.json</span></code></p></td>
+<td><p>the parts (run, network, box, hashes of model, data and region), the bands, the walls</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>What reads it.</strong> The evidence, <code class="docutils literal notranslate"><span class="pre">hpc/analysis/report.py</span></code> and <code class="docutils literal notranslate"><span class="pre">true_check.py</span></code>, the profiles and
+<code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">modes</span></code> read the directory as any run. It is not a run to continue: the loop refuses a
+directory with <code class="docutils literal notranslate"><span class="pre">combine.json</span></code>. Continue its parts and combine again. To use it outside CLiENT,
+export it (<code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">export</span></code>, <a class="reference internal" href="export.html"><span class="std std-doc">export.md</span></a>): the <code class="docutils literal notranslate"><span class="pre">.keras</span></code> file needs CLiENT’s layer
+classes, the exported SavedModel only TensorFlow.</p>
+</section>
+<section id="sampling-it-and-the-weights-of-the-parts">
+<h2>Sampling it, and the weights of the parts<a class="headerlink" href="#sampling-it-and-the-weights-of-the-parts" title="Link to this heading">#</a></h2>
+<p>Both networks emulate the objective itself, not a normalised posterior. The parts’ relative
+weights therefore need no evidence ratio: they follow from the values, as far as each network is
+right near its own posterior.</p>
+<ul class="simple">
+<li><p><strong>Chains.</strong> Distinct union cells use CLiENT’s cell-by-cell path
+(<code class="docutils literal notranslate"><span class="pre">sampling/mixture.py</span></code>). Each cell is sampled by itself and weighted by its own evidence,
+and no chain has to cross between the parts. Identical ellipsoids from different parts
+are merged in this outer region: otherwise nearest-ellipsoid tie-breaking leaves an
+empty second cell that cannot be sampled. Equality compares centres and normalised
+quadratic forms after reboxing, allowing only floating-point roundoff (32 machine
+epsilons); general overlaps remain separate. <code class="docutils literal notranslate"><span class="pre">region_cell_sources</span></code> records the source
+cells represented by each union cell; their diagnostic row counts are summed. The
+individual network walls remain unchanged. A one-cell union uses ordinary sampling.</p></li>
+<li><p><strong>The evidence.</strong> BEST integrates the combined network over the whole combined box, which for
+the axion run is the full run’s box. Its ln Z is therefore comparable with the full run’s.</p></li>
+</ul>
+<p><strong>First trial</strong> (19 October 2026), with the ω &lt; 3 run’s network 12 (after one boost) and the full
+run’s network 18, blended over ω in [2.6, 3.0]:</p>
+<ul class="simple">
+<li><p><strong>Consistency checks.</strong> Below the band the combined network equals the ω &lt; 3 network exactly,
+and above it the full run’s network exactly. In the band it equals the blend to 3 × 10⁻⁵. The
+union region reproduces each part’s distances to 2 × 10⁻¹⁶.</p></li>
+<li><p><strong>Against the long MCMC.</strong> The median of network minus truth is +0.01 in the corner (rms 0.15
+and 0.18) and −0.13 at ω ≥ 5.</p></li>
+<li><p><strong>Sampling.</strong> It gave the ω &lt; 3 cell 3.9% of the posterior, against the 4.5% that
+the long MCMC puts at ω &lt; 3. The full run’s network alone had 0.5% there.</p></li>
+</ul>
+</section>
+<section id="the-axion-run-combined-against-an-independent-mcmc">
+<h2>The axion run, combined, against an independent MCMC<a class="headerlink" href="#the-axion-run-combined-against-an-independent-mcmc" title="Link to this heading">#</a></h2>
+<p>On the cluster (19 October 2026) the ω &lt; 3 run’s network 13, after two of its boosts, was
+combined with the full-box run’s network 18, blended over ω in [2.6, 3.0].
+<code class="docutils literal notranslate"><span class="pre">hpc/analysis/report.py</span></code> then sampled the combined network: 85 504 samples at T = 1, cell by cell. The reference is a long MCMC
+of the same likelihood (30 000 samples, true likelihood, no emulator), run independently of CLiENT.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>share of the posterior</p></th>
+<th class="head"><p>combined</p></th>
+<th class="head"><p>independent MCMC</p></th>
+<th class="head"><p>full-box network 18 alone</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ω &lt; 2</p></td>
+<td><p>3.69%</p></td>
+<td><p>3.57%</p></td>
+<td><p>0.25%</p></td>
+</tr>
+<tr class="row-odd"><td><p>ω &lt; 3</p></td>
+<td><p>4.36%</p></td>
+<td><p>4.52%</p></td>
+<td><p>0.53%</p></td>
+</tr>
+<tr class="row-even"><td><p>the corner: ω &lt; 2, A_osc &gt; 0.015</p></td>
+<td><p>2.14%</p></td>
+<td><p>1.76%</p></td>
+<td><p>0.00%</p></td>
+</tr>
+<tr class="row-odd"><td><p>ω 3 to 8 (the full-box network’s range)</p></td>
+<td><p>1.89%</p></td>
+<td><p>2.56%</p></td>
+<td><p>1.96%</p></td>
+</tr>
+<tr class="row-even"><td><p>main peak, ω 30.5 to 33</p></td>
+<td><p>28.6%</p></td>
+<td><p>29.2%</p></td>
+<td><p>30.8%</p></td>
+</tr>
+<tr class="row-odd"><td><p>A_osc, 95% upper limit</p></td>
+<td><p>0.0296</p></td>
+<td><p>0.0309</p></td>
+<td><p>0.0290</p></td>
+</tr>
+<tr class="row-even"><td><p>n_s, mean ± sd</p></td>
+<td><p>0.9714 ± 0.0064</p></td>
+<td><p>0.9712 ± 0.0057</p></td>
+<td><p>0.9708 ± 0.0049</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul class="simple">
+<li><p><strong>The mass below ω = 3 is back.</strong> It agrees with the MCMC to about 0.2 percentage points; the
+full-box network had an eighth of it.</p></li>
+<li><p><strong>n_s widens</strong> as the MCMC’s does, because in the corner it trades off against the
+oscillation.</p></li>
+<li><p><strong>The A_osc limit and the main peak’s share move towards the MCMC.</strong></p></li>
+<li><p><strong>Remaining differences:</strong></p>
+<ul>
+<li><p>The corner is slightly overweighted and n_s slightly too wide. That is with a corner network
+after two boosts.</p></li>
+<li><p>ω 3 to 8 is a little low. That range comes from the full-box network, which this split
+leaves in charge there.</p></li>
+</ul>
+</li>
+<li><p><strong>The cell weights</strong> were 4.1% for the ω &lt; 3 run’s cells and 95.9% for the full-box run’s. The
+corner cell’s bridge efficiency was 0.090, below the 0.1 that marks a cell’s weight “not
+reliable” (Limits, below).</p></li>
+</ul>
+</section>
+<section id="limits">
+<h2>Limits<a class="headerlink" href="#limits" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The user must know where to split.</strong> Nothing in CLiENT detects a mode that every network
+misses. Here an independent chain showed it.</p></li>
+<li><p><strong>Cell weights may be marked “not reliable”.</strong> The bridge’s Gaussian-mixture proposal fits a
+ridge badly: the axion corner cell had an efficiency of 0.063, below the 0.1 that marks a cell.
+Where that happens <code class="docutils literal notranslate"><span class="pre">hpc/analysis/true_check.py</span></code> withholds its corrected moments, by the multi-cell rule
+of <a class="reference internal" href="../AGENTS.html"><span class="std std-doc">AGENTS.md</span></a>. BEST’s evidence is not affected.</p></li>
+<li><p><strong>An outside region can cut a part’s posterior.</strong> A point inside the combined region but outside
+its own part’s region gets that part’s wall. In the trial, about 1% of the long MCMC’s points at
+ω &lt; 3 lay outside the ω &lt; 3 run’s region after its first boost. The region grows with the boosts.</p></li>
+<li><p><strong>No derived parameters.</strong> The derived-parameter emulators are not combined.</p></li>
+<li><p><strong>Tests:</strong> <code class="docutils literal notranslate"><span class="pre">tests/test_combine.py</span></code>.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="boost_real_lcdm.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="create_profiles.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Create profiles from a saved CLiENT iteration</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-runs">The runs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-command">The command</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-combined-network">The combined network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-it-and-the-weights-of-the-parts">Sampling it, and the weights of the parts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-axion-run-combined-against-an-independent-mcmc">The axion run, combined, against an independent MCMC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limits">Limits</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/_generated/library/docs/combine.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

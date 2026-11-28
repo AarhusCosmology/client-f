@@ -1,0 +1,21 @@
+sampling
+========
+
+.. py:module:: sampling
+
+.. autoapi-nested-parse::
+
+   Selected interfaces in sampling.
+
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/sampling/modes/index
+   /api/sampling/region/index
+
+

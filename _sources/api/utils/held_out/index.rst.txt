@@ -1,0 +1,42 @@
+utils.held_out
+==============
+
+.. py:module:: utils.held_out
+
+.. autoapi-nested-parse::
+
+   The error of a network at points it had not seen.
+
+   Every acquisition is evaluated with the true likelihood, and the network that chose the
+   points had not been trained on them. Its predictions there against the true values are a
+   test of that network that costs nothing: at the tempered batch, where the next training
+   set is being built, and at the boost points, where the posterior is.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   utils.held_out.held_out_error
+   utils.held_out.describe
+
+
+Module Contents
+---------------
+
+.. py:function:: held_out_error(predicted, truth, ignore=None)
+
+   Network minus truth at an acquisition: dict(n, bias, sd, rms, largest, left_out).
+
+   ignore : a value that marks a point the likelihood could not evaluate (a launcher may
+       give such points a fixed value so that they are trained on); they are left out of
+       the error and counted in ``left_out``, with every point whose value is not finite.
+
+
+.. py:function:: describe(error)
+
+   One line for the log.
+
+

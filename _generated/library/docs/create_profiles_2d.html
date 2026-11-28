@@ -1,0 +1,991 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>One two-dimensional profile per run &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=2443c677"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_generated/library/docs/create_profiles_2d';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/_generated/library/docs/create_profiles_2d.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Derived parameters" href="derived_parameters.html" />
+    <link rel="prev" title="Create profiles from a saved CLiENT iteration" href="create_profiles.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../AGENTS.html">Contributor guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGES.html">What this version adds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PERFORMANCE.html">CLiENT speed and memory changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UPGRADING.html">Moving from the first CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PROFILES_AND_EVIDENCE.html">Profile likelihoods and Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">CLiENT documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audit_optima.html">Auditing the network’s optima</a></li>
+<li class="toctree-l1"><a class="reference internal" href="augment_training.html">Adding profile points to a run’s training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost.html">Boost: training points from the posterior itself</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_background_region.html">Boost with a quadratic background and a region</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_modes_mixing.html">Boost: deciding the modes by measured mixing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_real_lcdm.html">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combine.html">Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles.html">Create profiles from a saved CLiENT iteration</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">One two-dimensional profile per run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derived_parameters.html">Derived parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evidence.html">Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Exporting a network: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">export</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hybrid_optimisers.html">Hybrid profile optimisers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injection_window.html">Injection: fitting the quadratic to the points near the best</a></li>
+<li class="toctree-l1"><a class="reference internal" href="members.html">Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="posterior_density_boost.html">Density-filtered posterior boosts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_files.html">A run’s files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_recovery.html">Continuing and recovering a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempered_convergence.html">Convergence of the ordinary loop: the error at the tempered batch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/README.html">Real likelihoods on a cluster</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../library.html" class="nav-link">Guides and reports</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">One two-dimensional profile per run</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Maintained source: <a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/docs/create_profiles_2d.md">docs/create_profiles_2d.md</a>. Measurements keep their original settings; consult the <a class="reference internal" href="../../../configuration.html"><span class="std std-doc">current defaults</span></a> before starting a new run.</p>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="one-two-dimensional-profile-per-run">
+<h1>One two-dimensional profile per run<a class="headerlink" href="#one-two-dimensional-profile-per-run" title="Link to this heading">#</a></h1>
+<p>Use the existing command with <strong>one pair</strong>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span>profiles<span class="w"> </span>results/MY_RUN<span class="w"> </span>--iteration<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pair<span class="w"> </span>omega_b,omega_cdm<span class="w"> </span>--points<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sigma-range<span class="w"> </span><span class="m">3</span>.5<span class="w"> </span>--workers<span class="w"> </span><span class="m">4</span><span class="w"> </span>--output<span class="w"> </span>results/MY_PAIR
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">--points</span> <span class="pre">21</span></code> means <strong>21 × 21 = 441</strong> true-profile nodes. It does not mean 21
+points distributed across a plane. Exactly two distinct sampled parameter names
+are required. Derived parameters, such as (H0, σ8), become sampled names in a
+derived-coordinate view
+(<a class="reference internal" href="derived_parameters.html#profiles-in-derived-parameters"><span class="std std-ref">derived_parameters.md</span></a>). Each invocation and output directory contains one pair. Run other
+pairs sequentially in separate directories. The original run remains untouched.</p>
+<p>The same <code class="docutils literal notranslate"><span class="pre">--dry-run</span></code>, <code class="docutils literal notranslate"><span class="pre">--resume</span></code>, native-objective convention, backend identity
+guards, worker ceiling (the host’s CPUs), source fingerprints and call ledger documented in
+<a class="reference internal" href="create_profiles.html"><span class="std std-doc">Create profiles</span></a> apply. Studies use batched hybrid surrogate scans and residual Newton true refinement.
+Independent row chains and their probe batches share <code class="docutils literal notranslate"><span class="pre">workers</span></code> backend processes; each node
+holds both selected coordinates fixed. For more than about 16 workers, see
+<a class="reference internal" href="create_profiles.html#many-workers"><span class="std std-ref">Many workers</span></a> (<code class="docutils literal notranslate"><span class="pre">chain_length</span></code>, default 2). See
+<a class="reference internal" href="hybrid_optimisers.html#joint-2d-profiles"><span class="std std-ref">hybrid optimiser details</span></a> for checkpoint
+semantics. Use <code class="docutils literal notranslate"><span class="pre">caffeinate</span> <span class="pre">-i</span></code>
+on macOS. No external <code class="docutils literal notranslate"><span class="pre">mpirun</span></code> is needed.</p>
+<section id="run-from-a-normal-saved-iteration">
+<h2>Run from a normal saved iteration<a class="headerlink" href="#run-from-a-normal-saved-iteration" title="Link to this heading">#</a></h2>
+<p>The command accepts the same saved CLiENT run as the 1D workflow. Supply
+<code class="docutils literal notranslate"><span class="pre">--iteration</span></code> to choose a checkpoint, or omit it to select the latest matching
+model/data iteration. Parameter names must match the run’s metadata. A previously
+profile-trained model is not required: the default <code class="docutils literal notranslate"><span class="pre">retrain:</span> <span class="pre">false,</span> <span class="pre">added_points:</span> <span class="pre">0</span></code>
+uses the saved network directly and optimizes the true native objective. Optional
+<code class="docutils literal notranslate"><span class="pre">retrain:</span> <span class="pre">true</span></code> enables the augmentation, validation and training stages.
+Original models and data remain untouched.</p>
+<p>Copy and edit <a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/input/profiles_2d_example.yaml">the example YAML</a>, then preview
+the job without likelihood evaluations or creating the output directory:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span>profiles<span class="w"> </span>results/MY_RUN<span class="w"> </span>--iteration<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--config<span class="w"> </span>input/profiles_2d_example.yaml<span class="w"> </span>--output<span class="w"> </span>results/MY_PAIR<span class="w"> </span>--dry-run
+</pre></div>
+</div>
+<p>Start the job by removing <code class="docutils literal notranslate"><span class="pre">--dry-run</span></code>. On macOS, keep the machine awake with:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>caffeinate<span class="w"> </span>-i<span class="w"> </span>python<span class="w"> </span>client.py<span class="w"> </span>profiles<span class="w"> </span>results/MY_RUN<span class="w"> </span>--iteration<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--config<span class="w"> </span>input/profiles_2d_example.yaml<span class="w"> </span>--output<span class="w"> </span>results/MY_PAIR
+</pre></div>
+</div>
+<p>After an interruption, resume the same job using its saved configuration:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span>profiles<span class="w"> </span>results/MY_RUN<span class="w"> </span>--output<span class="w"> </span>results/MY_PAIR<span class="w"> </span>--resume
+</pre></div>
+</div>
+<p>Do not change the pair, ranges, training settings or source checkpoint when
+resuming; start a separate output directory for a different experiment. CLI
+options override YAML values. The manifest preserves the resolved settings.</p>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dimension</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="nt">parameters</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">x_30</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">x_31</span><span class="p p-Indicator">]</span><span class="w">   </span><span class="c1"># exactly one pair</span>
+<span class="nt">iteration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="nt">added_points</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="nt">broad_fraction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.75</span>
+<span class="nt">retrain</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="nt">profile_points</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">21</span><span class="w">        </span><span class="c1"># per axis</span>
+<span class="nt">design_points</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span><span class="w">          </span><span class="c1"># 7 × 7 coarse surrogate design, no true calls</span>
+<span class="nt">validation_global</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">512</span>
+<span class="nt">validation_nodes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9</span><span class="w">      </span><span class="c1"># 9² independent pair locations, 3 points each</span>
+<span class="nt">ranges</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">x_30</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prior</span>
+<span class="w">  </span><span class="nt">x_31</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prior</span>
+<span class="nt">workers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+<span class="nt">total_call_budget</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100000</span>
+</pre></div>
+</div>
+<p>Explicit ranges <code class="docutils literal notranslate"><span class="pre">[low,</span> <span class="pre">high]</span></code> and <code class="docutils literal notranslate"><span class="pre">prior</span></code> have the same meaning as in 1D. Without
+an explicit range, preliminary 1D surrogate profiles set marginal spans, which
+form a rectangular 2D domain. This is a display/design choice, not a joint
+confidence region. Non-two-sided 1D intervals fall back to saved bounds, with
+warnings. Full bounds are appropriate for testing degenerate ridge pairs.</p>
+<p>For any saved network, the default is <code class="docutils literal notranslate"><span class="pre">retrain:</span> <span class="pre">false</span></code> and
+<code class="docutils literal notranslate"><span class="pre">added_points:</span> <span class="pre">0</span></code>. This skips acquisition, validation and training and spends only
+label audits, the true anchor and profile calls. It isolates the profiling
+algorithm from changes to the surrogate. The source run must contain the intended
+checkpoint/data pair; never silently substitute a different saved model.</p>
+<p>The grid is capped at 2,500 nodes and the coarse design at 625 nodes to prevent
+an accidental quadratic workload. Those are safeguards, not performance promises.
+Two-dimensional augmentation needs at least one remaining nuisance parameter;
+a genuinely two-parameter objective can be directly evaluated with retraining off.</p>
+</section>
+<section id="what-is-optimized">
+<h2>What is optimized<a class="headerlink" href="#what-is-optimized" title="Link to this heading">#</a></h2>
+<p>For selected coordinates (q=(q_1,q_2)) and all remaining coordinates (\eta),</p>
+<p>[
+\widetilde\ell_p(q)=\max_{\eta\in B_\eta}\widetilde\ell(q,\eta),\qquad
+\widetilde\eta(q)=\arg\max_{\eta\in B_\eta}\widetilde\ell(q,\eta).
+]</p>
+<p>The three outputs are</p>
+<p>[
+\widetilde\ell_p(q),\qquad
+\ell(q,\widetilde\eta(q)),\qquad
+\ell(q,\widehat\eta(q)),
+]</p>
+<p>where (\widehat\eta) comes from bounded value-only refinement of the true
+native objective, initialized at (\widetilde\eta). This is <strong>not</strong> a product of
+two 1D profiles. Both coordinates remain fixed simultaneously throughout each
+nuisance optimization. For 31 parameters, the search has 29 free coordinates.</p>
+<p>The default surrogate scan uses float64 batched basin hopping and projected BFGS,
+with exchanges between four adjacent grid nodes and the unrestricted anchor.
+Projected gradients and second-order checks use only free nuisance coordinates.
+<code class="docutils literal notranslate"><span class="pre">surrogate_optimizer:</span> <span class="pre">legacy</span></code> selects alternating L-BFGS-B sweeps.
+With either scan, a result that fails its stationarity/stability check stops the
+run before any true call and is kept as <code class="docutils literal notranslate"><span class="pre">failed_surrogate_diagnostics.json</span></code>. A
+global hybrid search can find spurious network maxima far outside the training
+data (network values far above every training label, often at box corners); the
+legacy scan, seeded from the best training rows, stays in the trained region.</p>
+<p>The default true stage measures the residual gradient with finite differences of
+native objective values and learns a curvature correction. Each grid row starts
+near the surrogate anchor and continues in two independent outward chains
+(with <code class="docutils literal notranslate"><span class="pre">chain_length</span></code>, from further seeds along the row as well).
+The default <code class="docutils literal notranslate"><span class="pre">corrected_tol</span></code> is 0.01 native log-objective units; <code class="docutils literal notranslate"><span class="pre">maxfun</span></code> defaults
+to 150 calls per node solve. No analytic gradient of the backend is needed.
+Boundary coordinates are probed inward before being held. Residual transfer
+never crosses rows, so worker scheduling cannot change a node’s prior state.</p>
+<section id="continued-rows-continuation">
+<h3>Continued rows (<code class="docutils literal notranslate"><span class="pre">continuation</span></code>)<a class="headerlink" href="#continued-rows-continuation" title="Link to this heading">#</a></h3>
+<p>Opt-in. Every node above starts from the surrogate scan’s optimum at that
+node; only the residual model travels along a chain. Where the network is far wrong, its optima
+are no start. In the low-omega corner of an axion-monodromy run every network was 120 to 280
+log-units too low (a long independent MCMC and our likelihood agree there to 0.02), and the
+(A_osc, omega) study’s nodes at omega = 1, A_osc &gt;= 0.021, started from them, ran out of calls at
+delta chi2 34 to 356 where that chain has about 12. With</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">chain_length</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w">          </span><span class="c1"># one seed a row</span>
+<span class="nt">continuation</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span><span class="w">                 </span><span class="c1"># a row's seed: its node nearest this value of the second parameter</span>
+<span class="w">  </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">best</span><span class="w">               </span><span class="c1"># from the best training point; scan: from the network's optimum there</span>
+</pre></div>
+</div>
+<p>each row has one seed, at its node nearest <code class="docutils literal notranslate"><span class="pre">seed</span></code> on the second axis, started from the best
+training point with the node’s two coordinates set (<code class="docutils literal notranslate"><span class="pre">best</span></code>, the default) or from the scan’s
+optimum there (<code class="docutils literal notranslate"><span class="pre">scan</span></code>); every other node starts from the true optimum of the node before it in
+its chain, read from that node’s checkpoint. The network still supplies the curvature of the
+Newton steps, and the scan still runs and must converge, but its optima are used at the seeds
+only. Put the seed where the network is right: for an oscillation’s amplitude at zero, where its
+frequency and phase do not matter.</p>
+<p>A chain follows the branch it starts on. Where the objective has several conditional maxima at a
+node (several phases of an oscillation, say), a continued node can end on a lower one than the
+scan’s optimum would have given. In the laptop run below the stand-in truth had the network’s
+phase structure, several maxima at low omega, and two of nine rows followed a lower branch from
+their second node on, ending 1.5 to 6 log-units below the scan’s optima; the other seven matched
+them to 0.3. At small amplitude a real oscillation has one phase maximum (its log L is
+A g(phi) - A^2 f(phi) / 2 with g a first harmonic), which is why the seed goes at zero amplitude.</p>
+<p>The setting, with the best point, enters the true stage’s signature, so a resumed study cannot
+change it; results depend on it and never on <code class="docutils literal notranslate"><span class="pre">workers</span></code>. It needs <code class="docutils literal notranslate"><span class="pre">chain_length:</span> <span class="pre">null</span></code>. Rows run in parallel, a row’s nodes one after another. Tested on analytic
+surfaces (<code class="docutils literal notranslate"><span class="pre">tests/test_surface_continuation.py</span></code>) and in a laptop run of the corner study through
+the workflow with a stand-in truth (network 18 plus a bump in the corner: 81 nodes, 4007 calls, 74
+converged and 7 stalled); not yet measured on a real likelihood.</p>
+</section>
+<section id="narrower-ranges-for-parameters-off-the-grid-search-ranges">
+<h3>Narrower ranges for parameters off the grid (<code class="docutils literal notranslate"><span class="pre">search_ranges</span></code>)<a class="headerlink" href="#narrower-ranges-for-parameters-off-the-grid-search-ranges" title="Link to this heading">#</a></h3>
+<p>Opt-in, 7 November 2026. The parameters that are not on the grid are searched over the network’s
+whole box. Where one of them has several separated maxima at fixed grid coordinates, the scan can
+miss the highest: the hybrid scan’s walkers all start at the best point of the box and step a few
+widths of the maximum there, and the older scan continues each node from its neighbours. In the
+PDP+ (A_osc, phi) study for omega &lt;= 200, with omega free over [1, 200], the nodes at
+A_osc &gt;= 0.04 ended at omega = 100.7 or at the prior’s end omega = 1, up to 23 lower in chi^2
+than the (A_osc, omega) plane’s nodes at omega = 179 and 196 (true values; the network has those
+maxima higher too). With</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">search_ranges</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">omega</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">176.5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">185.5</span><span class="p p-Indicator">]</span><span class="w">     </span><span class="c1"># a parameter not on the grid: [low, high] inside the network's box</span>
+</pre></div>
+</div>
+<p>the scan and the true stage search omega only in that range, and the scan starts from the
+training points inside it. A node is then the profile over that range, not over the box. Studies
+with the same grid and different ranges are joined node by node by taking the largest value: the
+result is the profile over the union of the ranges wherever each study found its range’s
+maximum, and a lower bound on the profile over the box everywhere. Choose the ranges from the
+other planes’ true optima, and check the joined surface against them.</p>
+<p>The ranges enter the manifest and the true stage’s signature (the bounds), so a resumed study
+cannot change them. The setting needs <code class="docutils literal notranslate"><span class="pre">dimension:</span> <span class="pre">2</span></code>,
+<code class="docutils literal notranslate"><span class="pre">retrain:</span> <span class="pre">false</span></code> and <code class="docutils literal notranslate"><span class="pre">ranges</span></code> for both grid parameters. A range outside the network’s box is
+refused before anything is computed, and one that holds no training point before the scan (after
+the audit’s few calls). Without the key the box, the
+starting points and the signature are as before. Tested on an analytic two-mode surface with both
+scans (<code class="docutils literal notranslate"><span class="pre">tests/test_profile_search_ranges.py</span></code>).</p>
+<p>Every true node is saved separately with its successor state; restart imports
+completed journal values and resumes unfinished nodes. The node checkpoints are tied to
+the surrogate grid’s optima, so a resumed study with the hybrid scan reads the grid it finished
+(<code class="docutils literal notranslate"><span class="pre">surrogate_surface.json</span></code>) and does not scan again (done again, the scan would have to come out
+identical bit for bit, or the study would be refused). Direct and optimised
+surfaces share one unrestricted true anchor; the surrogate has its own anchor.
+Stop flags and stable values do not certify a global optimum or exploration of
+all disconnected branches.</p>
+</section>
+</section>
+<section id="pair-conditioned-augmentation-and-training">
+<h2>Pair-conditioned augmentation and training<a class="headerlink" href="#pair-conditioned-augmentation-and-training" title="Link to this heading">#</a></h2>
+<p>A coarse grid supplies nuisance anchors over the requested rectangle. Broad-pool
+proposals choose its nodes uniformly and jitter both fixed coordinates within
+half-cell neighborhoods. Targeted-pool proposals use weights</p>
+<p>[
+w(q)=1+3\exp[-((\Delta\widetilde\chi^2(q)-2.30)/1.5)^2]
++3\exp[-((\Delta\widetilde\chi^2(q)-6.18)/2)^2].
+]</p>
+<p>The positive floor preserves support away from contour regions. After jitter,
+both pair coordinates are fixed again and the nuisance anchor is reoptimized.
+A regularized quadratic fit to the training data supplies the conditional
+nuisance precision (P_{\eta\eta}), with the pair coordinates removed together.
+In standardized nuisance coordinates, broad displacements follow
+(\delta\eta=Lz), where (LL^T=P_{\eta\eta}^{-1}) and
+(z\sim N(0,T I)), with (T\in{0.25,0.5,1}).
+Near-ridge displacements use (|z|^2=2d),
+(d\in{0.05,0.2,0.5,1}). Rejection enforces the original box; a recorded
+truncated-Gaussian Gibbs fallback handles inefficient rejection. Proposed
+coordinates are quantized before labels are evaluated, and collisions rejected.</p>
+<p>The 75/25 setting is <strong>pool membership</strong>, not a literal narrow/wide draw fraction:
+the targeted pool also includes broad nuisance displacements. Exactly N new rows
+are evaluated and added; analytic benchmark information never guides acquisition.
+These are practical extensions of the 1D defaults, not an assertion that 2,000
+points are optimal or sufficient for every pair.</p>
+<p>Independent validation uses random pair locations from the coverage design, with
+one optimized center and two nuisance displacements at each location, plus global
+held-out points. Its cost is</p>
+<p>[
+N_{\rm val}=N_{\rm global}+3n_{\rm val}^2,
+]</p>
+<p>or 755 with defaults. Profile contrasts compare pair-center objective differences;
+nuisance contrasts compare each displacement with its center. Validation rows are
+excluded from training after coordinate quantization. Coordinates are checkpointed
+before evaluation for exact reuse after an interrupted batch.</p>
+<p>The existing frozen-scaler, two-phase cosine schedule and pooled contrast selector
+are reused, including epoch-zero eligibility and a secondary pointwise checkpoint.
+No Gaussian/flat-specific loss or selector is introduced.</p>
+<p>The configurable defaults are <code class="docutils literal notranslate"><span class="pre">first_epochs:</span> <span class="pre">400</span></code>, <code class="docutils literal notranslate"><span class="pre">polish_epochs:</span> <span class="pre">1600</span></code>,
+<code class="docutils literal notranslate"><span class="pre">initial_lr:</span> <span class="pre">1.0e-5</span></code>, <code class="docutils literal notranslate"><span class="pre">transition_lr:</span> <span class="pre">1.0e-6</span></code>, <code class="docutils literal notranslate"><span class="pre">final_lr:</span> <span class="pre">1.0e-7</span></code> and
+<code class="docutils literal notranslate"><span class="pre">batch_size:</span> <span class="pre">128</span></code>. Together these request 2,000 additional epochs from the selected
+source iteration, with the first cosine phase ending at the transition rate and
+the second ending at the final rate. The selected model need not be the last
+epoch. These controls appear explicitly in the example YAML.</p>
+</section>
+<section id="cost-and-interpretation">
+<h2>Cost and interpretation<a class="headerlink" href="#cost-and-interpretation" title="Link to this heading">#</a></h2>
+<p>For an n×n grid, a planning ceiling for grid solves is roughly
+(n^2,\mathrm{maxfun}), plus direct evaluations, audits and unrestricted-anchor
+solves. Cache hits can reduce actual calls. The lifetime <code class="docutils literal notranslate"><span class="pre">total_call_budget</span></code> is
+the hard accounting limit; inspect <code class="docutils literal notranslate"><span class="pre">counts.json</span></code> by stage rather than interpreting
+this ceiling as an expected cost. Count old training and new profiling separately.
+A solver budget flag remains visible even when a finite incumbent is saved.</p>
+<p>The figures use <code class="docutils literal notranslate"><span class="pre">chi2.ppf(2*norm.cdf([1,2])-1,</span> <span class="pre">df=2)</span></code>: levels <strong>2.295749</strong> and
+<strong>6.180074</strong> enclose 68.27% and 95.45% for a 2D Gaussian. These are the conventional two-parameter
+likelihood-ratio reference levels. They are not 1D levels 1 and 4. They do <strong>not</strong>
+assert frequentist coverage for boundary or non-identifiable ridge models.
+The heatmap retains linear contours on the raw grid. Separate <code class="docutils literal notranslate"><span class="pre">isocontours.png</span></code>
+and <code class="docutils literal notranslate"><span class="pre">.pdf</span></code> use a common tensor cubic spline (quadratic for a 3-node axis), with
+no smoothing and a recorded check for dips below the common anchor. The spline is
+fitted to Δχ² clipped at 25, so that one very deep node cannot ring through the
+whole grid; both levels lie far below the clip. These are
+interpolated lines, not additional evaluated points. Cubic interpolation can
+reduce grid error on smooth surfaces, but can overshoot on rough surfaces; compare
+both renderings and refine the grid when necessary. No extra true calls
+refine contours. A curved thin ridge may need a finer grid even
+when every computed node is accurate. Use nodal errors and resolution studies
+before interpreting a visually smooth interpolated contour.</p>
+</section>
+<section id="files-and-tests">
+<h2>Files and tests<a class="headerlink" href="#files-and-tests" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">surrogate_surface.json</span></code>: axes, full nuisance optima, values, gradients and pass diagnostics.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">true_surface.json</span></code>: direct and optimized raw true values, common anchor and all flags.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">surface.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">surface.png</span></code>, <code class="docutils literal notranslate"><span class="pre">surface.pdf</span></code>: all three surfaces on identical axes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">isocontours.png</span></code>, <code class="docutils literal notranslate"><span class="pre">isocontours.pdf</span></code>: separate joint 1σ/2σ spline contour comparisons.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">surface_diagnostics.json</span></code>: clipping, anchor and solver warnings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">failed_surrogate_diagnostics.json</span></code>: an unconverged surrogate scan, written instead of <code class="docutils literal notranslate"><span class="pre">surrogate_surface.json</span></code> when the run stops.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">coarse_surface.json</span></code>, <code class="docutils literal notranslate"><span class="pre">acquisition_design.json</span></code>, <code class="docutils literal notranslate"><span class="pre">validation_coordinates.npz</span></code>: training provenance when retraining.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">true_surface/nodes.jsonl</span></code>: reusable completed node computations, a line each (<code class="docutils literal notranslate"><span class="pre">true_surface/node_*.json</span></code> in a
+study begun before 25 November 2026; <code class="docutils literal notranslate"><span class="pre">profiles.nodes.read_nodes</span></code> reads both).</p></li>
+<li><p>Existing manifest, training histories, cost journals and completion markers remain available.</p></li>
+</ul>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>unittest<span class="w"> </span>discover<span class="w"> </span>-s<span class="w"> </span>tests<span class="w"> </span>-p<span class="w"> </span><span class="s1">'test_profiles_2d.py'</span><span class="w"> </span>-v
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">tests/test_surface_continuation.py</span></code> covers <code class="docutils literal notranslate"><span class="pre">continuation</span></code>: each node’s start, both seed starts,
+serial = parallel, resume and the signature, and the settings.
+<code class="docutils literal notranslate"><span class="pre">tests/test_profile_search_ranges.py</span></code> covers <code class="docutils literal notranslate"><span class="pre">search_ranges</span></code>: the surface over a narrower range
+with both scans, the whole box without the key, resume and its refusals, and the settings.</p>
+<p>Tests include a correlated conditional optimum with two simultaneous constraints,
+a saved-network-to-augmented-surface integration, exact requested data size,
+validation separation, fixed-coordinate checks, and zero-call resume.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="create_profiles.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Create profiles from a saved CLiENT iteration</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="derived_parameters.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Derived parameters</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-from-a-normal-saved-iteration">Run from a normal saved iteration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-optimized">What is optimized</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#continued-rows-continuation">Continued rows (<code class="docutils literal notranslate"><span class="pre">continuation</span></code>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#narrower-ranges-for-parameters-off-the-grid-search-ranges">Narrower ranges for parameters off the grid (<code class="docutils literal notranslate"><span class="pre">search_ranges</span></code>)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pair-conditioned-augmentation-and-training">Pair-conditioned augmentation and training</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cost-and-interpretation">Cost and interpretation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#files-and-tests">Files and tests</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/_generated/library/docs/create_profiles_2d.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

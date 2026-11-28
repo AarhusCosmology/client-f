@@ -1,0 +1,321 @@
+profiles.residual_newton
+========================
+
+.. py:module:: profiles.residual_newton
+
+.. autoapi-nested-parse::
+
+   Surrogate-corrected true-likelihood profile refinement, residual Newton method.
+
+   The true stage of every profile study.
+
+   Around an incumbent u_b (box coordinates, d = u - u_b) the truth is modelled as
+
+       t(u) ~ s(u) + r(u_b) + g . d + 0.5 d^T Q d,
+
+   with s the network (all its nonlinearity kept), g the gradient of the residual r = t - s,
+   measured by finite differences, and Q a correction to the network's curvature, learned and
+   carried along the profile. Coordinates are whitened by the network's local curvature
+   (sigma capped at ``max_step`` box half-widths, as profiles.hybrid.curvature_geometry).
+
+   Per node (profiled coordinate fixed):
+     0. Start at the surrogate optimum; its true value is the workflow's direct call.
+     1. Transfer: predict g from the previous nodes of the chain (the residual gradient at an
+        optimum of t is exactly -grad s there; extrapolated linearly along the profile) and
+        spend one call at the model's maximum if it predicts more than ``transfer_min``. A
+        transfer that fails pauses transfers for two nodes.
+     2. Gradient round, one concurrent batch: forward differences of t - s, ``step`` sigmas along
+        the network's curvature eigenvectors (capped at ``fd_max_box``), inward along the axis
+        for every free coordinate on a bound (even if the predicted gradient is outward), and
+        central differences of ``flat_step`` sigmas along the ``flat_central`` flattest
+        directions, which also measure the curvature there (written into Q). g is the
+        whitened least-squares fit, ridged towards the prediction.
+     3. Trust-region step on the model (radius starts at ``trust0`` sigmas; the network is least
+        reliable along its flattest direction). One call. Q is corrected along the step from
+        the actual/predicted mismatch, and by a PSB secant update when the next gradient round
+        is ``secant_min`` sigmas or more away. A good step to the edge of the region steps again
+        with the gradient carried by Q; a failed one shrinks the region, and a failure within
+        ``escalate`` sigmas mirrors every probe (central differences, full diagonal curvature).
+     4. Stop when a freshly measured gradient predicts at most ``tol``, or after a good step when
+        the curvature error bound 0.5 (L * distance since the gradient round)^2 is below ``tol``
+        (L: the model's curvature error, floored at ``curvature``, learned from secant and step
+        mismatches beyond the noise, carried along the chain with factor ``L_memory``).
+
+   Each profile starts at its node nearest the surrogate's best fit, with no prior, and runs
+   two chains outward from it; a node learns only from its predecessors in its own chain, so
+   results do not depend on timing or on ``workers``. The global best fit is solved last, from
+   the best node with every coordinate free. On resume, finished nodes are loaded from their
+   checkpoints (each holds the state its successor needs) and an interrupted node is re-run;
+   its journaled calls come back from the ledger's cache, so no call is repeated.
+
+   The reported node value is always an evaluated true likelihood (a lower bound on the
+   profile). Stopping is model-based and does not certify accuracy.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   profiles.residual_newton.FREE_STEPS_MAX
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   profiles.residual_newton.NewtonConfig
+   profiles.residual_newton.QuadCorrected
+   profiles.residual_newton.Frame
+   profiles.residual_newton.NewtonRefiner
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   profiles.residual_newton.chain_plan
+   profiles.residual_newton.refused_start
+   profiles.residual_newton.run_seeded_chains
+   profiles.residual_newton.refine_profiles_newton
+
+
+Module Contents
+---------------
+
+.. py:data:: FREE_STEPS_MAX
+   :value: 50
+
+
+.. py:class:: NewtonConfig
+
+   .. py:attribute:: tol
+      :type:  float
+      :value: 0.01
+
+
+
+   .. py:attribute:: step
+      :type:  float
+      :value: 0.25
+
+
+
+   .. py:attribute:: trust0
+      :type:  float
+      :value: 0.5
+
+
+
+   .. py:attribute:: trust_max
+      :type:  float
+      :value: 8.0
+
+
+
+   .. py:attribute:: trust_min
+      :type:  float
+      :value: 0.05
+
+
+
+   .. py:attribute:: curvature
+      :type:  float
+      :value: 0.2
+
+
+
+   .. py:attribute:: noise
+      :type:  float
+      :value: 0.0025
+
+
+
+   .. py:attribute:: transfer_min
+      :type:  float
+      :value: 0.015
+
+
+
+   .. py:attribute:: ridge
+      :type:  float
+      :value: 0.0001
+
+
+
+   .. py:attribute:: secant
+      :type:  bool
+      :value: True
+
+
+
+   .. py:attribute:: q_max
+      :type:  float
+      :value: 0.9
+
+
+
+   .. py:attribute:: q_stiff
+      :type:  float
+      :value: 50.0
+
+
+
+   .. py:attribute:: fd_max_box
+      :type:  float
+      :value: 0.1
+
+
+
+   .. py:attribute:: flat_step
+      :type:  float
+      :value: 0.5
+
+
+
+   .. py:attribute:: flat_max_box
+      :type:  float
+      :value: 0.25
+
+
+
+   .. py:attribute:: secant_min
+      :type:  float
+      :value: 0.5
+
+
+
+   .. py:attribute:: escalate
+      :type:  float
+      :value: 0.5
+
+
+
+   .. py:attribute:: flat_central
+      :type:  int
+      :value: 2
+
+
+
+   .. py:attribute:: max_model_steps
+      :type:  int
+      :value: 5
+
+
+
+   .. py:attribute:: L_memory
+      :type:  float
+      :value: 0.8
+
+
+
+   .. py:attribute:: extrapolate
+      :type:  bool
+      :value: True
+
+
+
+   .. py:attribute:: max_step
+      :type:  float
+      :value: 0.5
+
+
+
+   .. py:attribute:: maxcalls
+      :type:  int
+      :value: 150
+
+
+
+   .. py:attribute:: max_rounds
+      :type:  int
+      :value: 12
+
+
+
+.. py:class:: QuadCorrected(sb, g, Q, u0)
+
+   s(u) + g . d + 0.5 d^T Q d, d = u - u0, with BatchedSurrogate's API.
+
+
+   .. py:method:: value(U)
+
+
+   .. py:method:: value_grad(U)
+
+
+   .. py:method:: value_grad_hess(U)
+
+
+.. py:class:: Frame(sb, u, P, floor)
+
+   Local whitening on the probed coordinates P at one point: z = K d_P, d_P = T z.
+
+
+   .. py:attribute:: lam
+
+
+   .. py:attribute:: T
+
+
+   .. py:attribute:: K
+
+
+   .. py:method:: norm(d)
+
+
+.. py:class:: NewtonRefiner(sb, ledger, config=None, log=print)
+
+   .. py:attribute:: floor
+      :value: 4.0
+
+
+
+   .. py:method:: call(u, stage)
+
+
+   .. py:method:: call_many(us, stage)
+
+
+   .. py:method:: solve(u_start, fixed_index=None, fixed_value=None, stage='node', prior=None, t_start=None)
+
+      Return (native value, x, diagnostics, successor state).
+
+      fixed_index/value accept scalars or matching arrays. Multi-fixed chains
+      vary only the last coordinate; preceding fixed values must remain constant.
+
+
+
+.. py:function:: chain_plan(order, chain_length)
+
+   Split the nodes on one side of a seed, nearest first, into the seed's own chain and
+   further (seed, chain) pieces: at most ``chain_length`` nodes are solved in sequence from
+   one cold start. None keeps a single chain; 0 makes every node a seed.
+
+
+.. py:function:: refused_start(x_start, prior, **row)
+
+   The row of a node whose start the likelihood refuses (a prior edge, a Boltzmann failure):
+   no value, and the state it was given goes on along its chain, as from a singular node. Its
+   checkpoint keeps it on a resume, since the objective is deterministic.
+
+
+.. py:function:: run_seeded_chains(pool, seeds, chains_of, run)
+
+   Solve every seed at once, then each seed's chains as soon as that seed is done (not
+   when every seed is). ``run(k, order, state)`` returns (k, {j: row}); a chain starts from
+   its seed's final state. Returns {(k, j): row}. Which state a node starts from is fixed
+   by the plan, so the rows do not depend on completion order.
+
+
+.. py:function:: refine_profiles_newton(model, source, bounds, ledger, out, config=None, log=print, direct=True, workers=1, surrogate=None, nodes=None, chain_length=None)
+
+   The true stage of a 1D study: stage names ``corrected/{direct,node}/NAME/J``. ``nodes`` (grid
+   indices) restricts the refinement to a subset; the others are reported as null.
+   ``chain_length`` caps how many nodes are solved in sequence from one cold start (None:
+   two chains per profile, outward from its seed; see chain_plan).
+
+

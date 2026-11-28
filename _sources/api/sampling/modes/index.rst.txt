@@ -1,0 +1,230 @@
+sampling.modes
+==============
+
+.. py:module:: sampling.modes
+
+.. autoapi-nested-parse::
+
+   The modes of a posterior that a T = 1 chain cannot travel between, and T = 1 samples and the
+   evidence of each. For a surrogate network: no true calls.
+
+   A tempered chain (the loop's acquisition chain) visits every mode; its split between them is
+   not a good estimate of their weights at T = 1, and a T = 1 chain stays where it starts. So:
+
+     1. an ensemble started on the tempered chain is cooled to T = 1, and every walker then
+        climbs to its local maximum (projected gradient ascent, as the audit's search);
+     2. two maxima are in the same mode when the straight path between them never dips more than
+        ``barrier`` log-units below the lower of the two; the connected groups are the modes, and a
+        walker belongs to the mode of its maximum (groups holding less than ``min_share`` of the
+        walkers are dropped and reported). The maxima, not the walkers, are compared: a walker of
+        a T = 1 chain sits some ndim/2 log-units under its peak, which hides a barrier of that
+        size, and one stranded on the barrier would join the two sides;
+     3. each mode gets its own T = 1 chain, started on its walkers and kept in its region (the
+        region of a mode: where its Gaussian, fitted to its T = 1 walkers, is the nearest);
+     4. the evidence of each mode, the integral of exp(log-likelihood) over its region, by bridge
+        sampling between the mode's chain and a Gaussian mixture fitted to the walkers of one half
+        of it, bridged with the other half. The weights of the modes are the ratios of the
+        evidences.
+
+   With one mode, steps 1 and 3 are a T = 1 chain and step 4 its evidence.
+
+   Step 2 by measured mixing (``mixing``, opt-in). A fixed ``barrier`` stands in for "a T = 1 chain
+   cannot travel between them", and how high a barrier a chain crosses depends on the dimension:
+   measured with this module's own chain on two equal Gaussians, 512 walkers and 10 000 steps
+   still mix across 6 log-units with 16 parameters and no longer across 3 to 4 with 58. With
+   ``mixing`` set, the maxima are first grouped with a low ``candidate_barrier`` (dips under it are
+   the network's own wiggles) into candidate basins, a free T = 1 chain of the same length as the
+   modes' chains is run over all of them, and two basins are one mode when that chain forgets
+   which of the two it started in: with a = P(in A at t + lag | in A at t) and b = P(in A at
+   t + lag | in B at t), both among the walkers found in A or B at t + lag, the memory a - b is 1
+   for basins that never exchange a walker and 0 for basins that exchange them freely. It is
+   measured at half the chain's length and squared (what is left after the whole chain); basins
+   whose memory is at most ``mixing`` are merged. The chain, the walkers and the number of steps
+   are the ones the modes will be sampled with, so the answer is about them. Where a walker is, is
+   decided by letting it climb: it is in the basin of the maximum it reaches.
+
+
+
+Exceptions
+----------
+
+.. autoapisummary::
+
+   sampling.modes.NoModeFound
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   sampling.modes.Regions
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   sampling.modes.split_evenly
+   sampling.modes.as_numpy
+   sampling.modes.climb
+   sampling.modes.find_modes
+   sampling.modes.find_basins
+   sampling.modes.mixing_memory
+   sampling.modes.assign_basins
+   sampling.modes.bridge_log_evidence
+   sampling.modes.mode_log_evidence
+   sampling.modes.modes_by_mixing
+   sampling.modes.cooled_peaks
+   sampling.modes.posterior_modes
+
+
+Module Contents
+---------------
+
+.. py:exception:: NoModeFound
+
+
+
+   No group of cooled walkers reaches min_share: the network has no mode to draw posterior
+   samples from. Seen on a network far from converged, whose surface is so rough that nearly
+   every walker climbs to a maximum of its own.
+
+
+.. py:function:: split_evenly(n, parts)
+
+   n as ``parts`` whole numbers that differ by at most one, the larger ones first.
+
+
+.. py:function:: as_numpy(predict)
+
+   A TensorFlow log-likelihood (n, ndim) -> (n,) as a NumPy function, evaluated in batches.
+
+
+.. py:function:: climb(predict, points, lower, upper, steps=600, rates=(0.01, 0.0001))
+
+   The local maximum each point climbs to: Adam in box units, projected onto the box, the
+   step shrinking from rates[0] to rates[1]; the highest point visited is returned.
+
+
+.. py:function:: find_modes(values, points, barrier, min_share=0.02, interior=8)
+
+   Labels 0, 1, ... of ``points`` (local maxima), by size; -1 for points of groups below
+   min_share. Returns (labels, number of modes).
+
+
+.. py:function:: find_basins(values, points, barrier, interior=8)
+
+   The candidate basins of the mixing test: ``points`` (local maxima) grouped as in find_modes
+   with a low ``barrier``, but nothing is dropped. A stalled climb goes to the basin of the
+   highest point it is joined to (it lies on that hill; left out of the grouping, it cannot
+   join two hills). Returns (labels 0, 1, ... by size, number of basins, dips): dips[a, b]
+   is the smallest dip found on a straight path between a maximum of a and one of b.
+
+
+.. py:function:: mixing_memory(labels, lag, basins=None)
+
+   How much a chain remembers, ``lag`` stored steps later, which of two basins it was in.
+
+   labels: (stored steps, walkers) basin of every walker at every stored step (-1: none).
+   Returns (memory, counts): counts[a, b] is the number of (step, walker) pairs found in a
+   and, ``lag`` steps later, in b; memory[a, b] = counts[a, a] / (counts[a, a] + counts[a, b])
+   - counts[b, a] / (counts[b, a] + counts[b, b]), 1 when no walker changes between a and b,
+   0 when where a walker is does not depend on where it was (nan when one of the two was
+   never occupied).
+
+
+.. py:function:: assign_basins(predict, values, points, peaks, basin, lower, upper, rng, representatives=48, interior=8, chunk=1024)
+
+   The basin each of ``points`` lies in: every point climbs to its maximum, and takes the
+   basin (``basin``, >= 0, of the known maxima ``peaks``) to one of whose maxima the straight path
+   dips least. Up to ``representatives`` maxima stand for a basin, the highest among them, so
+   that a long ridge is not judged from its summit alone. Returns (labels, dips): the dip to
+   the chosen basin, large when the point is on a hill none of the known maxima is on.
+
+
+.. py:class:: Regions(clouds, lower, upper, groups=None)
+
+   The box divided among the modes: a point belongs to the mode whose Gaussian (mean and
+   covariance of its T = 1 walkers, in box units) is nearest in Mahalanobis distance plus
+   log-determinant. Between well separated modes the boundary runs through the barrier, where
+   there is no posterior to speak of, so its exact course does not matter.
+
+
+   .. py:attribute:: groups
+
+
+   .. py:method:: labels(points)
+
+
+   .. py:method:: labels_tf(x)
+
+
+.. py:function:: bridge_log_evidence(x, f, values, inside, lower, upper, components, rng, n=20000, widen=1.3, repeats=3, walkers=None)
+
+   log of the integral of exp(values) over the region ``inside``, from samples x of
+   exp(values) there (f = values(x)): bridge sampling (Meng and Wong) against a Gaussian
+   mixture fitted to one half of the samples, widened, and cut to the region, with n samples
+   of the other half. Returns the mean over ``repeats`` halvings, their spread, and the
+   efficiency of the mixture as an importance proposal (1: it is the posterior; near 0: do
+   not trust the number).
+
+   The mixture must not have seen the samples it is bridged with: a mixture fitted to points
+   lies higher at them than at other draws of the posterior, and the estimate comes out low.
+   For x from an ensemble chain, pass ``walkers``, its number of walkers, with the rows as
+   chain().reshape(-1, ndim) gives them (stored step, then walker): the mixture is fitted to
+   the walkers of one random half and bridged with the others, a new halving at every repeat
+   (one walker: the first and the second half of its steps). Random rows, the halves until
+   21 November 2026, share their points where the autocorrelation time spans many stored
+   rows: on two 44-parameter Euclid networks (512 walkers, 10 000 steps, an autocorrelation
+   time of 675 steps) they gave ln Z 0.27 and 0.26 below halves by walker, halves by time and
+   importance sampling (docs/boost.md, "Weights"). Without ``walkers`` the rows are taken to be
+   independent draws and halved at random, as before.
+
+
+.. py:function:: mode_log_evidence(k, *arguments, **options)
+
+   bridge_log_evidence of mode k, or a stop before any true call: all the modes' weights are
+   fractions of one sum, so one that is not finite leaves none of them known.
+
+
+.. py:function:: modes_by_mixing(predict, values, peaks, at_one, lower, upper, *, mixing, candidate_barrier, barrier, min_share, walkers, steps, rng, log=print)
+
+   Step 2 by measured mixing (see the module text). Returns (labels of the walkers, number
+   of modes, clouds of the candidate basins, mode of every basin, report).
+
+
+.. py:function:: cooled_peaks(predict, lower, upper, tempered, temperature, walkers=512, cool_steps=2000, seed=None)
+
+   Where the walkers of a chain at ``temperature`` end when cooled to T = 1 and climbed, and
+   the cooled walkers themselves: (summits, walkers), each (walkers, ndim). The first steps of
+   posterior_modes, walker for walker with the same seed, without its grouping, sampling and
+   evidences: for the audit's chain search (training/audit.py, audit_optima's ``peaks``), which
+   asks only whether the chain reaches a maximum that the audit's own climbs do not.
+
+
+.. py:function:: posterior_modes(predict, lower, upper, tempered, temperature, *, barrier=4.0, min_share=0.02, walkers=512, cool_steps=2000, steps=10000, components=6, seed=None, log=print, mixing=None, candidate_barrier=1.0, mode_depth=None)
+
+   The modes of exp(predict) inside the box, with T = 1 samples and the evidence of each.
+
+   predict: TensorFlow function (n, ndim) -> (n,). tempered: positions from a chain at
+   ``temperature`` (at least ``walkers`` of them are used). Returns (modes, info): modes is a list,
+   heaviest first, of dicts with x (samples, float32), f (predict at them), log_evidence,
+   log_evidence_spread, efficiency, weight, walkers; info has the temperatures, the number of
+   walkers dropped and the shares of dropped groups.
+
+   mixing: None (the default) groups the maxima with the fixed ``barrier``. A number in (0, 1)
+   decides instead by a free T = 1 chain between candidate basins (``candidate_barrier``): two
+   basins are one mode when the memory left after ``steps`` steps is at most ``mixing``; info then
+   has the test under "mixing".
+
+   mode_depth: None (the default) keeps every mode. A number of log-units: a mode whose highest
+   maximum lies more than that below the highest mode's is left out before its chain is run,
+   and counted in info["deep_modes"] (acquisition.boost.mode_depth). In the axion run the first
+   boost of a branch, searched over the whole box, found a "mode" 1030 below the posterior's,
+   in a corner where the likelihood refuses every point, and spent half the boost there.
+   "auto": temperature * ndim / 2, the depth of the tempered chain's own reach (84 for the
+   axion run's 24 parameters at T = 7).
+
+

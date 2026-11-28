@@ -1,0 +1,252 @@
+# Configuration fields
+
+Generated from the source at build time. `required` means the parser requires a value. `None` corresponds to YAML `null`; absence of an optional section disables it. Values below are defaults when the field is omitted, not recommended budgets for every problem. See [configuration conventions](../../configuration.md) for activation and validation rules.
+
+## likelihood
+
+[Source: LikelihoodConfig](https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/config/config.py)
+
+| Setting | Type | Omitted-field default | Inline source note |
+|---|---|---|---|
+| `wrapper` | `str` | `required` |  |
+| `input` | `str` | `required` |  |
+| `identity_files` | `list[str] \| None` | `None` | extra objective code/data files to hash on resume |
+
+## prior
+
+[Source: PriorConfig](https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/config/config.py)
+
+| Setting | Type | Omitted-field default | Inline source note |
+|---|---|---|---|
+| `n_samples` | `int` | `required` |  |
+| `sampling_strategy` | `str` | `required` |  |
+| `n_sigma` | `float \| None` | `None` |  |
+| `n_inject` | `int` | `0` |  |
+
+## acquisition.audit
+
+[Source: AuditConfig](https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/config/config.py)
+
+| Setting | Type | Omitted-field default | Inline source note |
+|---|---|---|---|
+| `tau` | `float` | `10.0` | a maximum is flagged when predicted this far above the best true value |
+| `fraction` | `float` | `0.1` | true evaluations per iteration: at most this fraction of the batch (n_append) |
+| `rounds` | `int` | `5` | at most this many rounds per iteration |
+| `k` | `int` | `0` | true evaluations per round (the highest flagged maxima); 0: fraction * n_append / rounds |
+| `epochs` | `int` | `30` | fine-tune after each round |
+| `learning_rate` | `float` | `1e-05` |  |
+| `starts` | `int` | `0` | uniform starts of the search, and as many random vertices; 0: 128 per parameter |
+| `steps` | `int` | `400` | ascent steps of the search |
+| `fit_window` | `float` | `100.0` | the fit check uses points within this of the best true value |
+| `start_iteration` | `int` | `0` | first iteration whose network is audited |
+| `failure_policy` | `str` | `'skip'` | or "penalize": bounded probes then a training-only constraint |
+| `failure_probes` | `int` | `3` | strictly fewer than five, no recursive retries |
+| `failure_radius` | `float` | `0.001` | per-coordinate prior-box fraction |
+| `failure_penalty` | `float` | `1000.0` | log-units below the best genuine value |
+| `failure_training_fraction` | `float` | `0.1` | minimum synthetic rows / genuine training rows |
+| `chain` | `bool` | `False` | in a boost iteration, also look where the cooled walkers of the tempered chain climb to |
+| `posterior` | `int` | `0` |  |
+| `posterior_tolerance` | `float` | `2.0` | log-units, the network's mean excess over the truth there |
+| `posterior_rounds` | `int` | `2` |  |
+
+## acquisition.boost
+
+[Source: BoostConfig](https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/config/config.py)
+
+| Setting | Type | Omitted-field default | Inline source note |
+|---|---|---|---|
+| `n` | `int` | `required` | true evaluations per boost, shared equally among the modes found |
+| `start_iteration` | `int` | `required` |  |
+| `barrier` | `float` | `4.0` | log-units: maxima joined by a straight path that dips less are one mode |
+| `min_share` | `float` | `0.02` | a mode needs this share of the cooled walkers |
+| `walkers` | `int` | `512` | ensemble for cooling and for the chain of each mode |
+| `cool_steps` | `int` | `2000` | steps at each temperature on the way down |
+| `steps` | `int` | `10000` | steps of each mode's T = 1 chain (a fifth more as burn-in) |
+| `components` | `int` | `6` | Gaussians in the mixture that each mode's evidence is bridged to |
+| `density_filter` | `bool` | `False` | T=1 density-deficit selection |
+| `pool_factor` | `int` | `20` | disjoint candidate pool for filtered boosts |
+| `background` | `str \| None` | `None` |  |
+| `background_fit` | `str` | `'crude'` |  |
+| `background_window` | `float` | `16.0` |  |
+| `region` | `float \| None` | `None` |  |
+| `region_quantile` | `float \| None` | `None` |  |
+| `train_domain` | `float \| None` | `None` |  |
+| `mixing` | `float \| None` | `None` |  |
+| `candidate_barrier` | `float` | `1.0` | log-units; dips under it are the network's own wiggles |
+| `mode_depth` | `float \| str \| None` | `None` |  |
+| `balance_floor` | `float \| None` | `None` |  |
+| `boosts` | `int \| None` | `None` |  |
+
+## acquisition
+
+[Source: AcquisitionConfig](https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/config/config.py)
+
+| Setting | Type | Omitted-field default | Inline source note |
+|---|---|---|---|
+| `n_append` | `int` | `required` |  |
+| `n_neighbors` | `int` | `required` |  |
+| `target_temperature` | `float` | `required` |  |
+| `pool_factor` | `int` | `required` |  |
+| `n_inject` | `int` | `0` |  |
+| `audit` | `AuditConfig \| None` | `None (section absent)` |  |
+| `boost` | `BoostConfig \| None` | `None (section absent)` |  |
+
+## model
+
+[Source: ModelConfig](https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/config/config.py)
+
+| Setting | Type | Omitted-field default | Inline source note |
+|---|---|---|---|
+| `n_layers` | `int` | `required` |  |
+| `n_neurons` | `int` | `required` |  |
+| `activation` | `str` | `required` |  |
+
+## training
+
+[Source: TrainingConfig](https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/config/config.py)
+
+| Setting | Type | Omitted-field default | Inline source note |
+|---|---|---|---|
+| `learning_rate` | `float` | `required` |  |
+| `loss` | `str` | `required` |  |
+| `sigma_level` | `float` | `required` |  |
+| `n_epochs` | `int` | `required` |  |
+| `batch_size` | `int` | `required` |  |
+| `validation_split` | `float` | `required` |  |
+| `patience` | `int` | `required` |  |
+| `msre_ess_floor` | `float` | `0.1` |  |
+| `lr_schedule` | `str` | `'none'` |  |
+| `lr_factor` | `float` | `0.3` |  |
+| `lr_patience` | `int` | `75` |  |
+| `lr_min` | `float` | `1e-06` |  |
+| `lr_grace` | `int` | `100` |  |
+| `warm_start` | `bool` | `True` |  |
+| `random_start_weights` | `str` | `'best'` |  |
+| `augment_schedule_factor` | `float` | `3.0` |  |
+| `members` | `int` | `1` |  |
+| `selection_share` | `float` | `0.1` |  |
+| `member_margin` | `float` | `0.2` |  |
+| `member_threads` | `int \| None` | `None` |  |
+| `member_device` | `str` | `'auto'` |  |
+| `member_pilot` | `int` | `0` |  |
+| `member_pilot_steps` | `int` | `20000` |  |
+| `member_pilot_walkers` | `int` | `256` |  |
+| `member_pilot_depth` | `float \| None` | `None` |  |
+| `member_pilot_score` | `str` | `'corrected'` |  |
+
+## sampling
+
+[Source: SamplingConfig](https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/config/config.py)
+
+| Setting | Type | Omitted-field default | Inline source note |
+|---|---|---|---|
+| `sampler` | `str` | `required` |  |
+| `temperature` | `float` | `required` |  |
+| `n_walkers` | `int` | `required` |  |
+| `burn_in` | `int` | `required` |  |
+| `n_steps` | `int` | `required` |  |
+| `chunk_size` | `int` | `5000` | steps per compiled chain segment (memory, not results) |
+| `thin` | `int` | `1` |  |
+
+## derived
+
+[Source: DerivedConfig](https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/config/config.py)
+
+| Setting | Type | Omitted-field default | Inline source note |
+|---|---|---|---|
+| `inputs` | `str \| tuple[str, ...]` | `'auto'` |  |
+| `n_layers` | `int` | `3` |  |
+| `n_neurons` | `int` | `256` |  |
+| `activation` | `str` | `'alsing'` |  |
+| `learning_rate` | `float` | `0.001` |  |
+| `n_epochs` | `int` | `3000` |  |
+| `batch_size` | `int` | `256` |  |
+| `validation_split` | `float` | `0.1` |  |
+| `patience` | `int` | `200` |  |
+| `lr_schedule` | `str` | `'plateau'` |  |
+| `lr_factor` | `float` | `0.3` |  |
+| `lr_patience` | `int` | `50` |  |
+| `lr_min` | `float` | `1e-06` |  |
+| `lr_grace` | `int` | `100` |  |
+
+## convergence
+
+[Source: ConvergenceConfig](https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/config/config.py)
+
+| Setting | Type | Omitted-field default | Inline source note |
+|---|---|---|---|
+| `threshold` | `float` | `1.2 (tempered_batch_scatter only; otherwise required)` | with metric tempered_batch_scatter: in units of sampling.temperature, and 1.2 when left out |
+| `metric` | `str` | `required` | gaussian_posterior_drift, or tempered_batch_scatter (docs/tempered_convergence.md) |
+| `max_iterations` | `int` | `required` |  |
+| `consecutive` | `int` | `2` | tempered_batch_scatter only: networks running below the threshold |
+
+## storage
+
+[Source: StorageConfig](https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/config/config.py)
+
+| Setting | Type | Omitted-field default | Inline source note |
+|---|---|---|---|
+| `training_sets` | `str` | `'increments'` |  |
+
+## top level
+
+[Source: Config](https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/config/config.py)
+
+| Setting | Type | Omitted-field default | Inline source note |
+|---|---|---|---|
+| `likelihood` | `LikelihoodConfig` | `required` |  |
+| `prior` | `PriorConfig` | `required` |  |
+| `acquisition` | `AcquisitionConfig` | `required` |  |
+| `model` | `ModelConfig` | `required` |  |
+| `training` | `TrainingConfig` | `required` |  |
+| `sampling` | `SamplingConfig` | `required` |  |
+| `convergence` | `ConvergenceConfig` | `required` |  |
+| `seed` | `int` | `None` |  |
+| `derived` | `DerivedConfig \| None` | `None (section absent)` |  |
+| `storage` | `StorageConfig` | `None` |  |
+
+## profile YAML
+
+[Source: ProfileConfig](https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/profiles/config.py)
+
+| Setting | Type | Omitted-field default | Inline source note |
+|---|---|---|---|
+| `dimension` | `int` | `1` |  |
+| `retrain` | `bool` | `False` |  |
+| `design_points` | `int` | `7` |  |
+| `iteration` | `int \| None` | `None` |  |
+| `parameters` | `list[str]` | `[]` |  |
+| `added_points` | `int` | `0` |  |
+| `broad_fraction` | `float` | `0.75` |  |
+| `profile_points` | `int` | `15` |  |
+| `sigma_range` | `float` | `3.5` |  |
+| `ranges` | `dict` | `{}` |  |
+| `workers` | `int` | `1` |  |
+| `first_epochs` | `int` | `400` |  |
+| `polish_epochs` | `int` | `1600` |  |
+| `initial_lr` | `float` | `1e-05` |  |
+| `transition_lr` | `float` | `1e-06` |  |
+| `final_lr` | `float` | `1e-07` |  |
+| `batch_size` | `int` | `128` |  |
+| `seed` | `int` | `42` |  |
+| `validation_global` | `int` | `512` |  |
+| `validation_nodes` | `int` | `9` |  |
+| `scan_points` | `int` | `41` |  |
+| `gtol` | `float` | `0.0001` |  |
+| `maxfun` | `int` | `150` |  |
+| `total_call_budget` | `int` | `100000` |  |
+| `audit_points` | `int` | `3` |  |
+| `audit_tolerance` | `float` | `0.01` |  |
+| `surrogate_optimizer` | `str` | `'hybrid'` |  |
+| `max_passes` | `int` | `15` | the legacy scan only: the most continuation passes |
+| `hybrid_walkers` | `int` | `8` |  |
+| `hybrid_hops` | `int \| None` | `None` |  |
+| `hybrid_training_starts` | `int` | `0` |  |
+| `corrected_tol` | `float \| None` | `None` |  |
+| `backend_module` | `str \| None` | `None` |  |
+| `backend_sha256` | `str \| None` | `None` |  |
+| `run_config` | `str \| None` | `None` |  |
+| `chain_length` | `int \| None` | `2` |  |
+| `region` | `str \| float \| None` | `'run'` |  |
+| `continuation` | `dict \| None` | `None` |  |
+| `search_ranges` | `dict \| None` | `None` |  |

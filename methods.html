@@ -1,0 +1,770 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Scientific methods &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=2443c677"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'methods';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/methods.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Worked examples" href="examples/index.html" />
+    <link rel="prev" title="Configuration and defaults" href="configuration.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="_generated/reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="_generated/reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"></div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Scientific methods</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="scientific-methods">
+<h1>Scientific methods<a class="headerlink" href="#scientific-methods" title="Link to this heading">#</a></h1>
+<p>Let <span class="math notranslate nohighlight">\(\ell(x)\)</span> denote the <strong>native log-objective</strong> actually returned by the backend, and <span class="math notranslate nohighlight">\(s_\theta(x)\)</span> its network approximation inside the saved domain. The objective may include priors. Preserve that convention when training, comparing fits or computing evidence.</p>
+<section id="tempered-acquisition-and-the-posterior">
+<h2>Tempered acquisition and the posterior<a class="headerlink" href="#tempered-acquisition-and-the-posterior" title="Link to this heading">#</a></h2>
+<p>A chain sampling the tempered surrogate targets</p>
+<div class="math notranslate nohighlight">
+\[p_T(x) \propto \exp[s_\theta(x)/T].\]</div>
+<p>For samples of that distribution, the unnormalised importance weight to its own T=1 surrogate target is</p>
+<div class="math notranslate nohighlight">
+\[w(x) \propto \exp[(1-1/T)s_\theta(x)].\]</div>
+<p>If the chain stores <span class="math notranslate nohighlight">\(\log p_T=s_\theta/T\)</span> up to a constant, this is <span class="math notranslate nohighlight">\(\exp[(T-1)\log p_T]\)</span>. Subtract the largest log-weight before exponentiation. These weights change the temperature; they do not correct network error.</p>
+<p>The Kish effective sample size is</p>
+<div class="math notranslate nohighlight">
+\[N_{\mathrm{eff}}=\frac{(\sum_i w_i)^2}{\sum_i w_i^2}.\]</div>
+<p>It measures weight concentration and is <strong>not correlation-adjusted</strong>. Inspect autocorrelation and mode exploration separately. The identically named loss-weight ESS (<code class="docutils literal notranslate"><span class="pre">training.msre_ess_floor</span></code>) is computed over training weights and answers another question.</p>
+</section>
+<section id="profiles">
+<h2>Profiles<a class="headerlink" href="#profiles" title="Link to this heading">#</a></h2>
+<p>For coordinates of interest <span class="math notranslate nohighlight">\(q\)</span> and nuisance coordinates <span class="math notranslate nohighlight">\(\eta\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\ell_{\mathrm{prof}}(q)=\max_{\eta:(q,\eta)\in\mathcal D}\ell(q,\eta).\]</div>
+<p>The surrogate stage solves the analogous problem for <span class="math notranslate nohighlight">\(s_\theta\)</span>. The true stage starts from useful surrogate solutions and constructs a local residual model,</p>
+<div class="math notranslate nohighlight">
+\[m(x)=s_\theta(x)+r_b+g_r^T(x-x_b)
+       +\tfrac12(x-x_b)^TQ_r(x-x_b),\qquad r=\ell-s_\theta.\]</div>
+<p>True probes measure the residual; surrogate curvature provides geometry for local steps. Accepted reported values come from the true backend, not from <span class="math notranslate nohighlight">\(m\)</span>. Boundary probes, trust regions, continuation and stopping are described in the <a class="reference internal" href="_generated/library/docs/hybrid_optimisers.html"><span class="std std-doc">solver guide</span></a>.</p>
+<p>A plot of <span class="math notranslate nohighlight">\(2[\ell_{\max}-\ell_{\mathrm{prof}}(q)]\)</span> is a native-objective difference. Call it likelihood-only <span class="math notranslate nohighlight">\(\Delta\chi^2\)</span> only if the objective convention justifies that label. A local stop flag does not establish a global maximum or confidence coverage.</p>
+</section>
+<section id="boosts-and-separated-modes">
+<h2>Boosts and separated modes<a class="headerlink" href="#boosts-and-separated-modes" title="Link to this heading">#</a></h2>
+<p>For mode region <span class="math notranslate nohighlight">\(R_k\)</span>, define surrogate and true integrals with the same measure and domain:</p>
+<div class="math notranslate nohighlight">
+\[\widehat Z_k=\int_{R_k}e^{s_\theta(x)}\,dx,\qquad
+ Z_k=\int_{R_k}e^{\ell(x)}\,dx.\]</div>
+<p>If <span class="math notranslate nohighlight">\(x\)</span> is sampled from the normalised surrogate restricted to that mode, then</p>
+<div class="math notranslate nohighlight">
+\[Z_k=\widehat Z_k\,
+\mathbb E_{x\sim\widehat p_k}\!\left[e^{\ell(x)-s_\theta(x)}\right].\]</div>
+<p>This motivates true evaluations of posterior draws in each detected mode. The identity does not guarantee an accurate finite-sample estimate: concentrated correction weights or missed regions can defeat it. Density-filtered boost rows are selected points, not those unfiltered posterior draws; the unweighted formula must not be applied to them.</p>
+<p>Read <a class="reference internal" href="_generated/library/docs/boost.html"><span class="std std-doc">boost derivation</span></a>, <a class="reference internal" href="_generated/library/docs/boost_modes_mixing.html"><span class="std std-doc">mixing-based grouping</span></a>, and <a class="reference internal" href="_generated/library/docs/posterior_density_boost.html"><span class="std std-doc">density-filter qualifications</span></a>.</p>
+</section>
+<section id="evidence-and-the-integration-measure">
+<h2>Evidence and the integration measure<a class="headerlink" href="#evidence-and-the-integration-measure" title="Link to this heading">#</a></h2>
+<p>For a normalised physical prior <span class="math notranslate nohighlight">\(\pi(x)\)</span>, Bayesian evidence is <span class="math notranslate nohighlight">\(Z=\int L(x)\pi(x)\,dx\)</span>. A uniformly normalised training box, a transformed coordinate prior and a native backend posterior can have different measures. Additive objective constants matter for evidence even when they cancel from a relative profile. The <a class="reference internal" href="_generated/library/docs/evidence.html"><span class="std std-doc">evidence guide</span></a> specifies the conversion and recorded prior ranges.</p>
+</section>
+<section id="batch-error-and-the-handover-test">
+<h2>Batch error and the handover test<a class="headerlink" href="#batch-error-and-the-handover-test" title="Link to this heading">#</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(\widehat\ell_k\)</span> be the network used to choose an ordinary acquisition batch <span class="math notranslate nohighlight">\(B_k\)</span>, and let <span class="math notranslate nohighlight">\(\ell\)</span> be the native backend log objective. On the <span class="math notranslate nohighlight">\(m\)</span> valid pairs, define</p>
+<div class="math notranslate nohighlight">
+\[
+e_i=\widehat\ell_k(x_i)-\ell(x_i),\qquad
+\bar e=\frac1m\sum_i e_i,\qquad
+s_k=\sqrt{\frac1m\sum_i(e_i-\bar e)^2},\qquad
+r_k=\sqrt{\frac1m\sum_i e_i^2}.
+\]</div>
+<p>The implementation uses population scatter (denominator <span class="math notranslate nohighlight">\(m\)</span>), and also records <span class="math notranslate nohighlight">\(\max_i|e_i|\)</span>. Nonfinite predictions/returns and an explicitly supplied refused-value sentinel are left out. The computation is in float64. These errors are measured before fitting on <span class="math notranslate nohighlight">\(B_k\)</span> and before ordinary injection is appended. Their reuse adds no evaluations, but adaptive batch selection means they are not a representative independent posterior test.</p>
+<p>For configured consecutive count <span class="math notranslate nohighlight">\(q\)</span>, temperature <span class="math notranslate nohighlight">\(T\)</span> and threshold <span class="math notranslate nohighlight">\(a\)</span>, the verdict at network <span class="math notranslate nohighlight">\(N\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+V_N=\max_{k=N-q,\ldots,N-1}\frac{s_k}{T},\qquad
+\text{pass only if every measurement exists and }V_N&lt;a.
+\]</div>
+<p>The default for this opt-in metric is <span class="math notranslate nohighlight">\(q=2\)</span>, <span class="math notranslate nohighlight">\(a=1.2\)</span>. A constant objective offset contributes to RMS but not scatter, motivating scatter for the ordinary-loop decision. That does not make relative offsets between separated modes harmless: they affect mode weights and need mode-specific checks. The reported criterion is a handover heuristic supported by the <a class="reference internal" href="_generated/library/docs/tempered_convergence.html"><span class="std std-doc">measured suite</span></a>, not a bound on posterior or evidence error.</p>
+<p>For genuinely unfiltered draws from a normalised surrogate posterior on the same domain and with the same prior convention, a separate identity gives</p>
+<div class="math notranslate nohighlight">
+\[
+Z_{\rm true}/Z_{\rm network}
+=\mathbb E_{p_{\rm network}}\!\left[\exp(\ell-\widehat\ell)\right].
+\]</div>
+<p><code class="docutils literal notranslate"><span class="pre">hpc/analysis/evidence_summary.py</span></code> estimates this from saved posterior true checks. Finite samples, correlation, missed support and low weight ESS limit the estimate. Density-filtered boost rows have a different selection distribution and cannot be inserted into this expectation uncorrected.</p>
+</section>
+<section id="choosing-between-members">
+<h2>Choosing between members<a class="headerlink" href="#choosing-between-members" title="Link to this heading">#</a></h2>
+<p>With <code class="docutils literal notranslate"><span class="pre">training.members</span></code>, members <span class="math notranslate nohighlight">\(k=0,\dots,K-1\)</span> (<span class="math notranslate nohighlight">\(k=0\)</span> the warm-started network) are trained on the
+same set. With <code class="docutils literal notranslate"><span class="pre">training.member_pilot</span></code> each draws <span class="math notranslate nohighlight">\(n\)</span> points of its own T=1 posterior inside the
+region, and the pool <span class="math notranslate nohighlight">\(P\)</span> of all <span class="math notranslate nohighlight">\(nK\)</span> points is evaluated once with the true objective. Member <span class="math notranslate nohighlight">\(k\)</span>’s
+pilot error is the rms, without its constant offset <span class="math notranslate nohighlight">\(b_k\)</span>, over the points that the truth or that
+member puts within the depth <span class="math notranslate nohighlight">\(d\)</span> of the best value <span class="math notranslate nohighlight">\(\ell_{\rm best}\)</span> known (training set and pool):</p>
+<div class="math notranslate nohighlight">
+\[
+\epsilon_k^2=\frac{1}{|P_k|}\sum_{x\in P_k}\bigl[s_k(x)-\ell(x)-b_k\bigr]^2,\qquad
+P_k=\{x\in P:\ \ell(x)&gt;\ell_{\rm best}-d\ \ \text{or}\ \ s_k(x)&gt;\ell_{\rm best}-d\},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+b_k=\operatorname{median}_{x\in P_\ell}\bigl[s_k(x)-\ell(x)\bigr],\qquad
+P_\ell=\{x\in P:\ \ell(x)&gt;\ell_{\rm best}-d\},
+\]</div>
+<p>with <span class="math notranslate nohighlight">\(d\)</span> the msre scale <span class="math notranslate nohighlight">\(\tfrac12\chi^2(\sigma,n_{\rm dim})\)</span> by default. The offset is taken over the
+same points <span class="math notranslate nohighlight">\(P_\ell\)</span> for every member, and is zero when <span class="math notranslate nohighlight">\(P_\ell\)</span> is empty. A constant changes no
+posterior or profile, only the evidence, by its full value; <code class="docutils literal notranslate"><span class="pre">member_pilot_score:</span> <span class="pre">rms</span></code> sets <span class="math notranslate nohighlight">\(b_k=0\)</span>, the
+score before 19 November 2026, and the kept network’s <span class="math notranslate nohighlight">\(b_k\)</span> is recorded. A false plateau of member
+<span class="math notranslate nohighlight">\(k\)</span> is judged where <span class="math notranslate nohighlight">\(k\)</span> puts its posterior, a missed peak where the truth is high. The warm network
+is kept unless <span class="math notranslate nohighlight">\(\min_{k&gt;0}\epsilon_k&lt;(1-m)\,\epsilon_0\)</span>, with margin <span class="math notranslate nohighlight">\(m\)</span> (<code class="docutils literal notranslate"><span class="pre">member_margin</span></code>); without
+a warm network the lowest <span class="math notranslate nohighlight">\(\epsilon_k\)</span> is kept. The pool also contains the points of a rejected
+member, which can decide the ranking of the others: members that agree at the posterior’s points can
+differ there by a raised region well below the best, which a profile would show. The members from random
+weights keep the epoch of their lowest validation loss, or with <code class="docutils literal notranslate"><span class="pre">training.random_start_weights:</span> <span class="pre">last</span></code> the
+weights at the end of their schedule, as the warm network does.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="configuration.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Configuration and defaults</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="examples/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Worked examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tempered-acquisition-and-the-posterior">Tempered acquisition and the posterior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles">Profiles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boosts-and-separated-modes">Boosts and separated modes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evidence-and-the-integration-measure">Evidence and the integration measure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-error-and-the-handover-test">Batch error and the handover test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-between-members">Choosing between members</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/methods.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

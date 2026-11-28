@@ -1,0 +1,152 @@
+dataset.boost
+=============
+
+.. py:module:: dataset.boost
+
+.. autoapi-nested-parse::
+
+   acquisition.boost: an iteration whose new training points are posterior samples of the network.
+
+   The loop's batches are drawn at the acquisition temperature T, some T ndim / 2 log-units under
+   the peak; the posterior itself lies ndim / 2 under it, and a batch puts a few points in a
+   thousand there. The network's level in the core of each mode is then set by extrapolation, and
+   the weights of separated modes, which depend on the difference of that level between them
+   exponentially, come out anywhere (SINU, 16 parameters: 12.7%, 35.7% and 38.1% for the strong
+   mode from three good networks; 24.8% measured).
+
+   A boost iteration replaces the tempered batch by ``n`` true evaluations at T = 1 samples of the
+   network: the modes are found (sampling/modes.py: groups of local maxima that a T = 1 chain
+   cannot travel between), each gets its own T = 1 chain, and each contributes the same number of
+   points, n / modes, whatever its weight. With one mode it is n posterior samples. The points
+   join the training set as a batch does; the next network is trained on them.
+
+   The true values also measure the network where it matters. With D = true minus network at a
+   mode's points, the true evidence of the mode is the network's times the mean of exp(D), so the
+   report gives the weights of the modes as the network has them and as corrected, and the
+   effective number of points behind each mean: a correction resting on a handful of points (the
+   network is off by more than a log-unit or so on its own samples) is not to be trusted, and the
+   boost was premature.
+
+   Opt-in ``balance_floor`` (mode_shares): a mode lighter than the floor gets its equal share times
+   its weight over the floor, so that a small group of walkers, which the posterior pilot cannot
+   check, does not take as many points as the posterior. Without it every mode has the same share.
+
+   The description above is the default unfiltered path. Opt-in density filtering
+   uses a balanced posterior reference and may accept fewer or unequal numbers per
+   mode; those selected rows do not support the unweighted evidence correction.
+   See docs/posterior_density_boost.md.
+
+   Files: RUN/boost/boost_it_N.csv (parameters, loglkl, the network's value, the mode) and
+   boost_it_N.json (the report).
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   dataset.boost.MOVED_BY_A_LAUNCHER
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   dataset.boost.mode_shares
+   dataset.boost.split_by_shares
+   dataset.boost.draw_boost
+   dataset.boost.boost_report
+   dataset.boost.mode_line
+   dataset.boost.finish_boost
+   dataset.boost.record_start
+   dataset.boost.recorded_start
+   dataset.boost.record_fallback
+   dataset.boost.boost_errors
+
+
+Module Contents
+---------------
+
+.. py:function:: mode_shares(weights, floor)
+
+   The share of a boost each mode gets, the largest 1: min(weight / floor, 1), over the largest
+   of those. Modes at or above the floor share equally, as without it; a lighter one gets the
+   fraction weight / floor of an equal share. None (no floor): None, every mode the same.
+
+
+.. py:function:: split_by_shares(n, shares)
+
+   n as whole numbers in proportion to ``shares`` (largest remainders), at least one each.
+
+
+.. py:function:: draw_boost(predict, lower, upper, tempered, temperature, config, seed=None, log=print, dataset=None)
+
+   Draw up to config.n points; optionally apply posterior density filtering.
+
+   The default samples equally from each mode. Filtered counts can differ and
+   underfill. Returns (points, draw); finish_boost receives the true values.
+
+
+.. py:function:: boost_report(draw, truth, ignore=None, zero_density=None)
+
+   Per mode: the network's error on its own posterior samples and the weights before and
+   after the correction by the true values (aligned with draw["points"]).
+
+   ignore : the finite value a launcher gives a point the likelihood refused
+       (hpc/refused.py); such points are left out of the pooled error
+       (utils/held_out.py) and counted there.
+   zero_density : the -inf returns that are refusals of the likelihood (finish_boost marks
+       every one, as hpc/analysis/true_check.py counts them).
+
+   A refused point, by either mark, is a point where the true posterior is zero: it has
+   weight zero and stays in the denominator of its mode's mean of exp(truth - network), as
+   in hpc/analysis/true_check.py, and is counted (``refused``, ``zero_density``). A point without any
+   value (NaN, +inf, a -inf that is not marked) is another matter: what the mean would have
+   been is not known, and the corrected weights are withheld for every mode (``failed``).
+
+
+.. py:function:: mode_line(k, m, report)
+
+   A mode's line of the boost's log, from its record.
+
+
+.. py:data:: MOVED_BY_A_LAUNCHER
+   :value: 2
+
+
+.. py:function:: finish_boost(directory, iteration, names, draw, inputs, targets, log=print, ignore=None)
+
+   Report and files of a boost, from the evaluated (inputs, targets) in whatever order.
+
+   An evaluated point is the drawn point with the same single-precision coordinates. One
+   that a launcher moved by the last digit to keep it inside the box (MOVED_BY_A_LAUNCHER)
+   is the nearest drawn point not yet matched, and the boost's file records it where it was
+   evaluated, which is where the training set has it. Any other point stops the run.
+
+
+.. py:function:: record_start(directory, iteration, configured, verdict, temperature, threshold)
+
+   The ordinary loop converged at ``iteration``, before acquisition.boost.start_iteration:
+   the boosts begin there. RUN/boost/start.json; a continued run reads it (recorded_start).
+
+
+.. py:function:: recorded_start(directory)
+
+   The iteration at which a run's boosts began because its ordinary loop had converged
+   (RUN/boost/start.json), or None.
+
+
+.. py:function:: record_fallback(directory, iteration, reason)
+
+   A boost iteration that could not draw its points and acquired as an ordinary iteration
+   instead: RUN/boost/fallback_it_N.json. It has no boost_it_N files.
+
+
+.. py:function:: boost_errors(directory, through=None)
+
+   [(iteration, scatter of network minus truth at that boost's points)] from the boost
+   reports of a run, up to iteration ``through``.
+
+

@@ -1,0 +1,1435 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Boost with a quadratic background and a region &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=2443c677"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_generated/library/docs/boost_background_region';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/_generated/library/docs/boost_background_region.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Boost: deciding the modes by measured mixing" href="boost_modes_mixing.html" />
+    <link rel="prev" title="Boost: training points from the posterior itself" href="boost.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../AGENTS.html">Contributor guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGES.html">What this version adds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PERFORMANCE.html">CLiENT speed and memory changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UPGRADING.html">Moving from the first CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PROFILES_AND_EVIDENCE.html">Profile likelihoods and Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">CLiENT documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audit_optima.html">Auditing the network’s optima</a></li>
+<li class="toctree-l1"><a class="reference internal" href="augment_training.html">Adding profile points to a run’s training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost.html">Boost: training points from the posterior itself</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Boost with a quadratic background and a region</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_modes_mixing.html">Boost: deciding the modes by measured mixing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_real_lcdm.html">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combine.html">Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles.html">Create profiles from a saved CLiENT iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles_2d.html">One two-dimensional profile per run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derived_parameters.html">Derived parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evidence.html">Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Exporting a network: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">export</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hybrid_optimisers.html">Hybrid profile optimisers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injection_window.html">Injection: fitting the quadratic to the points near the best</a></li>
+<li class="toctree-l1"><a class="reference internal" href="members.html">Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="posterior_density_boost.html">Density-filtered posterior boosts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_files.html">A run’s files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_recovery.html">Continuing and recovering a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempered_convergence.html">Convergence of the ordinary loop: the error at the tempered batch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/README.html">Real likelihoods on a cluster</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../library.html" class="nav-link">Guides and reports</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Boost with a quadratic background and a region</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Maintained source: <a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/docs/boost_background_region.md">docs/boost_background_region.md</a>. Measurements keep their original settings; consult the <a class="reference internal" href="../../../configuration.html"><span class="std std-doc">current defaults</span></a> before starting a new run.</p>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="boost-with-a-quadratic-background-and-a-region">
+<h1>Boost with a quadratic background and a region<a class="headerlink" href="#boost-with-a-quadratic-background-and-a-region" title="Link to this heading">#</a></h1>
+<p>Two opt-in keys of <code class="docutils literal notranslate"><span class="pre">acquisition.boost</span></code>, both off by default:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">acquisition</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">boost</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2000</span>
+<span class="w">    </span><span class="nt">start_iteration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+<span class="w">    </span><span class="nt">density_filter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">background</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">quadratic</span><span class="w">   </span><span class="c1"># the network becomes a fixed quadratic plus a network</span>
+<span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.0</span><span class="w">             </span><span class="c1"># chains and audit see the network only where the boosts' points reach</span>
+</pre></div>
+</div>
+<p>They answer what the ten-boost study of 5 October ran into
+(<a class="reference internal" href="posterior_density_boost.html"><span class="std std-doc">posterior_density_boost.md</span></a>): after a few boosts a network can
+rise far above the best true value in places no training point is near, the audit that
+repairs those places damages the core, and an evidence over a wide box would be at the mercy
+of both.</p>
+<section id="what-a-boost-run-does-with-them">
+<h2>What a boost run does with them<a class="headerlink" href="#what-a-boost-run-does-with-them" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>First boost</strong> (<code class="docutils literal notranslate"><span class="pre">start_iteration</span></code>): the network of the ordinary loop supplies the boost
+points, as without the keys.</p></li>
+<li><p><strong>First training that holds boost points</strong>: the quadratic is fitted to the training set and
+this one training starts from random weights. The region is built from the boost points.
+(It is the first training after the boosts’ start. When the boost at the start found no mode
+and acquired an ordinary batch instead, that training holds no boost point yet: the
+quadratic is fitted to the training set as it is, and stays.)
+The audit searches inside the region, the tempered chain runs inside it (its walkers start
+inside), and the boost’s own chains inherit that. The starting walkers are drawn uniformly
+in the region and kept where they are in the box; along a parameter whose posterior fills
+its range or lies against a bound, the region reaches beyond the box. When 200 draws have
+not found the walkers (0.46% of the draws inside at network 18 of an axion run, whose
+farthest boost row had gone from 9.7 to 18.2 sigma), the draw closes in on the region’s
+centre.</p></li>
+<li><p><strong>Every later boost</strong>: warm start as usual, with the quadratic unchanged; the region is
+rebuilt from all boost points so far.</p></li>
+</ol>
+</section>
+<section id="what-was-found-on-the-two-analytic-targets">
+<h2>What was found, on the two analytic targets<a class="headerlink" href="#what-was-found-on-the-two-analytic-targets" title="Link to this heading">#</a></h2>
+<p>All numbers are errors of the network’s log-likelihood on exact posterior draws (24 000 at
+T = 1), on the 58-parameter Gaussian and the two-mode analytic twin of SINU (16 parameters).</p>
+<p><strong>The far false maxima belong to the long chain of warm starts, not to the boosts.</strong> Networks
+trained once from random weights on the same data have none, in two whole-box searches each
+(plain, both targets). Carried through four further boosts with the loop’s own warm start
+and schedule and no audit at all, they still have none (30 searches). The chain of 16
+warm starts had 5 to 11 per search on the Gaussian.</p>
+<p><strong>A cold start is also the larger gain in accuracy.</strong> Twin, same data, plain network:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>boosts in the data</p></th>
+<th class="head"><p>trained once from random weights</p></th>
+<th class="head"><p>the warm-started chain</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0.32</p></td>
+<td><p>0.75</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>0.25</p></td>
+<td><p>0.73</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>0.19 (0.19 when warm-started from the cold start through the boosts)</p></td>
+<td><p>0.28</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>The audit’s repairs are what damaged the core.</strong> Five refuted maxima, 10⁵ log-units deep,
+carry 171% of the whole training loss; fitting them, and fine-tuning at 1e-5 at all, moved the
+Gaussian’s core error from 0.69 to 1.28. On the network that had them, the first repair of an
+audit without the region took the fit near the best from 0.77 to 215.</p>
+</section>
+<section id="the-quadratic-background">
+<h2>The quadratic background<a class="headerlink" href="#the-quadratic-background" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">model/network.py</span></code>: <code class="docutils literal notranslate"><span class="pre">QuadraticBackground</span></code>, <code class="docutils literal notranslate"><span class="pre">fit_background</span></code>, <code class="docutils literal notranslate"><span class="pre">build_model(...,</span> <span class="pre">background=)</span></code>.</p>
+<p>The model is q + network, q(θ) = top − ½ (θ − m)ᵀ P (θ − m). m and the covariance C are those
+of the training rows within T·ndim log-units of the best (T the acquisition temperature), P =
+κ C⁻¹ with κ the one number that best matches those rows’ depths, top the best value.
+Deliberately crude, and never refitted: it is stored in the model file as non-trainable
+weights, and a later training takes it from the previous model. The network’s targets are the
+log-likelihood minus q; a warm start keeps the function exactly as before.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>trained once from random weights, first boost’s data</p></th>
+<th class="head"><p>plain</p></th>
+<th class="head"><p>with the background</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Gaussian, 58 parameters: error at T = 1 / rms at T = 7</p></td>
+<td><p>0.94 / 11.2</p></td>
+<td><p>0.33 / 4.3</p></td>
+</tr>
+<tr class="row-odd"><td><p>twin, 16 parameters: error at T = 1 / offset between the modes</p></td>
+<td><p>0.25 / −0.21</p></td>
+<td><p>0.19 / −0.09</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Through three further boosts the twin’s network went 0.19, 0.23, 0.20, 0.14, with the offset
+between the modes at −0.03, means within 0.006 σ and widths within 0.3% of exact.</p>
+<p><strong>It needs the region on a likelihood that is not Gaussian.</strong> On the twin the background
+creates false maxima that the plain network does not have: 16 in a search, the highest 2041
+above the best where the truth is 5051 below. Along the valley the truth is flatter than the
+quadratic at both ends of the logGeff range, the network has to add 14 to 39 log-units there,
+and it carries that rising correction into the corners, where there is no data. They grow
+with the boosts (69 after three, to +4187). A background of up to 12 Gaussians changes
+nothing: the far rows fall faster than any Gaussian.</p>
+<section id="a-least-squares-fit-background-fit-least-squares-opt-in-20-november-2026">
+<h3>A least-squares fit (<code class="docutils literal notranslate"><span class="pre">background_fit:</span> <span class="pre">least_squares</span></code>, opt-in, 20 November 2026)<a class="headerlink" href="#a-least-squares-fit-background-fit-least-squares-opt-in-20-november-2026" title="Link to this heading">#</a></h3>
+<p>The crude quadratic is not the best quadratic, even for an exactly Gaussian likelihood: one
+covariance read off the tempered rows and one scale leave the network a quadratic correction
+with up to d(d + 3)/2 coefficients. On the 58-parameter Gaussian that correction was 1.63 rms at
+the posterior, and the networks’ error there was 4 to 6% of it.
+<code class="docutils literal notranslate"><span class="pre">background_fit:</span> <span class="pre">least_squares</span></code> (<code class="docutils literal notranslate"><span class="pre">fit_background_least_squares</span></code>) fits the quadratic by least
+squares instead, with the injection’s fit (<code class="docutils literal notranslate"><span class="pre">dataset/peak_samples.py</span></code>, <code class="docutils literal notranslate"><span class="pre">_fit_quadratic</span></code>) to the
+rows within <code class="docutils literal notranslate"><span class="pre">background_window</span></code> · T · ndim / 2 log-units of the best, never fewer than three per
+coefficient: the injection’s rule, with its window of 16 by default. Curvatures that are not
+negative are flipped and the others kept as fitted. The injection’s floor at 1e-3 of the largest
+curvature is not applied to them: in standardised coordinates of a correlated likelihood it
+raises true curvatures, and it left the exact fit of the 58-parameter Gaussian 529 rms off at
+the posterior. A fit whose stationary point lies beyond the farthest fitted row is refused, and
+that training has no background, as when the crude fit fails. Like the crude one it is fitted
+once and never refitted.</p>
+<p>Fitted to the training sets of the two runs’ first boost networks (network 16 of the Gaussian,
+network 14 of a 44-parameter Euclid network truth; T = 7), background minus truth, as a
+standard deviation:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>at exact posterior draws</p></th>
+<th class="head"><p>over the training set</p></th>
+<th class="head"><p>within T · ndim of the best</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Gaussian, 58 parameters: crude</p></td>
+<td><p>1.63</p></td>
+<td><p>121 000</p></td>
+<td><p>38.1</p></td>
+</tr>
+<tr class="row-odd"><td><p>least squares, any window from 0.5 to 16</p></td>
+<td><p>below 1e-5</p></td>
+<td><p>0.008 to 0.015</p></td>
+<td><p>below 1e-4</p></td>
+</tr>
+<tr class="row-even"><td><p>Euclid network truth: crude</p></td>
+<td><p>10.4</p></td>
+<td><p>384</p></td>
+<td><p>24.1</p></td>
+</tr>
+<tr class="row-odd"><td><p>least squares, window 16</p></td>
+<td><p>8.1</p></td>
+<td><p>291</p></td>
+<td><p>22.3</p></td>
+</tr>
+<tr class="row-even"><td><p>least squares, window 1</p></td>
+<td><p>2.4</p></td>
+<td><p>293</p></td>
+<td><p>47.6</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>On the Gaussian the far design points set the scale of the network’s targets with the crude
+fit, and only the rounding of their single-precision values with the least-squares one. On the
+network truth no window removes the far points’ scale, and a narrow window is better at the
+posterior and worse in the tempered rows. The model evaluates the background in single
+precision, which leaves 0.0015 rms of rounding at the posterior of the 58-parameter Gaussian
+(0.0009 for the crude fit).</p>
+<p>Branches of the two runs at their first boost network, otherwise as the runs, measured what the
+networks gain (exact posterior draws, 20 November 2026; one seed each):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>crude (the run)</p></th>
+<th class="head"><p>least squares, window 16</p></th>
+<th class="head"><p>least squares, window 1</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Gaussian 58, network 16 (3000 boost points)</p></td>
+<td><p>0.120</p></td>
+<td><p>0.0015</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Euclid truth, network 15 (6000)</p></td>
+<td><p>0.957</p></td>
+<td><p>0.971</p></td>
+<td><p>0.925</p></td>
+</tr>
+<tr class="row-even"><td><p>Euclid truth, network 16 (9000)</p></td>
+<td><p>0.644</p></td>
+<td><p>0.628</p></td>
+<td><p>0.580</p></td>
+</tr>
+<tr class="row-odd"><td><p>Euclid truth, network 17 (12 000)</p></td>
+<td><p>0.546</p></td>
+<td><p>0.511</p></td>
+<td><p>0.471</p></td>
+</tr>
+<tr class="row-even"><td><p>Euclid truth, network 18 (15 000)</p></td>
+<td><p>0.484</p></td>
+<td><p>0.453</p></td>
+<td><p>0.409</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>On the Gaussian the network has nothing left to learn but the background’s rounding: the run’s
+networks never got below 0.07 in 87 000 boost points, and the branch’s next network is again at
+0.0015. On the network truth the gain is smaller and has grown with the boosts, to 15% with a
+window of 1 and 6% with 16 at network 18 (the first network, the one trained from random weights,
+was worse in both branches: 2.80 and 3.10 against 2.50). These are four networks of runs of thirty;
+the default window stays the injection’s until a narrower one has been measured on more runs.</p>
+</section>
+</section>
+<section id="the-region">
+<h2>The region<a class="headerlink" href="#the-region" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">sampling/region.py</span></code>. Built from the boost rows alone: the T = 1 posterior points whose true
+values are known and lie within T·ndim/2 of the best (<code class="docutils literal notranslate"><span class="pre">RUN/boost/boost_it_N.csv</span></code>). One
+Gaussian per mode, in box units; ρ(θ) is the smallest, over the modes, of the Mahalanobis
+distance to the mode’s Gaussian divided by the largest such distance among that mode’s own
+rows; inside means ρ ≤ <code class="docutils literal notranslate"><span class="pre">region</span></code>. Saved as <code class="docutils literal notranslate"><span class="pre">RUN/boost/region_it_N.npz</span></code>.</p>
+<p>Cloud matching uses verified rows, not mode numbers (which are weight ranks). Each older
+cloud joins the current group with the largest fraction of rows covered by either cloud’s
+ellipsoid, provided the two are one mode: the mean of the one with fewer rows must lie
+within the reach of the other, in that other’s shape. Otherwise it stays as it is, as does
+a mode that is absent from a boost. An older cloud is assigned once; several old clouds may
+join one current group when a later boost finds them as one. Distinct groups of the current
+boost never share historical rows. This geometric association is not a test of physical
+mode connectivity. (Any overlap at all is not enough: one stray row merged a
+mode’s 3 or 4 rows into the other mode’s 10000 in 2 of about 620 trials on the twin’s boost
+files, and that cloud’s reach went from 10.6 to about 29.)</p>
+<p><strong>A sparse cloud takes the shape of a well-sampled one.</strong> With at most twice the dimension
+in distinct verified points a cloud has no covariance to speak of. It is given the shape of
+the well-sampled cloud with the most rows, its own centre, and it reaches as far as its own
+rows do, never farther than the cloud whose shape it has. Without a well-sampled cloud the
+shape is the scatter of all the clouds about their own means once that is well sampled;
+until then, and for a single verified point, the cloud is left out of the region, counted
+in the log line and in the saved file (<code class="docutils literal notranslate"><span class="pre">left_out</span></code>), and the run goes on. For deciding
+whether two sets of rows are one mode a sparse set is taken to be as wide as the cloud
+whose shape it borrows: its own few rows say where it is, not how far it goes.</p>
+<p>Why not a shrunk covariance: shrinkage pulls towards a sphere in box units, and a real cloud is hundreds
+of times narrower in some directions than in others (principal widths 0.00025 to 0.15 of
+the box on the 58-parameter target, 0.0017 to 0.2 on the twin).</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>mode known from</p></th>
+<th class="head"><p>shrunk covariance</p></th>
+<th class="head"><p>shape of the well-sampled cloud</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>58 parameters, up to 116 rows: edge along the narrowest direction, against the region of all 20 000 rows</p></td>
+<td><p>64 to 80 times as far</p></td>
+<td><p>0.5 to 0.9 times</p></td>
+</tr>
+<tr class="row-odd"><td><p>the same: share of the sparse region inside the region of all rows</p></td>
+<td><p>below 0.5%</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>twin, network 25, strong mode from a few of its rows: draws in which its T = 1 chain sat where the network is 6300 to 11 600 above the truth</p></td>
+<td><p>3 of 9 (5 to 10 rows)</p></td>
+<td><p>0 of 11 (5 to 32 rows)</p></td>
+</tr>
+<tr class="row-odd"><td><p>the same: the network’s weight of the strong mode (0.198 from all rows)</p></td>
+<td><p>0.04 to 0.20</p></td>
+<td><p>0.194 to 0.201</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Modes of one posterior differ in shape, so the borrowed one is an approximation: on the twin
+a tenth to a quarter of such a region lies outside the region the mode’s own 10 000 rows
+give. It holds until the mode has its own rows, which is two boosts for a mode that gets
+its share of the points. A single distinct point must not raise an error, which would come
+from the saved boost files and so at every restart: it is left out and counted, as above.
+Well-sampled clouds, and so every single-mode run with its hundreds or thousands of rows per
+boost, keep their own covariance, and saved region files are not rewritten.</p>
+<p>Who sees it, from the second boost on:</p>
+<ul class="simple">
+<li><p>the <strong>tempered chain</strong> and through it the <strong>boost’s own chains</strong>: the surrogate is the
+network inside and, outside, a value that does not look at the network at all
+(<code class="docutils literal notranslate"><span class="pre">SurrogateLikelihood(model,</span> <span class="pre">metadata,</span> <span class="pre">region=)</span></code>);</p></li>
+<li><p>the <strong>audit</strong>: its searches are projected onto the region (<code class="docutils literal notranslate"><span class="pre">find_maxima(...,</span> <span class="pre">project=)</span></code>),
+so only maxima a T = 1 consumer could meet are evaluated and trained on;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">evidence</span> <span class="pre">RUN</span></code>, by default (<code class="docutils literal notranslate"><span class="pre">--region</span> <span class="pre">none</span></code> for the bare
+network; <a class="reference internal" href="evidence.html"><span class="std std-doc">evidence.md</span></a>);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">profiles</span></code>, by default (the profile setting <code class="docutils literal notranslate"><span class="pre">region</span></code>,
+<a class="reference internal" href="create_profiles.html#networks-trained-on-boosts"><span class="std std-ref">create_profiles.md</span></a>): the searches for a
+profile’s optima are given the network inside the region and the wall outside, as a Keras
+model at double precision (<code class="docutils literal notranslate"><span class="pre">model.network.restrict_model</span></code>). A profile of the bare network
+of a real 49-parameter run found maxima 40 posterior sigma from the data.</p></li>
+</ul>
+<p>Measured with the edge at 2:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Gaussian, 58 parameters</p></th>
+<th class="head"><p>twin, 16 parameters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>exact posterior outside, of 2·10⁶ draws</p></td>
+<td><p>0 (also at 1.25)</p></td>
+<td><p>0 (1.5·10⁻⁴ at 1.5)</p></td>
+</tr>
+<tr class="row-odd"><td><p>known false maxima, in multiples of the reach</p></td>
+<td><p>43 to 55</p></td>
+<td><p>3.2 to 11.5; 2.3 after three boosts</p></td>
+</tr>
+<tr class="row-even"><td><p>audit inside the region, on a network that has them</p></td>
+<td><p>0 true calls, clear, network unchanged</p></td>
+<td><p>the same</p></td>
+</tr>
+<tr class="row-odd"><td><p>tempered chain inside it: true depth at 5 / 50 / 95%</p></td>
+<td><p>127 / 172 / 205 (exact 128 / 173 / 205)</p></td>
+<td><p>23 / 45 / 74 (exact the same)</p></td>
+</tr>
+<tr class="row-even"><td><p>evidence over the whole box, nested sampling (BEST, 1000 live points)</p></td>
+<td><p>not run</p></td>
+<td><p>−5341.82 ± 0.20 against −5341.50 exact, from the network with maxima at +2041</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>key</p></th>
+<th class="head"><p>default</p></th>
+<th class="head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">background</span></code></p></td>
+<td><p>absent</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">quadratic</span></code>: see above; the first training with boost points is a cold start</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">background_fit</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">crude</span></code></p></td>
+<td><p>with <code class="docutils literal notranslate"><span class="pre">background</span></code>: <code class="docutils literal notranslate"><span class="pre">least_squares</span></code> fits the quadratic by least squares (above)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">background_window</span></code></p></td>
+<td><p>16</p></td>
+<td><p>with <code class="docutils literal notranslate"><span class="pre">background_fit:</span> <span class="pre">least_squares</span></code>: the rows fitted, in units of T · ndim / 2 below the best</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">region</span></code></p></td>
+<td><p>absent</p></td>
+<td><p>a number above 1, the edge in multiples of the boost points’ reach; 2 is the measured setting</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">region_quantile</span></code></p></td>
+<td><p>absent</p></td>
+<td><p>with <code class="docutils literal notranslate"><span class="pre">region</span></code>: a number in (0, 1], each cloud’s reach is that quantile of its points’ distances instead of the farthest point (below)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">train_domain</span></code></p></td>
+<td><p>absent</p></td>
+<td><p>with <code class="docutils literal notranslate"><span class="pre">region</span></code>: a number of at least 1, the boost networks are trained only inside that edge of a fixed ellipsoid (below)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="the-training-domain-and-the-quantile-reach-17-october-2026-opt-in">
+<h2>The training domain and the quantile reach (17 October 2026, opt-in)<a class="headerlink" href="#the-training-domain-and-the-quantile-reach-17-october-2026-opt-in" title="Link to this heading">#</a></h2>
+<p>Measured on five runs: it is what the axion run needed, and it costs accuracy on
+near-Gaussian likelihoods (<a class="reference internal" href="boost.html#two-recommended-settings"><span class="std std-ref">boost.md, two recommended settings</span></a>).</p>
+<p>The axion monodromy run (24 parameters, Planck TT at 15 sigma) has structure of a few
+log-units in three of its parameters, the oscillation’s amplitude, frequency and phase, and
+its networks did not learn it. Two things in the run’s control branch (chain search on, the
+region at edge 2) pointed at the training set’s dynamic range and at the region’s reach:</p>
+<ul class="simple">
+<li><p><strong>The far points set the network’s output scale.</strong> The network’s output is standardised by
+the spread of its targets (the truth minus the quadratic): 52 280 log-units over the whole
+training set of network 17, 22 without the 11% of its points more than 1000 below the best
+(they reach -2.4 million). msre gives those points almost no weight (its effective number of
+points was 40 100 with them and without), but an optimiser’s step is fixed in the weights,
+so in units of the scale: the oscillations were two millionths of it. Those points also
+sit up to 420 000 above the quadratic, which falls faster than the truth there: the
+rising correction of “The quadratic background” above, in the directions the region’s wall
+then stops.</p></li>
+<li><p><strong>The false maxima sat on the region’s wall, and one far point moved the wall.</strong> From
+network 15 on, the 366 false maxima the audits evaluated lay at 2.00 times the reach, the
+posterior’s own points within 0.8 to 1.0 of it. At network 18 one far boost point took the
+farthest from 9.7 to 18.2 sigma; the region doubled and took in a false peak (16% of that
+network’s posterior, about 780 above the best). The 99.9% point of the same distances was
+7.3, 7.5 and 7.6 at networks 12, 17 and 18.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">train_domain:</span> <span class="pre">E</span></code> trains every boost network (from the first training after the boosts’
+start) only on the points inside an ellipsoid: the mean and covariance of the points within
+T * ndim of the best, the ones the quadratic background is fitted to, reaching E times as far
+as the farthest of them (training/domain.py). It is built once, at that first training, from
+the training set there, saved as <code class="docutils literal notranslate"><span class="pre">boost/train_domain_it_N.npz</span></code>, committed with that training
+and read by every later one, so that it does not grow with the boosts as the farthest-point
+reach does. The background, the network’s input and output scaling, the loss’s normalisation,
+the validation split and the audit’s fine-tunes all see the cut set. The points outside stay
+in the training set’s files and in its other uses (the acquisition’s density, the derived
+emulator). In the control branch the domain built at network 9 held, at edge 1, 84% of
+network 17’s training set with log L from -697 to -408, and the region at edge 1.5 lay wholly
+inside it at every network (at edge 2, 8.4% of network 17’s region did not).</p>
+<p><code class="docutils literal notranslate"><span class="pre">region_quantile:</span> <span class="pre">q</span></code> makes each cloud’s reach the q quantile of its points’ distances from its
+centre; which points are one mode is still decided by the farthest point. A sparse cloud’s own reach, capped at
+its donor’s, is the same quantile.</p>
+<p>Both need the region, which keeps every chain, search, evidence and profile inside it: a
+network trained on part of the box has nothing to hold it down elsewhere. The loop prints, at
+every boost, an estimate of the uniform-volume share of the box-clipped region (to its edge)
+outside the training domain. It uses 4000 proposals from the unit box or the inflated
+ellipsoids, choosing the proposal with the smaller total volume. Ellipsoids are selected
+proportionally to their volumes; draws outside the box are discarded and a point inside
+<code class="docutils literal notranslate"><span class="pre">m</span></code> ellipsoids has weight <code class="docutils literal notranslate"><span class="pre">1/m</span></code>. Thus overlaps contribute once to the union volume.
+The estimate is <code class="docutils literal notranslate"><span class="pre">sum(weight</span> <span class="pre">*</span> <span class="pre">outside)</span> <span class="pre">/</span> <span class="pre">sum(weight)</span></code>, not a posterior mass fraction.
+Unlike <code class="docutils literal notranslate"><span class="pre">Region.start</span></code>, this diagnostic never moves draws towards ellipsoid centres.
+The log reports the volume-weight Kish ESS; with no hits coverage is unknown, and
+below 200 effective samples it is marked poorly resolved rather than assessed against
+the 1% warning threshold. Otherwise an estimated share above 1% produces a warning.
+This Monte Carlo estimate cannot prove containment, even when it returns zero.
+The coverage fractions quoted above for the control branch were measured with equal-cell
+initialisation draws, which are not uniform in volume, and should not be interpreted as
+uniform-volume measurements. A branch of a
+run at its boosts’ start leaves the domain behind and builds its own (the file is named after
+the network whose training built it).</p>
+<p>Without the keys a region reaches to its farthest point: 218 regions of 41 runs’ boost files,
+built with and without the code for these keys, are identical. <code class="docutils literal notranslate"><span class="pre">tests/test_train_domain.py</span></code>
+covers the domain and the reach; <code class="docutils literal notranslate"><span class="pre">tests/mpi_train_domain_smoke.py</span></code> runs a branch with both keys
+through the launcher (<code class="docutils literal notranslate"><span class="pre">hpc/launch.py</span></code>) on two ranks, restarted once. What they do for the
+networks is in <a class="reference internal" href="boost.html#two-recommended-settings"><span class="std std-ref">boost.md</span></a>.</p>
+</section>
+<section id="what-is-not-established">
+<h2>What is not established<a class="headerlink" href="#what-is-not-established" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The two ten-boost runs below are single trajectories on analytic likelihoods. They show
+that the loop with both keys runs ten boosts without a false maximum and reaches its
+accuracy in one or two; they do not establish how many boosts a problem needs.</p></li>
+<li><p>The cold start and the quadratic were introduced together in those runs; what each
+contributes was measured on single networks only (the tables above).</p></li>
+<li><p>No false maximum appeared in those runs at all, so they did not need the region. That it
+does its work when one is there rests on the separately trained twin network above.</p></li>
+<li><p>The evidence with the region is validated on the twin only.</p></li>
+<li><p>Profiles in the region are validated on one real 49-parameter run, with the edge at 1, and
+on the twin with the edge at 2. The run’s own edge of 2 has not been used for profiles on
+a real likelihood.</p></li>
+<li><p>A search cannot find a narrow false maximum inside the region; there the boost points, which
+are posterior samples with true values, are the check.</p></li>
+<li><p>The region holds the chains to the modes the first boost found: a boost no longer discovers
+a mode.</p></li>
+<li><p>On the twin the lowest far maxima (10 to 20 above the best) had come to 2.3 times the reach
+after three boosts. One that enters the region is the audit’s to find; its repair still
+fine-tunes at 1e-5, and a cool-down after a repair is not implemented.</p></li>
+<li><p>A warm-started boost at the loop’s rate scatters from one training to the next (0.25 to 0.38
+on the Gaussian with the background); restarting at 1e-6 is steady and gains little.</p></li>
+</ul>
+</section>
+<section id="ten-boosts-from-the-same-starting-points-6-to-7-october-2026">
+<h2>Ten boosts from the same starting points, 6 to 7 October 2026<a class="headerlink" href="#ten-boosts-from-the-same-starting-points-6-to-7-october-2026" title="Link to this heading">#</a></h2>
+<p>The study of 5 October (<a class="reference internal" href="posterior_density_boost.html"><span class="std std-doc">posterior_density_boost.md</span></a>) was repeated
+with the two keys and nothing else changed: the same iteration-15 networks and training sets,
+2000 accepted density-filtered points per boost, the loop’s training schedule (restart at
+1e-4, down to 1e-6 on plateaus), the audit with its budget of 200 true calls per iteration,
+and the same per-round diagnostics. No CLASS++ evaluation was made.</p>
+<ul class="simple">
+<li><p><strong>First boost</strong>: from the network of the ordinary loop, as in the study of 5 October.</p></li>
+<li><p><strong>Network 16</strong>: the quadratic is fitted (Gaussian: 27 917 rows within 406 of the best, scale
+6.56; twin: 30 021 rows within 112, scale 5.85) and the network is trained from random
+weights: 50 and 39 minutes, against about 20 for each later warm start.</p></li>
+<li><p><strong>Networks 17 to 25</strong>: warm starts with the quadratic unchanged. Before every audit the
+region is rebuilt from all boost points; the audit, the tempered chain and the boost’s
+chains work inside it.</p></li>
+</ul>
+<p>Each cell is <em>before / after</em>: the study of 5 October, without the keys, and with the two keys. Round 0
+is the common starting network. <strong>T = 1 rms</strong> is the root-mean-square error of the
+log-likelihood on 24 000 exact posterior draws; the <strong>centred sd</strong> leaves out its constant
+offset, which changes no posterior. <strong>T = 7 rms</strong> is the same on 4000 exact draws at the
+acquisition temperature. The credible metric at level p is (|upper − upper_ref| + |lower −
+lower_ref|) / (upper_ref − lower_ref); the worst over the parameters is given.</p>
+<p>Gaussian, 58 parameters:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>boosts</p></th>
+<th class="head"><p>worst CM 68%</p></th>
+<th class="head"><p>worst CM 95%</p></th>
+<th class="head"><p>T = 1 rms</p></th>
+<th class="head"><p>T = 1 centred sd</p></th>
+<th class="head"><p>T = 7 rms</p></th>
+<th class="head"><p>audit calls</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0.309 / 0.309</p></td>
+<td><p>0.147 / 0.147</p></td>
+<td><p>6.073 / 6.073</p></td>
+<td><p>1.212 / 1.212</p></td>
+<td><p>15.00 / 15.00</p></td>
+<td><p>13 / 13</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>0.151 / 0.075</p></td>
+<td><p>0.092 / 0.034</p></td>
+<td><p>2.780 / 0.318</p></td>
+<td><p>1.022 / 0.314</p></td>
+<td><p>9.38 / 3.56</p></td>
+<td><p>37 / 0</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>0.085 / 0.040</p></td>
+<td><p>0.048 / 0.031</p></td>
+<td><p>0.574 / 0.260</p></td>
+<td><p>0.571 / 0.251</p></td>
+<td><p>8.00 / 3.45</p></td>
+<td><p>0 / 0</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>0.107 / 0.057</p></td>
+<td><p>0.059 / 0.029</p></td>
+<td><p>0.642 / 0.768</p></td>
+<td><p>0.628 / 0.313</p></td>
+<td><p>7.52 / 3.72</p></td>
+<td><p>1 / 0</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>0.058 / 0.034</p></td>
+<td><p>0.035 / 0.031</p></td>
+<td><p>0.482 / 0.243</p></td>
+<td><p>0.476 / 0.225</p></td>
+<td><p>6.20 / 3.38</p></td>
+<td><p>0 / 0</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>0.733 / 0.048</p></td>
+<td><p>0.367 / 0.028</p></td>
+<td><p>4.196 / 0.258</p></td>
+<td><p>2.806 / 0.219</p></td>
+<td><p>13.60 / 3.56</p></td>
+<td><p>12 (not clear) / 0</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>– / 0.054</p></td>
+<td><p>– / 0.036</p></td>
+<td><p>– / 0.299</p></td>
+<td><p>– / 0.257</p></td>
+<td><p>– / 3.72</p></td>
+<td><p>– / 0</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>– / 0.040</p></td>
+<td><p>– / 0.026</p></td>
+<td><p>– / 0.226</p></td>
+<td><p>– / 0.210</p></td>
+<td><p>– / 3.53</p></td>
+<td><p>– / 0</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>– / 0.037</p></td>
+<td><p>– / 0.027</p></td>
+<td><p>– / 0.313</p></td>
+<td><p>– / 0.253</p></td>
+<td><p>– / 3.84</p></td>
+<td><p>– / 0</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>– / 0.037</p></td>
+<td><p>– / 0.031</p></td>
+<td><p>– / 0.294</p></td>
+<td><p>– / 0.267</p></td>
+<td><p>– / 3.86</p></td>
+<td><p>– / 0</p></td>
+</tr>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>– / 0.051</p></td>
+<td><p>– / 0.028</p></td>
+<td><p>– / 0.421</p></td>
+<td><p>– / 0.273</p></td>
+<td><p>– / 3.73</p></td>
+<td><p>– / 0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The 5 October run was stopped after its fifth boost: the audit was not clear (a maximum 2040
+above the best was left) and the core error had gone from 0.48 to 2.81.</p>
+<p>Analytic twin of SInu, 16 parameters, two modes (exact weight of the strong mode 19.03%):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>boosts</p></th>
+<th class="head"><p>worst CM 68%</p></th>
+<th class="head"><p>worst CM 95%</p></th>
+<th class="head"><p>T = 1 rms</p></th>
+<th class="head"><p>T = 1 centred sd</p></th>
+<th class="head"><p>T = 7 rms</p></th>
+<th class="head"><p>strong mode, %</p></th>
+<th class="head"><p>audit calls</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0.121 / 0.121</p></td>
+<td><p>0.084 / 0.084</p></td>
+<td><p>0.994 / 0.994</p></td>
+<td><p>0.745 / 0.745</p></td>
+<td><p>2.56 / 2.56</p></td>
+<td><p>14.5 / 14.5</p></td>
+<td><p>0 / 0</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>0.112 / 0.030</p></td>
+<td><p>0.070 / 0.022</p></td>
+<td><p>2.311 / 0.246</p></td>
+<td><p>0.734 / 0.224</p></td>
+<td><p>3.17 / 1.05</p></td>
+<td><p>14.7 / 17.9</p></td>
+<td><p>8 / 0</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>0.074 / 0.025</p></td>
+<td><p>0.051 / 0.008</p></td>
+<td><p>0.559 / 0.173</p></td>
+<td><p>0.465 / 0.166</p></td>
+<td><p>1.95 / 0.93</p></td>
+<td><p>15.8 / 19.0</p></td>
+<td><p>0 / 0</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>0.030 / 0.014</p></td>
+<td><p>0.077 / 0.014</p></td>
+<td><p>0.833 / 0.179</p></td>
+<td><p>0.356 / 0.178</p></td>
+<td><p>1.88 / 0.96</p></td>
+<td><p>18.6 / 18.6</p></td>
+<td><p>2 / 0</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>0.085 / 0.043</p></td>
+<td><p>0.034 / 0.020</p></td>
+<td><p>0.561 / 0.235</p></td>
+<td><p>0.326 / 0.181</p></td>
+<td><p>1.64 / 1.03</p></td>
+<td><p>16.6 / 17.4</p></td>
+<td><p>0 / 0</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>0.043 / 0.021</p></td>
+<td><p>0.018 / 0.070</p></td>
+<td><p>0.310 / 0.202</p></td>
+<td><p>0.278 / 0.170</p></td>
+<td><p>1.44 / 0.97</p></td>
+<td><p>18.3 / 19.4</p></td>
+<td><p>0 / 0</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>0.076 / 0.036</p></td>
+<td><p>0.025 / 0.019</p></td>
+<td><p>0.329 / 0.235</p></td>
+<td><p>0.291 / 0.175</p></td>
+<td><p>1.41 / 1.03</p></td>
+<td><p>17.5 / 18.1</p></td>
+<td><p>1 / 0</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>0.037 / 0.031</p></td>
+<td><p>0.015 / 0.015</p></td>
+<td><p>0.246 / 0.185</p></td>
+<td><p>0.224 / 0.168</p></td>
+<td><p>1.24 / 0.98</p></td>
+<td><p>17.8 / 17.9</p></td>
+<td><p>0 / 0</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>0.054 / 0.031</p></td>
+<td><p>0.021 / 0.069</p></td>
+<td><p>0.283 / 0.161</p></td>
+<td><p>0.236 / 0.158</p></td>
+<td><p>1.20 / 0.94</p></td>
+<td><p>16.7 / 20.0</p></td>
+<td><p>1 / 0</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>0.037 / 0.049</p></td>
+<td><p>0.016 / 0.022</p></td>
+<td><p>0.218 / 0.170</p></td>
+<td><p>0.213 / 0.168</p></td>
+<td><p>1.22 / 0.96</p></td>
+<td><p>17.4 / 17.6</p></td>
+<td><p>0 / 0</p></td>
+</tr>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>0.045 / 0.031</p></td>
+<td><p>0.022 / 0.013</p></td>
+<td><p>0.371 / 0.157</p></td>
+<td><p>0.207 / 0.157</p></td>
+<td><p>1.20 / 0.99</p></td>
+<td><p>18.7 / 20.1</p></td>
+<td><p>6 / 0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>The gain comes at once.</strong> After the first boost the centred error is 0.31 on the Gaussian and
+0.22 on the twin, against 1.02 and 0.73 at the same round without the keys; the twin is then where the
+5 October run arrived after seven boosts. From the second boost on neither run improves by
+more than its own scatter: 0.21 to 0.31 on the Gaussian with no trend, 0.16 to 0.18 on the
+twin with a slow gain (0.166 after two boosts, 0.157 after ten). The T = 1 rms follows the
+centred sd except where a training leaves a constant offset (0.77 at the Gaussian’s third
+round is an offset of −0.70).</p>
+<p><strong>The credible metric has a noise floor there.</strong> Scoring the two halves of one chain separately
+gives, after ten boosts, 0.055 and 0.055 for the Gaussian’s worst 68% metric and 0.032 and 0.037
+for the twin’s; at the twin’s fifth round the worst 95% metric is 0.069 in one half and 0.009 in
+the other, so the 0.070 of that round is chain noise. Below about 0.03 to 0.05 the worst
+credible metric does not tell two networks apart. The error on exact posterior draws has no
+such floor and is the better measure of the core.</p>
+<p><strong>Audit and region.</strong> All 20 audits were clear without a true evaluation; the 5 October runs
+spent 50 (Gaussian, five boosts, the fifth not clear) and 18 (twin) at the boost stage. A search
+of the whole box, without the region, finds no maximum above +10 in the Gaussian’s networks 20
+and 25 or in the twin’s network 25. No boost point was left out as unverified. The Gaussian’s
+region is steady (reach 10.3 to 10.6 sigma). The twin’s grows, from 6.9 and 6.2 sigma for its
+two modes to 8.3 and 10.3 at the second boost and 10.6 and 11.6 by the tenth: a few points of
+the new, better network lie at up to 1.66 times the first boost’s reach with true depths of
+only 9 to 16, real posterior the first boost had not reached. The reach is set by the single farthest point; a high quantile
+(<code class="docutils literal notranslate"><span class="pre">region_quantile</span></code>) would be the steadier definition.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="boost.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Boost: training points from the posterior itself</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="boost_modes_mixing.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Boost: deciding the modes by measured mixing</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-a-boost-run-does-with-them">What a boost run does with them</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-was-found-on-the-two-analytic-targets">What was found, on the two analytic targets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-quadratic-background">The quadratic background</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-least-squares-fit-background-fit-least-squares-opt-in-20-november-2026">A least-squares fit (<code class="docutils literal notranslate"><span class="pre">background_fit:</span> <span class="pre">least_squares</span></code>, opt-in, 20 November 2026)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-region">The region</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#settings">Settings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-training-domain-and-the-quantile-reach-17-october-2026-opt-in">The training domain and the quantile reach (17 October 2026, opt-in)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-not-established">What is not established</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ten-boosts-from-the-same-starting-points-6-to-7-october-2026">Ten boosts from the same starting points, 6 to 7 October 2026</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/_generated/library/docs/boost_background_region.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

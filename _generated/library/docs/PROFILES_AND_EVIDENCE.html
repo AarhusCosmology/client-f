@@ -1,0 +1,1071 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Profile likelihoods and Bayesian evidence &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=2443c677"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_generated/library/docs/PROFILES_AND_EVIDENCE';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/_generated/library/docs/PROFILES_AND_EVIDENCE.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="CLiENT documentation" href="README.html" />
+    <link rel="prev" title="Moving from the first CLiENT" href="../UPGRADING.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../AGENTS.html">Contributor guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGES.html">What this version adds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PERFORMANCE.html">CLiENT speed and memory changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UPGRADING.html">Moving from the first CLiENT</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Profile likelihoods and Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">CLiENT documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audit_optima.html">Auditing the network’s optima</a></li>
+<li class="toctree-l1"><a class="reference internal" href="augment_training.html">Adding profile points to a run’s training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost.html">Boost: training points from the posterior itself</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_background_region.html">Boost with a quadratic background and a region</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_modes_mixing.html">Boost: deciding the modes by measured mixing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_real_lcdm.html">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combine.html">Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles.html">Create profiles from a saved CLiENT iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles_2d.html">One two-dimensional profile per run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derived_parameters.html">Derived parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evidence.html">Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Exporting a network: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">export</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hybrid_optimisers.html">Hybrid profile optimisers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injection_window.html">Injection: fitting the quadratic to the points near the best</a></li>
+<li class="toctree-l1"><a class="reference internal" href="members.html">Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="posterior_density_boost.html">Density-filtered posterior boosts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_files.html">A run’s files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_recovery.html">Continuing and recovering a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempered_convergence.html">Convergence of the ordinary loop: the error at the tempered batch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/README.html">Real likelihoods on a cluster</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../library.html" class="nav-link">Guides and reports</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Profile likelihoods and Bayesian evidence</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Maintained source: <a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/docs/PROFILES_AND_EVIDENCE.md">docs/PROFILES_AND_EVIDENCE.md</a>. Measurements keep their original settings; consult the <a class="reference internal" href="../../../configuration.html"><span class="std std-doc">current defaults</span></a> before starting a new run.</p>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="profile-likelihoods-and-bayesian-evidence">
+<h1>Profile likelihoods and Bayesian evidence<a class="headerlink" href="#profile-likelihoods-and-bayesian-evidence" title="Link to this heading">#</a></h1>
+<section id="adaptive-profile-augmentation">
+<h2>Adaptive profile augmentation<a class="headerlink" href="#adaptive-profile-augmentation" title="Link to this heading">#</a></h2>
+<p>Run on an existing checkpoint, writing a separate experiment directory:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>benchmarking/augment_profiles.py<span class="w"> </span>RUN_DIR<span class="w"> </span>-it<span class="w"> </span><span class="m">5</span><span class="w"> </span>--reference<span class="w"> </span>EXACT_PROFILES.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--budgets<span class="w"> </span><span class="m">1000</span>,2000<span class="w"> </span>-o<span class="w"> </span>OUTPUT_DIR
+python<span class="w"> </span>benchmarking/compare_profile_augmentation.py<span class="w"> </span>OUTPUT_DIR
+</pre></div>
+</div>
+<p>Defaults profile the six cosmological parameters, on 61 points covering the central
+half of the metadata prior box. Supply an exact reference on this same grid. Original
+run artifacts are read-only. <code class="docutils literal notranslate"><span class="pre">--params</span></code>, <code class="docutils literal notranslate"><span class="pre">--n-grid</span></code>, <code class="docutils literal notranslate"><span class="pre">--grid-frac</span></code>, <code class="docutils literal notranslate"><span class="pre">--seed</span></code> and the
+budget list are configurable. Nonempty output directories are refused.</p>
+<p>Each round starts from the current surrogate profiles. It retains seven full-box
+coverage nodes per parameter and adds the peak coordinate and any 1/2-sigma crossings.
+Duplicate nodes are merged. Crossings have allocation weight 4, the peak weight 3,
+and broad coverage weight 1; a minimum per-node allocation is retained. Nuisance
+optima are recomputed at the selected node coordinates.</p>
+<p>Each node gets an explicit anchor, unless that duplicates an existing point. Other
+draws alternate between prescribed conditional quadratic deficits of 0.05, 0.2, 0.5
+and 1.0, and broader conditional Gaussians at T=0.25, 0.5 and 1.0. Geometry uses the
+same global quadratic fit/precision repair as the paper baseline, retaining its 1e-3
+eigenvalue floor. No analytic target geometry is used for acquisition.</p>
+<p>Proposals outside the prior box are rejected. After 128 failed proposals for a point,
+60 sweeps of coordinate Gibbs sampling in the truncated conditional Gaussian provide
+a feasible fallback. For a narrow-radius component, fallback temperature is 2D/(d-1),
+where D is its requested deficit. Thus fallback points do not have an exact prescribed
+radius and are not claimed to be independent equilibrium draws. This is a training
+design, not a posterior sample. Fallback use and realized radii are recorded. There
+is no clipping; intentional anchors may lie on a constrained maximum’s box face.</p>
+<p>For budgets 1000,2000, the larger dataset contains the smaller one; its second round
+follows the +1000 surrogate. Both final networks start independently from the original
+checkpoint with function-preserving scaler compensation. Training uses LR 3e-5 with
+the saved plateau factor/patience/minimum/grace and epoch ceiling. Original validation
+rows stay fixed between arms; entire augmentation node groups are assigned to
+validation. Their membership masks are saved. Held-out original rows may have been
+used when the source checkpoint was trained; this is not an independent test set.</p>
+<p>Outputs include full augmented CSVs, models, histories, source hashes, per-draw/node
+provenance, optimizer diagnostics, profiles and true evaluations at surrogate optima.
+The comparison plots all three profiles against the exact reference, reports grid dPM
+and profile-shape/raw residual RMS, and refines crossing brackets using nuisance
+optimization and Brent roots. Where the exact reference is verified quadratic, its
+analytic roots provide the refined dPM denominator and endpoints. Unusable roots are
+flagged rather than silently replaced by interpolation. Global optimality remains
+uncertified; inspect stationarity diagnostics for grids and root evaluations.</p>
+<p>These experiments test the combined changes in design, warm starts and fine-tuning,
+not separate causal effects. One seed does not establish a robust improvement.
+Unprofiled directions and posterior accuracy require separate checks. The global
+quadratic/residual-network and local-correction alternatives have not been added.</p>
+</section>
+<section id="numerical-checks">
+<h2>Numerical checks<a class="headerlink" href="#numerical-checks" title="Link to this heading">#</a></h2>
+<p>The profiler writes schema version 2, with the fields <code class="docutils literal notranslate"><span class="pre">profiles</span></code>, <code class="docutils literal notranslate"><span class="pre">logl</span></code>,
+<code class="docutils literal notranslate"><span class="pre">xopt</span></code>, <code class="docutils literal notranslate"><span class="pre">best_logl</span></code> and <code class="docutils literal notranslate"><span class="pre">best_x</span></code>. <code class="docutils literal notranslate"><span class="pre">full_parameter_names</span></code> specifies the column
+order of the full optimum vectors; <code class="docutils literal notranslate"><span class="pre">names</span></code> remains the profiled subset.</p>
+<p>Each profile includes <code class="docutils literal notranslate"><span class="pre">optimization</span></code>, with one diagnostic per node. The selected
+point reports <code class="docutils literal notranslate"><span class="pre">stationary</span></code> and <code class="docutils literal notranslate"><span class="pre">projected_gradient_inf</span></code> in box-scaled coordinates,
+plus the optimizer status, message and call counts. <code class="docutils literal notranslate"><span class="pre">attempts</span></code> includes all starting
+points and local solves from that selection call. The best finite starting point is
+retained if a local solve fails or returns a worse value. Up to <code class="docutils literal notranslate"><span class="pre">--retry-starts</span> <span class="pre">2</span></code>
+independent starts are tried if stationarity has not been reached.</p>
+<p><code class="docutils literal notranslate"><span class="pre">optimization_quality</span></code> records anchor consistency, stability between complete profile
+sweeps, stationarity of selected points, passes completed and pass-cap exhaustion.
+<code class="docutils literal notranslate"><span class="pre">converged</span></code> requires all these numerical checks; it does <strong>not</strong> certify a global
+maximum. Tolerances are configurable with <code class="docutils literal notranslate"><span class="pre">--gtol</span></code>, <code class="docutils literal notranslate"><span class="pre">--ftol</span></code> and <code class="docutils literal notranslate"><span class="pre">--value-tol</span></code>, whose
+defaults are 1e-4, 1e-10 and 1e-4 respectively. Gradient tolerance is in scaled
+coordinates; value tolerance is in raw log-likelihood units. Inspect these diagnostics
+when using a different output scale or precision. The scorer warns if checks are
+incomplete. An older JSON file without these fields remains readable, but has no quality diagnostics.</p>
+<p><code class="docutils literal notranslate"><span class="pre">--true</span></code> evaluates truth <strong>at surrogate optima</strong>; it does not perform
+true constrained optimization. The JSON records this as <code class="docutils literal notranslate"><span class="pre">true_evaluation_kind</span></code>.</p>
+<p>The metric treats the piecewise-linear confidence set explicitly. Both endpoint
+roots are included, disconnected sets are not replaced by their outer envelope, and
+empty or zero-width sets are not called unconstrained. These cases have a flagged
+NaN single-interval score; the CLI reports excluded counts. <code class="docutils literal notranslate"><span class="pre">confidence_set()</span></code> returns
+all connected components for callers needing them. An unconstrained reference with a
+constrained surrogate is flagged <code class="docutils literal notranslate"><span class="pre">spurious</span> <span class="pre">constraint</span></code> and scored by endpoint error
+over the full grid width. A connected set follows the one-/two-sided definition of section 2.</p>
+<p><code class="docutils literal notranslate"><span class="pre">--floor</span></code> fits the Gaussian curvature and off-grid centre in the crossing region.
+It returns no estimate when there is no two-sided interval or the region is not
+consistent with an unbound quadratic Gaussian profile. Shared interpolation errors
+can cancel between curves, so this estimate is not a hard floor on dPM. Refine the
+actual crossing brackets when resolving small differences.</p>
+<p>The experimental results below were measured before these checks existed and have not been repeated with them.</p>
+<p>Two modules extend CLiENT’s assessment beyond the posterior:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>module</p></th>
+<th class="head"><p>what it does</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">benchmarking/profile_likelihood.py</span></code></p></td>
+<td><p>1D profile likelihoods from a trained surrogate</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">profiles/metric.py</span></code></p></td>
+<td><p>the profile metric <code class="docutils literal notranslate"><span class="pre">dPM</span></code>, and its resolution floor</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>They were developed against a 31-dimensional analytic target whose posterior, profile and
+evidence are all known in closed form, so every number below was checked against an exact
+reference rather than against another sampler.</p>
+</section>
+<hr class="docutils" />
+<section id="why-these-are-separate-from-the-credible-metric">
+<h2>Why these are separate from the credible metric<a class="headerlink" href="#why-these-are-separate-from-the-credible-metric" title="Link to this heading">#</a></h2>
+<p>The posterior, the profile and the evidence weight the likelihood surface in different
+places, and an emulator accurate for one is <strong>not</strong> automatically accurate for another:</p>
+<ul class="simple">
+<li><p>the <strong>posterior</strong> is governed by the bulk of the probability mass;</p></li>
+<li><p>the <strong>profile</strong> by a thin ridge of maximum likelihood, which is where training data is
+scarcest;</p></li>
+<li><p>the <strong>evidence</strong> by the <em>typical set</em>, a shell roughly <code class="docutils literal notranslate"><span class="pre">d/2</span></code> log-units below the peak
+where most of the still-appreciable prior volume lives.</p></li>
+</ul>
+<p>Measured on the 31D target: a network with <strong>6.5× the profile residual rms</strong> of another
+gave an evidence <strong>indistinguishable from it</strong> (0.13σ apart). The evidence integral simply
+does not sample the region where that network fails. The practical consequence is that
+<strong>profiles and evidence need separate validation</strong> — neither result licenses the other.</p>
+<p>A second trap worth stating: <strong>validation loss predicts neither.</strong> On the same target it
+ranked networks in the <em>reverse</em> order of their profile accuracy, because it scores fit to
+the training distribution while the profile optimiser deliberately climbs to wherever the
+surrogate is most optimistic, which is by construction the least-sampled place.</p>
+</section>
+<hr class="docutils" />
+<section id="profile-likelihoods">
+<h2>1. Profile likelihoods<a class="headerlink" href="#profile-likelihoods" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>benchmarking/profile_likelihood.py<span class="w"> </span>RUN_DIR<span class="w"> </span>-it<span class="w"> </span><span class="m">10</span><span class="w"> </span>-o<span class="w"> </span>profiles_it10.json<span class="w"> </span>--true
+</pre></div>
+</div>
+<p>For each parameter this walks a grid, maximising the surrogate over all others at each
+point. With <code class="docutils literal notranslate"><span class="pre">--true</span></code> it also evaluates the real likelihood at each profile optimum, which
+is what makes the <code class="docutils literal notranslate"><span class="pre">raw</span></code> residuals in the output meaningful.</p>
+<p>Gradients come from the network itself, so L-BFGS-B gets analytic derivatives rather than
+finite differences — a direct pay-off of emulating the likelihood rather than observables.</p>
+<section id="the-optimiser-is-not-a-plain-multi-start-and-cannot-be">
+<h3>The optimiser is not a plain multi-start, and cannot be<a class="headerlink" href="#the-optimiser-is-not-a-plain-multi-start-and-cannot-be" title="Link to this heading">#</a></h3>
+<p>A naive multi-start produces profile points that <em>beat</em> the global anchor, i.e. negative
+Δχ², because in 30-odd dimensions a random start rarely finds the ridge at all. Three
+things fix it and all three are needed:</p>
+<ol class="arabic simple">
+<li><p>profiles are walked <strong>outward from the anchor</strong>, each grid point warm-started from its
+neighbour, so the optimiser never re-finds the ridge from scratch;</p></li>
+<li><p><strong>neighbour relaxation</strong> re-optimises each point from its neighbours’ solutions until
+nothing improves, repairing points that fell off the ridge;</p></li>
+<li><p>the <strong>anchor is re-polished</strong> whenever any profile point beats it, and the sweep
+repeats.</p></li>
+</ol>
+<p>If the run exhausts <code class="docutils literal notranslate"><span class="pre">--max-passes</span></code> while still improving it says so (a warning that the
+numerical checks are incomplete, and <code class="docutils literal notranslate"><span class="pre">pass_cap_reached</span></code> in <code class="docutils literal notranslate"><span class="pre">optimization_quality</span></code>), and the
+reported best fit should then be read as a lower bound.</p>
+</section>
+<section id="scaled-coordinates-are-load-bearing">
+<h3>Scaled coordinates are load-bearing<a class="headerlink" href="#scaled-coordinates-are-load-bearing" title="Link to this heading">#</a></h3>
+<p>Every optimisation runs in <code class="docutils literal notranslate"><span class="pre">u</span> <span class="pre">=</span> <span class="pre">(x</span> <span class="pre">−</span> <span class="pre">centre)/halfwidth</span></code>, so each free coordinate is O(1) on
+[−1, 1]. This is not cosmetic. Cosmological parameter vectors mix <code class="docutils literal notranslate"><span class="pre">omega_b</span> <span class="pre">~</span> <span class="pre">0.02</span></code> with
+<code class="docutils literal notranslate"><span class="pre">ps_A_100_100</span> <span class="pre">~</span> <span class="pre">200</span></code>; L-BFGS-B builds its inverse-Hessian approximation from that geometry
+and its line search stalls far short of the optimum. On the 27D Gaussian it5 network the
+raw-unit search reported −23.3518 after sixty passes, while the scaled search reaches
+−22.6676 — the network’s actual maximum — from the same 31 starts in 0.1 s.</p>
+<p>The failure is quiet and reads like a budget problem: the raw-unit search reports monotone
+progress pass after pass and trips the pass-cap warning, which invites more passes
+rather than suspicion of the coordinates. Re-measured with scaling, three 31D ridge
+anchors moved by +0.41, +0.58 and +1.05 log-units.</p>
+<p>It is worth being explicit that this is <strong>conditioning, not float32 precision</strong>, because
+the latter is the tempting explanation. The gradients are exact autodiff derivatives of the
+network, not finite differences, and their noise floor (~1e-7 relative, so ~3e-6 absolute
+near lnL = −23) is four orders of magnitude below the gaps above. Replacing L-BFGS-B with a
+gradient-free optimiser would therefore discard good information to treat the wrong cause,
+and Nelder-Mead in particular degrades badly beyond ~10 dimensions.</p>
+</section>
+<section id="two-quantities-that-are-easy-to-conflate">
+<h3>Two quantities that are easy to conflate<a class="headerlink" href="#two-quantities-that-are-easy-to-conflate" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">below</span> <span class="n">peak</span> <span class="o">=</span> <span class="mi">2</span><span class="p">[</span><span class="n">lnL_max</span>      <span class="o">-</span> <span class="n">lnL_true</span><span class="p">(</span><span class="n">x̂</span><span class="p">)]</span>    <span class="n">how</span> <span class="n">far</span> <span class="n">the</span> <span class="n">located</span> <span class="n">optimum</span> <span class="ow">is</span> <span class="kn">from</span><span class="w"> </span><span class="nn">the</span> <span class="n">truth</span>
+<span class="n">bias</span>       <span class="o">=</span> <span class="mi">2</span><span class="p">[</span><span class="n">lnL_true</span><span class="p">(</span><span class="n">x̂</span><span class="p">)</span>  <span class="o">-</span> <span class="n">lnL_emul</span><span class="p">(</span><span class="n">x̂</span><span class="p">)]</span>    <span class="n">how</span> <span class="n">wrong</span> <span class="n">the</span> <span class="n">surrogate</span> <span class="ow">is</span> <span class="n">AT</span> <span class="n">that</span> <span class="n">point</span>
+</pre></div>
+</div>
+<p>They are independent. On the 31D target one network had a bias of only −0.032 yet its
+optimum sat 1.261 in Δχ² below the true maximum: locally faithful, but under-predicting
+near the real peak so the optimiser never climbed there. <strong>A small bias is not evidence
+that the maximum has been found.</strong></p>
+</section>
+<section id="grid-choice">
+<h3>Grid choice<a class="headerlink" href="#grid-choice" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">--grid-frac</span></code> spans the central fraction of the prior box; the default 1.0 covers all of
+it. That is right for seeing where an emulator is optimistic, but wrong for locating Δχ²
+crossings — see the floor discussion below.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="the-profile-metric">
+<h2>2. The profile metric<a class="headerlink" href="#the-profile-metric" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>profiles.metric<span class="w"> </span>profiles_it10.json<span class="w"> </span>-r<span class="w"> </span>exact_profiles.json
+python<span class="w"> </span>-m<span class="w"> </span>profiles.metric<span class="w"> </span>exact_profiles.json<span class="w"> </span>--floor
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">dPM</span></code> is the credible metric’s formula with the endpoints taken to be the Δχ² = 1 and 4
+crossings instead of posterior quantiles:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dPM = (|s_hi − r_hi| + |s_lo − r_lo|) / (r_hi − r_lo)
+</pre></div>
+</div>
+<p>The <strong>reference</strong> decides whether a parameter is two-sided, one-tailed or unconstrained,
+and the emulator is measured against that choice — exactly as in the credible metric. An
+unconstrained level scores 0; a crossing the emulator fails to produce is anchored at the
+grid edge, making <code class="docutils literal notranslate"><span class="pre">dPM</span></code> large rather than undefined.</p>
+<section id="always-measure-the-floor-first">
+<h3>Always measure the floor first<a class="headerlink" href="#always-measure-the-floor-first" title="Link to this heading">#</a></h3>
+<p>This is the part most likely to waste your time if skipped. <code class="docutils literal notranslate"><span class="pre">dPM</span></code> is computed by linearly
+interpolating a locally parabolic curve between grid points, which systematically
+underestimates the interval width. Measured on the exact reference, where the closed form
+is known:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>grid</p></th>
+<th class="head"><p>1σ floor</p></th>
+<th class="head"><p>2σ floor</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>25 points over ±10σ (<code class="docutils literal notranslate"><span class="pre">--grid-frac</span> <span class="pre">1.0</span></code>)</p></td>
+<td><p><strong>0.054</strong></p></td>
+<td><p>0.011</p></td>
+</tr>
+<tr class="row-odd"><td><p>61 points over ±5σ (<code class="docutils literal notranslate"><span class="pre">--grid-frac</span> <span class="pre">0.5</span></code>)</p></td>
+<td><p><strong>0.0016</strong></p></td>
+<td><p>0.0006</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>On the coarse grid the floor was <strong>as large as the metric values themselves</strong>, and
+refining the grid <em>inverted the ranking of the emulators</em> — one arm went from best to
+worst. A ranking that inverts under grid refinement was never measuring the emulators.</p>
+<p>Do not narrow the span too far either: at ±3σ one parameter’s profile only reached
+Δχ² = 2.49, so its 2σ crossing fell outside the grid and the metric became undefined.
+<strong>±5σ with 61 points put every crossing of every parameter inside the grid</strong> on the 31D
+target, and is a reasonable starting point.</p>
+</section>
+<section id="dpm-and-residual-rms-measure-different-things">
+<h3>dPM and residual rms measure different things<a class="headerlink" href="#dpm-and-residual-rms-measure-different-things" title="Link to this heading">#</a></h3>
+<p>One network had 6.5× the residual rms of another yet an essentially equal <code class="docutils literal notranslate"><span class="pre">dPM</span></code> (0.0304
+vs 0.0312). The rms is a pointwise average dominated by wherever the emulator is worst;
+<code class="docutils literal notranslate"><span class="pre">dPM</span></code> asks only where two specific contours fall. Report both.</p>
+</section>
+<section id="a-target-dependent-degeneracy">
+<h3>A target-dependent degeneracy<a class="headerlink" href="#a-target-dependent-degeneracy" title="Link to this heading">#</a></h3>
+<p>Parameters with exactly flat true profiles are unconstrained at every level and score 0
+for every network. On the 31D ridge four of ten parameters are in this class, so the
+summaries are taken over the remaining six. This is a property of the target, not of the
+metric.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="bayesian-evidence">
+<h2>3. Bayesian evidence<a class="headerlink" href="#bayesian-evidence" title="Link to this heading">#</a></h2>
+<p><strong>Use <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">client.py</span> <span class="pre">evidence</span> <span class="pre">RUN_DIR</span></code> (<a class="reference internal" href="evidence.html"><span class="std std-doc">evidence.md</span></a>).</strong> It reports ln Z in
+the run’s own prior convention, Cobaya’s or MontePython’s, which does not depend on the
+box, and flags a box that cuts the posterior. The numbers below were measured by integrating
+over a chosen box, with a script that is not part of this repository.</p>
+<p>Requires <a class="reference external" href="https://github.com/AndreasNygaard/best-inference">BEST</a>: install it, set <code class="docutils literal notranslate"><span class="pre">BEST_PATH</span></code>
+to its checkout, or pass <code class="docutils literal notranslate"><span class="pre">--best-path</span></code>.</p>
+<section id="two-conventions-decide-whether-the-answer-means-anything">
+<h3>Two conventions decide whether the answer means anything<a class="headerlink" href="#two-conventions-decide-whether-the-answer-means-anything" title="Link to this heading">#</a></h3>
+<p><strong>The prior offset.</strong> Wrappers do not in general return the bare likelihood. The Cobaya
+wrapper returns <code class="docutils literal notranslate"><span class="pre">log(L</span> <span class="pre">·</span> <span class="pre">π_hard)</span></code>, carrying a constant <code class="docutils literal notranslate"><span class="pre">−Σ</span> <span class="pre">ln(range)</span></code> over all parameters
+— for the 31D target, −103.301361. The network is trained on it, so every emulator <code class="docutils literal notranslate"><span class="pre">ln</span> <span class="pre">Z</span></code>
+inherits it and any exact value compared against must carry it too. Getting this wrong
+looks like a 103 log-unit catastrophe, which is at least easy to spot.</p>
+<p><strong>The box.</strong> Nested sampling with a uniform prior computes <code class="docutils literal notranslate"><span class="pre">Z</span> <span class="pre">=</span> <span class="pre">(1/V_box)∫_box</span> <span class="pre">L</span> <span class="pre">dx</span></code>, so
+<code class="docutils literal notranslate"><span class="pre">ln</span> <span class="pre">Z</span></code> depends directly on the box and is not a property of the likelihood alone. The
+command’s default box is the run’s domain. <code class="docutils literal notranslate"><span class="pre">--n-sigma</span></code> asks for ±K on the <strong>proposal</strong> widths
+— the convention <code class="docutils literal notranslate"><span class="pre">restrict_prior_bounds</span></code> uses throughout this package, <em>not</em> K times the
+posterior sigma. The two differ by factors of 0.45 to 1.31 per parameter on the 31D target.
+Parameters with hard physical limits or no meaningful sigma go in <code class="docutils literal notranslate"><span class="pre">--keep-bounds</span></code>.</p>
+<p><strong>Where the box is centred, which is the trap.</strong> The boxes measured here were <code class="docutils literal notranslate"><span class="pre">0.5*(lower</span> <span class="pre">+</span> <span class="pre">upper)</span> <span class="pre">±</span> <span class="pre">n_sigma·sigma</span></code> on the run’s <em>metadata</em> bounds. CLiENT clips those bounds to the
+wrapper’s hard priors, so for a parameter bounded below at zero the metadata centre is <strong>not</strong> the
+likelihood peak. On the 27D Gaussian the offsets reach 9.32 proposal sigma
+(<code class="docutils literal notranslate"><span class="pre">galf_TE_A_100</span></code>), 6.11 (<code class="docutils literal notranslate"><span class="pre">gal545_A_100</span></code>) and 4.57 (<code class="docutils literal notranslate"><span class="pre">A_cib_217</span></code>) — larger than a ±4 sigma
+box half-width, so the box can nearly exclude the peak along those directions. A ±4 sigma box
+so built does not mean “±4 sigma around the best fit” whenever clipping has occurred.
+<code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">evidence</span> <span class="pre">--n-sigma</span> <span class="pre">K</span></code> centres on the proposal centre instead, within the domain,
+and that need not be the peak either.</p>
+<p>This is a property of a box chosen this way rather than a defect: the peak is not known in
+general. But it makes one rule mandatory. <strong>Build any exact reference from the
+<code class="docutils literal notranslate"><span class="pre">lower</span></code>/<code class="docutils literal notranslate"><span class="pre">upper</span></code> that the evidence records in its own output json, never from the
+likelihood mean.</strong> A reference centred on the mean instead produced a spurious 12.58
+log-unit (109σ) disagreement on the 27D Gaussian; rebuilt on the recorded box, the same
+network agreed at 1.27σ.</p>
+<p>Verifying a small box probability needs care too: at P ≈ 8×10⁻⁷ in 27 dimensions, uniform
+importance sampling is hopeless (relative se 0.56) and the <code class="docutils literal notranslate"><span class="pre">V·φ_max</span></code> bound is vacuous,
+because in standardised units with a near-singular correlation matrix the density exceeds</p>
+<ol class="arabic simple">
+<li><p>Direct sampling from the Gaussian works — 120M draws gave 107 hits and confirmed Genz
+to 0.56σ — and Genz’s algorithm is the right tool provided it is cross-checked that way.</p></li>
+</ol>
+</section>
+<section id="reading-the-result">
+<h3>Reading the result<a class="headerlink" href="#reading-the-result" title="Link to this heading">#</a></h3>
+<p>BEST defines its σ as <code class="docutils literal notranslate"><span class="pre">sqrt(H/n_live)</span></code>, so a match between the two holds by
+construction and says nothing about convergence. <code class="docutils literal notranslate"><span class="pre">H</span></code> was
+stable at 24.6–25.1 nats across the eight runs on the 31D target (four emulators × two
+resolutions): the information content is a property of the target, not the emulator.</p>
+<p>All eight runs recovered the exact evidence to better than <strong>0.12 in ln Z</strong>, i.e. Z to
+within 13%, in 31 dimensions. For context, on the Jeffreys, Kass–Raftery and Trotta scales
+alike the threshold below which a Bayes factor says nothing is |ln B| ≈ 1, so at this
+accuracy the surrogate is not the limiting factor for model selection. Two caveats: errors
+from two separately emulated models need not cancel, and <code class="docutils literal notranslate"><span class="pre">ln</span> <span class="pre">Z</span></code> depends on the prior
+volume, so a factor-of-two change in an unconstrained parameter’s range shifts <code class="docutils literal notranslate"><span class="pre">ln</span> <span class="pre">B</span></code> by
+0.69 — far larger than the emulator error.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="a-worked-sequence">
+<h2>A worked sequence<a class="headerlink" href="#a-worked-sequence" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">RUN</span><span class="o">=</span>results/&lt;timestamp&gt;_ridge31
+
+<span class="c1"># profiles on a grid fine enough for the metric</span>
+python<span class="w"> </span>benchmarking/profile_likelihood.py<span class="w"> </span><span class="nv">$RUN</span><span class="w"> </span>-it<span class="w"> </span><span class="m">10</span><span class="w"> </span>--true<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-n<span class="w"> </span><span class="m">61</span><span class="w"> </span>--grid-frac<span class="w"> </span><span class="m">0</span>.5<span class="w"> </span>-o<span class="w"> </span><span class="nv">$RUN</span>/profiles_it10.json
+
+<span class="c1"># check what the grid costs before trusting any score</span>
+python<span class="w"> </span>-m<span class="w"> </span>profiles.metric<span class="w"> </span><span class="nv">$RUN</span>/exact_profiles.json<span class="w"> </span>--floor
+
+<span class="c1"># score</span>
+python<span class="w"> </span>-m<span class="w"> </span>profiles.metric<span class="w"> </span><span class="nv">$RUN</span>/profiles_it10.json<span class="w"> </span>-r<span class="w"> </span><span class="nv">$RUN</span>/exact_profiles.json
+
+<span class="c1"># evidence</span>
+python<span class="w"> </span>client.py<span class="w"> </span>evidence<span class="w"> </span><span class="nv">$RUN</span><span class="w"> </span>-i<span class="w"> </span><span class="m">10</span>
+</pre></div>
+</div>
+<p>The exact references for an analytic target (<code class="docutils literal notranslate"><span class="pre">exact_profiles.json</span></code>, <code class="docutils literal notranslate"><span class="pre">exact_evidence.json</span></code>)
+are target-specific and are not produced by these modules; the scripts that generated them
+for the 31D ridge are not part of this repository.</p>
+</section>
+<hr class="docutils" />
+<section id="what-is-not-established">
+<h2>What is not established<a class="headerlink" href="#what-is-not-established" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Convergence.</strong> The drift criterion never reached its nominal 0.01 threshold on the 31D
+target, so no stopping criterion was exercised for these runs.</p></li>
+<li><p><strong>Disconnected credible regions.</strong> The credible metric, scored on a single interval,
+returned bit-identical values for genuinely different emulators on a parameter whose 68%
+region is disconnected. That is a defect of the interval construction; exclude such
+parameters from summaries.</p></li>
+<li><p><strong>Seeds.</strong> One seed per configuration throughout. Differences below about 1σ of the
+sampler’s own error bar should not be read as real.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../UPGRADING.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Moving from the first CLiENT</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="README.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">CLiENT documentation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-profile-augmentation">Adaptive profile augmentation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-checks">Numerical checks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-these-are-separate-from-the-credible-metric">Why these are separate from the credible metric</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profile-likelihoods">1. Profile likelihoods</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-optimiser-is-not-a-plain-multi-start-and-cannot-be">The optimiser is not a plain multi-start, and cannot be</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scaled-coordinates-are-load-bearing">Scaled coordinates are load-bearing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-quantities-that-are-easy-to-conflate">Two quantities that are easy to conflate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grid-choice">Grid choice</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-profile-metric">2. The profile metric</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#always-measure-the-floor-first">Always measure the floor first</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dpm-and-residual-rms-measure-different-things">dPM and residual rms measure different things</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-target-dependent-degeneracy">A target-dependent degeneracy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-evidence">3. Bayesian evidence</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-conventions-decide-whether-the-answer-means-anything">Two conventions decide whether the answer means anything</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-result">Reading the result</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-worked-sequence">A worked sequence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-not-established">What is not established</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/_generated/library/docs/PROFILES_AND_EVIDENCE.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

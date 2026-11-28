@@ -1,0 +1,20 @@
+config
+======
+
+.. py:module:: config
+
+.. autoapi-nested-parse::
+
+   Selected interfaces in config.
+
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/config/config/index
+
+

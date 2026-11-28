@@ -1,0 +1,21 @@
+likelihood
+==========
+
+.. py:module:: likelihood
+
+.. autoapi-nested-parse::
+
+   Selected interfaces in likelihood.
+
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/likelihood/base/index
+   /api/likelihood/surrogate/index
+
+

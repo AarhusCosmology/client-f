@@ -1,0 +1,14 @@
+html { --pst-color-primary: #176c75; --pst-color-secondary: #8056a3; }
+.bd-main .bd-content .bd-article-container { max-width: 58rem; }
+.bd-article table { font-size: .93rem; }
+.bd-article td code { overflow-wrap: anywhere; white-space: normal; }
+.bd-article .admonition { border-radius: .4rem; }
+.bd-article h1 { letter-spacing: -.025em; }
+/* Sphinx nests .pre inside inline code; allow long setting names to wrap too. */
+.bd-article td code .pre { overflow-wrap: anywhere; white-space: normal; }
+.bd-article td, .bd-article th { overflow-wrap: anywhere; }
+#configuration-fields table { table-layout: fixed; width: 100%; }
+#configuration-fields th:nth-child(1) { width: 24%; }
+#configuration-fields th:nth-child(2) { width: 16%; }
+#configuration-fields th:nth-child(3) { width: 27%; }
+#configuration-fields th:nth-child(4) { width: 33%; }

@@ -1,0 +1,1110 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>profiles.residual_newton &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=2443c677"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/profiles/residual_newton/index';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/api/profiles/residual_newton/index.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="profiles.workflow" href="../workflow/index.html" />
+    <link rel="prev" title="profiles.region" href="../region/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../_generated/reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../_generated/reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../run/index.html">run</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../run/run/index.html">run.run</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../utils/index.html">utils</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../utils/held_out/index.html">utils.held_out</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../config/index.html">config</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../config/config/index.html">config.config</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../dataset/index.html">dataset</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dataset/augment/index.html">dataset.augment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dataset/boost/index.html">dataset.boost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dataset/posterior_boost/index.html">dataset.posterior_boost</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../sampling/index.html">sampling</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../sampling/modes/index.html">sampling.modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sampling/region/index.html">sampling.region</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">profiles</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../config/index.html">profiles.config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hybrid_surface/index.html">profiles.hybrid_surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../region/index.html">profiles.region</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">profiles.residual_newton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflow/index.html">profiles.workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../training/index.html">training</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../training/audit/index.html">training.audit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../likelihood/index.html">likelihood</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../likelihood/base/index.html">likelihood.base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../likelihood/surrogate/index.html">likelihood.surrogate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../convergence/index.html">convergence</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../convergence/convergence/index.html">convergence.convergence</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">profiles</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">profiles.residual_newton</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-profiles.residual_newton">
+<span id="profiles-residual-newton"></span><h1>profiles.residual_newton<a class="headerlink" href="#module-profiles.residual_newton" title="Link to this heading">#</a></h1>
+<p>Surrogate-corrected true-likelihood profile refinement, residual Newton method.</p>
+<p>The true stage of every profile study.</p>
+<p>Around an incumbent u_b (box coordinates, d = u - u_b) the truth is modelled as</p>
+<blockquote>
+<div><p>t(u) ~ s(u) + r(u_b) + g . d + 0.5 d^T Q d,</p>
+</div></blockquote>
+<p>with s the network (all its nonlinearity kept), g the gradient of the residual r = t - s,
+measured by finite differences, and Q a correction to the network’s curvature, learned and
+carried along the profile. Coordinates are whitened by the network’s local curvature
+(sigma capped at <code class="docutils literal notranslate"><span class="pre">max_step</span></code> box half-widths, as profiles.hybrid.curvature_geometry).</p>
+<dl class="simple">
+<dt>Per node (profiled coordinate fixed):</dt><dd><ol class="arabic simple" start="0">
+<li><p>Start at the surrogate optimum; its true value is the workflow’s direct call.</p></li>
+<li><p>Transfer: predict g from the previous nodes of the chain (the residual gradient at an
+optimum of t is exactly -grad s there; extrapolated linearly along the profile) and
+spend one call at the model’s maximum if it predicts more than <code class="docutils literal notranslate"><span class="pre">transfer_min</span></code>. A
+transfer that fails pauses transfers for two nodes.</p></li>
+<li><p>Gradient round, one concurrent batch: forward differences of t - s, <code class="docutils literal notranslate"><span class="pre">step</span></code> sigmas along
+the network’s curvature eigenvectors (capped at <code class="docutils literal notranslate"><span class="pre">fd_max_box</span></code>), inward along the axis
+for every free coordinate on a bound (even if the predicted gradient is outward), and
+central differences of <code class="docutils literal notranslate"><span class="pre">flat_step</span></code> sigmas along the <code class="docutils literal notranslate"><span class="pre">flat_central</span></code> flattest
+directions, which also measure the curvature there (written into Q). g is the
+whitened least-squares fit, ridged towards the prediction.</p></li>
+<li><p>Trust-region step on the model (radius starts at <code class="docutils literal notranslate"><span class="pre">trust0</span></code> sigmas; the network is least
+reliable along its flattest direction). One call. Q is corrected along the step from
+the actual/predicted mismatch, and by a PSB secant update when the next gradient round
+is <code class="docutils literal notranslate"><span class="pre">secant_min</span></code> sigmas or more away. A good step to the edge of the region steps again
+with the gradient carried by Q; a failed one shrinks the region, and a failure within
+<code class="docutils literal notranslate"><span class="pre">escalate</span></code> sigmas mirrors every probe (central differences, full diagonal curvature).</p></li>
+<li><p>Stop when a freshly measured gradient predicts at most <code class="docutils literal notranslate"><span class="pre">tol</span></code>, or after a good step when
+the curvature error bound 0.5 (L * distance since the gradient round)^2 is below <code class="docutils literal notranslate"><span class="pre">tol</span></code>
+(L: the model’s curvature error, floored at <code class="docutils literal notranslate"><span class="pre">curvature</span></code>, learned from secant and step
+mismatches beyond the noise, carried along the chain with factor <code class="docutils literal notranslate"><span class="pre">L_memory</span></code>).</p></li>
+</ol>
+</dd>
+</dl>
+<p>Each profile starts at its node nearest the surrogate’s best fit, with no prior, and runs
+two chains outward from it; a node learns only from its predecessors in its own chain, so
+results do not depend on timing or on <code class="docutils literal notranslate"><span class="pre">workers</span></code>. The global best fit is solved last, from
+the best node with every coordinate free. On resume, finished nodes are loaded from their
+checkpoints (each holds the state its successor needs) and an interrupted node is re-run;
+its journaled calls come back from the ledger’s cache, so no call is repeated.</p>
+<p>The reported node value is always an evaluated true likelihood (a lower bound on the
+profile). Stopping is model-based and does not certify accuracy.</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#profiles.residual_newton.FREE_STEPS_MAX" title="profiles.residual_newton.FREE_STEPS_MAX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FREE_STEPS_MAX</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#profiles.residual_newton.NewtonConfig" title="profiles.residual_newton.NewtonConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NewtonConfig</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#profiles.residual_newton.QuadCorrected" title="profiles.residual_newton.QuadCorrected"><code class="xref py py-obj docutils literal notranslate"><span class="pre">QuadCorrected</span></code></a></p></td>
+<td><p>s(u) + g . d + 0.5 d^T Q d, d = u - u0, with BatchedSurrogate's API.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#profiles.residual_newton.Frame" title="profiles.residual_newton.Frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame</span></code></a></p></td>
+<td><p>Local whitening on the probed coordinates P at one point: z = K d_P, d_P = T z.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#profiles.residual_newton.NewtonRefiner" title="profiles.residual_newton.NewtonRefiner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NewtonRefiner</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#profiles.residual_newton.chain_plan" title="profiles.residual_newton.chain_plan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chain_plan</span></code></a>(order, chain_length)</p></td>
+<td><p>Split the nodes on one side of a seed, nearest first, into the seed's own chain and</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#profiles.residual_newton.refused_start" title="profiles.residual_newton.refused_start"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refused_start</span></code></a>(x_start, prior, **row)</p></td>
+<td><p>The row of a node whose start the likelihood refuses (a prior edge, a Boltzmann failure):</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#profiles.residual_newton.run_seeded_chains" title="profiles.residual_newton.run_seeded_chains"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_seeded_chains</span></code></a>(pool, seeds, chains_of, run)</p></td>
+<td><p>Solve every seed at once, then each seed's chains as soon as that seed is done (not</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#profiles.residual_newton.refine_profiles_newton" title="profiles.residual_newton.refine_profiles_newton"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refine_profiles_newton</span></code></a>(model, source, bounds, ledger, out)</p></td>
+<td><p>The true stage of a 1D study: stage names <code class="docutils literal notranslate"><span class="pre">corrected/{direct,node}/NAME/J</span></code>. <code class="docutils literal notranslate"><span class="pre">nodes</span></code> (grid</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="profiles.residual_newton.FREE_STEPS_MAX">
+<span class="sig-prename descclassname"><span class="pre">profiles.residual_newton.</span></span><span class="sig-name descname"><span class="pre">FREE_STEPS_MAX</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">50</span></em><a class="headerlink" href="#profiles.residual_newton.FREE_STEPS_MAX" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">profiles.residual_newton.</span></span><span class="sig-name descname"><span class="pre">NewtonConfig</span></span><a class="headerlink" href="#profiles.residual_newton.NewtonConfig" title="Link to this definition">#</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.tol">
+<span class="sig-name descname"><span class="pre">tol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.01</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.tol" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.step">
+<span class="sig-name descname"><span class="pre">step</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.25</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.step" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.trust0">
+<span class="sig-name descname"><span class="pre">trust0</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.5</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.trust0" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.trust_max">
+<span class="sig-name descname"><span class="pre">trust_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8.0</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.trust_max" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.trust_min">
+<span class="sig-name descname"><span class="pre">trust_min</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.05</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.trust_min" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.curvature">
+<span class="sig-name descname"><span class="pre">curvature</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.2</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.curvature" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.noise">
+<span class="sig-name descname"><span class="pre">noise</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0025</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.noise" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.transfer_min">
+<span class="sig-name descname"><span class="pre">transfer_min</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.015</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.transfer_min" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.ridge">
+<span class="sig-name descname"><span class="pre">ridge</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0001</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.ridge" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.secant">
+<span class="sig-name descname"><span class="pre">secant</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.secant" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.q_max">
+<span class="sig-name descname"><span class="pre">q_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.9</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.q_max" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.q_stiff">
+<span class="sig-name descname"><span class="pre">q_stiff</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">50.0</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.q_stiff" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.fd_max_box">
+<span class="sig-name descname"><span class="pre">fd_max_box</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.1</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.fd_max_box" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.flat_step">
+<span class="sig-name descname"><span class="pre">flat_step</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.5</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.flat_step" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.flat_max_box">
+<span class="sig-name descname"><span class="pre">flat_max_box</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.25</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.flat_max_box" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.secant_min">
+<span class="sig-name descname"><span class="pre">secant_min</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.5</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.secant_min" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.escalate">
+<span class="sig-name descname"><span class="pre">escalate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.5</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.escalate" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.flat_central">
+<span class="sig-name descname"><span class="pre">flat_central</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.flat_central" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.max_model_steps">
+<span class="sig-name descname"><span class="pre">max_model_steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.max_model_steps" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.L_memory">
+<span class="sig-name descname"><span class="pre">L_memory</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.8</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.L_memory" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.extrapolate">
+<span class="sig-name descname"><span class="pre">extrapolate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.extrapolate" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.max_step">
+<span class="sig-name descname"><span class="pre">max_step</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.5</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.max_step" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.maxcalls">
+<span class="sig-name descname"><span class="pre">maxcalls</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">150</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.maxcalls" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonConfig.max_rounds">
+<span class="sig-name descname"><span class="pre">max_rounds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">12</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonConfig.max_rounds" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="profiles.residual_newton.QuadCorrected">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">profiles.residual_newton.</span></span><span class="sig-name descname"><span class="pre">QuadCorrected</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#profiles.residual_newton.QuadCorrected" title="Link to this definition">#</a></dt>
+<dd><p>s(u) + g . d + 0.5 d^T Q d, d = u - u0, with BatchedSurrogate’s API.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="profiles.residual_newton.QuadCorrected.value">
+<span class="sig-name descname"><span class="pre">value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">U</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#profiles.residual_newton.QuadCorrected.value" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="profiles.residual_newton.QuadCorrected.value_grad">
+<span class="sig-name descname"><span class="pre">value_grad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">U</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#profiles.residual_newton.QuadCorrected.value_grad" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="profiles.residual_newton.QuadCorrected.value_grad_hess">
+<span class="sig-name descname"><span class="pre">value_grad_hess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">U</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#profiles.residual_newton.QuadCorrected.value_grad_hess" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="profiles.residual_newton.Frame">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">profiles.residual_newton.</span></span><span class="sig-name descname"><span class="pre">Frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">floor</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#profiles.residual_newton.Frame" title="Link to this definition">#</a></dt>
+<dd><p>Local whitening on the probed coordinates P at one point: z = K d_P, d_P = T z.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.Frame.lam">
+<span class="sig-name descname"><span class="pre">lam</span></span><a class="headerlink" href="#profiles.residual_newton.Frame.lam" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.Frame.T">
+<span class="sig-name descname"><span class="pre">T</span></span><a class="headerlink" href="#profiles.residual_newton.Frame.T" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.Frame.K">
+<span class="sig-name descname"><span class="pre">K</span></span><a class="headerlink" href="#profiles.residual_newton.Frame.K" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="profiles.residual_newton.Frame.norm">
+<span class="sig-name descname"><span class="pre">norm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#profiles.residual_newton.Frame.norm" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonRefiner">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">profiles.residual_newton.</span></span><span class="sig-name descname"><span class="pre">NewtonRefiner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ledger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">print</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#profiles.residual_newton.NewtonRefiner" title="Link to this definition">#</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonRefiner.floor">
+<span class="sig-name descname"><span class="pre">floor</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4.0</span></em><a class="headerlink" href="#profiles.residual_newton.NewtonRefiner.floor" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonRefiner.call">
+<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stage</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#profiles.residual_newton.NewtonRefiner.call" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonRefiner.call_many">
+<span class="sig-name descname"><span class="pre">call_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">us</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stage</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#profiles.residual_newton.NewtonRefiner.call_many" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="profiles.residual_newton.NewtonRefiner.solve">
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'node'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#profiles.residual_newton.NewtonRefiner.solve" title="Link to this definition">#</a></dt>
+<dd><p>Return (native value, x, diagnostics, successor state).</p>
+<p>fixed_index/value accept scalars or matching arrays. Multi-fixed chains
+vary only the last coordinate; preceding fixed values must remain constant.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="profiles.residual_newton.chain_plan">
+<span class="sig-prename descclassname"><span class="pre">profiles.residual_newton.</span></span><span class="sig-name descname"><span class="pre">chain_plan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain_length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#profiles.residual_newton.chain_plan" title="Link to this definition">#</a></dt>
+<dd><p>Split the nodes on one side of a seed, nearest first, into the seed’s own chain and
+further (seed, chain) pieces: at most <code class="docutils literal notranslate"><span class="pre">chain_length</span></code> nodes are solved in sequence from
+one cold start. None keeps a single chain; 0 makes every node a seed.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="profiles.residual_newton.refused_start">
+<span class="sig-prename descclassname"><span class="pre">profiles.residual_newton.</span></span><span class="sig-name descname"><span class="pre">refused_start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">row</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#profiles.residual_newton.refused_start" title="Link to this definition">#</a></dt>
+<dd><p>The row of a node whose start the likelihood refuses (a prior edge, a Boltzmann failure):
+no value, and the state it was given goes on along its chain, as from a singular node. Its
+checkpoint keeps it on a resume, since the objective is deterministic.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="profiles.residual_newton.run_seeded_chains">
+<span class="sig-prename descclassname"><span class="pre">profiles.residual_newton.</span></span><span class="sig-name descname"><span class="pre">run_seeded_chains</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seeds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chains_of</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#profiles.residual_newton.run_seeded_chains" title="Link to this definition">#</a></dt>
+<dd><p>Solve every seed at once, then each seed’s chains as soon as that seed is done (not
+when every seed is). <code class="docutils literal notranslate"><span class="pre">run(k,</span> <span class="pre">order,</span> <span class="pre">state)</span></code> returns (k, {j: row}); a chain starts from
+its seed’s final state. Returns {(k, j): row}. Which state a node starts from is fixed
+by the plan, so the rows do not depend on completion order.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="profiles.residual_newton.refine_profiles_newton">
+<span class="sig-prename descclassname"><span class="pre">profiles.residual_newton.</span></span><span class="sig-name descname"><span class="pre">refine_profiles_newton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ledger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">print</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrogate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#profiles.residual_newton.refine_profiles_newton" title="Link to this definition">#</a></dt>
+<dd><p>The true stage of a 1D study: stage names <code class="docutils literal notranslate"><span class="pre">corrected/{direct,node}/NAME/J</span></code>. <code class="docutils literal notranslate"><span class="pre">nodes</span></code> (grid
+indices) restricts the refinement to a subset; the others are reported as null.
+<code class="docutils literal notranslate"><span class="pre">chain_length</span></code> caps how many nodes are solved in sequence from one cold start (None:
+two chains per profile, outward from its seed; see chain_plan).</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../region/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">profiles.region</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../workflow/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">profiles.workflow</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attributes">Attributes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.FREE_STEPS_MAX"><code class="docutils literal notranslate"><span class="pre">FREE_STEPS_MAX</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig"><code class="docutils literal notranslate"><span class="pre">NewtonConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.tol"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.tol</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.step"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.step</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.trust0"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.trust0</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.trust_max"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.trust_max</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.trust_min"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.trust_min</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.curvature"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.curvature</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.noise"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.noise</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.transfer_min"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.transfer_min</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.ridge"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.ridge</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.secant"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.secant</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.q_max"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.q_max</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.q_stiff"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.q_stiff</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.fd_max_box"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.fd_max_box</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.flat_step"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.flat_step</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.flat_max_box"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.flat_max_box</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.secant_min"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.secant_min</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.escalate"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.escalate</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.flat_central"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.flat_central</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.max_model_steps"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.max_model_steps</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.L_memory"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.L_memory</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.extrapolate"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.extrapolate</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.max_step"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.max_step</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.maxcalls"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.maxcalls</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonConfig.max_rounds"><code class="docutils literal notranslate"><span class="pre">NewtonConfig.max_rounds</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.QuadCorrected"><code class="docutils literal notranslate"><span class="pre">QuadCorrected</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.QuadCorrected.value"><code class="docutils literal notranslate"><span class="pre">QuadCorrected.value()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.QuadCorrected.value_grad"><code class="docutils literal notranslate"><span class="pre">QuadCorrected.value_grad()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.QuadCorrected.value_grad_hess"><code class="docutils literal notranslate"><span class="pre">QuadCorrected.value_grad_hess()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.Frame"><code class="docutils literal notranslate"><span class="pre">Frame</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.Frame.lam"><code class="docutils literal notranslate"><span class="pre">Frame.lam</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.Frame.T"><code class="docutils literal notranslate"><span class="pre">Frame.T</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.Frame.K"><code class="docutils literal notranslate"><span class="pre">Frame.K</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.Frame.norm"><code class="docutils literal notranslate"><span class="pre">Frame.norm()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonRefiner"><code class="docutils literal notranslate"><span class="pre">NewtonRefiner</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonRefiner.floor"><code class="docutils literal notranslate"><span class="pre">NewtonRefiner.floor</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonRefiner.call"><code class="docutils literal notranslate"><span class="pre">NewtonRefiner.call()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonRefiner.call_many"><code class="docutils literal notranslate"><span class="pre">NewtonRefiner.call_many()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.NewtonRefiner.solve"><code class="docutils literal notranslate"><span class="pre">NewtonRefiner.solve()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.chain_plan"><code class="docutils literal notranslate"><span class="pre">chain_plan()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.refused_start"><code class="docutils literal notranslate"><span class="pre">refused_start()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.run_seeded_chains"><code class="docutils literal notranslate"><span class="pre">run_seeded_chains()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles.residual_newton.refine_profiles_newton"><code class="docutils literal notranslate"><span class="pre">refine_profiles_newton()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/api/profiles/residual_newton/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

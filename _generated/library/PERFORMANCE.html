@@ -1,0 +1,1140 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CLiENT speed and memory changes &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=2443c677"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_generated/library/PERFORMANCE';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/_generated/library/PERFORMANCE.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="CLiENT" href="README.html" />
+    <link rel="prev" title="What this version adds" href="CHANGES.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="AGENTS.html">Contributor guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CHANGES.html">What this version adds</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">CLiENT speed and memory changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UPGRADING.html">Moving from the first CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/PROFILES_AND_EVIDENCE.html">Profile likelihoods and Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/README.html">CLiENT documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/audit_optima.html">Auditing the network’s optima</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/augment_training.html">Adding profile points to a run’s training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/boost.html">Boost: training points from the posterior itself</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/boost_background_region.html">Boost with a quadratic background and a region</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/boost_modes_mixing.html">Boost: deciding the modes by measured mixing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/boost_real_lcdm.html">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/combine.html">Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/create_profiles.html">Create profiles from a saved CLiENT iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/create_profiles_2d.html">One two-dimensional profile per run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/derived_parameters.html">Derived parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/evidence.html">Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/export.html">Exporting a network: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">export</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/hybrid_optimisers.html">Hybrid profile optimisers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/injection_window.html">Injection: fitting the quadratic to the points near the best</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/members.html">Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/posterior_density_boost.html">Density-filtered posterior boosts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/run_files.html">A run’s files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/run_recovery.html">Continuing and recovering a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/tempered_convergence.html">Convergence of the ordinary loop: the error at the tempered batch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hpc/README.html">Real likelihoods on a cluster</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../library.html" class="nav-link">Guides and reports</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">CLiENT speed and memory changes</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Maintained source: <a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/PERFORMANCE.md">PERFORMANCE.md</a>. Measurements keep their original settings; consult the <a class="reference internal" href="../../configuration.html"><span class="std std-doc">current defaults</span></a> before starting a new run.</p>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="client-speed-and-memory-changes">
+<h1>CLiENT speed and memory changes<a class="headerlink" href="#client-speed-and-memory-changes" title="Link to this heading">#</a></h1>
+<p>The speed and memory work on CLiENT since its first release, with the measurements behind it.</p>
+<p><strong>Scope.</strong> Speed and memory only. The changes to the <em>iterative training algorithm</em> — the
+ESS-floored <code class="docutils literal notranslate"><span class="pre">msre</span></code> loss and dynamic <code class="docutils literal notranslate"><span class="pre">c</span></code>, Gaussian peak injection, per-iteration
+re-injection, the new targets — are algorithm work and are in <a class="reference internal" href="CHANGES.html"><span class="std std-doc">CHANGES.md</span></a>.
+The optimiser work in §7 sits on the boundary; it is included because the motivation was
+cost rather than accuracy, and flagged as such.</p>
+<hr class="docutils" />
+<section id="candidate-filtering-in-acquisition-15-september-2026">
+<h2>1. Candidate filtering in acquisition (15 September 2026)<a class="headerlink" href="#candidate-filtering-in-acquisition-15-september-2026" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">dataset/acquisition.py::select_points</span></code>. The loop uses <code class="docutils literal notranslate"><span class="pre">batch_size=10</span></code>, which is not a setting.</p>
+<p>With the original selector, generating 32 100 points from a chain took <strong>3 483 s</strong> (58 min), single-threaded. Profiled
+at the real sizes — pool 642 000 × 31 dims, k = 20:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>stage</p></th>
+<th class="head text-right"><p>time</p></th>
+<th class="head text-right"><p>share</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>setup: <code class="docutils literal notranslate"><span class="pre">_deduplicate</span></code>, two k-NN queries, the weighted draw</p></td>
+<td class="text-right"><p>67 s</p></td>
+<td class="text-right"><p>2%</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>the greedy selection loop</strong></p></td>
+<td class="text-right"><p><strong>~3 416 s</strong></p></td>
+<td class="text-right"><p><strong>~98%</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Within one pass:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>operation</p></th>
+<th class="head text-right"><p>ms</p></th>
+<th class="head text-right"><p>share</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">new_distance</span></code> — <code class="docutils literal notranslate"><span class="pre">((pool_whitened</span> <span class="pre">-</span> <span class="pre">pool_whitened[j])**2).sum(1)</span></code></p></td>
+<td class="text-right"><p><strong>58.6</strong></p></td>
+<td class="text-right"><p><strong>48%</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>fancy-index update</p></td>
+<td class="text-right"><p>21.2</p></td>
+<td class="text-right"><p>17%</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">np.max(current_distances,</span> <span class="pre">axis=1)</span></code></p></td>
+<td class="text-right"><p>14.3</p></td>
+<td class="text-right"><p>12%</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">np.argmax(current_distances,</span> <span class="pre">axis=1)</span></code> — <em>recomputes the same quantity</em></p></td>
+<td class="text-right"><p>13.3</p></td>
+<td class="text-right"><p>11%</p></td>
+</tr>
+<tr class="row-even"><td><p>building <code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">np.random.choice</span></code>, logs, sums</p></td>
+<td class="text-right"><p>14.9</p></td>
+<td class="text-right"><p>12%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Cost is <code class="docutils literal notranslate"><span class="pre">O(pool_factor</span> <span class="pre">·</span> <span class="pre">n_append²)</span></code>: <code class="docutils literal notranslate"><span class="pre">pool_size</span> <span class="pre">=</span> <span class="pre">pool_factor</span> <span class="pre">·</span> <span class="pre">n_append</span></code> and the loop
+runs <code class="docutils literal notranslate"><span class="pre">n_append</span></code> passes each costing <code class="docutils literal notranslate"><span class="pre">O(pool_size)</span></code>. A 32 100-point request therefore cost
+~260× a 2 000-point one, not 16×.</p>
+<section id="tier-1-exact-always-on">
+<h3>Tier 1 — exact, always on<a class="headerlink" href="#tier-1-exact-always-on" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>BLAS distance identity</strong> <code class="docutils literal notranslate"><span class="pre">‖x−v‖²</span> <span class="pre">=</span> <span class="pre">‖x‖²</span> <span class="pre">−</span> <span class="pre">2x·v</span> <span class="pre">+</span> <span class="pre">‖v‖²</span></code>, with <code class="docutils literal notranslate"><span class="pre">‖xᵢ‖²</span></code> precomputed once
+outside the loop: one <code class="docutils literal notranslate"><span class="pre">gemv</span></code> per pass instead of a <code class="docutils literal notranslate"><span class="pre">pool_size</span> <span class="pre">×</span> <span class="pre">ndim</span></code> broadcast.
+<strong>58.6 ms → 3.5 ms.</strong></p></li>
+<li><p><strong>Squared distances throughout.</strong> The estimator needs <code class="docutils literal notranslate"><span class="pre">ndim·log</span> <span class="pre">r_k</span></code> = <code class="docutils literal notranslate"><span class="pre">(ndim/2)·log</span> <span class="pre">r_k²</span></code>,
+and the eviction test is a comparison <code class="docutils literal notranslate"><span class="pre">sqrt</span></code> cannot affect, so no <code class="docutils literal notranslate"><span class="pre">sqrt</span></code> appears in the
+loop. <code class="docutils literal notranslate"><span class="pre">max_i</span> <span class="pre">sqrt(d²ᵢ)</span> <span class="pre">==</span> <span class="pre">sqrt(max_i</span> <span class="pre">d²ᵢ)</span></code> bit-for-bit — <code class="docutils literal notranslate"><span class="pre">sqrt</span></code> is monotonic and
+correctly rounded — so <code class="docutils literal notranslate"><span class="pre">r_k</span></code> is unchanged.</p></li>
+<li><p><strong>One <code class="docutils literal notranslate"><span class="pre">argmax</span></code>, not <code class="docutils literal notranslate"><span class="pre">max</span></code> <em>and</em> <code class="docutils literal notranslate"><span class="pre">argmax</span></code>.</strong> The two calls returned the same element.</p></li>
+<li><p><strong>Incremental re-max.</strong> A cached <code class="docutils literal notranslate"><span class="pre">(worst_indices,</span> <span class="pre">r_k²)</span></code> pair updated by flat scatter,
+re-maximising only rows whose k-th neighbour changed, instead of rescanning all
+<code class="docutils literal notranslate"><span class="pre">pool_size</span> <span class="pre">×</span> <span class="pre">k</span></code> every pass.</p></li>
+</ol>
+<p>Measured on the real chain, same seed and parameters, only the selector differing:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head text-right"><p>baseline</p></th>
+<th class="head text-right"><p>Tier 1</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>wall time</p></td>
+<td class="text-right"><p>3 483 s</p></td>
+<td class="text-right"><p><strong>878 s</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>speedup end-to-end / loop-only</p></td>
+<td class="text-right"><p>—</p></td>
+<td class="text-right"><p><strong>3.97×</strong> / 4.21×</p></td>
+</tr>
+<tr class="row-even"><td><p>per pass</p></td>
+<td class="text-right"><p>115.8 ms</p></td>
+<td class="text-right"><p>25.6 ms</p></td>
+</tr>
+<tr class="row-odd"><td><p>points identical to baseline’s selection</p></td>
+<td class="text-right"><p>—</p></td>
+<td class="text-right"><p><strong>32 092 / 32 100 (99.98%)</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>KS(loglkl); KS per param max</p></td>
+<td class="text-right"><p>—</p></td>
+<td class="text-right"><p>0.0000 (p = 1.0); 0.0004</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The BLAS identity is exact in exact arithmetic and agrees to <strong>8.8e-16 relative</strong> at the
+<code class="docutils literal notranslate"><span class="pre">r_k</span></code> scale (<code class="docutils literal notranslate"><span class="pre">d²</span></code> ≈ 16–47 whitened). The cancellation that can reach 1e-2 relative is
+confined to <code class="docutils literal notranslate"><span class="pre">d²</span> <span class="pre">→</span> <span class="pre">0</span></code> — a point against itself — and the result is clamped at zero.
+<code class="docutils literal notranslate"><span class="pre">sklearn.metrics.pairwise.euclidean_distances</span></code> uses the same identity. Bit identity over
+32 100 sequential draws is <em>not</em> claimed; <code class="docutils literal notranslate"><span class="pre">blas_distances=False</span></code> recovers it. In practice
+the perturbation is local, not compounding: a redirected pick lands in the same deficit
+region, so the trajectory re-converges — hence 8 changed points in 32 100.</p>
+</section>
+<section id="tier-2-batch-size-default-10">
+<h3>Tier 2 — <code class="docutils literal notranslate"><span class="pre">batch_size</span></code>, default 10<a class="headerlink" href="#tier-2-batch-size-default-10" title="Link to this heading">#</a></h3>
+<p>Commits <code class="docutils literal notranslate"><span class="pre">batch_size</span></code> candidates per pass, distances from one <code class="docutils literal notranslate"><span class="pre">gemm</span></code> instead of B <code class="docutils literal notranslate"><span class="pre">gemv</span></code>s,
+turning <code class="docutils literal notranslate"><span class="pre">n_append</span></code> passes into <code class="docutils literal notranslate"><span class="pre">n_append</span> <span class="pre">/</span> <span class="pre">batch_size</span></code>.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p><code class="docutils literal notranslate"><span class="pre">batch_size</span></code></p></th>
+<th class="head text-right"><p>wall time</p></th>
+<th class="head text-right"><p>speedup</p></th>
+<th class="head text-right"><p>shared with exact</p></th>
+<th class="head text-right"><p>KS(loglkl)</p></th>
+<th class="head text-right"><p>KS max</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>1</p></td>
+<td class="text-right"><p>878 s</p></td>
+<td class="text-right"><p>3.97×</p></td>
+<td class="text-right"><p>99.98%</p></td>
+<td class="text-right"><p>0.0000</p></td>
+<td class="text-right"><p>0.0004</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p><strong>10 (default)</strong></p></td>
+<td class="text-right"><p><strong>277 s</strong></p></td>
+<td class="text-right"><p><strong>12.6×</strong></p></td>
+<td class="text-right"><p>11.5%</p></td>
+<td class="text-right"><p>0.0062 (p=0.57)</p></td>
+<td class="text-right"><p>0.0098</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>50</p></td>
+<td class="text-right"><p>198 s</p></td>
+<td class="text-right"><p>17.6×</p></td>
+<td class="text-right"><p>8.2%</p></td>
+<td class="text-right"><p>0.0049 (p=0.83)</p></td>
+<td class="text-right"><p>0.0090</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>An approximation in two separable ways</strong>, both bounded by <code class="docutils literal notranslate"><span class="pre">batch_size</span></code>: <em>joint drawing</em>
+(members don’t see each other’s density contribution) and <em>nearest-only insertion</em> (a pool
+row absorbs only the closest batch member into its k-nearest list). The low overlap is
+expected — the selector is stochastic and joint drawing diverges the trajectory
+immediately — so the test is whether the draws come from the same density. They do, and
+there is no clustering:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>set</p></th>
+<th class="head text-right"><p>median NN spacing</p></th>
+<th class="head text-right"><p>5th pct</p></th>
+<th class="head text-right"><p>1st pct</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>exact</p></td>
+<td class="text-right"><p>3.3254</p></td>
+<td class="text-right"><p>0.7931</p></td>
+<td class="text-right"><p>0.2302</p></td>
+</tr>
+<tr class="row-odd"><td><p>B = 10</p></td>
+<td class="text-right"><p>3.3190</p></td>
+<td class="text-right"><p>0.8080</p></td>
+<td class="text-right"><p>0.2307</p></td>
+</tr>
+<tr class="row-even"><td><p>B = 50</p></td>
+<td class="text-right"><p>3.3126</p></td>
+<td class="text-right"><p>0.8036</p></td>
+<td class="text-right"><p>0.2364</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Beyond ~B = 50 it regresses: at B = 200 the <code class="docutils literal notranslate"><span class="pre">pool_size</span> <span class="pre">×</span> <span class="pre">B</span></code> block reaches 1 GB, leaves
+cache, and the run got <em>slower</em> (4.6 min vs 4.0 at B = 50) while the approximation error
+kept growing. <strong>One target, one <code class="docutils literal notranslate"><span class="pre">n_append</span></code>, two batch sizes</strong> — error grows with B and with
+how concentrated the deficit landscape is, so repeat the spacing table on a new target.
+<code class="docutils literal notranslate"><span class="pre">batch_size=1</span></code> in <code class="docutils literal notranslate"><span class="pre">select_points</span></code> is the exact path, which the density-filtered boost uses.</p>
+</section>
+<section id="tests">
+<h3>Tests<a class="headerlink" href="#tests" title="Link to this heading">#</a></h3>
+<p>The numbers above were established with six tests that are not in this repository:
+bit-identity with <code class="docutils literal notranslate"><span class="pre">blas_distances=False,</span> <span class="pre">batch_size=1</span></code> against a frozen baseline of the
+original selector, the same across three further parameter combinations, the BLAS
+identity’s precision and non-negativity, the BLAS default’s agreement, the batched
+default’s distributional equivalence and absence of clustering, and the speedup.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="the-sampler">
+<h2>2. The sampler<a class="headerlink" href="#the-sampler" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">sampling/aies.py</span></code>, <code class="docutils literal notranslate"><span class="pre">sampling/autocorr.py</span></code>. <strong>The largest memory change in the codebase.</strong></p>
+<section id="preallocated-chain-buffer">
+<h3>Preallocated chain buffer<a class="headerlink" href="#preallocated-chain-buffer" title="Link to this heading">#</a></h3>
+<p>A chain accumulated as a list of per-chunk tensors, concatenated with <code class="docutils literal notranslate"><span class="pre">tf.concat</span></code> and then
+copied again by <code class="docutils literal notranslate"><span class="pre">.numpy()</span></code>, has all three coexisting, with a high-water mark of <strong>2.93× one
+chain</strong>. Each chunk is therefore written straight into a preallocated <code class="docutils literal notranslate"><span class="pre">np.empty</span></code> array, and
+<code class="docutils literal notranslate"><span class="pre">chain()</span></code> returns a view of the filled part.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>216 walkers × 30 000 × 16D (0.386 GiB per copy)</p></th>
+<th class="head text-right"><p>peak RSS</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>before</p></td>
+<td class="text-right"><p>1.589 GiB</p></td>
+</tr>
+<tr class="row-odd"><td><p>after</p></td>
+<td class="text-right"><p><strong>0.983 GiB</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>At 29D with 232 walkers × 100 000 steps a chain copy is 2.5 GiB, so this is the difference
+between ~3.2 GiB and ~6.8 GiB resident; measured peak across the 29D runs was 3.8–4.4 GiB.
+<code class="docutils literal notranslate"><span class="pre">np.empty</span></code> is lazily faulted, so preallocating at the maximum costs nothing until written —
+a 1.29 GiB buffer with 30 000 of 100 000 rows written is 0.407 GiB resident. The buffer is
+<code class="docutils literal notranslate"><span class="pre">float32</span></code>.</p>
+<p><strong>API consequence:</strong> <code class="docutils literal notranslate"><span class="pre">chain()</span></code> and <code class="docutils literal notranslate"><span class="pre">log_prob()</span></code> return <strong>numpy views</strong>, not tf tensors.
+Callers must not call <code class="docutils literal notranslate"><span class="pre">.numpy()</span></code> on them, and must not <code class="docutils literal notranslate"><span class="pre">reset()</span></code> the sampler while still
+holding them.</p>
+</section>
+<section id="thin-at-write-time">
+<h3><code class="docutils literal notranslate"><span class="pre">thin</span></code> at write time<a class="headerlink" href="#thin-at-write-time" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">run(...,</span> <span class="pre">thin=k)</span></code> keeps every k-th step as it goes, so a thinned chain never allocates the
+unthinned one. <code class="docutils literal notranslate"><span class="pre">benchmarking/benchmark.py</span></code> uses this rather than slicing an
+already-materialised chain.</p>
+</section>
+<section id="burn-in-inside-run">
+<h3><code class="docutils literal notranslate"><span class="pre">burn_in</span></code> inside <code class="docutils literal notranslate"><span class="pre">run()</span></code><a class="headerlink" href="#burn-in-inside-run" title="Link to this heading">#</a></h3>
+<p>Burn-in is consumed by the sampler rather than sampled and then discarded, so burn-in rows
+are never allocated in the chain buffer.</p>
+</section>
+<section id="max-tau-always-reported">
+<h3><code class="docutils literal notranslate"><span class="pre">max(tau)</span></code> always reported<a class="headerlink" href="#max-tau-always-reported" title="Link to this heading">#</a></h3>
+<p>Costs ~0.7 s, 0.4% of a sampling step, and is the only way to see whether a fixed-length
+chain is long enough. It exposed that a 16D setting of 30 000 steps delivered only <strong>36 τ</strong>.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="acquisition-memory">
+<h2>3. Acquisition memory<a class="headerlink" href="#acquisition-memory" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Deduplication.</strong> Duplicate MCMC states are found per walker by
+run-length detection — <code class="docutils literal notranslate"><span class="pre">np.flatnonzero(np.any(x[1:]</span> <span class="pre">!=</span> <span class="pre">x[:-1],</span> <span class="pre">axis=1))</span></code> — instead of a
+sort or <code class="docutils literal notranslate"><span class="pre">np.unique</span></code> over the whole chain, and multiplicities are carried as counts so
+probability mass is preserved without materialising duplicates.</p></li>
+<li><p><strong>Reweighting from unique log-posteriors directly</strong>, avoiding an intermediate
+full-length weight array.</p></li>
+<li><p><strong>No repeated distance-matrix reallocation</strong> — the selection loop
+reuses one array rather than allocating per pass.</p></li>
+</ul>
+</section>
+<section id="convergence-metric-memory">
+<h2>4. Convergence metric memory<a class="headerlink" href="#convergence-metric-memory" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">convergence/convergence.py</span></code>. <code class="docutils literal notranslate"><span class="pre">summarize(chain)</span></code> consumes the
+<code class="docutils literal notranslate"><span class="pre">(n_steps,</span> <span class="pre">n_walkers,</span> <span class="pre">ndim)</span></code> ensemble array <strong>per walker</strong>, accumulating <code class="docutils literal notranslate"><span class="pre">sum_x</span></code> and
+validating finiteness walker by walker, instead of requiring a flattened
+<code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">ndim)</span></code> copy of the whole chain. With a 2.5 GiB chain that copy would be the
+second peak of the iteration.</p>
+</section>
+<section id="mpi-and-startup">
+<h2>5. MPI and startup<a class="headerlink" href="#mpi-and-startup" title="Link to this heading">#</a></h2>
+<ul>
+<li><p><strong>No full-array broadcast.</strong> The entire sample array is not sent to every rank:
+<code class="docutils literal notranslate"><span class="pre">broadcast_and_evaluate</span></code> returns <code class="docutils literal notranslate"><span class="pre">(points,</span> <span class="pre">values)</span></code> with the master keeping the array and
+only work being distributed.</p></li>
+<li><p><strong>Deferred master-only imports</strong> to cut MPI worker startup overhead.</p></li>
+<li><p><strong>Reduced evaluation verbosity in serial runs</strong>, with progress tracking in
+<code class="docutils literal notranslate"><span class="pre">broadcast_and_evaluate</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">CLIENT_MPI_SCHEDULE=chunked</span></code></strong> (2 October 2026, opt-in). The static schedule gathers
+after every point, so a batch of <code class="docutils literal notranslate"><span class="pre">n_ranks</span></code> points costs its slowest member. <code class="docutils literal notranslate"><span class="pre">chunked</span></code>
+scatters the whole phase once, one contiguous slice per rank, and gathers once: a slice
+costs the sum of its points. Six ranks, CLASS++ on Planck + DESI DR2, same machine:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>schedule</p></th>
+<th class="head"><p>evaluations per second</p></th>
+<th class="head"><p>ranks busy</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>static</p></td>
+<td><p>1.25 to 1.41</p></td>
+<td><p>87.5%</p></td>
+</tr>
+<tr class="row-odd"><td><p>chunked</p></td>
+<td><p>1.65 to 1.70</p></td>
+<td><p>98.2%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Values identical to the static path. No dispatcher rank is given up. A dispatcher that
+hands out points one at a time was measured no faster than the static default and is not in
+the code: over a 640-point A/B on the real Planck likelihood ranks 1-7 took 3.27 to 3.31 s
+per evaluation, homogeneous to ±0.6%, so it has nothing to recover and costs a rank
+(<code class="docutils literal notranslate"><span class="pre">utils/mpi_utils.py</span></code>). Progress lines report rank 0’s slice.</p>
+</li>
+</ul>
+</section>
+<section id="main-loop-lifetime-management">
+<h2>6. Main-loop lifetime management<a class="headerlink" href="#main-loop-lifetime-management" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Explicit release</strong> of <code class="docutils literal notranslate"><span class="pre">chain</span></code>, <code class="docutils literal notranslate"><span class="pre">logposts</span></code>, <code class="docutils literal notranslate"><span class="pre">surrogate</span></code>, <code class="docutils literal notranslate"><span class="pre">model</span></code> and the sampler at the
+end of each iteration. This interacts with §2: <code class="docutils literal notranslate"><span class="pre">chain</span></code> and
+<code class="docutils literal notranslate"><span class="pre">logposts</span></code> are <em>views into the sampler’s buffer</em>, so the sampler must be dropped too or
+nothing is actually freed — the code says so at the call site.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">tf.keras.backend.clear_session()</span></code></strong> between iterations, which also prevents a
+staleness bug.</p></li>
+<li><p><strong>Skip retraining when a checkpoint exists</strong>, so a continued run costs one
+sampling pass plus acquisition at its restart iteration rather than a full retrain.</p></li>
+<li><p><strong>No extra chain/logpost copies</strong> at the sampling boundary.</p></li>
+<li><p><strong>Dtype normalisation at surrogate boundaries</strong>, preventing silent float64
+promotion of <code class="docutils literal notranslate"><span class="pre">float32</span></code> chains.</p></li>
+</ul>
+</section>
+<section id="optimiser-cost-boundary-case">
+<h2>7. Optimiser cost (boundary case)<a class="headerlink" href="#optimiser-cost-boundary-case" title="Link to this heading">#</a></h2>
+<p>Motivated by training wall-clock, so included here, but these change what the optimiser does;
+<a class="reference internal" href="CHANGES.html"><span class="std std-doc">CHANGES.md</span></a>, “Deliberately not here”, has the accuracy side. Both were measured and
+left out: <code class="docutils literal notranslate"><span class="pre">training/training.py</span></code> uses Adam, and no setting chooses another optimiser.</p>
+<ul class="simple">
+<li><p><strong>An input-preconditioned Adam</strong> — Adam with a K-FAC style <code class="docutils literal notranslate"><span class="pre">A</span></code>-factor preconditioner on the
+first layer only, taking <code class="docutils literal notranslate"><span class="pre">cond(A)</span></code> from 18.3 to <strong>1.002</strong>, trace-normalised so the
+learning rate keeps its meaning. Cost is one <code class="docutils literal notranslate"><span class="pre">d×d</span></code> inverse and one matmul per step,
+applied to 1 of 22 variables. Worth 1.20–1.41× in validation loss; <strong>not</strong> the
+explanation for whitening’s larger gains, which the experiment was designed to test.</p></li>
+<li><p><strong>Muon: rejected on cost.</strong> Keras 3.12.4’s Muon is broken on the TensorFlow backend — it
+reads <code class="docutils literal notranslate"><span class="pre">variable.path</span></code> in seven places and the TF backend passes <code class="docutils literal notranslate"><span class="pre">ResourceVariable</span></code>s, which
+lack it; worse, momentum buffers are <em>written</em> under <code class="docutils literal notranslate"><span class="pre">path</span></code> and <em>read</em> under something
+else, so a naive attribute fix silently pairs each variable with the wrong buffer. With
+that patched properly it measured <strong>10.6× slower per epoch</strong> than Adam at Keras’s default 6
+Newton–Schulz steps (1 712 s vs 162 s over 600 epochs) — the orthogonalisation on 512×512
+matrices.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="measured-and-rejected">
+<h2>Measured and rejected<a class="headerlink" href="#measured-and-rejected" title="Link to this heading">#</a></h2>
+<p>Recorded because each cost time to establish and would otherwise be re-proposed.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>idea</p></th>
+<th class="head"><p>verdict</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> on the acquisition k-NN queries</p></td>
+<td><p><strong>1.0×, no gain.</strong> <code class="docutils literal notranslate"><span class="pre">_WhitenedKNN</span></code> builds <code class="docutils literal notranslate"><span class="pre">NearestNeighbors</span></code> without <code class="docutils literal notranslate"><span class="pre">n_jobs</span></code> so both setup queries are single-threaded, and a free multicore win looked available. There isn’t one — and setup is 2% of runtime regardless.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">np.random.choice(pool_size,</span> <span class="pre">p=a)</span></code> as the selection-loop bottleneck</p></td>
+<td><p><strong>Not a bottleneck</strong> — 4.9 ms, 4% of a pass. The full cumulative sum looked expensive; it is not. Gumbel-max would cut it to 1.4 ms, ~3% of total, which does not justify changing the draw.</p></td>
+</tr>
+<tr class="row-even"><td><p>Parallelising across selections</p></td>
+<td><p><strong>Impossible, not merely hard.</strong> Each pick changes the merged density determining the next. The per-pass work <em>is</em> parallel, and routing it through BLAS is how cores actually get used — which is what §1 does.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Muon optimiser</p></td>
+<td><p>10.6× slower per epoch; see §7.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">batch_size</span></code> ≥ 200</p></td>
+<td><p>Slower than B = 50 <em>and</em> less accurate; see §1.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="memory-summary">
+<h2>Memory summary<a class="headerlink" href="#memory-summary" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head text-right"><p>before</p></th>
+<th class="head text-right"><p>after</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>sampler chain high-water mark</p></td>
+<td class="text-right"><p>2.93 × one chain</p></td>
+<td class="text-right"><p>1 × one chain (view)</p></td>
+</tr>
+<tr class="row-odd"><td><p>29D, 232 × 100 000 resident</p></td>
+<td class="text-right"><p>~6.8 GiB</p></td>
+<td class="text-right"><p>3.8–4.4 GiB measured</p></td>
+</tr>
+<tr class="row-even"><td><p>convergence <code class="docutils literal notranslate"><span class="pre">summarize</span></code></p></td>
+<td class="text-right"><p>full flat chain copy</p></td>
+<td class="text-right"><p>per-walker streaming</p></td>
+</tr>
+<tr class="row-odd"><td><p>selection-loop distance temporary (pool 642 000 × 31)</p></td>
+<td class="text-right"><p>159 MB per pass</p></td>
+<td class="text-right"><p>~5 MB at B=1, 51 MB at B=10</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Steady-state acquisition allocation is <strong>unchanged</strong> — <code class="docutils literal notranslate"><span class="pre">pool_whitened</span></code> (159 MB) and
+<code class="docutils literal notranslate"><span class="pre">current_distances</span></code> (103 MB) dominate and neither was touched. <code class="docutils literal notranslate"><span class="pre">batch_size</span> <span class="pre">&gt;</span> <span class="pre">1</span></code> slightly
+<em>increases</em> peak, by the <code class="docutils literal notranslate"><span class="pre">pool_size</span> <span class="pre">×</span> <span class="pre">batch_size</span></code> block.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="CHANGES.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">What this version adds</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="README.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">CLiENT</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#candidate-filtering-in-acquisition-15-september-2026">1. Candidate filtering in acquisition (15 September 2026)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tier-1-exact-always-on">Tier 1 — exact, always on</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tier-2-batch-size-default-10">Tier 2 — <code class="docutils literal notranslate"><span class="pre">batch_size</span></code>, default 10</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests">Tests</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-sampler">2. The sampler</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preallocated-chain-buffer">Preallocated chain buffer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#thin-at-write-time"><code class="docutils literal notranslate"><span class="pre">thin</span></code> at write time</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#burn-in-inside-run"><code class="docutils literal notranslate"><span class="pre">burn_in</span></code> inside <code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#max-tau-always-reported"><code class="docutils literal notranslate"><span class="pre">max(tau)</span></code> always reported</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acquisition-memory">3. Acquisition memory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-metric-memory">4. Convergence metric memory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mpi-and-startup">5. MPI and startup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-loop-lifetime-management">6. Main-loop lifetime management</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimiser-cost-boundary-case">7. Optimiser cost (boundary case)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measured-and-rejected">Measured and rejected</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-summary">Memory summary</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/_generated/library/PERFORMANCE.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

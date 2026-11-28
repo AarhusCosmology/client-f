@@ -1,0 +1,22 @@
+dataset
+=======
+
+.. py:module:: dataset
+
+.. autoapi-nested-parse::
+
+   Selected interfaces in dataset.
+
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/dataset/augment/index
+   /api/dataset/boost/index
+   /api/dataset/posterior_boost/index
+
+

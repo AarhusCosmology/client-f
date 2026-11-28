@@ -1,0 +1,1973 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=2443c677"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/genindex.html" />
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="_generated/reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="_generated/reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#Q"><strong>Q</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ 
+</div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/config/config/index.html#config.config.Config.acquisition">acquisition (config.config.Config attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AcquisitionConfig">AcquisitionConfig (class in config.config)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.DerivedConfig.activation">activation (config.config.DerivedConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.ModelConfig.activation">(config.config.ModelConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.added_points">added_points (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/workflow/index.html#profiles.workflow.array_save">array_save() (in module profiles.workflow)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.as_dict">as_dict() (profiles.config.ProfileConfig method)</a>
+</li>
+      <li><a href="api/sampling/modes/index.html#sampling.modes.as_numpy">as_numpy() (in module sampling.modes)</a>
+</li>
+      <li><a href="api/sampling/modes/index.html#sampling.modes.assign_basins">assign_basins() (in module sampling.modes)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/profiles/region/index.html#profiles.region.at_edge">at_edge() (in module profiles.region)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AcquisitionConfig.audit">audit (config.config.AcquisitionConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/workflow/index.html#profiles.workflow.audit_labels">audit_labels() (in module profiles.workflow)</a>
+</li>
+      <li><a href="api/training/audit/index.html#training.audit.audit_optima">audit_optima() (in module training.audit)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.audit_points">audit_points (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/workflow/index.html#profiles.workflow.audit_row_ids">audit_row_ids() (in module profiles.workflow)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.audit_tolerance">audit_tolerance (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig">AuditConfig (class in config.config)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.TrainingConfig.augment_schedule_factor">augment_schedule_factor (config.config.TrainingConfig attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.backend_module">backend_module (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.backend_sha256">backend_sha256 (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.background">background (config.config.BoostConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.background_fit">background_fit (config.config.BoostConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.background_window">background_window (config.config.BoostConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.balance_floor">balance_floor (config.config.BoostConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.barrier">barrier (config.config.BoostConfig attribute)</a>
+</li>
+      <li><a href="api/convergence/convergence/index.html#convergence.convergence.BaseConvergenceMetric">BaseConvergenceMetric (class in convergence.convergence)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood">BaseLikelihood (class in likelihood.base)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.DerivedConfig.batch_size">batch_size (config.config.DerivedConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.TrainingConfig.batch_size">(config.config.TrainingConfig attribute)</a>
+</li>
+        <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.batch_size">(profiles.config.ProfileConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dataset/augment/index.html#dataset.augment.DensityLaw.best">best (dataset.augment.DensityLaw attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/config/config/index.html#config.config.AcquisitionConfig.boost">boost (config.config.AcquisitionConfig attribute)</a>
+</li>
+      <li><a href="api/sampling/region/index.html#sampling.region.boost_clouds">boost_clouds() (in module sampling.region)</a>
+</li>
+      <li><a href="api/dataset/boost/index.html#dataset.boost.boost_errors">boost_errors() (in module dataset.boost)</a>
+</li>
+      <li><a href="api/sampling/region/index.html#sampling.region.boost_region">boost_region() (in module sampling.region)</a>
+</li>
+      <li><a href="api/dataset/boost/index.html#dataset.boost.boost_report">boost_report() (in module dataset.boost)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig">BoostConfig (class in config.config)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.boosts">boosts (config.config.BoostConfig attribute)</a>
+</li>
+      <li><a href="api/likelihood/surrogate/index.html#likelihood.surrogate.SurrogateMetadata.bounds">bounds (likelihood.surrogate.SurrogateMetadata property)</a>
+</li>
+      <li><a href="api/sampling/modes/index.html#sampling.modes.bridge_log_evidence">bridge_log_evidence() (in module sampling.modes)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.broad_fraction">broad_fraction (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/convergence/convergence/index.html#convergence.convergence.build_convergence_metric">build_convergence_metric() (in module convergence.convergence)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.build_likelihood">build_likelihood() (in module likelihood.base)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.SamplingConfig.burn_in">burn_in (config.config.SamplingConfig attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonRefiner.call">call() (profiles.residual_newton.NewtonRefiner method)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonRefiner.call_many">call_many() (profiles.residual_newton.NewtonRefiner method)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.candidate_barrier">candidate_barrier (config.config.BoostConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/workflow/index.html#profiles.workflow.canonical_points">canonical_points() (in module profiles.workflow)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.ParameterInfo.center">center (likelihood.base.ParameterInfo attribute)</a>
+</li>
+      <li><a href="api/dataset/augment/index.html#dataset.augment.DensityLaw.centres">centres (dataset.augment.DensityLaw attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.chain">chain (config.config.AuditConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.chain_length">chain_length (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.chain_plan">chain_plan() (in module profiles.residual_newton)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.check_continuation">check_continuation() (in module profiles.config)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.StorageConfig.CHOICES">CHOICES (config.config.StorageConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.SamplingConfig.chunk_size">chunk_size (config.config.SamplingConfig attribute)</a>
+</li>
+      <li><a href="api/sampling/modes/index.html#sampling.modes.climb">climb() (in module sampling.modes)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.components">components (config.config.BoostConfig attribute)</a>
+</li>
+      <li><a href="api/convergence/convergence/index.html#convergence.convergence.BaseConvergenceMetric.compute_from_summaries">compute_from_summaries() (convergence.convergence.BaseConvergenceMetric method)</a>
+
+      <ul>
+        <li><a href="api/convergence/convergence/index.html#convergence.convergence.GaussianPosteriorDrift.compute_from_summaries">(convergence.convergence.GaussianPosteriorDrift method)</a>
+</li>
+      </ul></li>
+      <li>
+    config
+
+      <ul>
+        <li><a href="api/config/index.html#module-config">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.Config">Config (class in config.config)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/run/run/index.html#run.run.Run.config">config (run.run.Run attribute)</a>
+</li>
+      <li>
+    config.config
+
+      <ul>
+        <li><a href="api/config/config/index.html#module-config.config">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.ConvergenceConfig.consecutive">consecutive (config.config.ConvergenceConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.continuation">continuation (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li>
+    convergence
+
+      <ul>
+        <li><a href="api/convergence/index.html#module-convergence">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.Config.convergence">convergence (config.config.Config attribute)</a>
+</li>
+      <li>
+    convergence.convergence
+
+      <ul>
+        <li><a href="api/convergence/convergence/index.html#module-convergence.convergence">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/run/run/index.html#run.run.Run.convergence_stats_dir">convergence_stats_dir (run.run.Run property)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.ConvergenceConfig">ConvergenceConfig (class in config.config)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.cool_steps">cool_steps (config.config.BoostConfig attribute)</a>
+</li>
+      <li><a href="api/sampling/modes/index.html#sampling.modes.cooled_peaks">cooled_peaks() (in module sampling.modes)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.corrected_tol">corrected_tol (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.CORRECTED_TOL_DEFAULT">CORRECTED_TOL_DEFAULT (in module profiles.config)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.corrected_tolerance">corrected_tolerance() (profiles.config.ProfileConfig method)</a>
+</li>
+      <li><a href="api/dataset/augment/index.html#dataset.augment.DensityLaw.counts">counts (dataset.augment.DensityLaw attribute)</a>
+</li>
+      <li><a href="api/run/run/index.html#run.run.Run.create_directories">create_directories() (run.run.Run method)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.curvature">curvature (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    dataset
+
+      <ul>
+        <li><a href="api/dataset/index.html#module-dataset">module</a>
+</li>
+      </ul></li>
+      <li>
+    dataset.augment
+
+      <ul>
+        <li><a href="api/dataset/augment/index.html#module-dataset.augment">module</a>
+</li>
+      </ul></li>
+      <li>
+    dataset.boost
+
+      <ul>
+        <li><a href="api/dataset/boost/index.html#module-dataset.boost">module</a>
+</li>
+      </ul></li>
+      <li>
+    dataset.posterior_boost
+
+      <ul>
+        <li><a href="api/dataset/posterior_boost/index.html#module-dataset.posterior_boost">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/training/audit/index.html#training.audit.default_starts">default_starts() (in module training.audit)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.density_filter">density_filter (config.config.BoostConfig attribute)</a>
+</li>
+      <li><a href="api/dataset/augment/index.html#dataset.augment.DensityLaw">DensityLaw (class in dataset.augment)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/config/config/index.html#config.config.Config.derived">derived (config.config.Config attribute)</a>
+</li>
+      <li><a href="api/run/run/index.html#run.run.Run.derived_data_dir">derived_data_dir (run.run.Run property)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.derived_input_names">derived_input_names (likelihood.base.BaseLikelihood property)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.derived_labels">derived_labels (likelihood.base.BaseLikelihood property)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.derived_names">derived_names (likelihood.base.BaseLikelihood property)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.derived_scales">derived_scales (likelihood.base.BaseLikelihood property)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.DerivedConfig">DerivedConfig (class in config.config)</a>
+</li>
+      <li><a href="api/profiles/region/index.html#profiles.region.describe">describe() (in module profiles.region)</a>
+
+      <ul>
+        <li><a href="api/utils/held_out/index.html#utils.held_out.describe">(in module utils.held_out)</a>
+</li>
+      </ul></li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.design_points">design_points (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.dimension">dimension (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/dataset/boost/index.html#dataset.boost.draw_boost">draw_boost() (in module dataset.boost)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.epochs">epochs (config.config.AuditConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.escalate">escalate (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.evaluate_with_derived">evaluate_with_derived() (likelihood.base.BaseLikelihood method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/profiles/config/index.html#profiles.config.EXECUTION_SETTINGS">EXECUTION_SETTINGS (in module profiles.config)</a>
+</li>
+      <li><a href="api/profiles/workflow/index.html#profiles.workflow.explicit_grids">explicit_grids() (in module profiles.workflow)</a>
+</li>
+      <li><a href="api/dataset/augment/index.html#dataset.augment.DensityLaw.extended">extended (dataset.augment.DensityLaw attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.extrapolate">extrapolate (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.failure_penalty">failure_penalty (config.config.AuditConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.failure_policy">failure_policy (config.config.AuditConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.failure_probes">failure_probes (config.config.AuditConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.failure_radius">failure_radius (config.config.AuditConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.failure_training_fraction">failure_training_fraction (config.config.AuditConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.fd_max_box">fd_max_box (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/run/run/index.html#run.run.Run.final_iteration">final_iteration (run.run.Run property)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.final_lr">final_lr (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/sampling/modes/index.html#sampling.modes.find_basins">find_basins() (in module sampling.modes)</a>
+</li>
+      <li><a href="api/training/audit/index.html#training.audit.find_maxima">find_maxima() (in module training.audit)</a>
+</li>
+      <li><a href="api/sampling/modes/index.html#sampling.modes.find_modes">find_modes() (in module sampling.modes)</a>
+</li>
+      <li><a href="api/training/audit/index.html#training.audit.fine_tune">fine_tune() (in module training.audit)</a>
+</li>
+      <li><a href="api/dataset/boost/index.html#dataset.boost.finish_boost">finish_boost() (in module dataset.boost)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.first_epochs">first_epochs (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.fit_window">fit_window (config.config.AuditConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.flat_central">flat_central (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.flat_max_box">flat_max_box (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.flat_step">flat_step (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/dataset/augment/index.html#dataset.augment.DensityLaw.floor">floor (dataset.augment.DensityLaw attribute)</a>
+</li>
+      <li><a href="api/sampling/region/index.html#sampling.region.FLOOR">FLOOR (in module sampling.region)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonRefiner.floor">floor (profiles.residual_newton.NewtonRefiner attribute)</a>
+
+      <ul>
+        <li><a href="api/sampling/region/index.html#sampling.region.Region.floor">(sampling.region.Region attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.fraction">fraction (config.config.AuditConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.Frame">Frame (class in profiles.residual_newton)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.FREE_STEPS_MAX">FREE_STEPS_MAX (in module profiles.residual_newton)</a>
+</li>
+      <li><a href="api/run/run/index.html#run.run.Run.from_args">from_args() (run.run.Run class method)</a>
+</li>
+      <li><a href="api/sampling/region/index.html#sampling.region.Region.from_clouds">from_clouds() (sampling.region.Region class method)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AcquisitionConfig.from_dict">from_dict() (config.config.AcquisitionConfig class method)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.AuditConfig.from_dict">(config.config.AuditConfig class method)</a>
+</li>
+        <li><a href="api/config/config/index.html#config.config.BoostConfig.from_dict">(config.config.BoostConfig class method)</a>
+</li>
+        <li><a href="api/config/config/index.html#config.config.Config.from_dict">(config.config.Config class method)</a>
+</li>
+        <li><a href="api/config/config/index.html#config.config.ConvergenceConfig.from_dict">(config.config.ConvergenceConfig class method)</a>
+</li>
+        <li><a href="api/config/config/index.html#config.config.DerivedConfig.from_dict">(config.config.DerivedConfig class method)</a>
+</li>
+        <li><a href="api/config/config/index.html#config.config.LikelihoodConfig.from_dict">(config.config.LikelihoodConfig class method)</a>
+</li>
+        <li><a href="api/config/config/index.html#config.config.ModelConfig.from_dict">(config.config.ModelConfig class method)</a>
+</li>
+        <li><a href="api/config/config/index.html#config.config.PriorConfig.from_dict">(config.config.PriorConfig class method)</a>
+</li>
+        <li><a href="api/config/config/index.html#config.config.SamplingConfig.from_dict">(config.config.SamplingConfig class method)</a>
+</li>
+        <li><a href="api/config/config/index.html#config.config.StorageConfig.from_dict">(config.config.StorageConfig class method)</a>
+</li>
+        <li><a href="api/config/config/index.html#config.config.TrainingConfig.from_dict">(config.config.TrainingConfig class method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/likelihood/surrogate/index.html#likelihood.surrogate.SurrogateMetadata.from_likelihood">from_likelihood() (likelihood.surrogate.SurrogateMetadata class method)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.Config.from_yaml">from_yaml() (config.config.Config class method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/convergence/convergence/index.html#convergence.convergence.GaussianPosteriorDrift">GaussianPosteriorDrift (class in convergence.convergence)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sampling/modes/index.html#sampling.modes.Regions.groups">groups (sampling.modes.Regions attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.gtol">gtol (profiles.config.ProfileConfig attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/utils/held_out/index.html#utils.held_out.held_out_error">held_out_error() (in module utils.held_out)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.hybrid_hops">hybrid_hops (profiles.config.ProfileConfig attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.hybrid_training_starts">hybrid_training_starts (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.hybrid_walkers">hybrid_walkers (profiles.config.ProfileConfig attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/config/config/index.html#config.config.LikelihoodConfig.identity_files">identity_files (config.config.LikelihoodConfig attribute)</a>
+</li>
+      <li><a href="api/sampling/region/index.html#sampling.region.Region.inflate">inflate (sampling.region.Region attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.initial_lr">initial_lr (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.LikelihoodConfig.input">input (config.config.LikelihoodConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.DerivedConfig.inputs">inputs (config.config.DerivedConfig attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/profiles/region/index.html#profiles.region.INSIDE">INSIDE (in module profiles.region)</a>
+</li>
+      <li><a href="api/sampling/region/index.html#sampling.region.Region.inside">inside() (sampling.region.Region method)</a>
+</li>
+      <li><a href="api/training/audit/index.html#training.audit.inside_float32">inside_float32() (in module training.audit)</a>
+</li>
+      <li><a href="api/run/run/index.html#run.run.Run.is_new">is_new (run.run.Run attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.iteration">iteration (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/run/run/index.html#run.run.iterations">iterations() (in module run.run)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.k">k (config.config.AuditConfig attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.Frame.K">K (profiles.residual_newton.Frame attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.L_memory">L_memory (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.ParameterInfo.label">label (likelihood.base.ParameterInfo attribute)</a>
+</li>
+      <li><a href="api/sampling/modes/index.html#sampling.modes.Regions.labels">labels() (sampling.modes.Regions method)</a>
+
+      <ul>
+        <li><a href="api/sampling/region/index.html#sampling.region.Region.labels">(sampling.region.Region method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/sampling/modes/index.html#sampling.modes.Regions.labels_tf">labels_tf() (sampling.modes.Regions method)</a>
+
+      <ul>
+        <li><a href="api/sampling/region/index.html#sampling.region.Region.labels_tf">(sampling.region.Region method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.Frame.lam">lam (profiles.residual_newton.Frame attribute)</a>
+</li>
+      <li><a href="api/run/run/index.html#run.run.latest_iteration">latest_iteration() (in module run.run)</a>
+</li>
+      <li><a href="api/run/run/index.html#run.run.latest_model">latest_model() (in module run.run)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.learning_rate">learning_rate (config.config.AuditConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.DerivedConfig.learning_rate">(config.config.DerivedConfig attribute)</a>
+</li>
+        <li><a href="api/config/config/index.html#config.config.TrainingConfig.learning_rate">(config.config.TrainingConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/sampling/region/index.html#sampling.region.lengths">lengths() (in module sampling.region)</a>
+</li>
+      <li>
+    likelihood
+
+      <ul>
+        <li><a href="api/likelihood/index.html#module-likelihood">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.Config.likelihood">likelihood (config.config.Config attribute)</a>
+</li>
+      <li>
+    likelihood.base
+
+      <ul>
+        <li><a href="api/likelihood/base/index.html#module-likelihood.base">module</a>
+</li>
+      </ul></li>
+      <li>
+    likelihood.surrogate
+
+      <ul>
+        <li><a href="api/likelihood/surrogate/index.html#module-likelihood.surrogate">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/run/run/index.html#run.run.Run.likelihood_input">likelihood_input (run.run.Run property)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.LikelihoodConfig">LikelihoodConfig (class in config.config)</a>
+</li>
+      <li><a href="api/profiles/region/index.html#profiles.region.load">load() (in module profiles.region)</a>
+
+      <ul>
+        <li><a href="api/likelihood/surrogate/index.html#likelihood.surrogate.SurrogateMetadata.load">(likelihood.surrogate.SurrogateMetadata class method)</a>
+</li>
+        <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.load">(profiles.config.ProfileConfig class method)</a>
+</li>
+        <li><a href="api/sampling/region/index.html#sampling.region.Region.load">(sampling.region.Region class method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/training/audit/index.html#training.audit.load_audit">load_audit() (in module training.audit)</a>
+</li>
+      <li><a href="api/convergence/convergence/index.html#convergence.convergence.BaseConvergenceMetric.load_chain_summary">load_chain_summary() (convergence.convergence.BaseConvergenceMetric static method)</a>
+</li>
+      <li><a href="api/dataset/augment/index.html#dataset.augment.load_points_csv">load_points_csv() (in module dataset.augment)</a>
+</li>
+      <li><a href="api/dataset/augment/index.html#dataset.augment.load_profile_calls">load_profile_calls() (in module dataset.augment)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.loglkl">loglkl() (likelihood.base.BaseLikelihood method)</a>
+
+      <ul>
+        <li><a href="api/likelihood/surrogate/index.html#likelihood.surrogate.SurrogateLikelihood.loglkl">(likelihood.surrogate.SurrogateLikelihood method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.loglkl_and_derived">loglkl_and_derived() (likelihood.base.BaseLikelihood method)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.logpost">logpost() (likelihood.base.BaseLikelihood method)</a>
+
+      <ul>
+        <li><a href="api/likelihood/surrogate/index.html#likelihood.surrogate.SurrogateLikelihood.logpost">(likelihood.surrogate.SurrogateLikelihood method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.logprior">logprior() (likelihood.base.BaseLikelihood method)</a>
+
+      <ul>
+        <li><a href="api/likelihood/surrogate/index.html#likelihood.surrogate.SurrogateLikelihood.logprior">(likelihood.surrogate.SurrogateLikelihood method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.TrainingConfig.loss">loss (config.config.TrainingConfig attribute)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.ParameterInfo.lower">lower (likelihood.base.ParameterInfo attribute)</a>
+
+      <ul>
+        <li><a href="api/sampling/region/index.html#sampling.region.Region.lower">(sampling.region.Region attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.DerivedConfig.lr_factor">lr_factor (config.config.DerivedConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.TrainingConfig.lr_factor">(config.config.TrainingConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.DerivedConfig.lr_grace">lr_grace (config.config.DerivedConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.TrainingConfig.lr_grace">(config.config.TrainingConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.DerivedConfig.lr_min">lr_min (config.config.DerivedConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.TrainingConfig.lr_min">(config.config.TrainingConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.DerivedConfig.lr_patience">lr_patience (config.config.DerivedConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.TrainingConfig.lr_patience">(config.config.TrainingConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.DerivedConfig.lr_schedule">lr_schedule (config.config.DerivedConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.TrainingConfig.lr_schedule">(config.config.TrainingConfig attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dataset/augment/index.html#dataset.augment.main">main() (in module dataset.augment)</a>
+</li>
+      <li><a href="api/dataset/augment/index.html#dataset.augment.mark_trained">mark_trained() (in module dataset.augment)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.ConvergenceConfig.max_iterations">max_iterations (config.config.ConvergenceConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.max_model_steps">max_model_steps (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.max_passes">max_passes (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.max_rounds">max_rounds (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.max_step">max_step (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.maxcalls">maxcalls (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.maxfun">maxfun (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/sampling/region/index.html#sampling.region.Region.means">means (sampling.region.Region attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.TrainingConfig.member_device">member_device (config.config.TrainingConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.TrainingConfig.member_margin">member_margin (config.config.TrainingConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.TrainingConfig.member_pilot">member_pilot (config.config.TrainingConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.TrainingConfig.member_pilot_depth">member_pilot_depth (config.config.TrainingConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.TrainingConfig.member_pilot_score">member_pilot_score (config.config.TrainingConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.TrainingConfig.member_pilot_steps">member_pilot_steps (config.config.TrainingConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.TrainingConfig.member_pilot_walkers">member_pilot_walkers (config.config.TrainingConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.TrainingConfig.member_threads">member_threads (config.config.TrainingConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.TrainingConfig.members">members (config.config.TrainingConfig attribute)</a>
+</li>
+      <li><a href="api/likelihood/surrogate/index.html#likelihood.surrogate.SurrogateLikelihood.metadata">metadata (likelihood.surrogate.SurrogateLikelihood attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.ConvergenceConfig.metric">metric (config.config.ConvergenceConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.min_share">min_share (config.config.BoostConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.mixing">mixing (config.config.BoostConfig attribute)</a>
+</li>
+      <li><a href="api/sampling/modes/index.html#sampling.modes.mixing_memory">mixing_memory() (in module sampling.modes)</a>
+</li>
+      <li><a href="api/run/run/index.html#run.run.Run.mode">mode (run.run.Run property)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.mode_depth">mode_depth (config.config.BoostConfig attribute)</a>
+</li>
+      <li><a href="api/dataset/boost/index.html#dataset.boost.mode_line">mode_line() (in module dataset.boost)</a>
+</li>
+      <li><a href="api/sampling/modes/index.html#sampling.modes.mode_log_evidence">mode_log_evidence() (in module sampling.modes)</a>
+</li>
+      <li><a href="api/dataset/boost/index.html#dataset.boost.mode_shares">mode_shares() (in module dataset.boost)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.Config.model">model (config.config.Config attribute)</a>
+
+      <ul>
+        <li><a href="api/likelihood/surrogate/index.html#likelihood.surrogate.SurrogateLikelihood.model">(likelihood.surrogate.SurrogateLikelihood attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/config/config/index.html#config.config.ModelConfig">ModelConfig (class in config.config)</a>
+</li>
+      <li><a href="api/sampling/modes/index.html#sampling.modes.modes_by_mixing">modes_by_mixing() (in module sampling.modes)</a>
+</li>
+      <li>
+    module
+
+      <ul>
+        <li><a href="api/config/index.html#module-config">config</a>
+</li>
+        <li><a href="api/config/config/index.html#module-config.config">config.config</a>
+</li>
+        <li><a href="api/convergence/index.html#module-convergence">convergence</a>
+</li>
+        <li><a href="api/convergence/convergence/index.html#module-convergence.convergence">convergence.convergence</a>
+</li>
+        <li><a href="api/dataset/index.html#module-dataset">dataset</a>
+</li>
+        <li><a href="api/dataset/augment/index.html#module-dataset.augment">dataset.augment</a>
+</li>
+        <li><a href="api/dataset/boost/index.html#module-dataset.boost">dataset.boost</a>
+</li>
+        <li><a href="api/dataset/posterior_boost/index.html#module-dataset.posterior_boost">dataset.posterior_boost</a>
+</li>
+        <li><a href="api/likelihood/index.html#module-likelihood">likelihood</a>
+</li>
+        <li><a href="api/likelihood/base/index.html#module-likelihood.base">likelihood.base</a>
+</li>
+        <li><a href="api/likelihood/surrogate/index.html#module-likelihood.surrogate">likelihood.surrogate</a>
+</li>
+        <li><a href="api/profiles/index.html#module-profiles">profiles</a>
+</li>
+        <li><a href="api/profiles/config/index.html#module-profiles.config">profiles.config</a>
+</li>
+        <li><a href="api/profiles/hybrid_surface/index.html#module-profiles.hybrid_surface">profiles.hybrid_surface</a>
+</li>
+        <li><a href="api/profiles/region/index.html#module-profiles.region">profiles.region</a>
+</li>
+        <li><a href="api/profiles/residual_newton/index.html#module-profiles.residual_newton">profiles.residual_newton</a>
+</li>
+        <li><a href="api/profiles/workflow/index.html#module-profiles.workflow">profiles.workflow</a>
+</li>
+        <li><a href="api/run/index.html#module-run">run</a>
+</li>
+        <li><a href="api/run/run/index.html#module-run.run">run.run</a>
+</li>
+        <li><a href="api/sampling/index.html#module-sampling">sampling</a>
+</li>
+        <li><a href="api/sampling/modes/index.html#module-sampling.modes">sampling.modes</a>
+</li>
+        <li><a href="api/sampling/region/index.html#module-sampling.region">sampling.region</a>
+</li>
+        <li><a href="api/training/index.html#module-training">training</a>
+</li>
+        <li><a href="api/training/audit/index.html#module-training.audit">training.audit</a>
+</li>
+        <li><a href="api/utils/index.html#module-utils">utils</a>
+</li>
+        <li><a href="api/utils/held_out/index.html#module-utils.held_out">utils.held_out</a>
+</li>
+      </ul></li>
+      <li><a href="api/dataset/boost/index.html#dataset.boost.MOVED_BY_A_LAUNCHER">MOVED_BY_A_LAUNCHER (in module dataset.boost)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.TrainingConfig.msre_ess_floor">msre_ess_floor (config.config.TrainingConfig attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.n">n (config.config.BoostConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AcquisitionConfig.n_append">n_append (config.config.AcquisitionConfig attribute)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.n_derived">n_derived (likelihood.base.BaseLikelihood property)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.DerivedConfig.n_epochs">n_epochs (config.config.DerivedConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.TrainingConfig.n_epochs">(config.config.TrainingConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.AcquisitionConfig.n_inject">n_inject (config.config.AcquisitionConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.PriorConfig.n_inject">(config.config.PriorConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/run/run/index.html#run.run.Run.n_iterations">n_iterations (run.run.Run property)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.DerivedConfig.n_layers">n_layers (config.config.DerivedConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.ModelConfig.n_layers">(config.config.ModelConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.AcquisitionConfig.n_neighbors">n_neighbors (config.config.AcquisitionConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.DerivedConfig.n_neurons">n_neurons (config.config.DerivedConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.ModelConfig.n_neurons">(config.config.ModelConfig attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/config/config/index.html#config.config.PriorConfig.n_samples">n_samples (config.config.PriorConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.PriorConfig.n_sigma">n_sigma (config.config.PriorConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.SamplingConfig.n_steps">n_steps (config.config.SamplingConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.SamplingConfig.n_walkers">n_walkers (config.config.SamplingConfig attribute)</a>
+</li>
+      <li><a href="api/convergence/convergence/index.html#convergence.convergence.GaussianPosteriorDrift.name">name (convergence.convergence.GaussianPosteriorDrift attribute)</a>
+
+      <ul>
+        <li><a href="api/likelihood/base/index.html#likelihood.base.ParameterInfo.name">(likelihood.base.ParameterInfo attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.ndim">ndim (likelihood.base.BaseLikelihood property)</a>
+</li>
+      <li><a href="api/likelihood/surrogate/index.html#likelihood.surrogate.SurrogateLikelihood.network">network() (likelihood.surrogate.SurrogateLikelihood method)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig">NewtonConfig (class in profiles.residual_newton)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonRefiner">NewtonRefiner (class in profiles.residual_newton)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.noise">noise (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/sampling/modes/index.html#sampling.modes.NoModeFound">NoModeFound</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.Frame.norm">norm() (profiles.residual_newton.Frame method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.objective_convention">objective_convention (likelihood.base.BaseLikelihood attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/profiles/region/index.html#profiles.region.outside">outside() (in module profiles.region)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.param_centers">param_centers (likelihood.base.BaseLikelihood property)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.param_labels">param_labels (likelihood.base.BaseLikelihood property)</a>
+
+      <ul>
+        <li><a href="api/likelihood/surrogate/index.html#likelihood.surrogate.SurrogateMetadata.param_labels">(likelihood.surrogate.SurrogateMetadata property)</a>
+</li>
+      </ul></li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.param_names">param_names (likelihood.base.BaseLikelihood property)</a>
+
+      <ul>
+        <li><a href="api/likelihood/surrogate/index.html#likelihood.surrogate.SurrogateMetadata.param_names">(likelihood.surrogate.SurrogateMetadata property)</a>
+</li>
+      </ul></li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.param_scales">param_scales (likelihood.base.BaseLikelihood property)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.param_sigmas">param_sigmas (likelihood.base.BaseLikelihood property)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.ParameterInfo">ParameterInfo (class in likelihood.base)</a>
+</li>
+      <li><a href="api/likelihood/surrogate/index.html#likelihood.surrogate.SurrogateMetadata.parameters">parameters (likelihood.surrogate.SurrogateMetadata attribute)</a>
+
+      <ul>
+        <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.parameters">(profiles.config.ProfileConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/profiles/region/index.html#profiles.region.PASSES">PASSES (in module profiles.region)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.DerivedConfig.patience">patience (config.config.DerivedConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.TrainingConfig.patience">(config.config.TrainingConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dataset/augment/index.html#dataset.augment.pending_augmentations">pending_augmentations() (in module dataset.augment)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.per_round">per_round() (config.config.AuditConfig method)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.polish_epochs">polish_epochs (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AcquisitionConfig.pool_factor">pool_factor (config.config.AcquisitionConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.BoostConfig.pool_factor">(config.config.BoostConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.posterior">posterior (config.config.AuditConfig attribute)</a>
+</li>
+      <li><a href="api/sampling/modes/index.html#sampling.modes.posterior_modes">posterior_modes() (in module sampling.modes)</a>
+</li>
+      <li><a href="api/training/audit/index.html#training.audit.posterior_pilot">posterior_pilot() (in module training.audit)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.posterior_rounds">posterior_rounds (config.config.AuditConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.posterior_tolerance">posterior_tolerance (config.config.AuditConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/workflow/index.html#profiles.workflow.preflight">preflight() (in module profiles.workflow)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.Config.prior">prior (config.config.Config attribute)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.prior_bounds">prior_bounds (likelihood.base.BaseLikelihood property)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.PriorConfig">PriorConfig (class in config.config)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.profile_points">profile_points (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig">ProfileConfig (class in profiles.config)</a>
+</li>
+      <li>
+    profiles
+
+      <ul>
+        <li><a href="api/profiles/index.html#module-profiles">module</a>
+</li>
+      </ul></li>
+      <li>
+    profiles.config
+
+      <ul>
+        <li><a href="api/profiles/config/index.html#module-profiles.config">module</a>
+</li>
+      </ul></li>
+      <li>
+    profiles.hybrid_surface
+
+      <ul>
+        <li><a href="api/profiles/hybrid_surface/index.html#module-profiles.hybrid_surface">module</a>
+</li>
+      </ul></li>
+      <li>
+    profiles.region
+
+      <ul>
+        <li><a href="api/profiles/region/index.html#module-profiles.region">module</a>
+</li>
+      </ul></li>
+      <li>
+    profiles.residual_newton
+
+      <ul>
+        <li><a href="api/profiles/residual_newton/index.html#module-profiles.residual_newton">module</a>
+</li>
+      </ul></li>
+      <li>
+    profiles.workflow
+
+      <ul>
+        <li><a href="api/profiles/workflow/index.html#module-profiles.workflow">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/sampling/region/index.html#sampling.region.Region.project_unit">project_unit() (sampling.region.Region method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Q">Q</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.q_max">q_max (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.q_stiff">q_stiff (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.QuadCorrected">QuadCorrected (class in profiles.residual_newton)</a>
+</li>
+      <li><a href="api/training/audit/index.html#training.audit.QUICK_DIVISOR">QUICK_DIVISOR (in module training.audit)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sampling/region/index.html#sampling.region.Region.radii">radii() (sampling.region.Region method)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.TrainingConfig.random_start_weights">random_start_weights (config.config.TrainingConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.ranges">ranges (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/sampling/region/index.html#sampling.region.Region.reach">reach (sampling.region.Region attribute)</a>
+</li>
+      <li><a href="api/profiles/workflow/index.html#profiles.workflow.read">read() (in module profiles.workflow)</a>
+</li>
+      <li><a href="api/dataset/augment/index.html#dataset.augment.read_augmentation">read_augmentation() (in module dataset.augment)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.REAL_SETTINGS">REAL_SETTINGS (in module profiles.config)</a>
+</li>
+      <li><a href="api/dataset/boost/index.html#dataset.boost.record_fallback">record_fallback() (in module dataset.boost)</a>
+</li>
+      <li><a href="api/dataset/boost/index.html#dataset.boost.record_start">record_start() (in module dataset.boost)</a>
+</li>
+      <li><a href="api/dataset/boost/index.html#dataset.boost.recorded_start">recorded_start() (in module dataset.boost)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.refine_profiles_newton">refine_profiles_newton() (in module profiles.residual_newton)</a>
+</li>
+      <li><a href="api/profiles/hybrid_surface/index.html#profiles.hybrid_surface.refine_surface_newton">refine_surface_newton() (in module profiles.hybrid_surface)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.refused_start">refused_start() (in module profiles.residual_newton)</a>
+</li>
+      <li><a href="api/sampling/region/index.html#sampling.region.Region">Region (class in sampling.region)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.region">region (config.config.BoostConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/likelihood/surrogate/index.html#likelihood.surrogate.SurrogateLikelihood.region">(likelihood.surrogate.SurrogateLikelihood attribute)</a>
+</li>
+        <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.region">(profiles.config.ProfileConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.region_quantile">region_quantile (config.config.BoostConfig attribute)</a>
+</li>
+      <li><a href="api/sampling/modes/index.html#sampling.modes.Regions">Regions (class in sampling.modes)</a>
+</li>
+      <li><a href="api/convergence/convergence/index.html#convergence.convergence.GaussianPosteriorDrift.relative_floor">relative_floor (convergence.convergence.GaussianPosteriorDrift attribute)</a>
+</li>
+      <li><a href="api/run/run/index.html#run.run.Run.requested_iterations">requested_iterations (run.run.Run attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/profiles/region/index.html#profiles.region.resolve">resolve() (in module profiles.region)</a>
+</li>
+      <li><a href="api/profiles/region/index.html#profiles.region.restrict">restrict() (in module profiles.region)</a>
+
+      <ul>
+        <li><a href="api/sampling/region/index.html#sampling.region.Region.restrict">(sampling.region.Region method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.restrict_prior_bounds">restrict_prior_bounds() (likelihood.base.BaseLikelihood method)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.retrain">retrain (profiles.config.ProfileConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/run/run/index.html#run.run.Run.retrain">(run.run.Run attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/sampling/region/index.html#sampling.region.Region.rho">rho() (sampling.region.Region method)</a>
+</li>
+      <li><a href="api/sampling/region/index.html#sampling.region.Region.rho_tf">rho_tf() (sampling.region.Region method)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.ridge">ridge (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.rounds">rounds (config.config.AuditConfig attribute)</a>
+</li>
+      <li><a href="api/sampling/region/index.html#sampling.region.Region.rows">rows (sampling.region.Region attribute)</a>
+</li>
+      <li>
+    run
+
+      <ul>
+        <li><a href="api/run/index.html#module-run">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/run/run/index.html#run.run.Run">Run (class in run.run)</a>
+</li>
+      <li>
+    run.run
+
+      <ul>
+        <li><a href="api/run/run/index.html#module-run.run">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.run_config">run_config (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/run/run/index.html#run.run.Run.run_dir">run_dir (run.run.Run attribute)</a>
+</li>
+      <li><a href="api/run/run/index.html#run.run.Run.run_id">run_id (run.run.Run attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.run_seeded_chains">run_seeded_chains() (in module profiles.residual_newton)</a>
+</li>
+      <li><a href="api/profiles/workflow/index.html#profiles.workflow.run_workflow">run_workflow() (in module profiles.workflow)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/config/config/index.html#config.config.SamplingConfig.sampler">sampler (config.config.SamplingConfig attribute)</a>
+</li>
+      <li>
+    sampling
+
+      <ul>
+        <li><a href="api/sampling/index.html#module-sampling">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.Config.sampling">sampling (config.config.Config attribute)</a>
+</li>
+      <li>
+    sampling.modes
+
+      <ul>
+        <li><a href="api/sampling/modes/index.html#module-sampling.modes">module</a>
+</li>
+      </ul></li>
+      <li>
+    sampling.region
+
+      <ul>
+        <li><a href="api/sampling/region/index.html#module-sampling.region">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.PriorConfig.sampling_strategy">sampling_strategy (config.config.PriorConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.SamplingConfig">SamplingConfig (class in config.config)</a>
+</li>
+      <li><a href="api/likelihood/surrogate/index.html#likelihood.surrogate.SurrogateMetadata.save">save() (likelihood.surrogate.SurrogateMetadata method)</a>
+
+      <ul>
+        <li><a href="api/sampling/region/index.html#sampling.region.Region.save">(sampling.region.Region method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/training/audit/index.html#training.audit.save_audit">save_audit() (in module training.audit)</a>
+</li>
+      <li><a href="api/convergence/convergence/index.html#convergence.convergence.BaseConvergenceMetric.save_chain_summary">save_chain_summary() (convergence.convergence.BaseConvergenceMetric static method)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.ParameterInfo.scale">scale (likelihood.base.ParameterInfo attribute)</a>
+</li>
+      <li><a href="api/likelihood/surrogate/index.html#likelihood.surrogate.SurrogateMetadata.scales">scales (likelihood.surrogate.SurrogateMetadata property)</a>
+</li>
+      <li><a href="api/profiles/region/index.html#profiles.region.scan">scan() (in module profiles.region)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.scan_points">scan_points (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/hybrid_surface/index.html#profiles.hybrid_surface.scan_surface_hybrid">scan_surface_hybrid() (in module profiles.hybrid_surface)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.search_ranges">search_ranges (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.secant">secant (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.secant_min">secant_min (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.Config.seed">seed (config.config.Config attribute)</a>
+
+      <ul>
+        <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.seed">(profiles.config.ProfileConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dataset/augment/index.html#dataset.augment.select_known_points">select_known_points() (in module dataset.augment)</a>
+</li>
+      <li><a href="api/dataset/posterior_boost/index.html#dataset.posterior_boost.select_posterior_boost">select_posterior_boost() (in module dataset.posterior_boost)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.TrainingConfig.selection_share">selection_share (config.config.TrainingConfig attribute)</a>
+</li>
+      <li><a href="api/run/run/index.html#run.run.settings_file">settings_file() (in module run.run)</a>
+</li>
+      <li><a href="api/training/audit/index.html#training.audit.SETTLE_FACTOR">SETTLE_FACTOR (in module training.audit)</a>
+</li>
+      <li><a href="api/training/audit/index.html#training.audit.SETTLE_ROUNDS">SETTLE_ROUNDS (in module training.audit)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sampling/region/index.html#sampling.region.Region.shaped">shaped() (sampling.region.Region static method)</a>
+</li>
+      <li><a href="api/profiles/region/index.html#profiles.region.shorten">shorten() (in module profiles.region)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.ParameterInfo.sigma">sigma (likelihood.base.ParameterInfo attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.TrainingConfig.sigma_level">sigma_level (config.config.TrainingConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.sigma_range">sigma_range (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonRefiner.solve">solve() (profiles.residual_newton.NewtonRefiner method)</a>
+</li>
+      <li><a href="api/sampling/region/index.html#sampling.region.SPARSE">SPARSE (in module sampling.region)</a>
+</li>
+      <li><a href="api/dataset/boost/index.html#dataset.boost.split_by_shares">split_by_shares() (in module dataset.boost)</a>
+</li>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.BaseLikelihood.split_evaluations">split_evaluations() (likelihood.base.BaseLikelihood method)</a>
+</li>
+      <li><a href="api/sampling/modes/index.html#sampling.modes.split_evenly">split_evenly() (in module sampling.modes)</a>
+</li>
+      <li><a href="api/sampling/region/index.html#sampling.region.Region.start">start() (sampling.region.Region method)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.start_iteration">start_iteration (config.config.AuditConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.BoostConfig.start_iteration">(config.config.BoostConfig attribute)</a>
+</li>
+        <li><a href="api/run/run/index.html#run.run.Run.start_iteration">(run.run.Run attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.starts">starts (config.config.AuditConfig attribute)</a>
+</li>
+      <li><a href="api/training/audit/index.html#training.audit.STARTS_PER_PARAMETER">STARTS_PER_PARAMETER (in module training.audit)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.step">step (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.steps">steps (config.config.AuditConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.BoostConfig.steps">(config.config.BoostConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/config/config/index.html#config.config.Config.storage">storage (config.config.Config attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.StorageConfig">StorageConfig (class in config.config)</a>
+</li>
+      <li><a href="api/sampling/region/index.html#sampling.region.STRENGTH">STRENGTH (in module sampling.region)</a>
+</li>
+      <li><a href="api/convergence/convergence/index.html#convergence.convergence.BaseConvergenceMetric.summarize">summarize() (convergence.convergence.BaseConvergenceMetric method)</a>
+
+      <ul>
+        <li><a href="api/convergence/convergence/index.html#convergence.convergence.GaussianPosteriorDrift.summarize">(convergence.convergence.GaussianPosteriorDrift method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dataset/augment/index.html#dataset.augment.DensityLaw.summary">summary() (dataset.augment.DensityLaw method)</a>
+</li>
+      <li><a href="api/training/audit/index.html#training.audit.summit_maxima">summit_maxima() (in module training.audit)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.surrogate_optimizer">surrogate_optimizer (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.SURROGATE_OPTIMIZERS">SURROGATE_OPTIMIZERS (in module profiles.config)</a>
+</li>
+      <li><a href="api/likelihood/surrogate/index.html#likelihood.surrogate.SurrogateLikelihood">SurrogateLikelihood (class in likelihood.surrogate)</a>
+</li>
+      <li><a href="api/likelihood/surrogate/index.html#likelihood.surrogate.SurrogateMetadata">SurrogateMetadata (class in likelihood.surrogate)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.Frame.T">T (profiles.residual_newton.Frame attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AcquisitionConfig.target_temperature">target_temperature (config.config.AcquisitionConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.AuditConfig.tau">tau (config.config.AuditConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.SamplingConfig.temperature">temperature (config.config.SamplingConfig attribute)</a>
+</li>
+      <li><a href="api/convergence/convergence/index.html#convergence.convergence.TEMPERED_BATCH_SCATTER">TEMPERED_BATCH_SCATTER (in module convergence.convergence)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.ConvergenceConfig.TEMPERED_THRESHOLD">TEMPERED_THRESHOLD (config.config.ConvergenceConfig attribute)</a>
+</li>
+      <li><a href="api/convergence/convergence/index.html#convergence.convergence.tempered_verdict">tempered_verdict() (in module convergence.convergence)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.SamplingConfig.thin">thin (config.config.SamplingConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.ConvergenceConfig.threshold">threshold (config.config.ConvergenceConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.tol">tol (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.total_call_budget">total_call_budget (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.train_domain">train_domain (config.config.BoostConfig attribute)</a>
+</li>
+      <li><a href="api/run/run/index.html#run.run.Run.trained_models_dir">trained_models_dir (run.run.Run property)</a>
+</li>
+      <li>
+    training
+
+      <ul>
+        <li><a href="api/training/index.html#module-training">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/config/config/index.html#config.config.Config.training">training (config.config.Config attribute)</a>
+</li>
+      <li>
+    training.audit
+
+      <ul>
+        <li><a href="api/training/audit/index.html#module-training.audit">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/run/run/index.html#run.run.Run.training_data_dir">training_data_dir (run.run.Run property)</a>
+</li>
+      <li><a href="api/run/run/index.html#run.run.Run.training_history_dir">training_history_dir (run.run.Run property)</a>
+</li>
+      <li><a href="api/dataset/augment/index.html#dataset.augment.training_log_density">training_log_density() (in module dataset.augment)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.StorageConfig.training_sets">training_sets (config.config.StorageConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.TrainingConfig">TrainingConfig (class in config.config)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.transfer_min">transfer_min (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.transition_lr">transition_lr (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.trust0">trust0 (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.trust_max">trust_max (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.NewtonConfig.trust_min">trust_min (profiles.residual_newton.NewtonConfig attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/likelihood/base/index.html#likelihood.base.ParameterInfo.upper">upper (likelihood.base.ParameterInfo attribute)</a>
+</li>
+      <li><a href="api/run/run/index.html#run.run.Run.use_convergence">use_convergence (run.run.Run property)</a>
+</li>
+      <li>
+    utils
+
+      <ul>
+        <li><a href="api/utils/index.html#module-utils">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    utils.held_out
+
+      <ul>
+        <li><a href="api/utils/held_out/index.html#module-utils.held_out">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.validate">validate() (profiles.config.ProfileConfig method)</a>
+</li>
+      <li><a href="api/profiles/hybrid_surface/index.html#profiles.hybrid_surface.validate_grid">validate_grid() (in module profiles.hybrid_surface)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.validation_global">validation_global (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.validation_nodes">validation_nodes (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.DerivedConfig.validation_split">validation_split (config.config.DerivedConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config/config/index.html#config.config.TrainingConfig.validation_split">(config.config.TrainingConfig attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.QuadCorrected.value">value() (profiles.residual_newton.QuadCorrected method)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.QuadCorrected.value_grad">value_grad() (profiles.residual_newton.QuadCorrected method)</a>
+</li>
+      <li><a href="api/profiles/residual_newton/index.html#profiles.residual_newton.QuadCorrected.value_grad_hess">value_grad_hess() (profiles.residual_newton.QuadCorrected method)</a>
+</li>
+      <li><a href="api/dataset/augment/index.html#dataset.augment.DensityLaw.values">values (dataset.augment.DensityLaw attribute)</a>
+</li>
+      <li><a href="api/profiles/region/index.html#profiles.region.view_region">view_region() (in module profiles.region)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/config/config/index.html#config.config.BoostConfig.walkers">walkers (config.config.BoostConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.TrainingConfig.warm_start">warm_start (config.config.TrainingConfig attribute)</a>
+</li>
+      <li><a href="api/training/audit/index.html#training.audit.weights_digest">weights_digest() (in module training.audit)</a>
+</li>
+      <li><a href="api/sampling/region/index.html#sampling.region.Region.whiten">whiten (sampling.region.Region attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sampling/region/index.html#sampling.region.whitener">whitener() (in module sampling.region)</a>
+</li>
+      <li><a href="api/sampling/region/index.html#sampling.region.Region.width">width (sampling.region.Region attribute)</a>
+</li>
+      <li><a href="api/dataset/augment/index.html#dataset.augment.DensityLaw.window">window (dataset.augment.DensityLaw attribute)</a>
+</li>
+      <li><a href="api/profiles/config/index.html#profiles.config.ProfileConfig.workers">workers (profiles.config.ProfileConfig attribute)</a>
+</li>
+      <li><a href="api/config/config/index.html#config.config.LikelihoodConfig.wrapper">wrapper (config.config.LikelihoodConfig attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

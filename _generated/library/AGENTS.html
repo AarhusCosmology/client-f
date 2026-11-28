@@ -1,0 +1,1653 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Contributor guide &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=2443c677"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_generated/library/AGENTS';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/_generated/library/AGENTS.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="What this version adds" href="CHANGES.html" />
+    <link rel="prev" title="Guides and reports" href="../../library.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Contributor guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CHANGES.html">What this version adds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PERFORMANCE.html">CLiENT speed and memory changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UPGRADING.html">Moving from the first CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/PROFILES_AND_EVIDENCE.html">Profile likelihoods and Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/README.html">CLiENT documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/audit_optima.html">Auditing the network’s optima</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/augment_training.html">Adding profile points to a run’s training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/boost.html">Boost: training points from the posterior itself</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/boost_background_region.html">Boost with a quadratic background and a region</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/boost_modes_mixing.html">Boost: deciding the modes by measured mixing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/boost_real_lcdm.html">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/combine.html">Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/create_profiles.html">Create profiles from a saved CLiENT iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/create_profiles_2d.html">One two-dimensional profile per run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/derived_parameters.html">Derived parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/evidence.html">Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/export.html">Exporting a network: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">export</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/hybrid_optimisers.html">Hybrid profile optimisers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/injection_window.html">Injection: fitting the quadratic to the points near the best</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/members.html">Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/posterior_density_boost.html">Density-filtered posterior boosts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/run_files.html">A run’s files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/run_recovery.html">Continuing and recovering a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/tempered_convergence.html">Convergence of the ordinary loop: the error at the tempered batch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hpc/README.html">Real likelihoods on a cluster</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../library.html" class="nav-link">Guides and reports</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Contributor guide</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Maintained source: <a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/AGENTS.md">AGENTS.md</a>. Measurements keep their original settings; consult the <a class="reference internal" href="../../configuration.html"><span class="std std-doc">current defaults</span></a> before starting a new run.</p>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="contributor-guide">
+<h1>Contributor guide<a class="headerlink" href="#contributor-guide" title="Link to this heading">#</a></h1>
+<p>Why the code is as it is, module by module, for anyone changing it, human or agent. Each section lists what must stay
+true and the measurement behind it. New behaviour goes behind a config key unless there is evidence to make it a default.</p>
+<section id="repository">
+<h2>Repository<a class="headerlink" href="#repository" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Keep saved objectives, physical bounds and historical outputs intact. Never edit a source checkout or data directory merely
+referenced by a run manifest.</p></li>
+<li><p>Report objective call counts separately from wall time.</p></li>
+<li><p>Push or publish only when the user has authorised it. Verify the remote and target branch first, and do not force-push over
+others’ work.</p></li>
+<li><p>What is specific to the Grendel cluster (install, sync, Slurm headers, run definitions) is in the private repository
+<code class="docutils literal notranslate"><span class="pre">AarhusCosmology/ClientCluster</span></code>. <code class="docutils literal notranslate"><span class="pre">hpc/</span></code> here holds the generic tools.</p></li>
+</ul>
+</section>
+<section id="layout">
+<h2>Layout<a class="headerlink" href="#layout" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>path</p></th>
+<th class="head"><p>role</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">client.py</span></code></p></td>
+<td><p>the loop and the commands</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">config/</span></code></p></td>
+<td><p>the run YAML’s schema, with the evidence for each default in its comments</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dataset/</span></code></p></td>
+<td><p>designs, injection, density selection, boosts, augmentation</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">training/</span></code>, <code class="docutils literal notranslate"><span class="pre">model/</span></code></p></td>
+<td><p>loss, training, the audit, the training domain; network, background, walls</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sampling/</span></code></p></td>
+<td><p>AIES, modes, the region, chains over several cells, provenance of a sampled target</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">convergence/</span></code></p></td>
+<td><p>drift and the tempered verdict</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">run/</span></code></p></td>
+<td><p>phase records, objective identity, call journal, combine, export</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">evidence/</span></code>, <code class="docutils literal notranslate"><span class="pre">derived/</span></code></p></td>
+<td><p>BEST on a network; derived parameters and their views</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">profiles/hybrid.py</span></code></p></td>
+<td><p>batched surrogate evaluator, projected BFGS <code class="docutils literal notranslate"><span class="pre">ascend</span></code>, <code class="docutils literal notranslate"><span class="pre">certify</span></code>, basin-hopping <code class="docutils literal notranslate"><span class="pre">hop</span></code>, <code class="docutils literal notranslate"><span class="pre">scan_hybrid</span></code>, the ledger views the true stage uses</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">profiles/residual_newton.py</span></code></p></td>
+<td><p>the corrected true stage: <code class="docutils literal notranslate"><span class="pre">NewtonConfig</span></code>, <code class="docutils literal notranslate"><span class="pre">NewtonRefiner</span></code>, <code class="docutils literal notranslate"><span class="pre">refine_profiles_newton</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">profiles/config.py</span></code></p></td>
+<td><p>the profile YAML’s schema</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">profiles/workflow.py</span></code>, <code class="docutils literal notranslate"><span class="pre">surface_workflow.py</span></code></p></td>
+<td><p>the study: scan (<code class="docutils literal notranslate"><span class="pre">scan_checked</span></code>), true stage, resume; a manifest that lacks a current key is refused</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">profiles/region.py</span></code></p></td>
+<td><p>the setting <code class="docutils literal notranslate"><span class="pre">region</span></code>: which region belongs to a network, nodes outside it</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">profiles/surrogate.py</span></code>, <code class="docutils literal notranslate"><span class="pre">surface.py</span></code></p></td>
+<td><p>L-BFGS-B at one node, used by augmentation designs and display grids, and the scans of <code class="docutils literal notranslate"><span class="pre">surrogate_optimizer:</span> <span class="pre">legacy</span></code>. Real 2D studies use that scan on rugged networks: keep it unchanged in behaviour</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">profiles/evaluation.py</span></code>, <code class="docutils literal notranslate"><span class="pre">metric.py</span></code>, <code class="docutils literal notranslate"><span class="pre">training.py</span></code></p></td>
+<td><p>the ledger and its budget; the profile metric; the retraining preset</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">hpc/</span></code></p></td>
+<td><p>real likelihoods on a cluster: launcher, refused points, true check, corrected evidence, branching</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">benchmarking/</span></code></p></td>
+<td><p>posterior comparison against reference chains; the 31D exact-reference benchmark; <code class="docutils literal notranslate"><span class="pre">schedule_newton.py</span></code>, a load-independent wall-time model from a call journal</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="before-changing-dataset-augment-py">
+<h2>Before changing <code class="docutils literal notranslate"><span class="pre">dataset/augment.py</span></code><a class="headerlink" href="#before-changing-dataset-augment-py" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">augment</span></code> adds a profile study’s true evaluations to a run’s training set through
+the acquisition’s density filter; read <a class="reference internal" href="docs/augment_training.html"><span class="std std-doc">docs/augment_training.md</span></a>.
+Keep these:</p>
+<ul class="simple">
+<li><p>Both densities in the filter come from the same k-NN estimator and whitening (the
+training set’s density at the candidate, and the law read off the training set at the
+candidate’s true log L). An analytic target density on one side reintroduces the
+estimator’s high-dimensional bias.</p></li>
+<li><p>One pass with retention [1 − ρ/ρ(L)]₊. Drawing until no candidate is short admits nearly
+every candidate that k-NN noise makes look short: when that was tried it took 44% of the
+candidates of a training set already at its target. <code class="docutils literal notranslate"><span class="pre">tests/test_augment.py</span></code> guards this.</p></li>
+<li><p>It writes <code class="docutils literal notranslate"><span class="pre">RUN/augmentation/</span></code> and changes no existing file. Coordinates are compared at
+single precision, the training set’s.</p></li>
+<li><p>The first training with the points uses <code class="docutils literal notranslate"><span class="pre">training.augment_schedule_factor</span></code>; the marker
+<code class="docutils literal notranslate"><span class="pre">augment_it_N.trained.json</span></code> is what makes it happen once, also across restarts.</p></li>
+<li><p>A lower msre <code class="docutils literal notranslate"><span class="pre">c</span></code> and a cold start were both measured as alternatives to the longer
+schedule and rejected (table in the doc). Do not swap them in without that measurement.</p></li>
+</ul>
+</section>
+<section id="before-changing-dataset-peak-samples-py">
+<h2>Before changing <code class="docutils literal notranslate"><span class="pre">dataset/peak_samples.py</span></code><a class="headerlink" href="#before-changing-dataset-peak-samples-py" title="Link to this heading">#</a></h2>
+<p>The injected points (<code class="docutils literal notranslate"><span class="pre">prior.n_inject</span></code>, <code class="docutils literal notranslate"><span class="pre">acquisition.n_inject</span></code>) and their window
+(<code class="docutils literal notranslate"><span class="pre">INJECT_WINDOW</span></code>, 16); read <a class="reference internal" href="docs/injection_window.html"><span class="std std-doc">docs/injection_window.md</span></a>. Keep these:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">gaussian_peak_samples(...,</span> <span class="pre">window=None)</span></code> fits every point; the loop always passes the window.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_fit_quadratic</span></code> is shared with the profile code (<code class="docutils literal notranslate"><span class="pre">profiles/</span></code>,
+<code class="docutils literal notranslate"><span class="pre">dataset/profile_augmentation.py</span></code>). The window selects points before the fit
+and caps widths after it; the fit itself is not touched.</p></li>
+<li><p>On a real likelihood in a wide box the fit to every point is not a poor approximation, it
+is meaningless (residual of tens of thousands of log-units). Read the log line: a “vertex
+value” far above the best training value, or a “fit rms” of thousands, says the injected
+points are not near the peak.</p></li>
+<li><p>The window is in units of T n / 2 below the best, with a floor of three points per
+coefficient. Narrower windows and small fixed counts were erratic on the non-Gaussian
+likelihood; a hold-out choice of the window and drawing in rounds were tried and not adopted.</p></li>
+<li><p>The document has two kinds of depths: true values (a pair of cluster runs, and the runs’
+own old injections) and the runs’ last networks standing in for the truth (everything
+else). Do not quote the second kind as true values.</p></li>
+</ul>
+</section>
+<section id="before-changing-dataset-boost-py-or-sampling-modes-py">
+<h2>Before changing <code class="docutils literal notranslate"><span class="pre">dataset/boost.py</span></code> or <code class="docutils literal notranslate"><span class="pre">sampling/modes.py</span></code><a class="headerlink" href="#before-changing-dataset-boost-py-or-sampling-modes-py" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">acquisition.boost</span></code> replaces an iteration’s tempered batch by posterior samples of the
+network, the same number from every mode; read <a class="reference internal" href="docs/boost.html"><span class="std std-doc">docs/boost.md</span></a>. Keep these:</p>
+<ul class="simple">
+<li><p>Opt-in. Without the key the loop is exactly as it was, under MPI too: the one extra
+<code class="docutils literal notranslate"><span class="pre">bcast_idle</span></code> (the workers sleep while the master samples, and learn whether it found a
+mode to boost) is sent only in a boost iteration.</p></li>
+<li><p>A boost iteration’s true calls are the <code class="docutils literal notranslate"><span class="pre">n</span></code> asked for: no tempered batch, no injection.
+The one exception is a network without a mode (<code class="docutils literal notranslate"><span class="pre">sampling.modes.NoModeFound</span></code>): that
+iteration is an ordinary one on every rank (<code class="docutils literal notranslate"><span class="pre">client.draw_boost_points</span></code>, which also tells
+the workers; <code class="docutils literal notranslate"><span class="pre">tests/mpi_boost_fallback_smoke.py</span></code>), with its tempered batch and injection
+and a record in <code class="docutils literal notranslate"><span class="pre">RUN/boost/fallback_it_N.json</span></code>. Catch that error only: another failure
+of a boost must still stop the run.
+By default points bypass the density filter. Opt-in <code class="docutils literal notranslate"><span class="pre">density_filter:</span> <span class="pre">true</span></code> uses a
+balanced T=1 density target and may underfill; see <a class="reference internal" href="docs/posterior_density_boost.html"><span class="std std-doc">docs/posterior_density_boost.md</span></a>.
+Filtered rows must never receive the unweighted evidence correction.</p></li>
+<li><p>For the default unfiltered boost, the same number from every mode, whatever the weights. Each mode’s mean of exp(true minus
+network) must be known equally well, and the mode the network under-rates is the one a
+proportional split would starve.</p></li>
+<li><p>Modes are groups of <em>maxima</em>, not of T = 1 walkers. A walker sits ndim / 2 log-units under
+its peak, which hides a barrier of that size, and a walker stranded on the barrier joins the
+two sides (the first version did both on SINU). Climbs that stall more than <code class="docutils literal notranslate"><span class="pre">barrier</span></code> under
+a maximum they are joined to are left out for the same reason.</p></li>
+<li><p>Mode weights come from the per-mode evidences (bridge sampling), never from the tempered
+chain’s split between modes: that was off by 0.2 in log-odds per network, measured. An evidence
+that is not finite stops the boost before any true call (<code class="docutils literal notranslate"><span class="pre">mode_log_evidence</span></code>): the weights are
+fractions of one sum, so it would leave none of them known.</p></li>
+<li><p>The bridge’s mixture is fitted to the walkers of one half of the chain and bridged with the other
+half, a new halving at every repeat (<code class="docutils literal notranslate"><span class="pre">bridge_log_evidence(...,</span> <span class="pre">walkers=)</span></code>; both callers,
+<code class="docutils literal notranslate"><span class="pre">posterior_modes</span></code> and <code class="docutils literal notranslate"><span class="pre">sampling/mixture.py</span></code>, pass their chain’s walkers). Never random rows of one
+chain: a mixture lies higher at the points it was fitted to, and where the autocorrelation time
+spans many stored rows, random rows share their points. That made ln Z 0.26 to 0.27 low on two
+44-parameter networks, with a repeat spread of 0.01 that hid it (docs/boost.md, “Weights”;
+<code class="docutils literal notranslate"><span class="pre">tests/test_bridge_split.py</span></code>). The repeat spread means something only with halves that do not
+depend on each other.</p></li>
+<li><p>The corrected weights are only as good as the effective number of points behind them. Keep
+that number in the log and the report. A point the likelihood refused (a -inf return, or
+the run’s refused value) has weight zero and stays in the denominator of its mode’s mean,
+as in the true check (<code class="docutils literal notranslate"><span class="pre">hpc/analysis/true_check.py</span></code>), and is counted
+(<code class="docutils literal notranslate"><span class="pre">zero_density</span></code>, <code class="docutils literal notranslate"><span class="pre">refused</span></code>); the two programs must keep the same rule. A point without any value (NaN, +inf) still withholds
+the corrected weights of every mode (<code class="docutils literal notranslate"><span class="pre">boost_report</span></code>, <code class="docutils literal notranslate"><span class="pre">correction_withheld_reason</span></code>,
+<code class="docutils literal notranslate"><span class="pre">failed</span></code>): do not give it weight zero, its mode’s mean is not known. Never drop refused
+points from the denominator: that over-rates the mode they were drawn in.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mode_depth</span></code> (opt-in) leaves out a mode whose highest maximum lies more
+than that below the highest mode’s, before its chain is run; the highest mode always stays.
+It is decided by the modes’ maxima, never by their weights (the same-number rule above is
+about weights the network may get wrong; a mode hundreds of log-units down is not one of
+those). Without the key the modes and the search’s info are as before. <code class="docutils literal notranslate"><span class="pre">auto</span></code> (<code class="docutils literal notranslate"><span class="pre">posterior_modes</span></code>
+resolves it) is <code class="docutils literal notranslate"><span class="pre">temperature</span> <span class="pre">*</span> <span class="pre">ndim</span> <span class="pre">/</span> <span class="pre">2</span></code> with the tempered chain’s temperature; the info’s
+<code class="docutils literal notranslate"><span class="pre">mode_depth</span></code> holds the number.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">balance_floor</span></code> (opt-in) gives a mode lighter than the floor its equal share
+times its weight over the floor (<code class="docutils literal notranslate"><span class="pre">dataset/boost.py</span></code> <code class="docutils literal notranslate"><span class="pre">mode_shares</span></code>; the filtered path cuts the
+clouds in <code class="docutils literal notranslate"><span class="pre">select_posterior_boost</span></code>). Without the key <code class="docutils literal notranslate"><span class="pre">draw_boost</span></code> and <code class="docutils literal notranslate"><span class="pre">select_posterior_boost</span></code>
+are the equal shares (<code class="docutils literal notranslate"><span class="pre">tests/test_boost.py</span></code>, <code class="docutils literal notranslate"><span class="pre">tests/test_posterior_boost.py</span></code>): keep that.
+It is for small groups of walkers that <code class="docutils literal notranslate"><span class="pre">min_share</span></code> 0.005 lets through, which the posterior
+pilot cannot check; a mode at or above the floor keeps its equal share.</p></li>
+<li><p>Two recommended boost settings (docs/boost.md, “Two recommended settings”):
+near-Gaussian (the reference runs’ block) and known non-Gaussian (the axion pilot branch’s).
+Only documentation: no key selects either, and no default changed. The measured split is the
+training domain: it cost the 49-parameter and HiLLiK branches accuracy (tails too high at the
+first domain network; 2.5x and 6.5x the reference’s error at the last boosts) and is what the
+axion run needed. Do not make either set a default without the confirmation runs’ full results.
+What decides it is mostly the output scale the far points set (“What the training domain
+changes”: retrainings of five runs’ first boost networks); a choice of the
+three candidates by their held-out error near the best picked the better one in all five, but
+it is not built (one seed each).</p></li>
+<li><p>A true value that is not finite is not trained on (the loop’s own filter) and is counted
+in the report.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RUN/boost/boost_it_N.csv</span></code> is a record; the points themselves are in training set N+1 (<code class="docutils literal notranslate"><span class="pre">run/layout.py</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">finish_boost</span></code> matches each evaluated point to a drawn one at single precision. The launcher rounds a batch to single precision and keeps it inside the box as single
+precision holds it (<code class="docutils literal notranslate"><span class="pre">hpc/launch.py</span></code>, <code class="docutils literal notranslate"><span class="pre">evaluate</span></code>), so a point drawn in the last
+digit before an edge comes back one step inside. Such a point is the nearest unmatched
+drawn one within <code class="docutils literal notranslate"><span class="pre">MOVED_BY_A_LAUNCHER</span></code> units in the last place and is recorded where it was
+evaluated; anything farther still stops the run. Matched bit for bit it stopped every run under the launcher whose boost drew one: rare on a good network,
+certain on one pressed against its box. The unit suite and the MPI smokes run <code class="docutils literal notranslate"><span class="pre">client.py</span></code>
+directly and did not see it. After a change to this match, to the launcher’s rounding, or
+to anything else that compares evaluated coordinates with chosen ones, run a small
+analytic case through <code class="docutils literal notranslate"><span class="pre">hpc/launch.py</span></code> to its boosts.</p></li>
+<li><p>The pooled error of a boost (<code class="docutils literal notranslate"><span class="pre">error</span></code> in its report, the two log lines after the modes) is a
+measurement of the network at points it had not seen, printed for every boost, filtered or
+not. It decides nothing: the number of boosts is the user’s, and the loop’s convergence
+test must not be applied to boost iterations. It is not the evidence correction, which
+stays withheld for filtered rows.</p></li>
+</ul>
+</section>
+<section id="before-changing-run-combine-py-domain-splitting">
+<h2>Before changing <code class="docutils literal notranslate"><span class="pre">run/combine.py</span></code> (domain splitting)<a class="headerlink" href="#before-changing-run-combine-py-domain-splitting" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">client.py</span> <span class="pre">combine</span></code> puts runs of one objective on adjacent boxes in one parameter into one
+emulator; read <a class="reference internal" href="docs/combine.html"><span class="std std-doc">docs/combine.md</span></a>. Keep these:</p>
+<ul class="simple">
+<li><p>The combined network is one flat Keras graph: every part’s layers copied under <code class="docutils literal notranslate"><span class="pre">part&lt;k&gt;_</span></code> with
+the same weights (<code class="docutils literal notranslate"><span class="pre">rebuild</span></code>). The profile code copies a model with <code class="docutils literal notranslate"><span class="pre">clone_model</span></code> layer by layer
+at double precision (<code class="docutils literal notranslate"><span class="pre">copy_model_dtype</span></code>); a nested sub-model is not what it was tested on.</p></li>
+<li><p>The blend is (1 - s) A + s B with two <code class="docutils literal notranslate"><span class="pre">SmoothStep</span></code> weights (<code class="docutils literal notranslate"><span class="pre">model/network.py</span></code>, registered so
+that <code class="docutils literal notranslate"><span class="pre">load_model</span></code> finds them), each exactly 0 or 1 outside the band: there the value is exactly
+one network’s. A + s (B - A) rounded it by up to 0.12 in float32 next to a wall. The
+smootherstep’s first and second derivatives vanish at the band’s ends (the profiles’ curvature).</p></li>
+<li><p>Each part’s network is used inside its own region only (<code class="docutils literal notranslate"><span class="pre">RegionWall</span></code> in the graph) unless
+<code class="docutils literal notranslate"><span class="pre">--no-walls</span></code>: a network has maxima beyond its region, and another part’s region can reach into
+its range.</p></li>
+<li><p>The parts must record the same objective: <code class="docutils literal notranslate"><span class="pre">run.identity.differences</span></code> with only the split
+parameter’s bounds removed. Do not widen that: a narrower Cobaya prior on the split parameter
+changes the objective by a constant, and the networks would no longer share one scale.</p></li>
+<li><p>The combined region is every part’s cells re-expressed in the combined box’s units (<code class="docutils literal notranslate"><span class="pre">rebox</span></code>:
+distances unchanged, tested to 1e-12). A combined emulator is sampled cell by cell
+(<code class="docutils literal notranslate"><span class="pre">sampling/mixture.py</span></code>), each cell weighted by its own evidence.
+Identical normalized ellipsoids are merged only in this outer union, with source-cell
+provenance; individual network walls stay intact. Mixed region/no-region inputs are
+rejected. Consume verified immutable copies of all inputs, record their hashes, and
+publish the complete output by directory rename; never expose a partial run without
+its <code class="docutils literal notranslate"><span class="pre">combine.json</span></code> marker.</p></li>
+<li><p>The training points are the parts’ points with a value; refused ones are left out, since the
+parts’ refused values differ.</p></li>
+<li><p>The loop refuses a directory with <code class="docutils literal notranslate"><span class="pre">combine.json</span></code> (<code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">main</span></code>): it is not a run to continue.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tests/test_combine.py</span></code> covers the values in and around the bands, the walls, the files, the
+consumers (<code class="docutils literal notranslate"><span class="pre">load_snapshot</span></code>, <code class="docutils literal notranslate"><span class="pre">restrict_model</span></code>), the refusals and the loop’s refusal.</p></li>
+</ul>
+</section>
+<section id="before-changing-run-export-py">
+<h2>Before changing <code class="docutils literal notranslate"><span class="pre">run/export.py</span></code><a class="headerlink" href="#before-changing-run-export-py" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">client.py</span> <span class="pre">export</span></code> writes a network as a TensorFlow SavedModel that loads without CLiENT;
+read <a class="reference internal" href="docs/export.html"><span class="std std-doc">docs/export.md</span></a>. Keep these:</p>
+<ul class="simple">
+<li><p>The default export is the network inside the region of its boosts (<code class="docutils literal notranslate"><span class="pre">restrict_model</span></code>), as
+CLiENT’s own consumers use it; <code class="docutils literal notranslate"><span class="pre">--no-region</span></code> is the bare network. Do not make the bare network
+the default: a boost network has false maxima outside its region.</p></li>
+<li><p>No export is accepted until it has been reloaded in a process that cannot import CLiENT
+(<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-I</span></code>, another working directory) and compared with the source. The tolerance is
+absolute plus relative to the value: traced and eager TensorFlow order operations differently,
+and at walls of 1e5 and more they differ by a few float32 steps.</p></li>
+<li><p>The network comes from <code class="docutils literal notranslate"><span class="pre">load_snapshot</span></code>, so that the hashes in <code class="docutils literal notranslate"><span class="pre">emulator.json</span></code> are of the bytes exported, and OUTPUT is built
+beside itself and renamed last, so that a refused or failed export leaves nothing.</p></li>
+<li><p>A relative OUTPUT must work: the reload runs in the staging directory, so paths are resolved first (<code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">export</span> <span class="pre">RUN</span> <span class="pre">exported</span></code> failed
+while every test used absolute ones).</p></li>
+<li><p>A loaded SavedModel must be kept in a variable while it is called; a one-expression load-and-call
+frees its variables (the test’s first version failed that way).</p></li>
+</ul>
+</section>
+<section id="before-changing-the-convergence-of-the-ordinary-loop">
+<h2>Before changing the convergence of the ordinary loop<a class="headerlink" href="#before-changing-the-convergence-of-the-ordinary-loop" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">convergence.metric:</span> <span class="pre">tempered_batch_scatter</span></code> (<code class="docutils literal notranslate"><span class="pre">convergence/convergence.py::tempered_verdict</span></code>,
+<code class="docutils literal notranslate"><span class="pre">client.py::tempered_convergence</span></code>); read <a class="reference internal" href="docs/tempered_convergence.html"><span class="std std-doc">docs/tempered_convergence.md</span></a>.
+Keep these:</p>
+<ul class="simple">
+<li><p>Opt-in. With <code class="docutils literal notranslate"><span class="pre">gaussian_posterior_drift</span></code> the loop, its broadcasts and its files are as they
+were. With the new metric the hand-over travels in the broadcast that already carried the
+stopping decision, and one more broadcast at the start tells the workers a recorded start.</p></li>
+<li><p>The threshold is in units of the sampling temperature, on the scatter (not the rms), for two
+networks running. 1.2 is measured (an analytic suite at four
+temperatures, and a real 49-parameter run branched at the network where it is met). Do not
+change the default, the measure or the unit without repeating that.</p></li>
+<li><p>It belongs to the ordinary loop alone. Once the boosts have begun it is not evaluated: a
+boost reports its error at posterior points against true values and the user decides when
+to stop (<code class="docutils literal notranslate"><span class="pre">-i</span></code>, <code class="docutils literal notranslate"><span class="pre">max_iterations</span></code>, <code class="docutils literal notranslate"><span class="pre">acquisition.boost.boosts</span></code>). Do not add an automatic stop
+to the boost phase.</p></li>
+<li><p>With <code class="docutils literal notranslate"><span class="pre">-i</span></code> nothing follows from the verdict: it is printed and recorded only.</p></li>
+<li><p>A hand-over is recorded in <code class="docutils literal notranslate"><span class="pre">RUN/boost/start.json</span></code>, and every later use of the boosts’ start
+(the background, the region, the acquisition, a continued run, the report in <code class="docutils literal notranslate"><span class="pre">hpc/</span></code>)
+reads the earlier of that and <code class="docutils literal notranslate"><span class="pre">acquisition.boost.start_iteration</span></code>. Never rewrite the run’s
+copy of its settings.</p></li>
+</ul>
+</section>
+<section id="before-changing-the-mixing-test-of-the-modes">
+<h2>Before changing the mixing test of the modes<a class="headerlink" href="#before-changing-the-mixing-test-of-the-modes" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">acquisition.boost.mixing</span></code> and <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">client.py</span> <span class="pre">modes</span></code> (<code class="docutils literal notranslate"><span class="pre">sampling/modes.py</span></code>,
+<code class="docutils literal notranslate"><span class="pre">sampling/detect.py</span></code>); read <a class="reference internal" href="docs/boost_modes_mixing.html"><span class="std std-doc">docs/boost_modes_mixing.md</span></a>. Keep these:</p>
+<ul class="simple">
+<li><p>Opt-in. With <code class="docutils literal notranslate"><span class="pre">mixing</span></code> absent <code class="docutils literal notranslate"><span class="pre">posterior_modes</span></code> takes the fixed-barrier path unchanged
+(<code class="docutils literal notranslate"><span class="pre">find_modes</span></code>), and its info has no <code class="docutils literal notranslate"><span class="pre">mixing</span></code> entry; <code class="docutils literal notranslate"><span class="pre">tests/test_modes_mixing.py</span></code> guards it.</p></li>
+<li><p>The test chain is the chain the modes are then sampled with: same sampler, <code class="docutils literal notranslate"><span class="pre">walkers</span></code> and
+<code class="docutils literal notranslate"><span class="pre">steps</span></code>. The question is whether <em>that</em> chain mixes; do not shorten it to save time.</p></li>
+<li><p>A walker’s basin is the one it climbs to (<code class="docutils literal notranslate"><span class="pre">assign_basins</span></code>), not the nearest fitted Gaussian.
+A Gaussian fitted to the few walkers of a small basin in 58 dimensions gave the basin away
+(memory 0.00 on basins that exchanged almost nothing, measured).</p></li>
+<li><p>Memory is P(A later | A before) - P(A later | B before) among walkers in A or B later,
+half a chain apart, squared. Counting crossings or the share of walkers that moved depends
+on the basins’ weights; the memory does not (2% to 50% tested).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">find_basins</span></code> drops nothing. A group under <code class="docutils literal notranslate"><span class="pre">min_share</span></code> then goes with the large basin it
+has the smallest dip to when that dip is under <code class="docutils literal notranslate"><span class="pre">barrier</span></code>, and is otherwise left out and
+counted; it is never tested as a basin of its own (too few walkers for a memory).</p></li>
+<li><p>Crossings where the straight path dips 10 to 20 log-units are real with the stretch move at
+moderate dimension (it throws walkers from the inner tail). Do not treat them as a fault of
+the labelling.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">modes</span></code> evaluates the network only and writes only <code class="docutils literal notranslate"><span class="pre">RUN/modes/</span></code>.</p></li>
+</ul>
+</section>
+<section id="before-changing-the-boost-s-background-or-region">
+<h2>Before changing the boost’s background or region<a class="headerlink" href="#before-changing-the-boost-s-background-or-region" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">acquisition.boost.background</span></code> and <code class="docutils literal notranslate"><span class="pre">.region</span></code> (<code class="docutils literal notranslate"><span class="pre">model/network.py</span></code>, <code class="docutils literal notranslate"><span class="pre">sampling/region.py</span></code>); read
+<a class="reference internal" href="docs/boost_background_region.html"><span class="std std-doc">docs/boost_background_region.md</span></a>. Keep these:</p>
+<ul class="simple">
+<li><p>Both opt-in. Without them nothing changes, under MPI too: everything they add runs on the
+master inside steps that exist already.</p></li>
+<li><p>The quadratic is fitted once, at the first training that holds boost points (the first after
+the boosts’ start; also when that first boost fell back to an ordinary batch), and that
+training starts from random weights. Afterwards it is read from the previous model
+(<code class="docutils literal notranslate"><span class="pre">model_background</span></code>) and never refitted: a network cannot absorb a change of it, so a refit
+is a cold start.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">background_fit:</span> <span class="pre">least_squares</span></code> (opt-in) fits the quadratic with the injection’s
+<code class="docutils literal notranslate"><span class="pre">_fit_quadratic</span></code> to the rows within <code class="docutils literal notranslate"><span class="pre">background_window</span></code> · T · ndim / 2 of the best. Keep the
+negative curvatures as fitted: the injection’s floor at 1e-3 of the largest raises true
+curvatures of a correlated likelihood in standardised coordinates (529 rms at the posterior of
+the 58-parameter Gaussian; <code class="docutils literal notranslate"><span class="pre">tests/test_boost_background_region.py</span></code> catches it). Without the key
+the crude fit is as it was, and the training domain is built from the rows within T · ndim of
+the best whichever fit is used.</p></li>
+<li><p>The background alone is not safe on a likelihood that is not Gaussian: where the truth is
+flatter than the quadratic the network must add a rising correction, and it carries it into
+the empty corners (the twin: maxima 2000 above the best). Do not recommend it without the
+region.</p></li>
+<li><p>The region is built from boost rows only, and only from those whose true value confirms
+them. No network enters it. Outside it the surrogate does not evaluate the network.</p></li>
+<li><p>The audit’s searches are projected onto the region (<code class="docutils literal notranslate"><span class="pre">Region.project_unit</span></code>), not walled: a
+wall throws a 58-parameter search about (14 792 end points for 14 976 starts, against one).</p></li>
+<li><p>Current boost groups never share historical rows. Match clouds by verified-row overlap,
+not the mode number (its weight rank); multiple older clouds can join one current group.
+An overlap is not enough to join two sets: the mean of the one with fewer rows must lie
+inside the reach of the other (<code class="docutils literal notranslate"><span class="pre">_one_mode</span></code>). On any overlap, one stray row merged two
+modes and tripled a cloud’s reach.</p></li>
+<li><p>A sparse cloud (at most <code class="docutils literal notranslate"><span class="pre">SPARSE</span></code> x ndim distinct rows) takes the shape of the well-sampled
+cloud with the most rows (<code class="docutils literal notranslate"><span class="pre">_donor</span></code>), its own centre, and its own reach capped at the
+donor’s. Never give it a covariance shrunk towards a sphere in box units, or any shape
+estimated from its own handful of rows: a real cloud is hundreds of times narrower in some
+directions, and the shrunk ellipsoid admitted the network at false maxima of the twin
+(<code class="docutils literal notranslate"><span class="pre">docs/boost_background_region.md</span></code> has the table). A cloud without a shape (one distinct
+row; sparse while nothing is well sampled) is left out by <code class="docutils literal notranslate"><span class="pre">boost_region</span></code>, counted
+(<code class="docutils literal notranslate"><span class="pre">left_out</span></code>) and logged. It must not raise in the loop: the error would come from the
+saved boost files, at every restart. Well-sampled clouds stay bit-identical to the saved
+regions of earlier runs: after a change, build the regions of a long run’s boost files
+with the old and the new code and compare them.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Region.start(component=k)</span></code> must find points in any cell, also one that is a small part
+of its ellipsoid: it closes in on the ellipsoid’s centre. Without a component the draw is
+the one it always was, number for number, whenever it finds its points in 200 draws (every
+saved region checked, 224); after that it closes in on the
+centres too. Until then it raised, and a region reaching far beyond the box (the axion
+run’s network 18, 0.46% of the draws inside) stopped the loop’s last chain for good.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">region_quantile</span></code> and <code class="docutils literal notranslate"><span class="pre">train_domain</span></code> (17 October 2026; “The training domain and the
+quantile reach” in the doc) are opt-in and need <code class="docutils literal notranslate"><span class="pre">region</span></code>. Without them every region is
+bit-identical to the saved ones (218 regions of 41 runs rebuilt with the code before and
+after) and the loop trains on every point; keep both true. The quantile changes the
+region’s reach only, never which rows are one mode (<code class="docutils literal notranslate"><span class="pre">_matching</span></code>, <code class="docutils literal notranslate"><span class="pre">_one_mode</span></code>, <code class="docutils literal notranslate"><span class="pre">shaped</span></code>
+keep the farthest).</p></li>
+<li><p>The training domain is built once, at the first training after the boosts’ start, from the
+rows <code class="docutils literal notranslate"><span class="pre">fit_background</span></code> uses (within T * ndim of the best), and is never rebuilt: a domain
+that grew with the boosts would bring back the far points and the jumps of the
+farthest-point reach. Its file is named after the network that built it, so that a
+branch at the start and a rewind before it leave it behind, and it is a training phase’s
+output (<code class="docutils literal notranslate"><span class="pre">run/storage.py</span> <span class="pre">phase_outputs</span></code>, the loop’s artifact list). The cut is applied to the
+training arrays only: the dataset, its files, the acquisition’s density and the derived
+emulator keep every point. Keep it opt-in; see the measurements and limitations in the doc.
+Its coverage diagnostic estimates box-clipped union volume with volume/overlap weights
+and reports effective sample counts. Never use <code class="docutils literal notranslate"><span class="pre">Region.start</span></code> as uniform volume draws:
+its equal-cell selection and centre-shrinking fallback serve initialization instead.</p></li>
+<li><p>The region keeps the chains to the known modes. It is for the boost phase and for consumers
+of a finished network (the evidence and profiles, both by default), never for the
+tempered acquisition of the ordinary loop.</p></li>
+</ul>
+</section>
+<section id="before-changing-the-region-in-the-profile-code">
+<h2>Before changing the region in the profile code<a class="headerlink" href="#before-changing-the-region-in-the-profile-code" title="Link to this heading">#</a></h2>
+<p>The profile setting <code class="docutils literal notranslate"><span class="pre">region</span></code> (<code class="docutils literal notranslate"><span class="pre">profiles/region.py</span></code>, <code class="docutils literal notranslate"><span class="pre">model/network.py::restrict_model</span></code> and
+<code class="docutils literal notranslate"><span class="pre">RegionWall</span></code>, <code class="docutils literal notranslate"><span class="pre">profiles/workflow.py</span></code>); read “Networks trained on boosts” in
+<a class="reference internal" href="docs/create_profiles.html"><span class="std std-doc">docs/create_profiles.md</span></a>. Keep these:</p>
+<ul class="simple">
+<li><p>The default is <code class="docutils literal notranslate"><span class="pre">run</span></code>. A network trained on boosts searched over the whole box gave false
+maxima 40 posterior sigma from the data on a real 49-parameter run and no node converged;
+do not make the bare network the default again. A network without a region file is
+searched over the whole box whatever the setting, and that path is bit for bit the one
+before the setting.</p></li>
+<li><p>What the searches get is a real Keras model at double precision, so every optimiser takes
+it (the node optimiser copies it with <code class="docutils literal notranslate"><span class="pre">copy_model_dtype</span></code>). Profile
+training gets the network itself, never the confined one.</p></li>
+<li><p>The manifest holds the resolved region (file, hash, edge; None for the bare network) and a
+resume compares that, not <code class="docutils literal notranslate"><span class="pre">configuration.region</span></code>: a study made before the setting resumes
+with the default exactly when its network has no region.</p></li>
+<li><p>A derived-coordinate view (<code class="docutils literal notranslate"><span class="pre">derived/coordinates.py</span></code>) copies the region of its network into
+<code class="docutils literal notranslate"><span class="pre">VIEW/region/</span></code> and records it in <code class="docutils literal notranslate"><span class="pre">view.json</span></code> (<code class="docutils literal notranslate"><span class="pre">region</span></code>); never into <code class="docutils literal notranslate"><span class="pre">VIEW/boost/</span></code>, where the
+run’s chains, evidence and <code class="docutils literal notranslate"><span class="pre">modes</span></code> would read it in the view’s coordinates. The region stays
+in the run’s coordinates: <code class="docutils literal notranslate"><span class="pre">ViewRegion</span></code> measures a point z of the view at x(z), the pivot
+solve’s output, and <code class="docutils literal notranslate"><span class="pre">restrict_view</span></code> puts the wall between the network and the feasibility
+penalty. The manifest’s entry carries the pivot map (<code class="docutils literal notranslate"><span class="pre">coordinates</span></code>, file and hash). A view
+made before 14 October 2026 from a network with a region holds the bare network: the
+default refuses it (remake the view), <code class="docutils literal notranslate"><span class="pre">region:</span> <span class="pre">null</span></code> uses it as before.</p></li>
+<li><p>A node whose optimum is not inside the region is cut from the end of its range and the
+scan repeated, before any true call of a node; the cut is recorded in the scan’s file
+(<code class="docutils literal notranslate"><span class="pre">region_cuts</span></code>) and in <code class="docutils literal notranslate"><span class="pre">ranges.json</span></code>. Do not let such a node through to the true stage:
+its start is on the wall or pressed against it, and the residual Newton stage reads the
+surrogate’s curvature there.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">INSIDE</span></code> (0.98 of the edge) is where a search pressed against the edge ends (rho = 1.0000
+in the tests). It is not tuned on anything else.</p></li>
+<li><p>2D surfaces are searched inside the region, and nodes outside are not cut there: the study
+stops after the scan with the list (<code class="docutils literal notranslate"><span class="pre">profiles/surface_workflow.py</span></code>). Do not let them
+through either; the scan certifies a point of the wall.</p></li>
+<li><p>Measured: one real 49-parameter study with the edge at 1 (735 nodes, 677 converged), and
+the two-mode twin with the edge at 2 and at 1. The cut has only been exercised on analytic
+networks. <code class="docutils literal notranslate"><span class="pre">tests/test_profile_region.py</span></code> covers the wall, the setting, the cut, resumes
+and both dimensions.</p></li>
+</ul>
+</section>
+<section id="before-changing-run-storage-py-or-run-identity-py">
+<h2>Before changing <code class="docutils literal notranslate"><span class="pre">run/storage.py</span></code> or <code class="docutils literal notranslate"><span class="pre">run/identity.py</span></code><a class="headerlink" href="#before-changing-run-storage-py-or-run-identity-py" title="Link to this heading">#</a></h2>
+<p>The run-state layer: phase commits, the run lock, the objective identity;
+read <a class="reference internal" href="docs/run_recovery.html"><span class="std std-doc">docs/run_recovery.md</span></a>. Keep these:</p>
+<ul class="simple">
+<li><p>A phase without a commit is never taken as done, and a continued run can always get past
+it: <code class="docutils literal notranslate"><span class="pre">PhaseStore.recover</span></code> moves the phase’s files to <code class="docutils literal notranslate"><span class="pre">RUN/interrupted/</span></code> and the phase is done
+again. Do not turn that into a refusal: a job at its time limit lands inside a training or
+an acquisition nearly every time, and a refusal there ends the run. Do not replay journal
+values into the training set either.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">phase_outputs</span></code> must list every file a phase writes before its commit. A file missing from
+it survives an interruption and is read by the redone phase or by the start-iteration
+detection (<code class="docutils literal notranslate"><span class="pre">run/run.py</span></code>), which takes the latest network and training set on disk.</p></li>
+<li><p>Nothing in a run directory is deleted by this layer.</p></li>
+<li><p>A committed file is never rewritten outside the phase that commits it. The region of a
+loaded network is read from its file for that reason (<code class="docutils literal notranslate"><span class="pre">client.py</span></code>, “Region of the boosts”);
+a rebuilt one changed the file’s hash and the next start was refused. The derived emulator’s
+files are phase outputs that are not committed for the same reason: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">derived</span> <span class="pre">--retrain</span></code>
+replaces them on a finished network, as documented, and a hash would refuse the next start.</p></li>
+<li><p>The identity records what decides the value at a point, not the text of CLiENT’s wrapper
+files or unrelated launcher helpers. Dependencies of the objective must be recorded even
+beside the launcher; schema migration must not silently trust added or renamed entries.
+A wrapper change that alters returned values is
+declared by raising <code class="docutils literal notranslate"><span class="pre">BaseLikelihood.objective_convention</span></code> in that wrapper. Do not go back to
+hashing wrapper sources: a comment edit then refuses every run.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--accept-identity-change</span></code> keeps the earlier record and never waives a domain change
+against <code class="docutils literal notranslate"><span class="pre">metadata.json</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hpc/analysis/branch_run.py</span></code> copies phase records only when every file they commit
+is copied, and rejects incomplete/damaged retained checkpoints before creating a branch;
+<code class="docutils literal notranslate"><span class="pre">tests/test_hpc_branch_run.py</span></code> checks a branch with the real <code class="docutils literal notranslate"><span class="pre">PhaseStore</span></code>. It reads a
+file’s iteration as <code class="docutils literal notranslate"><span class="pre">_it_N</span></code> not followed by a digit (with a dot required, the evidences
+and the phase history had none and went into every branch), leaves <code class="docutils literal notranslate"><span class="pre">evidence/</span></code>, <code class="docutils literal notranslate"><span class="pre">modes/</span></code>,
+<code class="docutils literal notranslate"><span class="pre">analysis/</span></code>, <code class="docutils literal notranslate"><span class="pre">interrupted/</span></code>, <code class="docutils literal notranslate"><span class="pre">phases/history/</span></code> and <code class="docutils literal notranslate"><span class="pre">boost/start.json</span></code> behind, and takes
+the source’s boost start as the earlier of its settings and <code class="docutils literal notranslate"><span class="pre">boost/start.json</span></code>.
+<code class="docutils literal notranslate"><span class="pre">--train-from</span> <span class="pre">N</span></code> is the other kind of branch, inside the boosts: it keeps the source’s start and
+<code class="docutils literal notranslate"><span class="pre">boost/start.json</span></code>, takes networks 0 to N - 1 with their committed training and acquisition and the
+training set of N, and not N’s audit (<code class="docutils literal notranslate"><span class="pre">imports.json</span></code> says <code class="docutils literal notranslate"><span class="pre">trained_again_from</span></code>); network N is trained
+again by the branch.</p></li>
+<li><p>Branches keep complete parent call journals under <code class="docutils literal notranslate"><span class="pre">branch_provenance/source/</span></code>, outside
+active <code class="docutils literal notranslate"><span class="pre">objective_calls/rank*.jsonl</span></code>. <code class="docutils literal notranslate"><span class="pre">imports.json</span></code> counts inherited finite native
+coordinate/value pairs from the checkpoint, audit and optional augmentation separately from new objective calls.
+Never count earlier cumulative training sets again or describe these imports as cache hits.
+<code class="docutils literal notranslate"><span class="pre">run.objective_calls.summarize</span></code> runs after every acquisition: a record it cannot read, or a
+branch from before <code class="docutils literal notranslate"><span class="pre">293887a</span></code> (no <code class="docutils literal notranslate"><span class="pre">branch_provenance/</span></code>), is named in <code class="docutils literal notranslate"><span class="pre">branch_note</span></code>, never raised.</p></li>
+<li><p>The branch is filled under <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;.partial</span></code> and renamed last, so a directory that reads as
+a run is a whole branch (the threshold suite takes the one directory it finds). A file’s
+iteration is its name’s, except <code class="docutils literal notranslate"><span class="pre">augmentation/augment_it_K.trained.json</span></code>: that one belongs
+to the network its content names (K + 1 or later) and stays behind when the branch does not
+hold it, or the branch’s first training on those points runs the ordinary schedule.</p></li>
+<li><p>Records read at the next start are written whole or not at all (<code class="docutils literal notranslate"><span class="pre">run.storage.atomic_path</span></code>):
+<code class="docutils literal notranslate"><span class="pre">boost/start.json</span></code>, the boost and fallback records, the chain summaries, the derived
+metadata, the evidence’s output.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-s</span> <span class="pre">N</span></code> in a run that has gone further than network N is refused (<code class="docutils literal notranslate"><span class="pre">client.rewind_to_start</span></code>):
+done in place it left every phase record complete and the later files where the next
+start without <code class="docutils literal notranslate"><span class="pre">-s</span></code> took them, the earlier line’s, without the redone iteration’s points.
+<code class="docutils literal notranslate"><span class="pre">--rewind</span></code> first moves what belongs to the later iterations to
+<code class="docutils literal notranslate"><span class="pre">RUN/interrupted/rewind_to_it_N-&lt;time&gt;/</span></code> (<code class="docutils literal notranslate"><span class="pre">run.storage.later_files</span></code>, <code class="docutils literal notranslate"><span class="pre">set_later_aside</span></code>):
+what stays is what <code class="docutils literal notranslate"><span class="pre">branch_run.py</span> <span class="pre">--at</span> <span class="pre">N</span></code> would copy, and the two must agree on what
+“later” is (files named after an iteration above N anywhere in the run, the acquisition
+of N, an augmentation marker by the network it records, a hand-over after N), plus the
+summaries in <code class="docutils literal notranslate"><span class="pre">analysis/</span></code>. Nothing is deleted, the call journal is not touched, and the
+metrics are copied, since the loop reads the rows before N from them. Do not make <code class="docutils literal notranslate"><span class="pre">-s</span> <span class="pre">N</span></code>
+silent again, and do not let the rewind delete.
+The complete move plan and hashes are committed before the first move. A pending
+<code class="docutils literal notranslate"><span class="pre">REWIND.json</span></code> is finished under the run lock before phase recovery and automatic start
+selection; otherwise a killed rewind can leave later models with their phase records
+already moved away. Test interruption at every move and a killed CLI process.
+Hashes of regenerated analysis files and their notes must be recorded before the move,
+not only on completion: test a second interruption before/after that move and after a
+copy without removal. Reject later checkpoints omitted from a manually edited plan;
+quarantine their files under <code class="docutils literal notranslate"><span class="pre">interrupted/</span></code> before omitting them, never leave them active.
+What a command without the run lock wrote since the plan joins it and is set aside with
+the rest (<code class="docutils literal notranslate"><span class="pre">_written_without_the_lock</span></code>: the four analysis folders, and <code class="docutils literal notranslate"><span class="pre">augmentation/</span></code>
+except the marker of a first training, which the loop writes). Nothing a phase commits
+may join that way, <code class="docutils literal notranslate"><span class="pre">derived_data/</span></code> included.
+Finishing it is strict about what the run committed (a changed or missing network,
+training set or record stops the start, and the message says what can be done) and takes
+what the analysis commands write (<code class="docutils literal notranslate"><span class="pre">analysis/</span></code>, <code class="docutils literal notranslate"><span class="pre">evidence/</span></code>, <code class="docutils literal notranslate"><span class="pre">modes/</span></code>,
+<code class="docutils literal notranslate"><span class="pre">posterior_chains/</span></code>) as it finds it, with a note in the record: those are rewritten
+without the run lock, cannot be put back as they were, and a start that refused them
+could never be got past.</p></li>
+<li><p>The call journal (<code class="docutils literal notranslate"><span class="pre">run/objective_calls.py</span></code>) flushes every record, so that a likelihood that kills its process leaves them
+behind, and syncs at most once a second, before a call. Syncing every record through its own open and close cost 3.8 ms per
+evaluation on a laptop’s disk (19 us now), which is what an analytic design of many points notices, and a slow likelihood
+is still synced before every call.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tests/test_run_recovery.py</span></code> and <code class="docutils literal notranslate"><span class="pre">tests/pipeline_recovery_smoke.py</span></code> (five runs through the
+command line, each once refused) cover this, and <code class="docutils literal notranslate"><span class="pre">tests/mpi_loop_recovery_smoke.py</span></code> runs
+the loop itself on two ranks, killed inside an acquisition and continued twice.</p></li>
+</ul>
+</section>
+<section id="before-changing-run-layout-py-save-model-or-profiles-nodes-py">
+<h2>Before changing <code class="docutils literal notranslate"><span class="pre">run/layout.py</span></code>, <code class="docutils literal notranslate"><span class="pre">save_model</span></code> or <code class="docutils literal notranslate"><span class="pre">profiles/nodes.py</span></code><a class="headerlink" href="#before-changing-run-layout-py-save-model-or-profiles-nodes-py" title="Link to this heading">#</a></h2>
+<p>What a run and a profile study write; read <a class="reference internal" href="docs/run_files.html"><span class="std std-doc">docs/run_files.md</span></a>. Keep these:</p>
+<ul class="simple">
+<li><p>Read training sets through <code class="docutils literal notranslate"><span class="pre">run/layout.py</span></code> (<code class="docutils literal notranslate"><span class="pre">training_set</span></code>, <code class="docutils literal notranslate"><span class="pre">set_files</span></code>, <code class="docutils literal notranslate"><span class="pre">set_rows</span></code>), never by opening
+<code class="docutils literal notranslate"><span class="pre">data_it_N.csv</span></code>: with <code class="docutils literal notranslate"><span class="pre">storage.training_sets:</span> <span class="pre">increments</span></code>, the default since 26 November 2026, it exists for
+the first set only.
+<code class="docutils literal notranslate"><span class="pre">tests/test_run_layout.py</span></code> checks that increments put together are the whole file byte for byte.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TrainingDataset.save_set</span></code> writes an increment only when the earlier set is the one this dataset was read as or
+last wrote, its rows are unchanged and it is on disk; otherwise a whole file. Never write an increment against
+a set the dataset has not seen.</p></li>
+<li><p>An increment is immutable once committed: its sha256 is in the acquisition’s phase record like a whole file’s.
+<code class="docutils literal notranslate"><span class="pre">phase_outputs</span></code> and the rewind know <code class="docutils literal notranslate"><span class="pre">added_it_N.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">derived_added_it_N.csv</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run.json</span></code> is an index built from the files. Nothing may need it to read or continue a run, and writing it
+must never stop a run (<code class="docutils literal notranslate"><span class="pre">client.write_run_index</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">save_model</span></code> leaves the optimizer state out; nothing loads a network compiled. Keep the optimizer detached for
+the save only, so a model still being trained is unchanged.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">profiles/nodes.py</span></code>: a stage with node files keeps writing node files; a new stage writes <code class="docutils literal notranslate"><span class="pre">nodes.jsonl</span></code>. A node’s
+record is the JSON round trip of what was computed, as a node file read back gave it, so resumed studies are
+unchanged. A cut last line is set aside, never left for the next append to join.</p></li>
+</ul>
+</section>
+<section id="before-changing-training-audit-py">
+<h2>Before changing <code class="docutils literal notranslate"><span class="pre">training/audit.py</span></code><a class="headerlink" href="#before-changing-training-audit-py" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">acquisition.audit</span></code> evaluates the true likelihood at a new network’s own maxima before the
+acquisition chain runs; read <a class="reference internal" href="docs/audit_optima.html"><span class="std std-doc">docs/audit_optima.md</span></a>. Keep these:</p>
+<ul class="simple">
+<li><p>Opt-in. Without the key the loop is exactly as it was, under MPI too: the master sends
+one <code class="docutils literal notranslate"><span class="pre">bcast_idle(False)</span></code> only when the key is set.</p></li>
+<li><p>Collective under MPI. The master announces every batch with <code class="docutils literal notranslate"><span class="pre">bcast_idle(True)</span></code> and the
+end with <code class="docutils literal notranslate"><span class="pre">bcast_idle(False)</span></code>; the workers loop on it. <code class="docutils literal notranslate"><span class="pre">k</span></code> is a setting, never the rank
+count, so results do not depend on the number of ranks.</p></li>
+<li><p>The budget is <code class="docutils literal notranslate"><span class="pre">fraction</span></code> × <code class="docutils literal notranslate"><span class="pre">n_append</span></code> per iteration in <code class="docutils literal notranslate"><span class="pre">rounds</span></code> rounds. Few rounds of
+many evaluations is deliberate: a round costs a search and a fine-tune on the master, its
+evaluations are parallel. Do not replace it with many small rounds without the
+measurement in the doc.</p></li>
+<li><p>The audit points are all trained on; the network’s own validation set stays held out.
+A fine-tune keeps its final weights (the validation points never include audit points).</p></li>
+<li><p>The network kept is the one of the round with the lowest highest maximum, among those
+searched since the best true value last moved, not the last round’s. A settling
+fine-tune that does not improve the fit near the best is undone.</p></li>
+<li><p>A true value that is not finite is never added to genuine data. The opt-in
+<code class="docutils literal notranslate"><span class="pre">failure_policy:</span> <span class="pre">penalize</span></code> uses 1–4 nearby probes within the same total call budget,
+then a separate synthetic constraint if all fail. Never mix penalties into real
+data, derived training, validation, best-fit estimates or loss calibration. See the
+failure-policy section of the audit documentation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RUN/audit/audit_it_N.csv</span></code> plus training set N supplies genuine training data;
+optional <code class="docutils literal notranslate"><span class="pre">audit_penalties_it_*.csv</span></code> files separately record synthetic constraints.
+A continued run restores genuine audit additions when it keeps that network; a new
+training reapplies earlier constraints only under the enabled penalize policy.</p></li>
+<li><p>The fine-tunes are compiled without XLA. Every XLA compilation
+leaves memory mappings for the life of the process, a fine-tune compiles every time, and
+runs of 21 iterations ended at Linux’s limit of 65 530 mappings. Do not turn XLA back on
+there, or add another compile-per-call training step, without counting mappings over a
+full run (the doc has the numbers).</p></li>
+<li><p>It corrects optimism only. <code class="docutils literal notranslate"><span class="pre">tests/test_audit.py</span></code> covers the search, the loop, the
+budget, the best-round rule, failed evaluations and the files.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chain:</span> <span class="pre">true</span></code> (opt-in; “The chain search” in the doc) adds a last look to a round whose
+climbs flag nothing, in a boost iteration: the network’s own acquisition chain, cooled and
+climbed as the boost’s mode search begins (<code class="docutils literal notranslate"><span class="pre">sampling.modes.cooled_peaks</span></code>), run on the
+master inside the audit’s collective. Without the key <code class="docutils literal notranslate"><span class="pre">audit_optima</span></code> and the loop are what
+they were (<code class="docutils literal notranslate"><span class="pre">client.run_chain</span></code> is the sampling step’s code, moved into a function). Keep
+these: the summits are taken where they are (<code class="docutils literal notranslate"><span class="pre">summit_maxima</span></code>), never climbed again by
+<code class="docutils literal notranslate"><span class="pre">find_maxima</span></code>, which loses narrow ones; the chain rounds have an allowance of their own;
+the best round is chosen among rounds of the same kind of search (compared with the
+climbs’ rounds the deeper look lost and the fine-tunes were undone); the sampling step
+reuses the chain only when <code class="docutils literal notranslate"><span class="pre">weights_digest</span></code> says the network is the one it sampled.
+<code class="docutils literal notranslate"><span class="pre">tests/mpi_audit_chain_smoke.py</span></code> runs it in the loop on two ranks. Measured on one real
+two-mode run after the fact and on small analytic ones; do not make it a default on that.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">posterior</span></code> (opt-in, with <code class="docutils literal notranslate"><span class="pre">chain</span></code>; “The posterior pilot” in the doc) evaluates cooled T = 1
+walkers after the rounds for maxima and the choice of the kept network, and fine-tunes when
+the network’s mean excess over the truth there is above <code class="docutils literal notranslate"><span class="pre">posterior_tolerance</span></code>. Keep it after
+those rounds: they, their budget, the generator’s draws and the kept round must stay what
+they were without it. A fine-tuned network gets a new chain before any walker of it is
+evaluated, and after the last fine-tune a final one, which the sampling step reuses; never
+evaluate walkers of a network that is no longer the one they were cooled on.
+All-nonfinite pilot batches are counted and explicitly unassessed, with no fine-tune.
+After pilot tuning (or an improved best true value), <code class="docutils literal notranslate"><span class="pre">clear</span></code>/<code class="docutils literal notranslate"><span class="pre">highest_excess</span></code> must
+describe full climbs plus chain summits of the final weights, not the pre-pilot model.</p></li>
+</ul>
+</section>
+<section id="before-changing-training-members-py">
+<h2>Before changing <code class="docutils literal notranslate"><span class="pre">training/members.py</span></code><a class="headerlink" href="#before-changing-training-members-py" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">training.members</span></code> trains each network several times and keeps one; <code class="docutils literal notranslate"><span class="pre">training.member_pilot</span></code>
+chooses by true evaluations; read <a class="reference internal" href="docs/members.html"><span class="std std-doc">docs/members.md</span></a>. Keep these:</p>
+<ul class="simple">
+<li><p>Opt-in. With <code class="docutils literal notranslate"><span class="pre">members:</span> <span class="pre">1</span></code>, the default, nothing is held out and no rank is asked: the training
+sets are bit for bit those of a run without the key (<code class="docutils literal notranslate"><span class="pre">tests/mpi_members_smoke.py</span></code>).</p></li>
+<li><p>A feature of the boosts (Steen, 4 November 2026). <code class="docutils literal notranslate"><span class="pre">trains_members</span></code>, asked on every rank with the
+boost start they share, lets the members train only the networks trained on boost points (from
+the one after the boosts’ start); every network of the tempered phase, the hand-over’s included,
+is trained once. A run that sets the key without <code class="docutils literal notranslate"><span class="pre">acquisition.boost</span></code> is refused
+(<code class="docutils literal notranslate"><span class="pre">Config.from_dict</span></code>). Do not let the members act in the tempered phase.</p></li>
+<li><p>Rank 0 trains the network as before; the other members start from random weights, each with
+its own seed (<code class="docutils literal notranslate"><span class="pre">member_seed</span></code>: the run’s seed, the iteration, the member). The selection set is
+drawn with a generator of its own, so the run’s other draws are unchanged.</p></li>
+<li><p>A member’s message carries its training set. It is received by probing and then receiving
+(<code class="docutils literal notranslate"><span class="pre">receive</span></code>): a non-blocking receive of a pickled message has a fixed buffer of 32 kB in
+mpi4py and fails on a real training set.</p></li>
+<li><p>The pilot runs after the region is built and before the audit. A point without a finite true
+value, or with the launcher’s <code class="docutils literal notranslate"><span class="pre">refused_value</span></code>, counts for no member’s score. The points with a
+finite value join the training set as the acquisition’s do (a refused one with the run’s refused
+value); one without a finite value is never trained on. They are saved in <code class="docutils literal notranslate"><span class="pre">pilot_it_N.csv</span></code>, and
+a run continued from network N adds them again. Their calls are journalled under the stage
+<code class="docutils literal notranslate"><span class="pre">members/itN</span></code>.</p></li>
+<li><p>Every member’s file is an output of the training phase (<code class="docutils literal notranslate"><span class="pre">run.storage.phase_outputs</span></code>): an
+interrupted training leaves none of them where the redone one would read it.</p></li>
+<li><p>The pilot rejects false maxima reliably and ranks members without false structure only roughly
+(measured on two real runs, docs/members.md). A margin of 0.2 is inside the pilot’s noise for
+close networks, but a larger one would have kept a worse warm network once. Do not change the
+margin, the depth or the score without repeating that measurement
+(<code class="docutils literal notranslate"><span class="pre">hpc/analysis/member_pilot_scores.py</span></code> scores a run’s saved pilots again).</p></li>
+<li><p>The default score removes each member’s constant offset (<code class="docutils literal notranslate"><span class="pre">member_pilot_score:</span> <span class="pre">corrected</span></code>, the
+median of its error where the truth is near the best, the same points for all members, 0 when
+there are none): a constant changes no posterior or profile, and the rms kept the member with the
+largest scatter of six on an exact Gaussian for it (docs/members.md, “The offset of a member”).
+Keep the median and the common points: a mean, or each member’s own points, lets a missed peak or
+a false plateau pass as an offset. The kept network’s offset is recorded, never applied.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">oversubscription</span></code> only warns; it changes nothing in the run.</p></li>
+<li><p>Devices (<code class="docutils literal notranslate"><span class="pre">utils/devices.py</span></code>, docs/members.md “On GPUs”). Rank 0 and the member ranks take one GPU
+each, with memory growth, and every other rank hides the GPUs before the likelihood is built.
+A process’s GPU is its place among the TensorFlow processes of its node (<code class="docutils literal notranslate"><span class="pre">gpu_slot</span></code>), never its rank
+on the node: the member ranks are at an even stride, and by the node rank all of them took GPU 0 of
+a node’s two (job 7030123; job 7030203 with the fix). <code class="docutils literal notranslate"><span class="pre">set_up_devices</span></code> is collective and comes before any TensorFlow or likelihood code; a process calls
+<code class="docutils literal notranslate"><span class="pre">set_up_tensorflow</span></code> before its first use of TensorFlow. Never let a TensorFlow process start without
+memory growth on a GPU it may share (the members after the first then fail), and do not hide the GPUs
+in the launcher again: the member ranks need them. The GPU path runs only on a GPU node
+(<code class="docutils literal notranslate"><span class="pre">tests/gpu_members_smoke.py</span></code>); the CI and a laptop test the CPU path and the assignment logic.</p></li>
+</ul>
+</section>
+<section id="before-changing-profiles-residual-newton-py">
+<h2>Before changing <code class="docutils literal notranslate"><span class="pre">profiles/residual_newton.py</span></code><a class="headerlink" href="#before-changing-profiles-residual-newton-py" title="Link to this heading">#</a></h2>
+<p>Read the “residual Newton” section and the version history in
+<a class="reference internal" href="docs/hybrid_optimisers.html"><span class="std std-doc">docs/hybrid_optimisers.md</span></a>. The method was developed against
+the <strong>real</strong> SINU TT likelihood (CLASS++), not only the analytic 31D target, because the
+two behave differently: the real residual carries ~1e-3 - 2.5e-3 of value noise at
+probe scale, and the network’s flattest direction (the tau_reio - A_s degeneracy) runs
+into the tau prior edge within about one network sigma, where the truth drops by tens of
+log L. Hence the small initial trust radius, the long central-difference baseline along
+the flattest directions and a tolerance (1e-2) a few times the gradient-noise floor.
+Judge a change on a network standing in for the truth with added noise of 0.0025 (calls and the worst local gap)
+and on real CLASS++ nodes, never on the 31D target alone. Results must not depend on <code class="docutils literal notranslate"><span class="pre">workers</span></code>
+(<code class="docutils literal notranslate"><span class="pre">tests/test_residual_newton.py</span></code> checks serial = parallel and resume).</p>
+<p>A node whose linear algebra fails (<code class="docutils literal notranslate"><span class="pre">LinAlgError</span></code>: numpy’s solve raises for a singular system
+and for one with a NaN in it) ends as <code class="docutils literal notranslate"><span class="pre">singular</span></code> with its best true point, and passes the
+state it was given on along its chain; a transfer step that fails is skipped (the axion run’s two A_osc studies each lost their last node, and with it the whole study,
+in <code class="docutils literal notranslate"><span class="pre">ascend</span></code> of the corrected model at large amplitude). A node that does not fail is
+unchanged (<code class="docutils literal notranslate"><span class="pre">tests/test_newton_singular.py</span></code>). Where the NaN came from was not established.</p>
+<p>A node whose start the likelihood refuses (a prior edge, a Boltzmann failure, which the cluster backend turns into -inf) has
+no value (<code class="docutils literal notranslate"><span class="pre">refused_start</span></code>: <code class="docutils literal notranslate"><span class="pre">logl</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code> None, <code class="docutils literal notranslate"><span class="pre">reason</span></code> “refused start”, flag 1) and passes on the state it was given in the
+same way, also in 2D; the study goes on, and it stops only if every node is refused. The reports read over the nodes
+that have a value (<code class="docutils literal notranslate"><span class="pre">profiles/metric.py</span></code> refuses a NaN; <code class="docutils literal notranslate"><span class="pre">reporting.crossings_with_values</span></code>) and warn. A
+checkpoint keeps this on a resume, since the objective is deterministic. Within a study a refused point is also
+not called again (<code class="docutils literal notranslate"><span class="pre">ConcurrentLedger.refused</span></code>); a resume asks once more, as it imports finite values only.</p>
+<p>A gradient round that ends exactly at the node’s call budget still gets its verdict (the
+test costs no call; the node was reported out of budget). Both proxy testbeds are unchanged
+by it, node by node.</p>
+<p>Two rules, each with a test there: the curvature bound certifies
+convergence only after a step inside the trust radius whose point is the incumbent (after a
+step at the radius, or when a probe is better, a new gradient round follows); and a step
+without a finite true value is a failed step that does not enter the curvature model. As an
+excess of -inf it was written in as the stiffest curvature allowed, and the node and those
+started from its state ran out of budget.</p>
+</section>
+<section id="before-changing-evidence">
+<h2>Before changing <code class="docutils literal notranslate"><span class="pre">evidence/</span></code><a class="headerlink" href="#before-changing-evidence" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">client.py</span> <span class="pre">evidence</span></code> (BEST nested sampling of a network); read
+<a class="reference internal" href="docs/evidence.html"><span class="std std-doc">docs/evidence.md</span></a>, “Single precision, and when BEST stops”. Keep these:</p>
+<ul class="simple">
+<li><p>BEST works in single precision and adds ln Z up in it. It is given the network minus a
+reference near the peak (the best training value, itself a single-precision number, so the
+difference is exact), and the reference is added back in double precision to ln Z, ln Z_box
+and the chain’s column. Do not hand BEST raw values of a real likelihood again: at -15656,
+taken to the end, the sum was 0.46 low with a quoted error of 0.03 (measured;
+<code class="docutils literal notranslate"><span class="pre">tests/test_evidence_precision.py</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--tolerance</span></code> is the fraction of the evidence left in the live points, and BEST gets its
+logarithm. BEST’s own tolerance is compared with ln(Z_live / Z_dead): a positive value
+stops every run at one half.</p></li>
+<li><p>The default is 2048 live points, a power of two: BEST adds the prior volume up in single
+precision, <code class="docutils literal notranslate"><span class="pre">n_live_updates</span> <span class="pre">/</span> <span class="pre">n_live</span></code> at every iteration, and that sum is exact only then
+(the command says so for another number). Do not go back to a round decimal default.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--n-live-updates</span></code> is a sixteenth of the live points by default (128 of 2048; 10 until 14
+October 2026). BEST’s time is its network calls in sequence, and a call of 128 points costs
+about twice one of 10: 2.5 to 4.3 times faster, the same ln Z on Gaussians with exact
+evidences, SINU and a 49-parameter network, and the same (BEST’s own, about −0.6) bias on the
+exact 31-parameter ridge (<code class="docutils literal notranslate"><span class="pre">docs/evidence.md</span></code>, “Live points replaced per iteration”). A
+single-thread benchmark of a small network says otherwise; do not judge it on one.</p></li>
+<li><p>The region of the boosts is the default, by the shared resolver (<code class="docutils literal notranslate"><span class="pre">sampling/targets.py</span></code>);
+<code class="docutils literal notranslate"><span class="pre">--region</span> <span class="pre">none</span></code> is the bare network. A bare <code class="docutils literal notranslate"><span class="pre">--region</span></code> must keep meaning “the region, or
+stop”: the cluster’s job script passes it. <code class="docutils literal notranslate"><span class="pre">--region</span> <span class="pre">E</span></code> is the same region with its edge
+at E reaches (another target: its output gets <code class="docutils literal notranslate"><span class="pre">_edgeE</span></code> and stands beside the default one,
+and the job script leaves its own <code class="docutils literal notranslate"><span class="pre">--region</span></code> out when the arguments carry one).</p></li>
+<li><p>The summary in <code class="docutils literal notranslate"><span class="pre">hpc/analysis/evidence_summary.py</span></code> withholds the correction of an evidence whose own posterior (its chain
+beside the JSON) lies where its true check has no sample: above <code class="docutils literal notranslate"><span class="pre">UNSAMPLED</span></code> (5%) of it at
+network values above the highest sample, or farther from the samples’ mean than the
+farthest, where about 1 / (n + 1) is expected. Without the chain (or the check’s <code class="docutils literal notranslate"><span class="pre">x</span></code> and
+<code class="docutils literal notranslate"><span class="pre">names</span></code>) the correction is made as before. The samples’ own distances are leave-one-out:
+measured from a mean and covariance they entered, the farthest of 500 in 49 parameters left
+2 to 5% of sound networks outside and withheld a correction . Measured:
+at most 0.5% (higher) and 0.75% (farther) on twelve real networks of 16 to 49 parameters,
+99.9% on the SINU branch’s network 21, whose evidence lived on a false corner maximum.</p></li>
+<li><p>The output’s <code class="docutils literal notranslate"><span class="pre">region</span></code> is the resolved entry or None. Analysis caches record full target
+provenance (<code class="docutils literal notranslate"><span class="pre">sampling/provenance.py</span></code>). In that summary an evidence and a true check
+that both record a target must record the same one, or there is no correction. A result
+from before targets were recorded is joined by the network’s number and the summary names it: withholding
+those corrections emptied the table of existing runs, whose evidences take hours each.</p></li>
+<li><p>The summary compares the networks with each other (the difference to the last one, the
+spread of the corrected evidences) whatever each was integrated over, with a note when
+that differs: every boost network has its own region, so a rule that compares only equal
+targets compares nothing, and the comparison is what the table is for. Different prior
+conventions are not compared. The convention is <code class="docutils literal notranslate"><span class="pre">convention_of</span></code>: the convention’s name,
+each prior as defined, the constant that follows from them. Never the whole <code class="docutils literal notranslate"><span class="pre">priors</span></code> table
+of an output: its rows also hold the box and the mass sampled at its faces, which differs
+in any two runs (compared, it blanked every comparison of real files while every test,
+whose fixtures had no such table, passed). Test the summary on files shaped as
+<code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">evidence</span></code> writes them (<code class="docutils literal notranslate"><span class="pre">Summary.realistic</span></code> in <code class="docutils literal notranslate"><span class="pre">tests/test_hpc_evidence.py</span></code>).</p></li>
+<li><p>Seed-scatter notes need the same target, convention, stopping rule and tolerance, and no
+capped run. A recorded target that cannot be used is not a legacy result: no correction.</p></li>
+<li><p>Analysis identities belong to verified private snapshots (<code class="docutils literal notranslate"><span class="pre">sampling.targets.load_snapshot</span></code>),
+not whatever model is on disk when sampling ends. Keep the loaded network, metadata,
+resolved region and hash together; a replacement during sampling must never relabel results.
+Tests exercise real evidence/derived-chain producers and the evidence summary.
+<code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">modes</span></code> (<code class="docutils literal notranslate"><span class="pre">target</span></code> in its JSON, <code class="docutils literal notranslate"><span class="pre">target_json</span></code> in its samples) and the derived view
+(<code class="docutils literal notranslate"><span class="pre">source_target</span></code> and <code class="docutils literal notranslate"><span class="pre">source_files</span></code> in <code class="docutils literal notranslate"><span class="pre">view.json</span></code>) follow the same rule; a new consumer of
+a saved network takes it from <code class="docutils literal notranslate"><span class="pre">load_snapshot</span></code> too.</p></li>
+<li><p>A chain replaced by one of the same target is not archived (the report samples every
+network again each run); <code class="docutils literal notranslate"><span class="pre">corner.py</span></code> and <code class="docutils literal notranslate"><span class="pre">make_config.py</span></code> read <code class="docutils literal notranslate"><span class="pre">posterior_it_N.npz</span></code> only,
+never an archived <code class="docutils literal notranslate"><span class="pre">posterior_it_N.previous-&lt;id&gt;.npz</span></code>.</p></li>
+<li><p>BEST’s sum of ln X is in single precision too, exact only for a power of two of live
+points. That is BEST’s; it is documented, not corrected.</p></li>
+</ul>
+</section>
+<section id="before-changing-hpc-refused-py-or-hpc-launch-py">
+<h2>Before changing <code class="docutils literal notranslate"><span class="pre">hpc/refused.py</span></code> or <code class="docutils literal notranslate"><span class="pre">hpc/launch.py</span></code><a class="headerlink" href="#before-changing-hpc-refused-py-or-hpc-launch-py" title="Link to this heading">#</a></h2>
+<p>The launcher of real runs; <code class="docutils literal notranslate"><span class="pre">hpc/README.md</span></code> has the use. Points the likelihood cannot evaluate (“refused”) and
+<code class="docutils literal notranslate"><span class="pre">CLIENT_REFUSED_VALUE</span></code> are described in <code class="docutils literal notranslate"><span class="pre">refused.py</span></code>. Keep these:</p>
+<ul class="simple">
+<li><p>Opt-in. Unset, a refused point is -inf and CLiENT drops it, as without the launcher. The one thing the launcher always does is
+turn a Cobaya logged error at a point into -inf, and a log-posterior of NaN (a theory code’s output not finite) as well.
+Passed on as NaN, CLiENT counts it as a point without a value and every corrected mode weight of its boost or true check is
+withheld; this rule is for the launcher only, and the core’s own NaN rule (above) stays as it is.</p></li>
+<li><p>The value belongs to the run: it is in the training set of every network. It is written to <code class="docutils literal notranslate"><span class="pre">RUN/refused_value.json</span></code>, and a
+continued run given another value, or none, is stopped.</p></li>
+<li><p>The value is applied in the likelihood object of every rank, not in the launcher’s batch hook: the audit’s evaluations do
+not pass through <code class="docutils literal notranslate"><span class="pre">client.broadcast_and_evaluate</span></code>. The launcher wraps their transport as well
+(<code class="docutils literal notranslate"><span class="pre">utils.mpi_utils.broadcast_and_evaluate_checked</span></code>), for the same rounding and the journal, with <code class="docutils literal notranslate"><span class="pre">kind</span></code> “audit” in its lines.</p></li>
+<li><p>With <code class="docutils literal notranslate"><span class="pre">design</span></code> the value does not exist until the design has been evaluated. Rank 0 sets it from the first evaluation of a new
+run, gives it to that batch’s refused points before CLiENT sees the result, and writes <code class="docutils literal notranslate"><span class="pre">logs/refused_value_&lt;job&gt;.json</span></code>, which the
+other ranks read at their next refused point. Keep that order.</p></li>
+<li><p>The journal, the report and the true check count refused points as the values equal to the refused value, which they read
+from <code class="docutils literal notranslate"><span class="pre">RUN/refused_value.json</span></code> whatever the job’s environment says. A refused point is never a finite true value: finite error
+moments exclude it, corrected moments give it zero weight against all surrogate draws, and the evidence correction keeps it in the
+denominator. Unresolved failures withhold corrections (<code class="docutils literal notranslate"><span class="pre">tests/test_hpc_true_check.py</span></code>, <code class="docutils literal notranslate"><span class="pre">tests/test_hpc_evidence.py</span></code>).
+<code class="docutils literal notranslate"><span class="pre">design_value</span></code> rounds so that no real value equals it; a value chosen by hand must not be one the likelihood can return.</p></li>
+<li><p>This lives outside <code class="docutils literal notranslate"><span class="pre">client.py</span></code> on purpose.</p></li>
+<li><p>The build of classy and camb a job evaluates with is decided by one rule, <code class="docutils literal notranslate"><span class="pre">boltzmann_build.location_problem</span></code>, used by <code class="docutils literal notranslate"><span class="pre">launch.py</span></code>
+and <code class="docutils literal notranslate"><span class="pre">true_profiles/cluster_backend.py</span></code>. Without <code class="docutils literal notranslate"><span class="pre">CLASSPP_GUARD_DIR</span></code> or <code class="docutils literal notranslate"><span class="pre">CLASSPP_BUILD_DIR</span></code> it is the environment’s build; with
+the first, classy must be the patched build in that folder’s <code class="docutils literal notranslate"><span class="pre">lib/</span></code>, with the second the unpatched build of another commit in its
+<code class="docutils literal notranslate"><span class="pre">lib/</span></code>; both set is refused. Never patch the environment’s classy itself (<code class="docutils literal notranslate"><span class="pre">tests/test_hpc_boltzmann_build.py</span></code>).</p></li>
+<li><p>Nothing in <code class="docutils literal notranslate"><span class="pre">hpc/</span></code> names a machine. What one site needs (install, partitions, its runs and queues) lives in that site’s own
+repository beside CLiENT, which sets <code class="docutils literal notranslate"><span class="pre">CLIENT_HPC_DIR</span></code> so that the launcher’s <code class="docutils literal notranslate"><span class="pre">logs/</span></code> and the analysis programs’ <code class="docutils literal notranslate"><span class="pre">runs/</span></code> are
+its own (for Grendel: the private <code class="docutils literal notranslate"><span class="pre">AarhusCosmology/ClientCluster</span></code>).</p></li>
+<li><p>The patch (<code class="docutils literal notranslate"><span class="pre">hpc/patches/classpp_extrap_guard.patch</span></code>) changes CLASS++’s source extrapolation only where the two-point fit is ill posed
+(dark acoustic oscillations); it is a regularisation of uncalibrated halofit and HMcode output, not a model. At every point where the fit is
+well posed the expression is the original, and the spectra there were bit for bit those of the unpatched build at 40 random points
+of the SIDR + DRMD box and its best fit, with halofit and HMcode. Judge a change on that comparison.</p></li>
+</ul>
+</section>
+<section id="before-changing-hpc-true-profiles">
+<h2>Before changing <code class="docutils literal notranslate"><span class="pre">hpc/true_profiles/</span></code><a class="headerlink" href="#before-changing-hpc-true-profiles" title="Link to this heading">#</a></h2>
+<p>The launcher of true-profile studies; <code class="docutils literal notranslate"><span class="pre">hpc/README.md</span></code> has the use. Keep these:</p>
+<ul class="simple">
+<li><p>It changes no file of CLiENT. <code class="docutils literal notranslate"><span class="pre">cluster_backend.install()</span></code> replaces <code class="docutils literal notranslate"><span class="pre">profiles.evaluation.initialize_backend</span></code> / <code class="docutils literal notranslate"><span class="pre">evaluate_backend</span></code> in the
+launcher’s process. The two backend functions stay module-level: a spawned backend process finds them by name.</p></li>
+<li><p>The region of a boost network is the profile setting <code class="docutils literal notranslate"><span class="pre">region</span></code> (section above), which <code class="docutils literal notranslate"><span class="pre">make_config.py</span> <span class="pre">--region</span></code> writes into the YAML.</p></li>
+<li><p>A refused point is -inf in a profile, never the run’s refused value: the job script unsets <code class="docutils literal notranslate"><span class="pre">CLIENT_REFUSED_VALUE</span></code>.</p></li>
+<li><p>The settings beyond the profile YAML (<code class="docutils literal notranslate"><span class="pre">CLIENT_PROFILE_NEWTON</span></code>, <code class="docutils literal notranslate"><span class="pre">CLIENT_CAMB_ACCURACY_TARGET</span></code>) are written beside the study and a
+resumed study must be given the same.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CLIENT_PROFILE_NEWTON</span></code> values are outside what the residual Newton stage was validated with; do not make them defaults on that evidence.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tests/test_hpc_profiles.py</span></code> covers the backend wrapper, the settings, the ranges and the status report.</p></li>
+</ul>
+</section>
+<section id="invariants">
+<h2>Invariants<a class="headerlink" href="#invariants" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>A reported true profile value is always an evaluated native objective; when that
+objective includes priors, do not label it a likelihood-only chi-square.</p></li>
+<li><p>A study’s manifest must hold every current key: one that lacks a key is refused, and a new
+key therefore ends the resume of older studies.</p></li>
+<li><p>Stage names stay <code class="docutils literal notranslate"><span class="pre">corrected/anchor</span></code> and <code class="docutils literal notranslate"><span class="pre">corrected/{direct,node}/NAME/J</span></code>. The stage reloads
+finished nodes (each checkpoint holds the state its successor needs) and re-runs an
+interrupted node from the ledger’s cache.</p></li>
+<li><p>Everything a <code class="docutils literal notranslate"><span class="pre">corrected</span></code> node sees must be fixed before it starts (its fixed predecessor’s
+state); anything timing-dependent breaks serial = parallel.</p></li>
+<li><p>Do not run the profile command under <code class="docutils literal notranslate"><span class="pre">mpirun</span></code>. The code allows <code class="docutils literal notranslate"><span class="pre">workers</span></code> up to the
+host’s CPU count.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chain_length</span></code> (default 2; null: one seed per profile) decides which nodes start cold. Any
+setting must give results that
+depend on it alone, never on <code class="docutils literal notranslate"><span class="pre">workers</span></code> or completion order: seeds run together, a chain
+starts when its own seed is done, and ties between nodes are broken in plan order.
+<code class="docutils literal notranslate"><span class="pre">benchmarking/schedule_newton.py</span></code> replays a journal on any number of workers; use it,
+not wall times on a loaded machine, to judge parallel efficiency.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">profiles/hybrid_surface.py</span></code> implements joint 2D surfaces with fixed-coordinate
+masks and deterministic independent-row Newton chains. Keep both physical values
+exact on backend requests; never transfer state between rows.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">continuation</span></code> (2D, opt-in; docs/create_profiles_2d.md, “Continued rows”)
+starts every node after a row’s seed from its predecessor’s true optimum, read from that
+node’s checkpoint, and the seed from the best training point (or the scan’s optimum). Without
+it there is no <code class="docutils literal notranslate"><span class="pre">continuation</span></code> in <code class="docutils literal notranslate"><span class="pre">method.json</span></code>.
+It needs <code class="docutils literal notranslate"><span class="pre">chain_length:</span> <span class="pre">null</span></code>: a node’s start comes from its own chain, never from another
+row or from anything that depends on completion order.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">search_ranges</span></code> (2D, opt-in, 7 November 2026; docs/create_profiles_2d.md, “Narrower ranges for
+parameters off the grid”) narrows the box of parameters that are not on the grid for the scan and
+the true stage, and the scan’s starting points to the training rows inside. Without it the box,
+the data and the signature are as before. A node is then the profile over that range: never
+report it as the profile over the box. The largest value of several such studies is the profile
+over the union of their ranges only where each study found its range’s maximum.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hybrid_training_starts</span></code> (opt-in, 11 November 2026; docs/hybrid_optimisers.md, “Starts from training points”) starts the last
+walkers of every node of the hybrid scan from the training points with the highest label near the node. Without it the
+walkers’ starts, and with them every scan, are as before (<code class="docutils literal notranslate"><span class="pre">tests/test_hybrid_training_starts.py</span></code>); one walker of a node always
+starts at the anchor. It finds a branch only where the training set has points on it and the network is right there. Measured
+on one 14-parameter network with an exact reference: do not make it a default on that.</p></li>
+<li><p>A study’s manifest is compared on resume by what the run’s files hold (their hashes) and
+by their place inside the run, never by absolute paths: a run directory that was moved or
+synced elsewhere with the same files resumes. The stored manifest is not rewritten.
+Of <code class="docutils literal notranslate"><span class="pre">iteration</span></code> the resolved network is compared (the manifest’s own <code class="docutils literal notranslate"><span class="pre">iteration</span></code> and its
+sources), never the setting: <code class="docutils literal notranslate"><span class="pre">--iteration</span> <span class="pre">N</span></code> and no <code class="docutils literal notranslate"><span class="pre">--iteration</span></code> with N the latest are one
+study (<code class="docutils literal notranslate"><span class="pre">tests/test_profiles_workflow.py</span></code>).</p></li>
+<li><p>A resumed 2D study reads the scan it finished and checked (<code class="docutils literal notranslate"><span class="pre">surrogate_surface.json</span></code> with
+the names, for the same axes) instead of scanning again: the node checkpoints’ signature
+holds every start, so a scan done again had to be identical bit for bit.</p></li>
+<li><p>Augmentation/validation nuisance designs use the L-BFGS-B node optimiser
+(<code class="docutils literal notranslate"><span class="pre">profiles/surrogate.py</span></code>).</p></li>
+<li><p>A study whose manifest lacks a key is not resumed: there is no filling of keys for
+studies made before them.</p></li>
+</ul>
+</section>
+<section id="before-changing-how-a-profile-study-treats-a-refused-point">
+<h2>Before changing how a profile study treats a refused point<a class="headerlink" href="#before-changing-how-a-profile-study-treats-a-refused-point" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">WorkflowLedger.evaluate_many</span></code> returns -inf for a point without a value, as <code class="docutils literal notranslate"><span class="pre">EvaluationLedger.__call__</span></code> and the hybrid ledger do; a
+raised error is still raised. Its callers decide, because they use the value differently. Keep these:</p>
+<ul class="simple">
+<li><p>The label audit stops: its rows are the best the run has, so a refusal there means another backend, and -inf must not reach its JSON.</p></li>
+<li><p>A design or validation point is left out and listed (<code class="docutils literal notranslate"><span class="pre">record_refused</span></code>, <code class="docutils literal notranslate"><span class="pre">refused_points.json</span></code>), never redrawn, which would make the
+number of calls depend on what is refused, and never given a penalty value. Never let -inf into <code class="docutils literal notranslate"><span class="pre">augmented_data.npy</span></code> or <code class="docutils literal notranslate"><span class="pre">validation.npz</span></code>:
+a -inf target makes the msre loss NaN.</p></li>
+<li><p>Validation pairs index ridge rows: <code class="docutils literal notranslate"><span class="pre">without_refused</span></code> drops those touching a refused row and renumbers the rest. A parameter’s profile
+pairs share its central node, so losing that row loses them, and with no pair of a kind left the study stops: the contrast score needs them.</p></li>
+<li><p>More than half of a batch refused stops the study (<code class="docutils literal notranslate"><span class="pre">MAX_REFUSED_SHARE</span></code>, a judgement). A study with nothing refused is unchanged.</p></li>
+<li><p>A refused point is not remembered across a resume: a batch finishes and is saved, so only one interrupted mid-batch asks again, and a
+repaired backend must get its chance. <code class="docutils literal notranslate"><span class="pre">tests/test_profiles_workflow.py</span></code> runs a real retraining study with part of the box refused.</p></li>
+<li><p>A report never fills in a node without a value. It is unknown, not excluded (an analytic case: 25 written in the spline at a node whose
+true value is 0.5, a false hole in the contours). In 2D the true curves become linear contours on the nodes with values; in 1D the
+crossings are read over them and the report warns.</p></li>
+</ul>
+</section>
+<section id="before-changing-a-program-in-hpc-that-needs-mpi-and-a-likelihood">
+<h2>Before changing a program in <code class="docutils literal notranslate"><span class="pre">hpc/</span></code> that needs MPI and a likelihood<a class="headerlink" href="#before-changing-a-program-in-hpc-that-needs-mpi-and-a-likelihood" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">hpc/analysis/true_check.py</span></code> cannot run in the unit suite (MPI and a Cobaya
+likelihood), and a line of it that no test ran once called a string: the job
+would have stopped after its true evaluations. Keep these:</p>
+<ul class="simple">
+<li><p>Anything such a program prints or computes from its results is a function that a test
+calls (<code class="docutils literal notranslate"><span class="pre">report_line</span></code>, <code class="docutils literal notranslate"><span class="pre">chain_line</span></code>, <code class="docutils literal notranslate"><span class="pre">network_entry</span></code>, <code class="docutils literal notranslate"><span class="pre">narrower_than_the_run</span></code>), not text
+inside <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p></li>
+<li><p>After changing it, run it: <code class="docutils literal notranslate"><span class="pre">mpirun</span> <span class="pre">-n</span> <span class="pre">2</span> <span class="pre">python</span> <span class="pre">hpc/analysis/true_check.py</span> <span class="pre">RUN</span> <span class="pre">--cobaya</span> <span class="pre">input/cobaya/banana_lcdm16_wide.yaml</span> <span class="pre">--networks</span> <span class="pre">N</span> <span class="pre">--points</span> <span class="pre">200</span> <span class="pre">--steps</span> <span class="pre">2000</span> <span class="pre">--discard-chains</span></code> on a scratch copy of a run of the analytic 16-parameter target (a
+small run) takes seconds.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tests/test_source_compiles.py</span></code> compiles every file with warnings as errors. A compiler
+warning is a defect waiting for its line to run; do not silence it.</p></li>
+<li><p>A consumer is checked on files its real producer wrote (<code class="docutils literal notranslate"><span class="pre">WhatTheCommandsWrite</span></code> in
+<code class="docutils literal notranslate"><span class="pre">tests/test_hpc_evidence.py</span></code>), not on files rebuilt for the test.</p></li>
+</ul>
+</section>
+<section id="environment-and-tests">
+<h2>Environment and tests<a class="headerlink" href="#environment-and-tests" title="Link to this heading">#</a></h2>
+<p>From the repository root in the environment declared by <code class="docutils literal notranslate"><span class="pre">environment.yaml</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nv">PYTHONDONTWRITEBYTECODE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">OPENBLAS_NUM_THREADS</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>python<span class="w"> </span>-m<span class="w"> </span>unittest<span class="w"> </span>discover<span class="w"> </span>-s<span class="w"> </span>tests<span class="w"> </span>-p<span class="w"> </span><span class="s1">'test_*.py'</span>
+</pre></div>
+</div>
+<p>The suite includes serial/parallel equivalence, interrupted recovery, boundary-release and
+failed-probe checks. It uses analytic
+targets and does not need CLASS++ or Planck likelihood data.</p>
+<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">tests/release_smoke.py</span></code> runs the whole workflow through the command line, in about three minutes, and
+<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">tests/run_mpi_smokes.py</span></code> the MPI paths. After changing a thing that compares evaluated coordinates with chosen ones, or
+the launcher, run <code class="docutils literal notranslate"><span class="pre">tests/mpi_train_domain_smoke.py</span></code> as well, which goes through <code class="docutils literal notranslate"><span class="pre">hpc/launch.py</span></code>.</p>
+</section>
+<section id="known-limits">
+<h2>Known limits<a class="headerlink" href="#known-limits" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Networks with several modes.</strong> A network whose region has several ellipsoids is sampled cell by cell and weighted by its own evidence in each
+cell (<code class="docutils literal notranslate"><span class="pre">sampling/mixture.py</span></code>): by the derived chain, and by the report and true check in <code class="docutils literal notranslate"><span class="pre">hpc/</span></code>. Do not substitute starting proportions or an
+older boost’s corrected weights; keep the per-cell diagnostics, and do not use weights the sampler marks as not reliable. Chain caches carry the
+sampler method and version separately from <code class="docutils literal notranslate"><span class="pre">target_json</span></code>. Unreliable weights withhold moment, ESS and evidence corrections; retain the true
+evaluations and pointwise errors. Every reader of a chain asks how it was sampled (<code class="docutils literal notranslate"><span class="pre">hpc/analysis/chain_sampling.py</span></code>,
+<code class="docutils literal notranslate"><span class="pre">derived.chain.weights_problem</span></code> for <code class="docutils literal notranslate"><span class="pre">derived</span> <span class="pre">--exact</span></code>, and the record <code class="docutils literal notranslate"><span class="pre">benchmarking/benchmark.py</span></code> keeps in its cached chain). The mark is the efficiency of the bridge’s Gaussian mixture as a proposal for the cell, not
+the chain’s length: do not write “sample longer” as the remedy. Before a real run with several modes, check the cell weights against the boost’s own
+(<code class="docutils literal notranslate"><span class="pre">boost_it_N.json</span></code>) on its first networks.</p></li>
+<li><p><strong>The objective identity keeps its scope</strong> (<code class="docutils literal notranslate"><span class="pre">run/identity.py</span></code>: user-site packages and the likelihood’s component files are recorded). A package
+upgrade therefore stops each continued run once, and <code class="docutils literal notranslate"><span class="pre">--accept-identity-change</span></code> after a look at the listed differences is the answer; do not
+narrow the record to avoid that.</p></li>
+<li><p><strong>Profiles.</strong> Nodes whose optimum lies at rho 0.9 to 0.98 of the region stall, since their probes cross the wall (<code class="docutils literal notranslate"><span class="pre">profiles/region.py</span></code> INSIDE);
+second-order certification is not required for <code class="docutils literal notranslate"><span class="pre">converged</span></code> in the hybrid scan; the retraining path (<code class="docutils literal notranslate"><span class="pre">retrain:</span> <span class="pre">true</span></code>) raises on designs
+outside the region.</p></li>
+<li><p><strong>An uncleared audit does not stop the loop.</strong> With <code class="docutils literal notranslate"><span class="pre">clear:</span> <span class="pre">false</span></code> the native loop goes on; see <code class="docutils literal notranslate"><span class="pre">docs/posterior_density_boost.md</span></code>.</p></li>
+<li><p><strong>The validation set under a warm start</strong> is drawn afresh at every training. Measured on an analytic target at four seeds, the printed validation loss is
+optimistic (12% above the training loss where a held-out set is 42% above), and the networks are no worse for it; a persistent set was, if anything, slightly
+worse. Do not read <code class="docutils literal notranslate"><span class="pre">val_loss</span></code> as a network’s error. A training of the boost phase from random weights keeps its best epoch unless <code class="docutils literal notranslate"><span class="pre">training.random_start_weights:</span> <span class="pre">last</span></code>
+(opt-in, 19 November 2026; docs/boost.md). A warm-started training of the boost phase keeps its last weights: with
+the best ones, most boost-phase trainings kept their first of about 400 epochs. Branches of three runs with <code class="docutils literal notranslate"><span class="pre">last</span></code> were 0.48 to 0.86 of the originals’ error at true
+values where those had kept an early epoch, and the same where they had not (client.py, <code class="docutils literal notranslate"><span class="pre">restore_best</span></code>). Not measured in the ordinary loop, whose networks decide the
+hand-over (the 1.2 T threshold was measured with <code class="docutils literal notranslate"><span class="pre">best</span></code>): do not extend it there without that measurement.</p></li>
+</ul>
+</section>
+<section id="running-a-study">
+<h2>Running a study<a class="headerlink" href="#running-a-study" title="Link to this heading">#</a></h2>
+<p>Same command as the original code (<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">client.py</span> <span class="pre">profiles</span> <span class="pre">…</span></code> or <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">profiles</span> <span class="pre">…</span></code>,
+see <a class="reference internal" href="docs/create_profiles.html"><span class="std std-doc">docs/create_profiles.md</span></a>); the optimiser keys go in the
+profile YAML (<a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/input/profiles_example.yaml">input/profiles_example.yaml</a>).</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../../library.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Guides and reports</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="CHANGES.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">What this version adds</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#repository">Repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#layout">Layout</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-dataset-augment-py">Before changing <code class="docutils literal notranslate"><span class="pre">dataset/augment.py</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-dataset-peak-samples-py">Before changing <code class="docutils literal notranslate"><span class="pre">dataset/peak_samples.py</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-dataset-boost-py-or-sampling-modes-py">Before changing <code class="docutils literal notranslate"><span class="pre">dataset/boost.py</span></code> or <code class="docutils literal notranslate"><span class="pre">sampling/modes.py</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-run-combine-py-domain-splitting">Before changing <code class="docutils literal notranslate"><span class="pre">run/combine.py</span></code> (domain splitting)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-run-export-py">Before changing <code class="docutils literal notranslate"><span class="pre">run/export.py</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-the-convergence-of-the-ordinary-loop">Before changing the convergence of the ordinary loop</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-the-mixing-test-of-the-modes">Before changing the mixing test of the modes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-the-boost-s-background-or-region">Before changing the boost’s background or region</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-the-region-in-the-profile-code">Before changing the region in the profile code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-run-storage-py-or-run-identity-py">Before changing <code class="docutils literal notranslate"><span class="pre">run/storage.py</span></code> or <code class="docutils literal notranslate"><span class="pre">run/identity.py</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-run-layout-py-save-model-or-profiles-nodes-py">Before changing <code class="docutils literal notranslate"><span class="pre">run/layout.py</span></code>, <code class="docutils literal notranslate"><span class="pre">save_model</span></code> or <code class="docutils literal notranslate"><span class="pre">profiles/nodes.py</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-training-audit-py">Before changing <code class="docutils literal notranslate"><span class="pre">training/audit.py</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-training-members-py">Before changing <code class="docutils literal notranslate"><span class="pre">training/members.py</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-profiles-residual-newton-py">Before changing <code class="docutils literal notranslate"><span class="pre">profiles/residual_newton.py</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-evidence">Before changing <code class="docutils literal notranslate"><span class="pre">evidence/</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-hpc-refused-py-or-hpc-launch-py">Before changing <code class="docutils literal notranslate"><span class="pre">hpc/refused.py</span></code> or <code class="docutils literal notranslate"><span class="pre">hpc/launch.py</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-hpc-true-profiles">Before changing <code class="docutils literal notranslate"><span class="pre">hpc/true_profiles/</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#invariants">Invariants</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-how-a-profile-study-treats-a-refused-point">Before changing how a profile study treats a refused point</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#before-changing-a-program-in-hpc-that-needs-mpi-and-a-likelihood">Before changing a program in <code class="docutils literal notranslate"><span class="pre">hpc/</span></code> that needs MPI and a likelihood</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-and-tests">Environment and tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#known-limits">Known limits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-a-study">Running a study</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/_generated/library/AGENTS.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

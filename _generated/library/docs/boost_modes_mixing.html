@@ -1,0 +1,1158 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Boost: deciding the modes by measured mixing &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=2443c677"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_generated/library/docs/boost_modes_mixing';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/_generated/library/docs/boost_modes_mixing.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="The loop with boosts on a real likelihood: ΛCDM, Planck + DESI" href="boost_real_lcdm.html" />
+    <link rel="prev" title="Boost with a quadratic background and a region" href="boost_background_region.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../AGENTS.html">Contributor guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGES.html">What this version adds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PERFORMANCE.html">CLiENT speed and memory changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UPGRADING.html">Moving from the first CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PROFILES_AND_EVIDENCE.html">Profile likelihoods and Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">CLiENT documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audit_optima.html">Auditing the network’s optima</a></li>
+<li class="toctree-l1"><a class="reference internal" href="augment_training.html">Adding profile points to a run’s training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost.html">Boost: training points from the posterior itself</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_background_region.html">Boost with a quadratic background and a region</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Boost: deciding the modes by measured mixing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_real_lcdm.html">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combine.html">Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles.html">Create profiles from a saved CLiENT iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles_2d.html">One two-dimensional profile per run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derived_parameters.html">Derived parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evidence.html">Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Exporting a network: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">export</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hybrid_optimisers.html">Hybrid profile optimisers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injection_window.html">Injection: fitting the quadratic to the points near the best</a></li>
+<li class="toctree-l1"><a class="reference internal" href="members.html">Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="posterior_density_boost.html">Density-filtered posterior boosts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_files.html">A run’s files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_recovery.html">Continuing and recovering a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempered_convergence.html">Convergence of the ordinary loop: the error at the tempered batch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/README.html">Real likelihoods on a cluster</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../library.html" class="nav-link">Guides and reports</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Boost: deciding the modes by measured mixing</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Maintained source: <a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/docs/boost_modes_mixing.md">docs/boost_modes_mixing.md</a>. Measurements keep their original settings; consult the <a class="reference internal" href="../../../configuration.html"><span class="std std-doc">current defaults</span></a> before starting a new run.</p>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="boost-deciding-the-modes-by-measured-mixing">
+<h1>Boost: deciding the modes by measured mixing<a class="headerlink" href="#boost-deciding-the-modes-by-measured-mixing" title="Link to this heading">#</a></h1>
+<p>A boost divides the posterior into modes “that a T = 1 chain cannot travel between” and
+gives each its own chain, its own evidence and the same number of points
+(<a class="reference internal" href="boost.html"><span class="std std-doc">boost.md</span></a>). By default two maxima are one mode when the straight path between
+them dips less than <code class="docutils literal notranslate"><span class="pre">barrier</span></code> (4 log-units). Two things are wrong with a fixed number:</p>
+<ul class="simple">
+<li><p>how high a barrier a chain crosses depends on the number of parameters, and</p></li>
+<li><p>a straight path between two maxima of a curved mode crosses ground the chain never visits.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">mixing</span></code> replaces the number by the thing it stands for: a chain is run and asked whether it
+travels. It is opt-in; without the key the modes are found by the fixed barrier.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">acquisition</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">boost</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2000</span>
+<span class="w">    </span><span class="nt">start_iteration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+<span class="w">    </span><span class="nt">mixing</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span><span class="w">            </span><span class="c1"># two basins are one mode when a T = 1 chain keeps at most this</span>
+<span class="w">                           </span><span class="c1"># much memory of which of them a walker started in</span>
+<span class="w">    </span><span class="c1"># candidate_barrier: 1.0   # log-units; maxima closer than this are one basin without a test</span>
+</pre></div>
+</div>
+<p>The same analysis of any saved network, outside the loop and without the likelihood:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span>modes<span class="w"> </span>RUN_DIR<span class="w"> </span><span class="o">[</span>-i<span class="w"> </span>N<span class="o">]</span><span class="w"> </span><span class="o">[</span>--mixing<span class="w"> </span>M<span class="o">]</span><span class="w"> </span><span class="o">[</span>--barrier-only<span class="o">]</span><span class="w"> </span><span class="o">[</span>--tempered-steps<span class="w"> </span>S<span class="o">]</span><span class="w"> </span><span class="o">[</span>--seed<span class="w"> </span>S<span class="o">]</span><span class="w"> </span><span class="o">[</span>--tag<span class="w"> </span>T<span class="o">]</span>
+</pre></div>
+</div>
+<section id="what-is-done">
+<h2>What is done<a class="headerlink" href="#what-is-done" title="Link to this heading">#</a></h2>
+<p>The first step of a boost is the same: an ensemble started on the tempered chain is cooled to
+T = 1 and every walker climbs to its local maximum. Then, in place of the grouping by
+<code class="docutils literal notranslate"><span class="pre">barrier</span></code>:</p>
+<ol class="arabic">
+<li><p><strong>Candidate basins.</strong> The maxima are grouped as by the fixed rule, but with the low
+<code class="docutils literal notranslate"><span class="pre">candidate_barrier</span></code> (1 log-unit: dips under it are the network’s own wiggles, and no chain
+is needed to know that they are crossed). Nothing is dropped at this stage. A climb that
+stalled on a slope goes to the basin of the highest maximum it is joined to. A basin with
+less than <code class="docutils literal notranslate"><span class="pre">min_share</span></code> of the walkers is too small to stand for itself: it joins the large
+basin with the smallest dip to it when that dip is under <code class="docutils literal notranslate"><span class="pre">barrier</span></code>, and is otherwise left
+out and counted.</p></li>
+<li><p><strong>One basin: one mode.</strong> No chain is run, and the test costs nothing.</p></li>
+<li><p><strong>A free chain.</strong> With several basins, one T = 1 chain of the boost’s own <code class="docutils literal notranslate"><span class="pre">walkers</span></code> and
+<code class="docutils literal notranslate"><span class="pre">steps</span></code> is started on the cooled walkers and left free in the whole box.</p></li>
+<li><p><strong>Where the walkers are.</strong> At eight times in the first half of the chain, and half a chain
+later, every walker’s position is given a basin by letting it climb: it is in the basin of
+the maximum it reaches (the basin to one of whose maxima the straight path from there dips
+least; up to 48 maxima stand for a basin).</p></li>
+<li><p><strong>Memory.</strong> For two basins A and B, among the walkers found in A or B at the later time,</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>memory = P(in A later | in A before) - P(in A later | in B before).
+</pre></div>
+</div>
+<p>It is 1 when no walker changes basin and 0 when where a walker is no longer depends on where
+it was. It is measured half a chain apart and squared, which is what is left after the whole
+chain if the memory decays exponentially.</p>
+</li>
+<li><p><strong>Decision.</strong> Basins whose memory after the chain is at most <code class="docutils literal notranslate"><span class="pre">mixing</span></code> are one mode; this is
+applied to every pair, so basins that mix through a third are one mode too. The modes are
+numbered by size.</p></li>
+</ol>
+<p>Then the boost goes on as with the fixed barrier: one confined chain and one bridge-sampled evidence per mode,
+the same number of points from each. A mode made of several basins has as its region the union
+of theirs. The Gaussians that mark the regions are fitted to the cooled walkers and to the
+labelled positions of step 4 together.</p>
+<p>The threshold has a direct meaning. For two basins the memory is also the factor by which an
+error in the starting split between them has shrunk by the end of the chain. With
+<code class="docutils literal notranslate"><span class="pre">mixing:</span> <span class="pre">0.1</span></code> two basins share a chain when that chain forgets at least nine tenths of its
+starting split; otherwise their weights are taken from the two evidences, which do not depend
+on the split at all.</p>
+<p>The test is about the chain the boost samples with: the same sampler, number of walkers and
+number of steps. A longer chain mixes across more, and the answer changes with it. That is
+intended.</p>
+</section>
+<section id="measurements">
+<h2>Measurements<a class="headerlink" href="#measurements" title="Link to this heading">#</a></h2>
+<p>Every number below is from the whole of <code class="docutils literal notranslate"><span class="pre">posterior_modes</span></code> run as a boost runs it (512 walkers
+cooled from a sample at T = 7, 10 000 steps), once with the fixed barrier of 4 and once with
+<code class="docutils literal notranslate"><span class="pre">mixing:</span> <span class="pre">0.1</span></code>.</p>
+<section id="two-unit-gaussians-a-known-barrier-apart">
+<h3>Two unit Gaussians a known barrier apart<a class="headerlink" href="#two-unit-gaussians-a-known-barrier-apart" title="Link to this heading">#</a></h3>
+<p>The barrier is the dip of the straight path between the two maxima, which here is the true
+one. Number of modes found, fixed barrier → mixing, and in brackets the memory left after
+the chain:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>barrier</p></th>
+<th class="head"><p>16 parameters</p></th>
+<th class="head"><p>58 parameters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.5</p></td>
+<td><p>1 → 1 (one basin)</p></td>
+<td><p>1 → 1 (one basin)</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>1 → 1 (0.00)</p></td>
+<td><p>1 → 1 (0.00)</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>1 → 1 (0.00)</p></td>
+<td><p>1 → 1 (0.03)</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>1 → 1 (0.00)</p></td>
+<td><p>1 → <strong>2</strong> (0.15)</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>2 → <strong>1</strong> (0.01)</p></td>
+<td><p>2 → 2 (0.51)</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>2 → 2 (0.34)</p></td>
+<td><p>2 → 2 (0.91)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>With 16 parameters the chain still forgets its start completely across 6 log-units, and the
+fixed rule divides a mode that one chain samples well. With 58 parameters it no longer mixes
+across 4, and the fixed rule leaves two modes to one chain: in that case the single chain put
+48.5% on one side where the exact share is 50%, and the two evidences give 50.2%.</p>
+<p>The same with the second mode holding 10% and 2% of the posterior:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>second mode</p></th>
+<th class="head"><p>parameters</p></th>
+<th class="head"><p>barrier 3</p></th>
+<th class="head"><p>barrier 6</p></th>
+<th class="head"><p>barrier 9</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>10%</p></td>
+<td><p>16</p></td>
+<td><p>1 → 1 (0.00)</p></td>
+<td><p>2 → <strong>1</strong> (0.00)</p></td>
+<td><p>2 → 2 (0.16)</p></td>
+</tr>
+<tr class="row-odd"><td><p>10%</p></td>
+<td><p>58</p></td>
+<td><p>1 → 1 (0.06)</p></td>
+<td><p>2 → 2 (0.62)</p></td>
+<td><p>2 → 2 (0.91)</p></td>
+</tr>
+<tr class="row-even"><td><p>2%</p></td>
+<td><p>16</p></td>
+<td><p>1 → 1 (0.00)</p></td>
+<td><p>2 → <strong>1</strong> (0.00)</p></td>
+<td><p>2 → 2 (0.15)</p></td>
+</tr>
+<tr class="row-odd"><td><p>2%</p></td>
+<td><p>58</p></td>
+<td><p>1 → 1 (0.06)</p></td>
+<td><p>2 → 2 (0.48)</p></td>
+<td><p>2 → 2 (0.85)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The decision does not depend on the weight of the smaller mode down to 2%. Where both rules
+find two modes, the weights with <code class="docutils literal notranslate"><span class="pre">mixing</span></code> are at least as close to the exact ones, because the
+regions are then fitted to the labelled chain positions as well as to the cooled walkers (a
+mode holding 10% of 512 walkers has fewer walkers than parameters at 58):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>case (58 parameters)</p></th>
+<th class="head"><p>exact</p></th>
+<th class="head"><p>fixed barrier</p></th>
+<th class="head"><p>mixing</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>10%, barrier 6</p></td>
+<td><p>10.0%</p></td>
+<td><p>6.3%</p></td>
+<td><p>9.6%</p></td>
+</tr>
+<tr class="row-odd"><td><p>10%, barrier 9</p></td>
+<td><p>10.0%</p></td>
+<td><p>8.8%</p></td>
+<td><p>10.1%</p></td>
+</tr>
+<tr class="row-even"><td><p>2%, barrier 6</p></td>
+<td><p>2.0%</p></td>
+<td><p>2.1%</p></td>
+<td><p>2.0%</p></td>
+</tr>
+<tr class="row-odd"><td><p>2%, barrier 9</p></td>
+<td><p>2.0%</p></td>
+<td><p>2.2%</p></td>
+<td><p>2.0%</p></td>
+</tr>
+<tr class="row-even"><td><p>50%, barrier 6</p></td>
+<td><p>50.0%</p></td>
+<td><p>49.2%</p></td>
+<td><p>50.0%</p></td>
+</tr>
+<tr class="row-odd"><td><p>50%, barrier 9</p></td>
+<td><p>50.0%</p></td>
+<td><p>49.6%</p></td>
+<td><p>50.0%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="curved-modes">
+<h3>Curved modes<a class="headerlink" href="#curved-modes" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>target</p></th>
+<th class="head"><p>16 parameters</p></th>
+<th class="head"><p>58 parameters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>banana: one maximum in a curved valley</p></td>
+<td><p>1 → 1</p></td>
+<td><p>1 → 1</p></td>
+</tr>
+<tr class="row-odd"><td><p>ring: a flat ridge on a circle</p></td>
+<td><p>1 → 1</p></td>
+<td><p>1 → 1</p></td>
+</tr>
+<tr class="row-even"><td><p>ring with three maxima on it, 2 log-units above the saddles between them</p></td>
+<td><p>3 → <strong>1</strong></p></td>
+<td><p>3 → 3</p></td>
+</tr>
+<tr class="row-odd"><td><p>the same and a separate Gaussian holding 20%</p></td>
+<td><p>4 → <strong>2</strong></p></td>
+<td><p>4 → 4</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>On the ring with three maxima the straight path from one maximum to the next crosses the hole
+and dips 23 log-units, while the way round the ridge dips 2. The fixed rule reports three modes
+at any number of parameters. With 16 parameters the chain goes round (memory 0.00 to 0.01) and
+the ring is one mode; with the separate Gaussian added there are two, with weights 79.9% and
+20.1% (exact 80% and 20%), where the memory between the Gaussian and the ring is 0.71 to 0.77.
+With 58 parameters the chain does not get round the ring in 10 000 steps (memory 0.26 to
+0.29), so the three maxima are three modes: that is the measured answer, and their weights
+come out at 33.5%, 33.3% and 33.2% (fixed rule: 34.0%, 33.8%, 32.2%).</p>
+</section>
+<section id="networks">
+<h3>Networks<a class="headerlink" href="#networks" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">client.py</span> <span class="pre">modes</span></code> on three saved networks. On the real SINU network it was run with
+both rules, from the same tempered chain and seed; for the two analytic networks the fixed
+rule’s answer is the one of the ten-boost study they come from
+(<a class="reference internal" href="boost_background_region.html"><span class="std std-doc">boost_background_region.md</span></a>):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>network</p></th>
+<th class="head"><p>fixed barrier</p></th>
+<th class="head"><p>mixing</p></th>
+<th class="head"><p>memory</p></th>
+<th class="head"><p>straight path dips</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>58-parameter Gaussian after ten boosts</p></td>
+<td><p>1 mode (in the ten-boost study)</p></td>
+<td><p>1 mode (one basin, no chain)</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>analytic twin of SINU after ten boosts (16 parameters)</p></td>
+<td><p>2 modes (in the ten-boost study)</p></td>
+<td><p>2 modes, 80.1% and 19.9%</p></td>
+<td><p>0.99 (7 of 4096 positions changed basin)</p></td>
+<td><p>60.6</p></td>
+</tr>
+<tr class="row-even"><td><p>real SINU run, network 15 (16 parameters)</p></td>
+<td><p>2 modes, 86.6% and 13.4%; 4 walkers left out</p></td>
+<td><p>2 modes, 85.3% and 14.7%; none left out</p></td>
+<td><p>0.99 (9 of 4096)</p></td>
+<td><p>57.8</p></td>
+</tr>
+<tr class="row-odd"><td><p>the same, from a tempered chain of 20 000 steps</p></td>
+<td><p>2 modes, 86.1% and 13.9%; 6 left out</p></td>
+<td><p>2 modes, 86.3% and 13.7%; none left out</p></td>
+<td><p>0.89 (62 of 4096)</p></td>
+<td><p>56.2</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The twin’s exact weights inside its box are 80.9% and 19.1%. Its two modes are joined by a
+curved valley that rises 6.5 log-units; the chain does not get through it, although a straight
+barrier of 6 with 16 parameters is crossed freely (first table). What a chain crosses depends
+on the width and the shape of the way as well as on its height, which is the reason for
+measuring it.</p>
+<p>On the real SINU network both rules find the two modes, in both runs.</p>
+<ul class="simple">
+<li><p><strong>Weights.</strong> The strong mode gets 14.7% and 13.7% with <code class="docutils literal notranslate"><span class="pre">mixing</span></code>, 13.4% and 13.9% with the
+fixed rule; three earlier evaluations of this network with the fixed rule gave 13.2%, 13.5%
+and 13.9%. The largest difference, in the first pair, is 0.11 in the log evidence of the
+weak mode, where the spreads of the two evidences are 0.05 and 0.07. No difference between
+the rules shows beyond that scatter.</p></li>
+<li><p><strong>Walkers left out.</strong> The fixed rule leaves four and six cooled walkers out (climbs that
+stalled, or groups under <code class="docutils literal notranslate"><span class="pre">min_share</span></code>). With <code class="docutils literal notranslate"><span class="pre">mixing</span></code> a stalled climb stays with the hill it
+is on, and a small group goes with the large basin it is nearest to (six walkers in the
+second run).</p></li>
+<li><p><strong>The shoulder on the barrier.</strong> The strong mode has a shoulder at log10 G_eff between
+-2.8 and -2.0, presumably where these walkers sit (their positions were not looked at). With
+<code class="docutils literal notranslate"><span class="pre">mixing</span></code> it is sampled as part of the strong mode and holds 0.4% and 0.3% of the posterior in
+the two runs. With the fixed rule it holds under
+0.1% and 0.3%: there it depends on where the boundary between the two regions happens to
+fall. Whether the true likelihood has the shoulder is not known from this
+(<a class="reference internal" href="boost.html"><span class="std std-doc">boost.md</span></a> notes an island at the same place in network 16 that was gone in
+network 17). An unfiltered boost with <code class="docutils literal notranslate"><span class="pre">mixing</span></code> would put 2 to 3% of the strong mode’s points
+on it, which is where true values would settle it.</p></li>
+<li><p><strong>Memory.</strong> 0.99 in one run and 0.89 in the other, 9 and 62 positions of 4096 having
+changed basin. Probably these are walkers on the shoulder, which can go either way (not
+checked). Both values are far from the threshold.</p></li>
+</ul>
+</section>
+</section>
+<section id="reading-the-log">
+<h2>Reading the log<a class="headerlink" href="#reading-the-log" title="Link to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   <span class="n">mixing</span><span class="p">:</span> <span class="n">basins</span> <span class="mi">1</span> <span class="ow">and</span> <span class="mi">2</span> <span class="p">(</span><span class="mi">386</span> <span class="ow">and</span> <span class="mi">126</span> <span class="n">walkers</span><span class="p">;</span> <span class="n">the</span> <span class="n">straight</span> <span class="n">path</span> <span class="n">between</span> <span class="n">their</span> <span class="n">maxima</span> <span class="n">dips</span> <span class="mf">57.8</span> <span class="n">log</span><span class="o">-</span><span class="n">units</span><span class="p">):</span> <span class="n">memory</span> <span class="mf">0.99</span> <span class="n">after</span> <span class="mi">10000</span> <span class="n">steps</span> <span class="p">(</span><span class="mi">9</span> <span class="n">of</span> <span class="mi">4096</span> <span class="n">walker</span> <span class="n">positions</span> <span class="n">half</span> <span class="n">a</span> <span class="n">chain</span> <span class="n">apart</span> <span class="n">had</span> <span class="n">changed</span> <span class="n">basin</span><span class="p">):</span> <span class="n">separate</span> <span class="n">modes</span>
+   <span class="n">cooled</span> <span class="mi">512</span> <span class="n">walkers</span> <span class="kn">from</span><span class="w"> </span><span class="nn">T</span> <span class="o">=</span> <span class="mi">7</span> <span class="n">through</span> <span class="mf">4.3</span><span class="p">,</span> <span class="mf">2.65</span><span class="p">,</span> <span class="mf">1.63</span><span class="p">,</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">climbed</span><span class="p">:</span> <span class="mi">2</span> <span class="n">modes</span> <span class="n">of</span> <span class="mi">2</span> <span class="n">candidate</span> <span class="n">basins</span> <span class="p">(</span><span class="n">measured</span> <span class="n">mixing</span><span class="p">,</span> <span class="n">memory</span> <span class="n">at</span> <span class="n">most</span> <span class="mf">0.1</span><span class="p">)</span>
+   <span class="n">mode</span> <span class="mi">1</span><span class="p">:</span> <span class="n">weight</span> <span class="mf">85.3</span><span class="o">%</span> <span class="p">(</span><span class="n">log</span> <span class="n">evidence</span> <span class="o">-</span><span class="mf">5340.66</span> <span class="o">+-</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">proposal</span> <span class="n">efficiency</span> <span class="mf">0.39</span><span class="p">);</span> <span class="mi">386</span> <span class="n">walkers</span><span class="p">;</span> <span class="n">highest</span> <span class="n">value</span> <span class="o">-</span><span class="mf">5293.78</span>
+   <span class="n">mode</span> <span class="mi">2</span><span class="p">:</span> <span class="n">weight</span> <span class="mf">14.7</span><span class="o">%</span> <span class="p">(</span><span class="n">log</span> <span class="n">evidence</span> <span class="o">-</span><span class="mf">5342.42</span> <span class="o">+-</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">proposal</span> <span class="n">efficiency</span> <span class="mf">0.43</span><span class="p">);</span> <span class="mi">126</span> <span class="n">walkers</span><span class="p">;</span> <span class="n">highest</span> <span class="n">value</span> <span class="o">-</span><span class="mf">5294.54</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Memory</strong> near 0: the chain has forgotten where its walkers started, and the basins are
+sampled by one chain. Near 1, as here: hardly a walker changed basin. Values between say that
+walkers do cross but too rarely for the chain’s split to be trusted.</p></li>
+<li><p><strong>Walker positions half a chain apart</strong> are the pairs behind the estimate (at most eight
+times the number of walkers). A basin with few of them has a noisy memory; near the
+threshold the decision can then go either way. Neither answer is wrong there: a chain that
+half mixes gives a usable split, and so do two evidences.</p></li>
+<li><p><strong>The straight path between their maxima</strong> is printed for comparison with the fixed rule. It
+can be far above what the chain has to cross (the ring: 23 against 2).</p></li>
+<li><p>A further line gives the time the test took.</p></li>
+<li><p>The report (<code class="docutils literal notranslate"><span class="pre">RUN/boost/boost_it_N.json</span></code> under <code class="docutils literal notranslate"><span class="pre">search.mixing</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">RUN/modes/modes_it_N.json</span></code>) has the candidate basins, every pair’s memory at half the chain
+and after it, the number of exchanges, the walkers of small groups that were joined to a
+basin and those left out, the seconds, and <code class="docutils literal notranslate"><span class="pre">on_no_known_hill</span></code>: positions of the free chain
+that climbed to a hill none of the known maxima is on (they are given the nearest basin).</p></li>
+</ul>
+</section>
+<section id="the-modes-command">
+<h2>The <code class="docutils literal notranslate"><span class="pre">modes</span></code> command<a class="headerlink" href="#the-modes-command" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">client.py</span> <span class="pre">modes</span> <span class="pre">RUN_DIR</span></code> runs the tempered chain of the run’s <code class="docutils literal notranslate"><span class="pre">sampling</span></code> block on a
+saved network (the latest, or <code class="docutils literal notranslate"><span class="pre">-i</span> <span class="pre">N</span></code>), then exactly what a boost does first, and stops before
+any true evaluation. It reads the run’s <code class="docutils literal notranslate"><span class="pre">acquisition.boost</span></code> settings when there are any, and
+uses the region that belongs to that network (the latest saved at or before its iteration) when
+the run has one. It decides by mixing
+(<code class="docutils literal notranslate"><span class="pre">--mixing</span></code>; by default the run’s own <code class="docutils literal notranslate"><span class="pre">mixing</span></code>, or 0.1 when the run has none) unless
+<code class="docutils literal notranslate"><span class="pre">--barrier-only</span></code> is given. It writes</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RUN_DIR/modes/modes_it_N[_TAG].json</span></code>: for every mode the weight, the evidence and its
+spread, the peak, the mean and standard deviation of every parameter; the mixing test pair
+by pair; and <code class="docutils literal notranslate"><span class="pre">target</span></code>, the identity of what was searched (the hashes of the network and the
+metadata, the domain, the region with its hash and edge), as the chains and evidences
+record it;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RUN_DIR/modes/modes_it_N[_TAG].npz</span></code>: the T = 1 samples of every mode (<code class="docutils literal notranslate"><span class="pre">x0</span></code>, <code class="docutils literal notranslate"><span class="pre">f0</span></code>, <code class="docutils literal notranslate"><span class="pre">x1</span></code>, …),
+<code class="docutils literal notranslate"><span class="pre">weights</span></code>, <code class="docutils literal notranslate"><span class="pre">names</span></code> and the same identity (<code class="docutils literal notranslate"><span class="pre">target_json</span></code>). Together they are the network’s
+posterior: each mode’s samples carry its weight.</p></li>
+</ul>
+<p>The network, the metadata and the region are loaded from one verified private copy
+(<code class="docutils literal notranslate"><span class="pre">sampling.targets.load_snapshot</span></code>): a network written again while the search runs, by a
+training that ends, is not the one the result is recorded for.</p>
+<p>This is also the way to get the weights of a finished run’s modes, which the loop itself does
+not report after its last iteration. It needs no MPI and changes no file of the run outside
+<code class="docutils literal notranslate"><span class="pre">RUN_DIR/modes/</span></code>.</p>
+</section>
+<section id="cost">
+<h2>Cost<a class="headerlink" href="#cost" title="Link to this heading">#</a></h2>
+<p>Nothing when there is one candidate basin. Otherwise one more chain of <code class="docutils literal notranslate"><span class="pre">steps</span></code> and the climbs
+of up to 16 times <code class="docutils literal notranslate"><span class="pre">walkers</span></code> positions: 8192 with the defaults.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>fixed barrier</p></th>
+<th class="head"><p>mixing</p></th>
+<th class="head"><p>of which the test</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>two Gaussians, 16 parameters, two candidate basins</p></td>
+<td><p>5 s</p></td>
+<td><p>5 to 9 s</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>two Gaussians, 58 parameters, two candidate basins</p></td>
+<td><p>34 to 46 s</p></td>
+<td><p>40 to 58 s</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>real SINU network 15 (5 x 512, laptop CPU, tempered chain of 20 000 steps)</p></td>
+<td><p>259 s</p></td>
+<td><p>550 s</p></td>
+<td><p>284 s</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>On a trained network most of it is probably the climbs (each of the 8192 positions climbs for
+600 steps and is then compared with up to 48 maxima of every basin), judging from what the
+other chains of that length cost; that part has not been tuned. The time is printed in the
+log and stored in the report (<code class="docutils literal notranslate"><span class="pre">seconds</span></code>). It is spent on the master while the MPI workers
+sleep, as the rest of the mode search.</p>
+</section>
+<section id="what-is-not-established">
+<h2>What is not established<a class="headerlink" href="#what-is-not-established" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The candidate basins still come from straight paths between maxima, with a low threshold. A
+basin none of the cooled walkers climbed to is not a candidate; positions of the free chain
+found on such a hill are counted (<code class="docutils literal notranslate"><span class="pre">on_no_known_hill</span></code>) and not acted on.</p></li>
+<li><p>The memory is squared from half a chain to the whole on the assumption that it decays
+exponentially. For two basins with one crossing rate it does; for a chain that first crosses
+quickly from the barrier’s edge and then slowly from the cores it underestimates the memory
+that is left.</p></li>
+<li><p>One threshold, 0.1, was used throughout. The decisions above change between memories of
+0.03 and 0.15, so anything from about 0.05 to 0.15 gives the same table.</p></li>
+<li><p>The sampler of the chain is the loop’s ensemble sampler with the stretch move. A network
+sampled afterwards with another sampler mixes differently.</p></li>
+<li><p>More modes at more parameters means fewer points for each from a boost of <code class="docutils literal notranslate"><span class="pre">n</span></code>. With the
+three-maximum ring at 58 parameters each of three modes gets a third.</p></li>
+<li><p>On its own in the loop it has been run for two boosts only, on the analytic twin with short
+settings (the boost, its report, the region built from the modes, the next training and audit):
+a check that the pieces fit, not a study. It has not been studied on a real likelihood: the real
+branches of <a class="reference internal" href="boost.html#two-recommended-settings"><span class="std std-ref">boost.md</span></a> that use it changed it together with
+other settings.</p></li>
+<li><p>With <code class="docutils literal notranslate"><span class="pre">region</span></code> the surrogate is a wall outside the region. When the straight path between two
+maxima leaves the region, the dip printed is the wall’s and says nothing about the chain: in
+the second boost of that short run two basins with 4161 log-units between them by the
+straight path had a memory of 0.03 and were merged.</p></li>
+<li><p>A boost with <code class="docutils literal notranslate"><span class="pre">mixing</span></code> can change the number of modes from one boost to the next (basins
+that begin to mix are merged). The region of <code class="docutils literal notranslate"><span class="pre">acquisition.boost.region</span></code> copes with that by
+construction (an earlier cloud joins the later boost’s mode that it overlaps and whose
+reach its mean lies in, several clouds into one where a later boost finds one mode; see
+<a class="reference internal" href="boost_background_region.html"><span class="std std-doc">boost_background_region.md</span></a>), but on its own that combination has
+only been exercised in the short run above.</p></li>
+</ul>
+</section>
+<section id="files">
+<h2>Files<a class="headerlink" href="#files" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sampling/modes.py</span></code>: <code class="docutils literal notranslate"><span class="pre">find_basins</span></code>, <code class="docutils literal notranslate"><span class="pre">assign_basins</span></code>, <code class="docutils literal notranslate"><span class="pre">mixing_memory</span></code>, <code class="docutils literal notranslate"><span class="pre">modes_by_mixing</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Regions(...,</span> <span class="pre">groups=)</span></code>, <code class="docutils literal notranslate"><span class="pre">posterior_modes(...,</span> <span class="pre">mixing=,</span> <span class="pre">candidate_barrier=)</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sampling/detect.py</span></code>: the <code class="docutils literal notranslate"><span class="pre">modes</span></code> command. <code class="docutils literal notranslate"><span class="pre">config/config.py</span></code>: <code class="docutils literal notranslate"><span class="pre">BoostConfig.mixing</span></code>,
+<code class="docutils literal notranslate"><span class="pre">.candidate_barrier</span></code>. <code class="docutils literal notranslate"><span class="pre">dataset/boost.py</span></code> passes them on.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tests/test_modes_mixing.py</span></code>: basins, memory, grouped regions, the three decisions (far
+apart, a barrier the chain crosses, a barrier it does not), configuration, the command.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="boost_background_region.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Boost with a quadratic background and a region</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="boost_real_lcdm.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-done">What is done</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measurements">Measurements</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-unit-gaussians-a-known-barrier-apart">Two unit Gaussians a known barrier apart</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#curved-modes">Curved modes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#networks">Networks</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-log">Reading the log</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-modes-command">The <code class="docutils literal notranslate"><span class="pre">modes</span></code> command</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cost">Cost</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-not-established">What is not established</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#files">Files</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/_generated/library/docs/boost_modes_mixing.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

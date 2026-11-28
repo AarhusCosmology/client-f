@@ -1,0 +1,20 @@
+training
+========
+
+.. py:module:: training
+
+.. autoapi-nested-parse::
+
+   Selected interfaces in training.
+
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/training/audit/index
+
+

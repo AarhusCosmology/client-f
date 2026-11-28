@@ -1,0 +1,35 @@
+# Guides and reports
+
+These pages are built from the repository originals. Reports describe their measured configurations; they are not automatically new defaults.
+
+```{toctree}
+:maxdepth: 1
+
+_generated/library/AGENTS
+_generated/library/CHANGES
+_generated/library/PERFORMANCE
+_generated/library/README
+_generated/library/UPGRADING
+_generated/library/docs/PROFILES_AND_EVIDENCE
+_generated/library/docs/README
+_generated/library/docs/audit_optima
+_generated/library/docs/augment_training
+_generated/library/docs/boost
+_generated/library/docs/boost_background_region
+_generated/library/docs/boost_modes_mixing
+_generated/library/docs/boost_real_lcdm
+_generated/library/docs/combine
+_generated/library/docs/create_profiles
+_generated/library/docs/create_profiles_2d
+_generated/library/docs/derived_parameters
+_generated/library/docs/evidence
+_generated/library/docs/export
+_generated/library/docs/hybrid_optimisers
+_generated/library/docs/injection_window
+_generated/library/docs/members
+_generated/library/docs/posterior_density_boost
+_generated/library/docs/run_files
+_generated/library/docs/run_recovery
+_generated/library/docs/tempered_convergence
+_generated/library/hpc/README
+```

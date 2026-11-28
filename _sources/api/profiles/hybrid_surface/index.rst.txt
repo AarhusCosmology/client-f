@@ -1,0 +1,41 @@
+profiles.hybrid_surface
+=======================
+
+.. py:module:: profiles.hybrid_surface
+
+.. autoapi-nested-parse::
+
+   Joint two-coordinate hybrid scans and checkpointed residual-Newton refinement.
+
+   Surrogate nodes exchange starts with four grid neighbours. True refinement uses
+   independent rows: each row starts nearest the surrogate anchor and continues in
+   both directions along its second coordinate (with ``chain_length``, from further
+   seeds too). Only a chain's predecessor supplies residual state; scheduling and
+   worker count cannot change that state.
+
+   With ``continuation`` (opt-in) a row's seed is its node nearest a given value of the
+   second coordinate, started from the best training point (or the scan's optimum
+   there), and every other node starts from its predecessor's true optimum instead of
+   the scan's: the network's optima are not used beyond the seeds.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   profiles.hybrid_surface.validate_grid
+   profiles.hybrid_surface.scan_surface_hybrid
+   profiles.hybrid_surface.refine_surface_newton
+
+
+Module Contents
+---------------
+
+.. py:function:: validate_grid(bounds, indices, axes)
+
+.. py:function:: scan_surface_hybrid(model, bounds, data, indices, axes, config, checkpoint=None, *, surrogate=None, log=print)
+
+.. py:function:: refine_surface_newton(model, source, bounds, ledger, out, config, *, surrogate=None, log=print)
+

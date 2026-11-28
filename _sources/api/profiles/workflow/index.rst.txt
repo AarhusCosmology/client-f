@@ -1,0 +1,62 @@
+profiles.workflow
+=================
+
+.. py:module:: profiles.workflow
+
+.. autoapi-nested-parse::
+
+   Orchestrate independently restartable profile stages from an ordinary CLiENT run.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   profiles.workflow.read
+   profiles.workflow.array_save
+   profiles.workflow.preflight
+   profiles.workflow.explicit_grids
+   profiles.workflow.canonical_points
+   profiles.workflow.audit_row_ids
+   profiles.workflow.audit_labels
+   profiles.workflow.run_workflow
+
+
+Module Contents
+---------------
+
+.. py:function:: read(path)
+
+.. py:function:: array_save(path, value)
+
+.. py:function:: preflight(run, config)
+
+.. py:function:: explicit_grids(bounds_map, config)
+
+   The nodes display_grids makes when every range is explicit ("prior" or [low, high]),
+   without the full-range surrogate scan it would otherwise read (only for the 1-sigma
+   crossings it reports, which are null here).
+
+
+.. py:function:: canonical_points(points, bounds, excluded)
+
+   Round inputs before evaluating labels; reject collisions before spending calls.
+
+
+.. py:function:: audit_row_ids(labels, count)
+
+   The saved training rows whose labels the audit recomputes: the ``count`` with the
+   highest label.
+
+
+.. py:function:: audit_labels(ledger, original, bounds, c)
+
+   Recompute a few saved labels with the current backend. The tolerance is absolute in
+   Delta chi-squared, so the rows checked are the best ones: far from the peak two
+   machines' backends differ by more than it without any error in either.
+
+
+.. py:function:: run_workflow(run, output, config, *, resume=False, dry_run=False)
+

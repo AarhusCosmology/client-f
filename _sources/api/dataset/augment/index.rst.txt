@@ -1,0 +1,148 @@
+dataset.augment
+===============
+
+.. py:module:: dataset.augment
+
+.. autoapi-nested-parse::
+
+   python client.py augment RUN --profiles STUDY [--points FILE.csv] [-n 300] [-i N]
+
+   Add true evaluations made elsewhere to a run's training set, through CLiENT's acquisition
+   filter. The sources are profile studies (every true call in STUDY/calls/attempt_*.jsonl) and
+   CSV files with the run's parameters and ``loglkl``.
+
+   Why. The acquisition aims for a training density c L^(1/T), with L estimated by the current
+   network. Where the network is too pessimistic, the region gets too few points and is never
+   corrected. On SINU (Planck + DESI) this hid the strong-coupling peak for six iterations; the
+   true 1D profile in logGeff found it, and its evaluations, added to the training set, taught
+   the network the peak (error there +83 -> +0.5 log-units with all 2845 of them, +8.6 with 300).
+   This needs a direction already known to be a problem, and a profile along it.
+
+   The filter. A training set distributed as c L^(1/T) has the same density wherever L is the
+   same. The density law rho(L) is read off the training set itself: the k-NN number density at
+   every training point (k = acquisition.n_neighbors, the selector's whitening), its median in
+   bins of the points' true log L, made monotone. A candidate with true value L is short of
+   points where the k-NN density of the training set around it is below rho(L), and is kept with
+   the selector's retention factor a = [1 - rho/rho(L)]_+ (dataset/acquisition.py; the paper's
+   eq. 13 with the true likelihood). Both densities come from the same estimator, so its bias in
+   high dimension cancels as it does there. The candidates are visited once, in random order, and
+   each is kept with probability a as it stands when its turn comes: every point kept raises the
+   density its neighbours see, so a tight cluster of profile probes contributes about k points and
+   no more, a real gap (a near 1) is filled, and the noise-level shortfalls that the k-NN estimate
+   shows at about half the candidates of a region already at its target (a of 0.1 - 0.2) are
+   mostly passed over. It stops at -n points.
+
+   Coordinates are compared at the training set's single precision, so points injected earlier
+   are recognised as already present. Candidates below the range the law covers (more than 0.5 T (n + 3 sqrt(2n)) log-units under
+   the best training value; if fewer than 120 training points lie in that range, the range of the
+   best 120, with a warning) are left out, as are points outside the run's domain and exact
+   copies of training points. A candidate above the best training value is judged against the
+   density of the best training points (no extrapolation).
+
+   Output. RUN/augmentation/augment_it_N.csv (the parameters, then loglkl) and augment_it_N.json
+   (sources, counts, the density law, where each point came from). No existing file is changed.
+   When RUN is continued from iteration N the loop adds these points on loading training set N
+   (client.py); from then on they are part of training set N+1 and every later one. Derived parameters of the added
+   points are unknown (NaN), as for any point recorded without them. Delete the two files to undo.
+
+   The first training that includes the points runs a longer schedule
+   (training.augment_schedule_factor, default 3, multiplies lr_patience, lr_grace and patience) and
+   leaves augment_it_N.trained.json; later iterations use the ordinary schedule.
+   --output DIR writes them elsewhere instead, for a trial the run does not see.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dataset.augment.DensityLaw
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   dataset.augment.training_log_density
+   dataset.augment.select_known_points
+   dataset.augment.load_profile_calls
+   dataset.augment.load_points_csv
+   dataset.augment.read_augmentation
+   dataset.augment.pending_augmentations
+   dataset.augment.mark_trained
+   dataset.augment.main
+
+
+Module Contents
+---------------
+
+.. py:function:: training_log_density(dataset)
+
+   k-NN log number density at every training point (the point itself excluded).
+
+
+.. py:class:: DensityLaw(logl, log_rho, temperature, ndim, bins=25, min_count=40)
+
+   log rho as a function of true log L, from the training set: medians in equal-count
+   bins of log L over the range the acquired cloud spans, made non-decreasing.
+
+
+   .. py:attribute:: best
+
+
+   .. py:attribute:: window
+
+
+   .. py:attribute:: extended
+
+
+   .. py:attribute:: centres
+
+
+   .. py:attribute:: counts
+
+
+   .. py:attribute:: values
+
+
+   .. py:attribute:: floor
+
+
+   .. py:method:: summary()
+
+
+.. py:function:: select_known_points(dataset, x, y, n_max, rng=None)
+
+   Indices (in order of selection) of the candidates (x, true log L y) that the training
+   set is short of, by the density-deficit rule described in the module docstring, and a
+   dictionary of diagnostics.
+
+
+.. py:function:: load_profile_calls(study, names)
+
+   Every finished true evaluation of a profile study, in the run's parameter order:
+   (x, y, labels). The study must have used the run's training objective.
+
+
+.. py:function:: load_points_csv(path, names)
+
+.. py:function:: read_augmentation(path, names)
+
+   (inputs, targets) of an augment_it_N.csv, checked against the run's parameters.
+
+
+.. py:function:: pending_augmentations(run_dir, inputs)
+
+   Paths of the augment_it_N.csv files whose points are in the training set ``inputs``
+   and have not yet been trained on (no augment_it_N.trained.json beside them).
+
+
+.. py:function:: mark_trained(paths, iteration, epochs, schedule_factor)
+
+   Record that the points of these augmentation files have had their first training.
+
+
+.. py:function:: main(argv=None)
+

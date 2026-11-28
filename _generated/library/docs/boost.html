@@ -1,0 +1,1568 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Boost: training points from the posterior itself &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=2443c677"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_generated/library/docs/boost';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/_generated/library/docs/boost.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Boost with a quadratic background and a region" href="boost_background_region.html" />
+    <link rel="prev" title="Adding profile points to a run’s training set" href="augment_training.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../AGENTS.html">Contributor guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGES.html">What this version adds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PERFORMANCE.html">CLiENT speed and memory changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UPGRADING.html">Moving from the first CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PROFILES_AND_EVIDENCE.html">Profile likelihoods and Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">CLiENT documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audit_optima.html">Auditing the network’s optima</a></li>
+<li class="toctree-l1"><a class="reference internal" href="augment_training.html">Adding profile points to a run’s training set</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Boost: training points from the posterior itself</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_background_region.html">Boost with a quadratic background and a region</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_modes_mixing.html">Boost: deciding the modes by measured mixing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_real_lcdm.html">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combine.html">Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles.html">Create profiles from a saved CLiENT iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles_2d.html">One two-dimensional profile per run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derived_parameters.html">Derived parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evidence.html">Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Exporting a network: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">export</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hybrid_optimisers.html">Hybrid profile optimisers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injection_window.html">Injection: fitting the quadratic to the points near the best</a></li>
+<li class="toctree-l1"><a class="reference internal" href="members.html">Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="posterior_density_boost.html">Density-filtered posterior boosts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_files.html">A run’s files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_recovery.html">Continuing and recovering a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempered_convergence.html">Convergence of the ordinary loop: the error at the tempered batch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/README.html">Real likelihoods on a cluster</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../library.html" class="nav-link">Guides and reports</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Boost: training points from the posterior itself</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Maintained source: <a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/docs/boost.md">docs/boost.md</a>. Measurements keep their original settings; consult the <a class="reference internal" href="../../../configuration.html"><span class="std std-doc">current defaults</span></a> before starting a new run.</p>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="boost-training-points-from-the-posterior-itself">
+<h1>Boost: training points from the posterior itself<a class="headerlink" href="#boost-training-points-from-the-posterior-itself" title="Link to this heading">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">acquisition.boost</span></code> turns an iteration’s acquisition into a <em>boost</em>: instead of the tempered
+batch, the new training points are posterior samples of the current network (T = 1), the same
+number from every mode. It is meant for the end of a run, once the network is good, and above
+all for posteriors with separated modes, whose relative weights the loop does not otherwise
+get right. The single-mode case is the same step with one mode. Absent from the
+configuration, there is no boost.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">acquisition</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">boost</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span><span class="w">              </span><span class="c1"># true evaluations per boost, shared equally among the modes found</span>
+<span class="w">    </span><span class="nt">start_iteration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span><span class="w">  </span><span class="c1"># from this iteration on, every acquisition is a boost</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mpirun<span class="w"> </span>-n<span class="w"> </span><span class="m">6</span><span class="w"> </span>python<span class="w"> </span>client.py<span class="w"> </span>RUN_DIR<span class="w"> </span>-i<span class="w"> </span><span class="m">2</span><span class="w">    </span><span class="c1"># a finished run, with the block added to its YAML: two boosts</span>
+</pre></div>
+</div>
+<section id="two-recommended-settings">
+<h2>Two recommended settings<a class="headerlink" href="#two-recommended-settings" title="Link to this heading">#</a></h2>
+<p>Which boost settings to use depends on how close the likelihood is to a Gaussian, that is, on
+how well the quadratic background describes it (the evidence is below).</p>
+<p><strong>Near-Gaussian likelihoods</strong> (cosmological parameter estimation of the Planck kind: the LCDM
+runs, the 49-parameter run, HiLLiK). The settings of the reference runs:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">acquisition</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">audit</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span><span class="w">                  </span><span class="c1"># the audit's defaults (docs/audit_optima.md)</span>
+<span class="w">  </span><span class="nt">boost</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3000</span><span class="w">                  </span><span class="c1"># posterior points per boost</span>
+<span class="w">    </span><span class="nt">start_iteration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span><span class="w">      </span><span class="c1"># at the latest: with convergence.metric tempered_batch_scatter the</span>
+<span class="w">                             </span><span class="c1"># boosts begin when the ordinary loop has converged</span>
+<span class="w">    </span><span class="nt">boosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">    </span><span class="nt">density_filter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">pool_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+<span class="w">    </span><span class="nt">background</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">quadratic</span>
+<span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.0</span>
+</pre></div>
+</div>
+<p><strong>Likelihoods known to be non-Gaussian</strong> (oscillations, several modes, curved ridges: the axion
+monodromy run, SINU). The settings of the axion run’s pilot branch:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">acquisition</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">audit</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">chain</span><span class="p">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span><span class="nt"> tau</span><span class="p">:</span><span class="w"> </span><span class="nv">5</span><span class="p p-Indicator">,</span><span class="nt"> posterior</span><span class="p">:</span><span class="w"> </span><span class="nv">150</span><span class="p p-Indicator">}</span><span class="w">   </span><span class="c1"># chain search, threshold 5, posterior pilot</span>
+<span class="w">  </span><span class="nt">boost</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3000</span><span class="w">                  </span><span class="c1"># in the axion run 10 000 per boost did better than 4000 for the same</span>
+<span class="w">                             </span><span class="c1"># number of true calls</span>
+<span class="w">    </span><span class="nt">start_iteration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<span class="w">    </span><span class="nt">boosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">    </span><span class="nt">density_filter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">pool_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+<span class="w">    </span><span class="nt">background</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">quadratic</span>
+<span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.5</span>
+<span class="w">    </span><span class="nt">region_quantile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.999</span><span class="w">   </span><span class="c1"># the region's reach by a quantile, not the farthest point</span>
+<span class="w">    </span><span class="nt">train_domain</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.25</span><span class="w">       </span><span class="c1"># train only near the posterior from the first boost on</span>
+<span class="w">    </span><span class="nt">mixing</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span><span class="w">              </span><span class="c1"># modes decided by measured mixing</span>
+<span class="w">    </span><span class="nt">min_share</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.005</span><span class="w">         </span><span class="c1"># small groups of walkers reach the mixing test</span>
+<span class="w">    </span><span class="nt">mode_depth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span><span class="w">         </span><span class="c1"># T * ndim / 2: leave out "modes" far below the posterior's</span>
+</pre></div>
+</div>
+<p>Both keep the last weights of a boost-phase training. The setting that decides between
+them is the training domain (<a class="reference internal" href="boost_background_region.html#the-training-domain-and-the-quantile-reach-17-october-2026-opt-in"><span class="std std-ref">its section</span></a>).
+With a near-Gaussian likelihood the quadratic background is close to exact, and the far points
+of the tempered training set fix the network’s curvature over a long lever arm; the domain
+leaves them out (31% of the 49-parameter run’s points) and the network’s tails come out too
+high. With an oscillating or multimodal likelihood the same far points set an output scale of
+tens of thousands of log-units against features of a few, and without the domain the network
+does not learn the features at all.</p>
+<p>The evidence: each reference run was branched at its hand-over with the second set, everything
+else unchanged (<code class="docutils literal notranslate"><span class="pre">hpc/analysis/branch_run.py</span> <span class="pre">--set</span></code>), and the error of each network at
+its own boost points compared, network by network (S is the hand-over):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>run (parameters)</p></th>
+<th class="head"><p>reference: S+1 / S+3 / S+6 / last</p></th>
+<th class="head"><p>non-Gaussian settings: S+1 / S+3 / S+6 / last</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>49-parameter (49)</p></td>
+<td><p>0.79 / 0.34 / 0.27 / 0.21</p></td>
+<td><p>2.40 / 0.81 / 0.63 / 0.52</p></td>
+</tr>
+<tr class="row-odd"><td><p>HiLLiK (82)</p></td>
+<td><p>0.47 / 0.29 / 0.24 / 0.22</p></td>
+<td><p>2.56 / 1.63 / 1.44 / 1.44</p></td>
+</tr>
+<tr class="row-even"><td><p>SINU (16, two modes)</p></td>
+<td><p>0.084 / 0.064 / 0.072 / 0.044</p></td>
+<td><p>0.059 / 0.046 / 0.039 / 0.040</p></td>
+</tr>
+<tr class="row-odd"><td><p>ridge (31, analytic)</p></td>
+<td><p>0.059 / 0.037 / 0.021 / 0.017</p></td>
+<td><p>0.144 / 0.037 / 0.023 / 0.018</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>(last: S+9, the last boost of a run, except HiLLiK’s S+8, 18 October 2026.)</p>
+<p>In the 49-parameter branch the error of its first network grew with the depth below the peak
+(+7 on average 30 to 45 log-units down, where the reference’s stayed near zero), and the branch
+stayed 2.2 to 2.5 times the reference from S+3 on. HiLLiK’s first branch network needed four
+audit rounds for false maxima up to +39 far from any training point and the posterior pilot’s
+first fine-tune (mean excess +2.25); from S+5 on its error stayed at 1.4 to 1.5, six times the
+reference’s, with clean audits (highest maximum +0.3): a network less accurate everywhere near
+the posterior, not one misled by false maxima. SINU’s branch was better than its reference at
+every network, the ridge’s equal after one network. In the axion run (24
+parameters, oscillations of a few log-units) the reference settings never learned the
+oscillation: the networks’ profile correlated with the truth’s at +0.35 at best and the main
+peak held 1.6 times an even share of the posterior; with the second set (10 000 points per
+boost) the final error was 0.50, the correlation +0.88, and the main peak’s mass within 6% of
+the truth’s by reweighting the boost points.</p>
+<p>When in doubt, the first set: the reference runs of the table above all used it. The parts of the second
+set other than the training domain and the narrower region (the audit’s chain search and
+posterior pilot, mixing, <code class="docutils literal notranslate"><span class="pre">min_share</span></code>, <code class="docutils literal notranslate"><span class="pre">mode_depth</span></code>, the quantile reach) did no harm in the
+near-Gaussian branches, but they were changed together there and have not been tested one by one.</p>
+<section id="what-the-training-domain-changes-the-output-scale-18-october-2026">
+<h3>What the training domain changes: the output scale (18 October 2026)<a class="headerlink" href="#what-the-training-domain-changes-the-output-scale-18-october-2026" title="Link to this heading">#</a></h3>
+<p>The domain changes three things at the first boost training: the points trained on, the points
+the input normalisation is adapted to, and the output scale (the mean and standard deviation of
+the residual targets, network minus quadratic background). The far design points dominate the
+last: on the 49-parameter run the residual’s standard deviation is 4651 log-units with every
+point and 47 inside the domain. Each run’s first boost network was retrained from
+random weights, on the same training set, with these chosen separately (no true call). Errors
+are network minus truth, rms: near the posterior at the reference run’s last boost points (the
+axion run: its pilot’s boost 17), and on the training’s own held-out tenth within 50 log-units
+of the best (the same rows for every variant: they all lie inside the domain).</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>run (parameters)</p></th>
+<th class="head"><p>no domain</p></th>
+<th class="head"><p>domain, its own scale</p></th>
+<th class="head"><p>domain, all-points scale</p></th>
+<th class="head"><p>domain, all-points normalisation and scale</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>SINU (16)</p></td>
+<td><p></p></td>
+<td><p><strong>0.058</strong> (0.14)</p></td>
+<td><p>0.080 (0.19)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>axion (24)</p></td>
+<td><p>1.22 (1.49)</p></td>
+<td><p><strong>0.37</strong> (0.62)</p></td>
+<td><p>1.08 (1.27)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>ridge (31)</p></td>
+<td><p></p></td>
+<td><p>0.132 (0.18)</p></td>
+<td><p><strong>0.083</strong> (0.09)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>49-parameter (49)</p></td>
+<td><p><strong>0.62</strong> (0.43)</p></td>
+<td><p>1.09 (0.81)</p></td>
+<td><p>0.70 (0.50)</p></td>
+<td><p>0.66 (0.46)</p></td>
+</tr>
+<tr class="row-even"><td><p>HiLLiK (82)</p></td>
+<td><p><strong>0.49</strong> (0.40)</p></td>
+<td><p>1.83 (1.78)</p></td>
+<td><p>1.27 (0.98)</p></td>
+<td><p>1.19 (0.99)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>(Near the posterior; in brackets near the best on the held-out rows. One seed each; the “domain,
+its own scale” variant reproduces the confirmation branches’ own first networks, 0.057 against
+0.059 on SINU, 0.146 against 0.144 on the ridge.)</p>
+<p>The small output scale lets a network fit its training points much more closely (the axion
+run’s: 0.08 in-sample, 0.62 held out). That is what an oscillation of a few log-units needs, and
+it is overfitting where the likelihood has no such structure and the points are sparse: the
+harm grows with the number of parameters. On the 49-parameter run the output scale carries most
+of the effect (the far points’ information is not needed: 0.66 against 0.62); on HiLLiK, in 82
+parameters, the far points’ information matters as well (1.19 against 0.49).</p>
+<p>In every row the variant with the lowest held-out error near the best is the best near the
+posterior. A boost setting that trains the candidates at the first boost training and keeps
+that one would choose between the two recommended settings from the run’s own data. It is not
+built: five likelihoods, one seed each.</p>
+</section>
+<section id="a-region-the-networks-miss-the-axion-run-s-low-omega-corner-18-october-2026">
+<h3>A region the networks miss: the axion run’s low-omega corner (18 October 2026)<a class="headerlink" href="#a-region-the-networks-miss-the-axion-run-s-low-omega-corner-18-october-2026" title="Link to this heading">#</a></h3>
+<p>A long MCMC of a student’s on the same likelihood (Planck TT, 24 parameters, 30 000 samples) puts
+4.5% of the posterior at omega &lt; 3 and 1.8% at omega &lt; 2 and A_osc &gt; 0.015, as high as the bulk
+(about 10 log-units below its best), with n_s 3.3 sigma above the bulk’s, omega_cdm 1.2 sigma and
+ln A_s 0.6 sigma: at omega 1 to 2 the oscillation spans about one period of the observed range of
+k and trades off against the tilt. Our likelihood agrees with his values there to 0.02 (105
+points). The networks of the axion run’s pilot branch,
+minus the truth at his points (medians):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>his points</p></th>
+<th class="head"><p>share</p></th>
+<th class="head"><p>network 8 (hand-over)</p></th>
+<th class="head"><p>9</p></th>
+<th class="head"><p>10</p></th>
+<th class="head"><p>13</p></th>
+<th class="head"><p>18 (last)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>omega &gt;= 5</p></td>
+<td><p>94%</p></td>
+<td><p>-6</p></td>
+<td><p>-1</p></td>
+<td><p>-1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>omega 2 to 3</p></td>
+<td><p>0.9%</p></td>
+<td><p>-14</p></td>
+<td><p>-4</p></td>
+<td><p>-5</p></td>
+<td><p>-4</p></td>
+<td><p>-4</p></td>
+</tr>
+<tr class="row-even"><td><p>omega &lt; 2, A_osc &lt; 0.015</p></td>
+<td><p>1.8%</p></td>
+<td><p>-26</p></td>
+<td><p>-19</p></td>
+<td><p>-24</p></td>
+<td><p>-21</p></td>
+<td><p>-20</p></td>
+</tr>
+<tr class="row-odd"><td><p>omega &lt; 2, A_osc 0.015 to 0.025</p></td>
+<td><p>0.9%</p></td>
+<td><p>-121</p></td>
+<td><p>-127</p></td>
+<td><p>-156</p></td>
+<td><p>-133</p></td>
+<td><p>-127</p></td>
+</tr>
+<tr class="row-even"><td><p>omega &lt; 2, A_osc &gt; 0.025</p></td>
+<td><p>0.8%</p></td>
+<td><p>-235</p></td>
+<td><p>-258</p></td>
+<td><p>-281</p></td>
+<td><p>-233</p></td>
+<td><p>-219</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Network 18’s posterior has 0.5% at omega &lt; 3. About 3.5% of the true posterior is therefore
+missing from the run’s results, and its evidence is low by about 0.04 in ln Z (its quoted error
+is 0.16). Nothing that takes its cue from the network could have found it: at the hand-over the
+training set had one point there within 30 log-units of the best; the boosts draw from the
+network’s posterior; network 18’s region leaves out 83% of his corner points; the audit looks at
+the network’s maxima and the true check where the network puts mass; and the true (A_osc, omega)
+profile, whose nodes start from the network’s optima, ran out of calls there at delta chi2 34 to
+356 against about 12 in his chain. A hotter boost does not reach it either: sampled at T = 3,
+network 9 put 1 of its 256 000 chain rows in the corner (the network’s deficit of 120 to 280 is
+still a factor of e^-40 or less). An annealed start of the boosts (T = 3, 2, 1) helps where a
+network is off by a few times T, not here.</p>
+<p>True evaluations placed without the network did not bring it back either.</p>
+<ul class="simple">
+<li><p><strong>The profile.</strong> A 2D profile continued along the amplitude from zero, with the profile setting
+<code class="docutils literal notranslate"><span class="pre">continuation</span></code> (<a class="reference internal" href="create_profiles_2d.html#continued-rows-continuation"><span class="std std-ref">Continued rows</span></a>), found the
+ridge on some of its rows.</p></li>
+<li><p><strong>Its points in the full-box run.</strong> Added to that run’s training set (<code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">augment</span></code>),
+they were learned themselves. The ridge’s volume around them was not: the networks stayed 70 to
+160 too low there.</p></li>
+</ul>
+<p>What found the corner is domain splitting (<a class="reference internal" href="combine.html"><span class="std std-doc">combine.md</span></a>). A run on ω in [1, 3] alone
+found the ridge with its ordinary tempered loop, without any added points, and after one boost
+matched the long MCMC there to 0.15 to 0.18 rms. Combined with the full-box run’s network, it
+reproduced the MCMC’s posterior mass below ω = 3 to about 0.2 percentage points.</p>
+</section>
+</section>
+<section id="warm-start-is-the-default-random-weights-are-an-option-31-october-2026">
+<h2>Warm start is the default; random weights are an option (31 October 2026)<a class="headerlink" href="#warm-start-is-the-default-random-weights-are-an-option-31-october-2026" title="Link to this heading">#</a></h2>
+<p>In the boosts each network starts from the previous one (<code class="docutils literal notranslate"><span class="pre">training.warm_start:</span> <span class="pre">true</span></code>, the
+default) and keeps its last weights. This stays the
+default. With <code class="docutils literal notranslate"><span class="pre">training.warm_start:</span> <span class="pre">false</span></code> each network starts from random weights and keeps the
+weights with the lowest validation loss. The quadratic
+background and the training domain fitted at the first training with boost points are kept, and
+the region is built as usual. Training takes about 1.5 times as long (52 against 35 minutes at
+120 000 points).</p>
+<p>A run can change to it at any network N, since the setting is not part of the run’s identity: edit
+the copy of the settings in the run’s folder and continue with <code class="docutils literal notranslate"><span class="pre">-s</span> <span class="pre">N</span> <span class="pre">--rewind</span> <span class="pre">--retrain</span></code>, or do
+the same in a branch of the run. The networks before N stay as they are.</p>
+<p>Random weights are for a likelihood on which warm-started networks stop improving. Four
+comparisons on real likelihoods, all with branches from the same network. <em>Boost points</em>: the
+scatter of network minus truth at the boost points of the last two networks with such points, which
+they had not seen. <em>Posterior</em>: the scatter at 500 posterior samples of the final network.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>likelihood</p></th>
+<th class="head"><p>branch from network, final network</p></th>
+<th class="head"><p>boost points, warm</p></th>
+<th class="head"><p>boost points, random</p></th>
+<th class="head"><p>posterior, warm</p></th>
+<th class="head"><p>posterior, random</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Axion monodromy, H0WC, omega in [5.5, 60]</p></td>
+<td><p>8, 21</p></td>
+<td><p>1.25, 1.29</p></td>
+<td><p>0.14, 0.13</p></td>
+<td><p>1.21</p></td>
+<td><p>0.10</p></td>
+</tr>
+<tr class="row-odd"><td><p>The same, omega in [1, 6.1]</p></td>
+<td><p>8, 16</p></td>
+<td><p>0.14, 0.13</p></td>
+<td><p>0.14, 0.14</p></td>
+<td><p>0.08</p></td>
+<td><p>0.12</p></td>
+</tr>
+<tr class="row-even"><td><p>Axion monodromy, PDP+, omega in [2.5, 60]</p></td>
+<td><p>8, 16</p></td>
+<td><p>0.21, 0.22</p></td>
+<td><p>0.39, 0.35</p></td>
+<td><p>0.18</p></td>
+<td><p>0.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>49 parameters, near-Gaussian</p></td>
+<td><p>14, 22</p></td>
+<td><p>0.22, 0.21</p></td>
+<td><p>0.28, 1.2</p></td>
+<td><p>0.21</p></td>
+<td><p>0.30</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Only the first likelihood gains, and there by a factor of ten. On the other three, random weights
+end 1.4 to 2 times less accurate at posterior samples, and they vary more from one network to the
+next: on the last likelihood network 21 scatters by 1.33 at posterior samples, is 1.59 too high on average
+and leaves 119 effective points of 500, between 0.28 and 0.30 at its neighbours, so that a run stopped there
+would have been poor. On those three the evidences agree within 0.2 (one BEST run each).</p>
+<p>There is no automatic switch, since no signal measured so far separates the first case from the
+others. A warm-started training whose validation loss is lowest in its first few epochs occurs in
+the first likelihood, but also in the third, where warm starts work. The audits and the posterior
+pilot were clean on the plateau at 1.3 in the first. What identifies the case is the scatter at
+the boost points levelling off well above that of comparable runs; try a branch with random
+weights from a few networks back and compare.</p>
+<section id="weights-kept-by-a-training-from-random-weights-training-random-start-weights-19-november-2026">
+<h3>Weights kept by a training from random weights (<code class="docutils literal notranslate"><span class="pre">training.random_start_weights</span></code>, 19 November 2026)<a class="headerlink" href="#weights-kept-by-a-training-from-random-weights-training-random-start-weights-19-november-2026" title="Link to this heading">#</a></h3>
+<p>A training of the boost phase that starts from random weights keeps the epoch of its lowest validation loss
+(<code class="docutils literal notranslate"><span class="pre">random_start_weights:</span> <span class="pre">best</span></code>, the default), as the branches in the table did. With <code class="docutils literal notranslate"><span class="pre">last</span></code> it keeps the weights at
+the end of its schedule, as a warm-started training does. It applies to <code class="docutils literal notranslate"><span class="pre">warm_start:</span> <span class="pre">false</span></code>, to the first training
+after the background is fitted and to the members from random weights of <code class="docutils literal notranslate"><span class="pre">training.members</span></code>; the ordinary loop is
+unchanged. The log says “Random start: the last weights are kept” when it acts.</p>
+<p>The lowest validation loss is a poor guide to the error at the posterior, and which choice is better depends on the
+likelihood:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>network trained again from random weights</p></th>
+<th class="head"><p>best epoch</p></th>
+<th class="head"><p>last weights</p></th>
+<th class="head"><p>warm-started network</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Euclid network truth (44 parameters), networks 18, 24, 35, two seeds each: scatter at posterior points</p></td>
+<td><p>2 of 6 kept epoch 159 or 79, twice the error</p></td>
+<td><p>all 6 within 3-10% of the warm-started run</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>analytic egg-box (22 parameters, a comb of 10 x 10 peaks in two that the networks had not resolved), network 7, two seeds: error along the 20 Gaussian directions</p></td>
+<td><p>0.29, 0.31 (epochs 131, 101)</p></td>
+<td><p>0.38, 0.53 (epochs 454, 488)</p></td>
+<td><p>2.11</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>On the egg-box the early epoch had not yet fitted the unresolved comb as noise, which the warm-started network had
+done along the Gaussian directions. Opt-in until branches of whole runs have measured it.</p>
+</section>
+</section>
+<section id="optional-posterior-density-filter">
+<h2>Optional posterior density filter<a class="headerlink" href="#optional-posterior-density-filter" title="Link to this heading">#</a></h2>
+<p>Set <code class="docutils literal notranslate"><span class="pre">density_filter:</span> <span class="pre">true</span></code> and optionally <code class="docutils literal notranslate"><span class="pre">pool_factor:</span> <span class="pre">20</span></code> in the boost block to
+filter against a balanced T=1 mode mixture using all existing genuine data. The
+accepted split may differ between modes; <code class="docutils literal notranslate"><span class="pre">n</span></code> is an accepted-point request and
+underfilled batches are not topped up. Filtered reports omit the unweighted true
+mode-weight correction because selected rows are not posterior draws. The default
+is unfiltered. See <a class="reference internal" href="posterior_density_boost.html"><span class="std std-doc">configuration, results and limitations</span></a>.</p>
+<p>Keep audit enabled. The native loop can continue after an uncleared audit;
+the analytic Gaussian study was stopped for precisely this reason. Monitor the
+saved audit status before further acquisition; the loop does not gate on it.
+The algorithm and weight-correction discussion below describe the default
+unfiltered path.</p>
+</section>
+<section id="optional-quadratic-background-and-region">
+<h2>Optional quadratic background and region<a class="headerlink" href="#optional-quadratic-background-and-region" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">background:</span> <span class="pre">quadratic</span></code> and <code class="docutils literal notranslate"><span class="pre">region:</span> <span class="pre">2.0</span></code> change what a boost run trains and where its chains
+and audit look: a fixed quadratic under the network, one cold start, and the region the boost
+points reach. Both are off by default. See
+<a class="reference internal" href="boost_background_region.html"><span class="std std-doc">boost_background_region.md</span></a> for the layout, the measurements and
+what is not established. That document’s measurements are on analytic likelihoods; the first
+runs with both keys on a real one, ΛCDM on Planck + DESI, are in
+<a class="reference internal" href="boost_real_lcdm.html"><span class="std std-doc">boost_real_lcdm.md</span></a>.</p>
+</section>
+<section id="optional-the-modes-decided-by-measured-mixing">
+<h2>Optional: the modes decided by measured mixing<a class="headerlink" href="#optional-the-modes-decided-by-measured-mixing" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">mixing:</span> <span class="pre">0.1</span></code> replaces the fixed <code class="docutils literal notranslate"><span class="pre">barrier</span></code> of step 1 below by a test: maxima are grouped into
+candidate basins with a low barrier, a free T = 1 chain of the boost’s own length is run, and
+two basins are one mode when that chain has forgotten which of them its walkers started in.
+How high a barrier a chain crosses depends on the number of parameters (6 log-units with 16,
+no longer 4 with 58, measured), and the straight path between two maxima of a curved mode can
+dip far more than the chain has to. Off by default. <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">client.py</span> <span class="pre">modes</span> <span class="pre">RUN_DIR</span></code> runs the
+same analysis on any saved network. See <a class="reference internal" href="boost_modes_mixing.html"><span class="std std-doc">boost_modes_mixing.md</span></a>.</p>
+</section>
+<section id="why">
+<h2>Why<a class="headerlink" href="#why" title="Link to this heading">#</a></h2>
+<p>The loop draws its batches from the network at the acquisition temperature T. In n dimensions
+such a batch lies about T n / 2 log-units under the peak; the posterior lies n / 2 under it.
+At T = 7 and 16 parameters a batch of 2000 puts about 7 points where the posterior is, and the
+injected points are drawn at T as well. On the final SINU run (Planck + DESI DR2, 34 272
+training points at iteration 15) 226 points lay within 15 log-units of the peak; 153 of them
+came from the profile stage and lie on one curve. The loss scale stayed at c = 19.2 log-units,
+and the final validation loss corresponds to an error of about 0.6 log-units in the core,
+which is what is measured there.</p>
+<p>The network’s level in the core of a mode is therefore an extrapolation from the shell around
+it. For one mode a constant offset changes nothing. For modes that a chain cannot travel
+between, it sets their weights.</p>
+<p>Write L for the true likelihood, f for the network’s log-likelihood, R_k for the region of
+mode k, and D = log L - f. The evidence of mode k is</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Z_k = integral over R_k of L,        Zhat_k = integral over R_k of exp(f)    (the network's),
+</pre></div>
+</div>
+<p>and, with q_k the network’s posterior restricted to R_k (density exp(f) / Zhat_k),</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Z_k = Zhat_k &lt;exp(D)&gt;_{q_k}.                                                  (1)
+</pre></div>
+</div>
+<p>The weight of mode k is Z_k / sum_j Z_j. So the odds of two modes under the network are wrong
+by the factor exp(delta), delta being the difference between the two modes of
+log &lt;exp(D)&gt;: a difference of the network’s error between the two cores. On six good SINU
+networks |delta| was 0.03 to 0.81:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>network</p></th>
+<th class="head"><p>strong-mode weight, network</p></th>
+<th class="head"><p>bias between modes, delta</p></th>
+<th class="head"><p>weight by (1)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>final run, iteration 15</p></td>
+<td><p>12.7%</p></td>
+<td><p>+0.81</p></td>
+<td><p>24.7%</p></td>
+</tr>
+<tr class="row-odd"><td><p>long training on every iteration, iteration 10</p></td>
+<td><p>38.1%</p></td>
+<td><p>-0.59</p></td>
+<td><p>25.5%</p></td>
+</tr>
+<tr class="row-even"><td><p>iteration 15 trained once more on the same data</p></td>
+<td><p>35.7%</p></td>
+<td><p>-0.60</p></td>
+<td><p>23.3%</p></td>
+</tr>
+<tr class="row-odd"><td><p>the same plus 586 posterior points</p></td>
+<td><p>20.3%</p></td>
+<td><p>+0.31</p></td>
+<td><p>25.8%</p></td>
+</tr>
+<tr class="row-even"><td><p>the same plus 2903 posterior points</p></td>
+<td><p>23.2%</p></td>
+<td><p>-0.03</p></td>
+<td><p>22.8%</p></td>
+</tr>
+<tr class="row-odd"><td><p>the same plus 2903, loss scale c = 8</p></td>
+<td><p>23.9%</p></td>
+<td><p>+0.16</p></td>
+<td><p>26.8%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Three things follow from the table. The networks disagree by a factor of three and one more
+training on identical data moved the weight from 12.7% to 35.7%: the existing data do not pin
+the weights down. Identity (1), with 300 true values per mode, brings all six to 24.8% with a
+spread of 1.5 points. And true values at posterior samples, added to the training set, remove
+the bias itself. The boost does both of the last two in one step.</p>
+</section>
+<section id="what-a-boost-iteration-does">
+<h2>What a boost iteration does<a class="headerlink" href="#what-a-boost-iteration-does" title="Link to this heading">#</a></h2>
+<ol class="arabic">
+<li><p><strong>Modes</strong> (<code class="docutils literal notranslate"><span class="pre">sampling/modes.py</span></code>; no true calls). An ensemble started on the iteration’s
+tempered chain is cooled to T = 1 through a ladder of temperatures. Every walker then climbs
+to its local maximum (projected gradient ascent in box units). Two maxima belong to the same
+mode when the straight path between them never dips more than <code class="docutils literal notranslate"><span class="pre">barrier</span></code> log-units (default
+4, a Delta chi^2 of 8) below the lower of the two; the connected groups are the modes, and a
+walker belongs to the mode of its maximum. Groups with less than <code class="docutils literal notranslate"><span class="pre">min_share</span></code> of the walkers
+are left out, as is a climb that ended more than <code class="docutils literal notranslate"><span class="pre">barrier</span></code> under a maximum it is joined to
+(it stalled on a slope or a saddle). Both are counted in the log.</p>
+<p>The maxima are compared, not the walkers. A T = 1 walker sits about n / 2 log-units under its
+peak, so the path between two walkers of different modes need not dip below them at all; and
+a walker stranded on the barrier is joined to both sides.</p>
+</li>
+<li><p><strong>Samples.</strong> Each mode gets its own T = 1 chain, started on its walkers and confined to its
+region R_k: the points for which the mode’s Gaussian, fitted to its T = 1 walkers, is the
+nearest (Mahalanobis distance plus log-determinant). Between separated modes that boundary
+runs through the barrier, where there is no posterior to speak of.</p></li>
+<li><p><strong>Points.</strong> <code class="docutils literal notranslate"><span class="pre">n</span></code> divided equally among the modes (the first modes get the remainder), drawn
+at random from those chains, are evaluated with the true likelihood and join the training
+set as a batch does. A boost iteration has no tempered batch and no injection: its true
+calls are the <code class="docutils literal notranslate"><span class="pre">n</span></code> asked for. The split is equal whatever the weights, so that each
+&lt;exp(D)&gt; in (1) is known equally well, and because the mode the network under-rates is the
+one a proportional split would starve.</p></li>
+<li><p><strong>Weights.</strong> Zhat_k comes from bridge sampling (Meng and Wong) between the mode’s chain and
+a Gaussian mixture g fitted to the walkers of one half of it, widened by 1.3 in variance and
+cut to R_k: with l = exp(f) / g, N1 samples x of the other half’s walkers and N2 draws y of
+g, s1 = N1 / (N1 + N2) and s2 = N2 / (N1 + N2), it is the fixed point of</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Zhat = [ (1/N2) sum_y l(y) / (s1 l(y) + s2 Zhat) ] / [ (1/N1) sum_x 1 / (s1 l(x) + s2 Zhat) ].
+</pre></div>
+</div>
+<p>The log reports the weights Zhat_k / sum Zhat as the network has them, the spread of
+log Zhat_k over three halvings of the walkers, and the efficiency of g as an importance
+proposal.</p>
+<p>The x must be points g was not fitted to. A mixture lies higher at the points it was fitted
+to than at other draws of the posterior, so that l(x) is too small there and Zhat too low.
+Until 21 November 2026 the two halves were random rows of the chain, and a walker’s
+successive stored rows are nearly the same point when its autocorrelation time spans many
+of them. On two 44-parameter Euclid networks (512 walkers, 10 000 steps, thin 20: 256 000
+rows, an autocorrelation time of 675 steps, some 7600 independent rows) random rows gave
+ln Zhat 0.27 and 0.26 below halves by walker, halves by time and importance sampling with
+the widened mixture, which agreed to 0.01, with a spread over the repeats of 0.01. On AR(1)
+chains in 16 parameters (<code class="docutils literal notranslate"><span class="pre">tests/test_bridge_split.py</span></code>; 64 walkers of 1000 rows, an
+autocorrelation time of 199 rows) random rows were 0.16 low over 20 seeds, halves by walker
+0.004 +- 0.019, and the spread of the walker halvings, 0.019 on average, is the scatter
+between the seeds. Network 32 of the physical Euclid run, its boost chain run again, now gives
+6.466 +- 0.011 over three calls, where random rows gave 6.194 on the same chain and the boost
+itself 6.168. Fitted to half the walkers, the mixture is a somewhat poorer proposal: its
+efficiency was 0.088 there against 0.114 with random rows, and 0.53 against 0.61 on 16-parameter
+chains of 64 walkers and 4000 steps.
+Then (1) with the boost’s true values gives the corrected weights, and the effective number
+of points behind each mean, (sum w)^2 / sum w^2 with w = exp(D).</p>
+<p>A point the likelihood refused, one that came back as −inf or with the run’s refused
+value, is a point where the true posterior is zero: it has weight zero and stays in the
+denominator of its mode’s mean, as in the true check (<code class="docutils literal notranslate"><span class="pre">hpc/analysis/true_check.py</span></code>), and the report counts
+it (<code class="docutils literal notranslate"><span class="pre">zero_density</span></code>, <code class="docutils literal notranslate"><span class="pre">refused</span></code>; the log says how many). A point without any value (NaN,
++inf) is another matter: what its mode’s mean would have been is not known, and one such
+point withholds the corrected weights of every mode: the report has
+<code class="docutils literal notranslate"><span class="pre">evidence_correction_valid:</span> <span class="pre">false</span></code>, <code class="docutils literal notranslate"><span class="pre">correction_withheld_reason</span></code> and the count (<code class="docutils literal notranslate"><span class="pre">failed</span></code>),
+and the log says so. Refused points are not dropped: dropping them and normalising the rest
+over-rates a mode with refused points. The pooled error of the boost is reported either
+way, with the points left out counted.</p>
+</li>
+</ol>
+<p>With one mode, steps 1 and 2 are a T = 1 chain and the boost is <code class="docutils literal notranslate"><span class="pre">n</span></code> posterior samples.</p>
+<section id="a-network-without-a-mode">
+<h3>A network without a mode<a class="headerlink" href="#a-network-without-a-mode" title="Link to this heading">#</a></h3>
+<p>Step 1 can end with no mode: no group of cooled walkers reaches <code class="docutils literal notranslate"><span class="pre">min_share</span></code>. This is what a
+network far from converged looks like, with a surface so rough that nearly every walker
+climbs to a maximum of its own; it was met on a real likelihood whose boosts began while the
+network was still some 15 log-units off at its tempered batch, two iterations after the
+first boost. Such a network has no posterior to draw from. The iteration then acquires as an
+ordinary one does (the tempered batch of <code class="docutils literal notranslate"><span class="pre">acquisition.n_append</span></code> points, and the injected points
+if configured), which is what such a network needs, and says so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Boost</span><span class="p">:</span> <span class="mi">3000</span> <span class="n">posterior</span> <span class="n">samples</span> <span class="n">of</span> <span class="n">the</span> <span class="n">network</span> <span class="p">(</span><span class="n">T</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">place</span> <span class="n">of</span> <span class="n">the</span> <span class="n">tempered</span> <span class="n">batch</span>
+   <span class="n">no</span> <span class="n">group</span> <span class="n">of</span> <span class="n">the</span> <span class="mi">512</span> <span class="n">cooled</span> <span class="n">walkers</span> <span class="n">reaches</span> <span class="n">min_share</span> <span class="p">(</span><span class="mf">0.02</span><span class="p">):</span> <span class="n">no</span> <span class="n">mode</span> <span class="n">found</span><span class="o">.</span> <span class="n">The</span> <span class="n">network</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">ready</span> <span class="k">for</span> <span class="n">a</span> <span class="n">boost</span><span class="p">:</span> <span class="n">this</span> <span class="n">iteration</span> <span class="n">acquires</span> <span class="k">as</span> <span class="n">an</span> <span class="n">ordinary</span> <span class="n">one</span> <span class="n">does</span> <span class="n">instead</span>
+<span class="n">Selecting</span> <span class="mi">3000</span> <span class="n">new</span> <span class="n">samples</span> <span class="kn">from</span><span class="w"> </span><span class="nn">surrogate</span> <span class="n">chain</span>
+</pre></div>
+</div>
+<p>The next iteration tries a boost again, with the network trained on those points.
+<code class="docutils literal notranslate"><span class="pre">RUN/boost/fallback_it_N.json</span></code> records the iteration; it has no <code class="docutils literal notranslate"><span class="pre">boost_it_N</span></code> files, and its
+error is reported as that of a tempered batch. In the boost phase a tempered chain runs
+inside the region when one is configured, so the batch of such an iteration comes from
+there. Any other error in a boost still stops the run.</p>
+<p>A boost that falls back is a sign that the boosts began too early: read the error at the
+tempered batch before <code class="docutils literal notranslate"><span class="pre">start_iteration</span></code> (README, convergence section) and the error at the
+first boosts.</p>
+<p>The next network is trained on the combined set in the ordinary way (warm start, ordinary
+schedule, the audit if configured).</p>
+<p>The weights are not taken from the tempered chain. Its split between the modes, reweighted or
+cooled to T = 1, was wrong by about 0.2 in log-odds per network (six estimates of one number
+spread by 0.21, although each walker crossed the barrier some fifty times); the per-mode
+evidences bring that spread to 0.06, and three independent evaluations of one network gave
+13.2%, 13.5% and 13.9%.</p>
+</section>
+</section>
+<section id="reading-the-report">
+<h2>Reading the report<a class="headerlink" href="#reading-the-report" title="Link to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Boost</span><span class="p">:</span> <span class="mi">1000</span> <span class="n">posterior</span> <span class="n">samples</span> <span class="n">of</span> <span class="n">the</span> <span class="n">network</span> <span class="p">(</span><span class="n">T</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">place</span> <span class="n">of</span> <span class="n">the</span> <span class="n">tempered</span> <span class="n">batch</span>
+   <span class="n">cooled</span> <span class="mi">512</span> <span class="n">walkers</span> <span class="kn">from</span><span class="w"> </span><span class="nn">T</span> <span class="o">=</span> <span class="mi">7</span> <span class="n">through</span> <span class="mf">4.3</span><span class="p">,</span> <span class="mf">2.65</span><span class="p">,</span> <span class="mf">1.63</span><span class="p">,</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">climbed</span><span class="p">:</span> <span class="mi">2</span> <span class="n">modes</span> <span class="p">(</span><span class="n">barrier</span> <span class="mi">4</span> <span class="n">log</span><span class="o">-</span><span class="n">units</span><span class="p">);</span> <span class="mi">4</span> <span class="n">walkers</span> <span class="ow">in</span> <span class="n">smaller</span> <span class="n">groups</span> <span class="n">left</span> <span class="n">out</span>
+   <span class="n">mode</span> <span class="mi">1</span><span class="p">:</span> <span class="n">weight</span> <span class="mf">86.5</span><span class="o">%</span> <span class="p">(</span><span class="n">log</span> <span class="n">evidence</span> <span class="o">-</span><span class="mf">5340.55</span> <span class="o">+-</span> <span class="mf">0.06</span><span class="p">,</span> <span class="n">proposal</span> <span class="n">efficiency</span> <span class="mf">0.44</span><span class="p">);</span> <span class="mi">397</span> <span class="n">walkers</span><span class="p">;</span> <span class="n">highest</span> <span class="n">value</span> <span class="o">-</span><span class="mf">5293.81</span>
+   <span class="n">mode</span> <span class="mi">2</span><span class="p">:</span> <span class="n">weight</span> <span class="mf">13.5</span><span class="o">%</span> <span class="p">(</span><span class="n">log</span> <span class="n">evidence</span> <span class="o">-</span><span class="mf">5342.41</span> <span class="o">+-</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">proposal</span> <span class="n">efficiency</span> <span class="mf">0.53</span><span class="p">);</span> <span class="mi">111</span> <span class="n">walkers</span><span class="p">;</span> <span class="n">highest</span> <span class="n">value</span> <span class="o">-</span><span class="mf">5294.53</span>
+   <span class="mi">1000</span> <span class="n">boost</span> <span class="n">points</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">500</span> <span class="n">per</span> <span class="n">mode</span>
+   <span class="n">mode</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">500</span> <span class="n">true</span> <span class="n">values</span><span class="p">;</span> <span class="n">network</span> <span class="n">minus</span> <span class="n">truth</span> <span class="o">+</span><span class="mf">1.39</span> <span class="p">(</span><span class="n">sd</span> <span class="mf">0.48</span><span class="p">),</span> <span class="mi">406</span> <span class="n">effective</span> <span class="n">points</span><span class="p">;</span> <span class="n">weight</span> <span class="mf">86.5</span><span class="o">%</span> <span class="o">-&gt;</span> <span class="mf">74.6</span><span class="o">%</span> <span class="k">with</span> <span class="n">the</span> <span class="n">true</span> <span class="n">values</span>
+   <span class="n">mode</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">500</span> <span class="n">true</span> <span class="n">values</span><span class="p">;</span> <span class="n">network</span> <span class="n">minus</span> <span class="n">truth</span> <span class="o">+</span><span class="mf">0.79</span> <span class="p">(</span><span class="n">sd</span> <span class="mf">0.74</span><span class="p">),</span> <span class="mi">235</span> <span class="n">effective</span> <span class="n">points</span><span class="p">;</span> <span class="n">weight</span> <span class="mf">13.5</span><span class="o">%</span> <span class="o">-&gt;</span> <span class="mf">25.4</span><span class="o">%</span> <span class="k">with</span> <span class="n">the</span> <span class="n">true</span> <span class="n">values</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Effective points.</strong> If D is roughly Gaussian with spread s, the relative error of
+&lt;exp(D)&gt; from N points is sqrt((exp(s^2) - 1) / N): 3% for s = 0.5 and N = 300, and growing
+fast beyond s of about 1. When the network is off by more than about a log-unit on its own
+samples a few points carry the average, the corrected weight is not to be trusted, and it
+tends to come out low for that mode. Three iteration-10 SINU networks, with spreads of 1.3 to 4.7, had
+2 to 63 effective points of 300 and corrected weights from 0.6% to 12%. The points are still
+training data, but the boost came early.</p></li>
+<li><p><strong>Proposal efficiency</strong> of the mixture: near zero means the mode is far from a mixture of
+<code class="docutils literal notranslate"><span class="pre">components</span></code> Gaussians and its evidence is uncertain; so does a large spread of the log
+evidence.</p></li>
+<li><p><strong>Walkers</strong> per mode are the tempered chain’s split, not the weights.</p></li>
+<li><p><strong>Network minus truth</strong> is the plain mean; the correction uses the mean of exp(D), which a
+larger spread raises.</p></li>
+</ul>
+<section id="the-error-at-the-boost-points-and-when-to-stop">
+<h3>The error at the boost points, and when to stop<a class="headerlink" href="#the-error-at-the-boost-points-and-when-to-stop" title="Link to this heading">#</a></h3>
+<p>A boost’s points are evaluated with the true likelihood, and the network that drew them had
+not been trained on them. After the lines above every boost prints the network against the
+truth over all its points, and from the second boost of a run on, the scatter of every boost
+so far:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   <span class="n">network</span> <span class="mi">4</span> <span class="n">at</span> <span class="n">its</span> <span class="n">boost</span> <span class="n">points</span><span class="p">,</span> <span class="n">which</span> <span class="n">it</span> <span class="n">had</span> <span class="ow">not</span> <span class="n">seen</span><span class="p">:</span> <span class="n">network</span> <span class="n">minus</span> <span class="n">truth</span> <span class="n">rms</span> <span class="mf">3.01</span> <span class="p">(</span><span class="n">mean</span> <span class="o">+</span><span class="mf">2.14</span><span class="p">,</span> <span class="n">scatter</span> <span class="mf">2.12</span><span class="p">,</span> <span class="n">largest</span> <span class="mf">9.76</span><span class="p">)</span> <span class="n">at</span> <span class="mi">300</span> <span class="n">points</span>
+   <span class="n">scatter</span> <span class="n">at</span> <span class="n">the</span> <span class="n">boost</span> <span class="n">points</span><span class="p">,</span> <span class="n">boost</span> <span class="n">by</span> <span class="n">boost</span><span class="p">:</span> <span class="mf">2.17</span><span class="p">,</span> <span class="mf">23.9</span><span class="p">,</span> <span class="mf">2.12</span>
+</pre></div>
+</div>
+<p>(the format, from a 16-parameter analytic test whose boosts were started after two
+iterations on purpose; the middle value is the network that <code class="docutils literal notranslate"><span class="pre">background:</span> <span class="pre">quadratic</span></code> trains
+from random weights at the first training with boost points). The same numbers are in <code class="docutils literal notranslate"><span class="pre">error</span></code> of
+<code class="docutils literal notranslate"><span class="pre">RUN/boost/boost_it_N.json</span></code> and, as <code class="docutils literal notranslate"><span class="pre">held_out_*</span></code>, in the acquisition entries of the run’s
+<code class="docutils literal notranslate"><span class="pre">metrics.json</span></code>; <code class="docutils literal notranslate"><span class="pre">dataset.boost.boost_errors(RUN</span> <span class="pre">/</span> <span class="pre">&quot;boost&quot;)</span></code> returns the scatter of every
+boost of a run.</p>
+<p>This is what there is to decide on whether another boost is worth its true calls. No
+boost stops on it: the number of boosts is the <code class="docutils literal notranslate"><span class="pre">-i</span></code> of the run, its <code class="docutils literal notranslate"><span class="pre">max_iterations</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">acquisition.boost.boosts</span></code>. The convergence criterion of the ordinary loop
+(<a class="reference internal" href="tempered_convergence.html"><span class="std std-doc">tempered_convergence.md</span></a>) decides when the boosts begin and is
+never applied to a boost.</p>
+<ul class="simple">
+<li><p><strong>Scatter, not rms.</strong> A constant offset between network and truth changes no posterior of
+a single mode; the rms contains it and the scatter does not. With several modes the offset
+matters between them, and the per-mode lines and corrected weights above are what to read.</p></li>
+<li><p><strong>What a scatter s costs.</strong> For a roughly Gaussian D the network’s posterior and the true
+one differ by a Kullback-Leibler divergence of about s^2 / 2, and reweighting N samples of
+the network to the truth leaves about N exp(-s^2) effective ones: 78% for s = 0.5, 37% for
+s = 1, 2% for s = 2. The largest error says whether a few points carry more than that.</p></li>
+<li><p><strong>When it stops falling.</strong> The scatter of boost N belongs to network N, which was trained
+with the boosts before it. A sequence that has levelled off says that further boosts of
+this size no longer change the network where its posterior is.</p></li>
+<li><p><strong>With the density filter</strong> the points are the posterior samples the training set was short
+of, not a posterior draw, so the per-mode correction is withheld (above) while this error is
+still reported: it is the network’s error at the points chosen, which lean towards where the
+training set is thin. For the error at plain posterior samples evaluate the truth at a draw
+of a finished network’s chain (<code class="docutils literal notranslate"><span class="pre">hpc/analysis/true_check.py</span></code> does this on a cluster).</p></li>
+<li><p>A point the likelihood could not evaluate is left out and counted (<code class="docutils literal notranslate"><span class="pre">...</span> <span class="pre">at</span> <span class="pre">299</span> <span class="pre">points,</span> <span class="pre">1</span> <span class="pre">left</span> <span class="pre">out</span></code>), also when a launcher gave it a finite value to train on.</p></li>
+</ul>
+</section>
+</section>
+<section id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>key</p></th>
+<th class="head"><p>default</p></th>
+<th class="head"><p>meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
+<td><p>required</p></td>
+<td><p>true evaluations per boost, shared equally among the modes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">start_iteration</span></code></p></td>
+<td><p>required</p></td>
+<td><p>first iteration whose acquisition is a boost; with <code class="docutils literal notranslate"><span class="pre">convergence.metric:</span> <span class="pre">tempered_batch_scatter</span></code> and no <code class="docutils literal notranslate"><span class="pre">-i</span></code>, the latest one: the boosts begin when the ordinary loop has converged (<a class="reference internal" href="tempered_convergence.html"><span class="std std-doc">tempered_convergence.md</span></a>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">boosts</span></code></p></td>
+<td><p>null</p></td>
+<td><p>opt-in: the run ends after this many boosts (ignored when <code class="docutils literal notranslate"><span class="pre">-i</span></code> gives its length)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">barrier</span></code></p></td>
+<td><p>4.0</p></td>
+<td><p>log-units; maxima joined by a straight path that dips less are one mode</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">min_share</span></code></p></td>
+<td><p>0.02</p></td>
+<td><p>a mode needs this share of the cooled walkers; with none, the iteration is an ordinary one</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">walkers</span></code></p></td>
+<td><p>512</p></td>
+<td><p>ensemble for the cooling and for each mode’s chain</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cool_steps</span></code></p></td>
+<td><p>2000</p></td>
+<td><p>steps at each temperature on the way down</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">steps</span></code></p></td>
+<td><p>10000</p></td>
+<td><p>steps of each mode’s T = 1 chain, after a fifth more as burn-in</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">components</span></code></p></td>
+<td><p>6</p></td>
+<td><p>Gaussians in the mixture each mode’s evidence is bridged to</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mixing</span></code></p></td>
+<td><p>null</p></td>
+<td><p>opt-in, 0.1 tested: decide the modes by a free T = 1 chain; basins whose memory after <code class="docutils literal notranslate"><span class="pre">steps</span></code> is at most this are one mode (<a class="reference internal" href="boost_modes_mixing.html"><span class="std std-doc">boost_modes_mixing.md</span></a>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">candidate_barrier</span></code></p></td>
+<td><p>1.0</p></td>
+<td><p>with <code class="docutils literal notranslate"><span class="pre">mixing</span></code>: log-units; maxima joined by a path that dips less are one basin without a test</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mode_depth</span></code></p></td>
+<td><p>null</p></td>
+<td><p>opt-in, log-units or <code class="docutils literal notranslate"><span class="pre">auto</span></code> (T * ndim / 2, T = <code class="docutils literal notranslate"><span class="pre">sampling.temperature</span></code>): a mode whose highest maximum lies more than this below the highest mode’s is left out before its chain is run (below)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">balance_floor</span></code></p></td>
+<td><p>null</p></td>
+<td><p>opt-in, a weight in (0, 1]: a mode lighter than this gets its equal share times its weight over the floor; heavier modes share equally, as without it (below)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">mode_depth</span></code>. Every mode gets the same number of points whatever its weight,
+so a “mode” far down in the tail costs as much as the posterior. The first boost of a branch of
+the axion run (24 parameters; mixing with <code class="docutils literal notranslate"><span class="pre">min_share</span></code> 0.005, before any region) found one 1030
+log-units below the posterior’s peak, with weight 0, in a corner where the likelihood refuses
+every point: 1978 of its 4000 points were refused, and the network after it trained on half
+the usual number. A mode that deep has no posterior weight to measure; T * ndim / 2 of the
+ordinary loop (84 there) is a natural depth, and <code class="docutils literal notranslate"><span class="pre">mode_depth:</span> <span class="pre">auto</span></code> sets it. The info of the mode search lists what was left
+out (<code class="docutils literal notranslate"><span class="pre">deep_modes</span></code>: walkers, highest maximum, depth); without the key it has no such entry.</p>
+<p><code class="docutils literal notranslate"><span class="pre">balance_floor</span></code>. With <code class="docutils literal notranslate"><span class="pre">min_share</span></code> 0.005, as in the setting for non-Gaussian
+likelihoods, a group of three walkers can become a mode, and its equal share is then as large as
+the posterior’s. The posterior pilot cannot check such a mode: a 1% mode has one or two of its 150
+walkers. In the H0WC axion run (22 parameters) network 8 found two modes of 1.3% and 1.1% (6 and 7
+of 512 walkers) beside one of 97.6%; the density filter gave them 4164 and 4376 of the 10 000
+points against 1460 for the posterior’s mode, the network was 2.0 and 13.4 too high on average at
+their points, and network 9, trained on them, was off by 3.5 at its own boost points (spread of
+network minus truth) against 1.5 for network 7, before network 10 came back to 2.1. Over the 77 boosts with several modes in the cluster runs of October 2026, the modes
+below 5% of the weight (0.8% together, in the median) received a median of 55% of the points.
+<code class="docutils literal notranslate"><span class="pre">balance_floor:</span> <span class="pre">f</span></code> gives mode k the share min(w_k / f, 1) of an equal one, w_k its weight from
+the evidences, scaled so that the largest is 1: modes at or above the floor share equally (the
+rule above for modes whose weight the network may get wrong), a lighter one in proportion to its
+weight. With 0.1 the two H0WC modes would have had 13% and 11% of an equal share; SINU’s strong
+mode (10.6% in its least favourable network) and the H0WC low-frequency run’s second mode (9.5%
+at its first boost, then about 30%) keep, or nearly keep, theirs. In the filtered boost the clouds of <code class="docutils literal notranslate"><span class="pre">select_posterior_boost</span></code> are cut to their
+shares (the target is the mixture weighted by them); in the unfiltered one the counts are. Each
+mode keeps at least one point. Without the key every mode has the equal share (<code class="docutils literal notranslate"><span class="pre">tests/test_boost.py</span></code>,
+<code class="docutils literal notranslate"><span class="pre">tests/test_posterior_boost.py</span></code>), and the record has no
+<code class="docutils literal notranslate"><span class="pre">share</span></code>; with it each mode’s entry in <code class="docutils literal notranslate"><span class="pre">boost_it_N.json</span></code> has its <code class="docutils literal notranslate"><span class="pre">share</span></code>, and the log a line when a
+share is below one.</p>
+<p>Files: <code class="docutils literal notranslate"><span class="pre">RUN/boost/boost_it_N.csv</span></code> (the parameters, <code class="docutils literal notranslate"><span class="pre">loglkl</span></code>, the network’s value <code class="docutils literal notranslate"><span class="pre">predicted</span></code>,
+<code class="docutils literal notranslate"><span class="pre">mode</span></code>) and <code class="docutils literal notranslate"><span class="pre">boost_it_N.json</span></code> (the report, with each mode’s peak, mean and spread). The points
+are part of training set N+1, so a continued run needs nothing else.</p>
+<p>A boost costs the master a cooling, a climb and one chain per mode (three minutes at 16
+parameters with two modes), during which the MPI workers sleep, then <code class="docutils literal notranslate"><span class="pre">n</span></code> true evaluations.</p>
+</section>
+<section id="test-sinu-planck-desi-dr2">
+<h2>Test: SINU, Planck + DESI DR2<a class="headerlink" href="#test-sinu-planck-desi-dr2" title="Link to this heading">#</a></h2>
+<p>The finished run of 4 October (16 parameters, audit, injection, profile points; networks 0 to
+15) was continued on a copy with <code class="docutils literal notranslate"><span class="pre">boost:</span> <span class="pre">{n:</span> <span class="pre">1000,</span> <span class="pre">start_iteration:</span> <span class="pre">15}</span></code> for two iterations.
+The modes were found without naming a parameter: two, with the boundary at
+log10 G_eff of about -2.67, and 500 points from each. No evaluation failed, and both audits after the
+boosted trainings found no maximum above the threshold.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>network 15</p></th>
+<th class="head"><p>network 16 (one boost)</p></th>
+<th class="head"><p>network 17 (two boosts)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>strong-mode weight, network</p></td>
+<td><p>13.5%</p></td>
+<td><p>20.7%</p></td>
+<td><p>23.4%</p></td>
+</tr>
+<tr class="row-odd"><td><p>corrected by (1) with that boost’s true values</p></td>
+<td><p>25.4%</p></td>
+<td><p>25.1%</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>network minus truth on its own samples, weak / strong mode</p></td>
+<td><p>+1.39 / +0.79</p></td>
+<td><p>+0.23 / +0.11</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>spread of that error, weak / strong</p></td>
+<td><p>0.48 / 0.74</p></td>
+<td><p>0.36 / 0.62</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>effective points of 500, weak / strong</p></td>
+<td><p>406 / 235</p></td>
+<td><p>442 / 320</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>posterior drift against the previous network</p></td>
+<td><p>0.116</p></td>
+<td><p>0.048</p></td>
+<td><p>0.043</p></td>
+</tr>
+<tr class="row-even"><td><p>training points within 15 log-units of the peak, weak / strong</p></td>
+<td><p>141 / 85</p></td>
+<td><p>634 / 573</p></td>
+<td><p>1125 / 1065</p></td>
+</tr>
+<tr class="row-odd"><td><p>weight at log10 G_eff in [-5, -4.6] over that in [-4.2, -3.8]</p></td>
+<td><p>2.2</p></td>
+<td><p>1.5</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul class="simple">
+<li><p>The corrected weight is the same from both boosts, 25.4% and 25.1%, and agrees with the
+24.8% (spread 1.5 points) of the six networks above.</p></li>
+<li><p>The network’s own weight moves to it: 13.5%, 20.7%, 23.4%.</p></li>
+<li><p>One boost removed most of the network’s offset in the cores, from 1.4 and 0.8 log-units to
+0.2 and 0.1.</p></li>
+<li><p>The true profile is flat below log10 G_eff = -3.8, so the last row should be near 1.</p></li>
+<li><p>Network 16 had a small island on the barrier at the 99% level (0.3% of the weight between
+-2.8 and -2.0); it is gone in network 17 (0.1%). The boost puts no points between the modes.</p></li>
+<li><p>Each boost iteration took 40 to 45 minutes on a laptop with six ranks: 1000 true calls, 13
+minutes of training, and the loop’s two tempered chains.</p></li>
+</ul>
+<p>So a run can use the boost in two ways: take the corrected weights from one boost, or boost
+two or three times until the network’s own weights agree with them.</p>
+</section>
+<section id="what-is-not-established">
+<h2>What is not established<a class="headerlink" href="#what-is-not-established" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The test above is one likelihood (SINU, 16 parameters, two modes), one seed, two boosts.
+The single-mode case has been run on a real likelihood, with the density filter, the
+background and the region: ΛCDM on Planck + DESI, five boosts, 0.06 log-units from the truth
+at posterior samples at the end (<a class="reference internal" href="boost_real_lcdm.html"><span class="std std-doc">boost_real_lcdm.md</span></a>).</p></li>
+<li><p>The weak mode is a plateau that runs to the lower bound of the box, so its weight depends
+on that bound. That is a property of the posterior, not of the method.</p></li>
+<li><p>The barrier test follows a straight line between maxima. Two regions joined only by a
+curved low path with no maximum along it would be reported as two modes. They would each get
+points, which does no harm, but their separate weights would then mean little. The opt-in
+<code class="docutils literal notranslate"><span class="pre">mixing</span></code> decides by a chain instead (<a class="reference internal" href="boost_modes_mixing.html"><span class="std std-doc">boost_modes_mixing.md</span></a>).</p></li>
+<li><p>The fixed <code class="docutils literal notranslate"><span class="pre">barrier</span></code> of 4 is not the same statement at every number of parameters: with 58 a
+chain of the default length no longer mixes across it (same document).</p></li>
+<li><p>A mode the network gives no weight to is not found: coverage still comes from the tempered
+acquisition, the audit and the profile stage. The axion run’s low-omega corner is such a
+region, missed by every network of its run (<a class="reference internal" href="#a-region-the-networks-miss-the-axion-run-s-low-omega-corner-18-october-2026">the section above</a>).
+Domain splitting (<a class="reference internal" href="combine.html"><span class="std std-doc">combine.md</span></a>) recovers such a region when the user knows where it is.</p></li>
+<li><p>The Gaussian mixture is a poor proposal for a mode far from Gaussian; the efficiency and the
+spread in the log say when. At many more than 16 parameters this has not been tried.</p></li>
+<li><p>The weights of a run’s final posterior are not reported by the loop after its last
+iteration: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">client.py</span> <span class="pre">modes</span> <span class="pre">RUN_DIR</span></code> gives them for any saved network
+(<a class="reference internal" href="boost_modes_mixing.html"><span class="std std-doc">boost_modes_mixing.md</span></a>).</p></li>
+<li><p>When to boost is the user’s choice (<code class="docutils literal notranslate"><span class="pre">start_iteration</span></code>). Nothing in the loop decides that the
+network is ready; the effective points say afterwards whether it was.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="augment_training.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Adding profile points to a run’s training set</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="boost_background_region.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Boost with a quadratic background and a region</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-recommended-settings">Two recommended settings</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-the-training-domain-changes-the-output-scale-18-october-2026">What the training domain changes: the output scale (18 October 2026)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-region-the-networks-miss-the-axion-run-s-low-omega-corner-18-october-2026">A region the networks miss: the axion run’s low-omega corner (18 October 2026)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#warm-start-is-the-default-random-weights-are-an-option-31-october-2026">Warm start is the default; random weights are an option (31 October 2026)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weights-kept-by-a-training-from-random-weights-training-random-start-weights-19-november-2026">Weights kept by a training from random weights (<code class="docutils literal notranslate"><span class="pre">training.random_start_weights</span></code>, 19 November 2026)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-posterior-density-filter">Optional posterior density filter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-quadratic-background-and-region">Optional quadratic background and region</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-the-modes-decided-by-measured-mixing">Optional: the modes decided by measured mixing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why">Why</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-a-boost-iteration-does">What a boost iteration does</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-network-without-a-mode">A network without a mode</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-report">Reading the report</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-error-at-the-boost-points-and-when-to-stop">The error at the boost points, and when to stop</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#settings">Settings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-sinu-planck-desi-dr2">Test: SINU, Planck + DESI DR2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-not-established">What is not established</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/_generated/library/docs/boost.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

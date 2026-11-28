@@ -1,0 +1,1455 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The loop with boosts on a real likelihood: ΛCDM, Planck + DESI &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=2443c677"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_generated/library/docs/boost_real_lcdm';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/_generated/library/docs/boost_real_lcdm.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Domain splitting: client.py combine" href="combine.html" />
+    <link rel="prev" title="Boost: deciding the modes by measured mixing" href="boost_modes_mixing.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../AGENTS.html">Contributor guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGES.html">What this version adds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PERFORMANCE.html">CLiENT speed and memory changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UPGRADING.html">Moving from the first CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PROFILES_AND_EVIDENCE.html">Profile likelihoods and Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">CLiENT documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audit_optima.html">Auditing the network’s optima</a></li>
+<li class="toctree-l1"><a class="reference internal" href="augment_training.html">Adding profile points to a run’s training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost.html">Boost: training points from the posterior itself</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_background_region.html">Boost with a quadratic background and a region</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_modes_mixing.html">Boost: deciding the modes by measured mixing</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combine.html">Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles.html">Create profiles from a saved CLiENT iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles_2d.html">One two-dimensional profile per run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derived_parameters.html">Derived parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evidence.html">Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Exporting a network: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">export</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hybrid_optimisers.html">Hybrid profile optimisers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injection_window.html">Injection: fitting the quadratic to the points near the best</a></li>
+<li class="toctree-l1"><a class="reference internal" href="members.html">Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="posterior_density_boost.html">Density-filtered posterior boosts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_files.html">A run’s files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_recovery.html">Continuing and recovering a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempered_convergence.html">Convergence of the ordinary loop: the error at the tempered batch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/README.html">Real likelihoods on a cluster</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../library.html" class="nav-link">Guides and reports</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Maintained source: <a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/docs/boost_real_lcdm.md">docs/boost_real_lcdm.md</a>. Measurements keep their original settings; consult the <a class="reference internal" href="../../../configuration.html"><span class="std std-doc">current defaults</span></a> before starting a new run.</p>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="the-loop-with-boosts-on-a-real-likelihood-cdm-planck-desi">
+<h1>The loop with boosts on a real likelihood: ΛCDM, Planck + DESI<a class="headerlink" href="#the-loop-with-boosts-on-a-real-likelihood-cdm-planck-desi" title="Link to this heading">#</a></h1>
+<p>The first runs of the whole pipeline on a real likelihood: ten iterations of the ordinary
+loop (tempered batches, the optimum audit, injected points), then five boosts with the
+density filter, the quadratic background and the region
+(<a class="reference internal" href="boost.html"><span class="std std-doc">boost.md</span></a>, <a class="reference internal" href="posterior_density_boost.html"><span class="std std-doc">posterior_density_boost.md</span></a>,
+<a class="reference internal" href="boost_background_region.html"><span class="std std-doc">boost_background_region.md</span></a>). Two runs on 7 October 2026, each on
+one 48-core cluster node, identical apart from the injection’s window
+(<a class="reference internal" href="injection_window.html"><span class="std std-doc">injection_window.md</span></a>).</p>
+<p>What they show:</p>
+<ul class="simple">
+<li><p><strong>Both final networks reproduce the true likelihood to 0.06 log-units rms</strong> at 500
+independent samples of their own posterior (largest error 0.2). Reweighting those samples
+by the true likelihood leaves 498 effective points of 500 and moves no mean by more than
+0.01 σ and no width by more than 2%.</p></li>
+<li><p><strong>The two runs give the same posterior</strong>: no mean differs by more than 0.013 σ and no width
+by more than 0.8%, below the noise of one chain.</p></li>
+<li><p><strong>The ordinary loop alone had not got there.</strong> After ten tempered iterations and 23 400
+points the error at posterior samples was 1.0 and 0.7 log-units, and the foreground
+nuisance posteriors were 14 to 32% too narrow. The loop’s drift metric had stopped
+falling: between 0.1 and 0.8 from network 5 on, and 0.02 after the boosts.</p></li>
+<li><p><strong>One boost did most of it.</strong> After the first boost the error at posterior points was 0.25
+and 0.14, after the second 0.13 and 0.12.</p></li>
+<li><p><strong>No false maximum from network 4 (3) on</strong>: every later audit, the boosts’ included, was
+clear without a true call.</p></li>
+<li><p><strong>The restricted injection made no difference to the final network.</strong> Before the boosts
+that run was the better of the two; one seed each.</p></li>
+<li><p>A run took 5.0 hours: 33 100 evaluations in batches (0.9 h on 48 cores) and 303 or 214
+audit calls.</p></li>
+</ul>
+<section id="the-runs">
+<h2>The runs<a class="headerlink" href="#the-runs" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>likelihood</p></td>
+<td><p>Planck 2018 low-ℓ TT and EE, NPIPE CamSpec TTTEEE, DESI DR2 BAO (all tracers), through Cobaya 3.6.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>theory</p></td>
+<td><p>CLASS++ at commit 7cc41a51, massless neutrinos (N_eff = 3.045)</p></td>
+</tr>
+<tr class="row-even"><td><p>parameters</p></td>
+<td><p>15: ω_b, ω_cdm, H0, ln(10¹⁰A_s), n_s, τ and nine CamSpec nuisances</p></td>
+</tr>
+<tr class="row-odd"><td><p>training box</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">hpc/runs/lcdm_planck_desi/domain_bounds.json</span></code>, applied by the launcher</p></td>
+</tr>
+<tr class="row-even"><td><p>design</p></td>
+<td><p>2000 Latin-hypercube points + 100 injected</p></td>
+</tr>
+<tr class="row-odd"><td><p>networks 0 to 10</p></td>
+<td><p>per iteration 2000 points at T = 7 + 100 injected; the audit at its defaults</p></td>
+</tr>
+<tr class="row-even"><td><p>networks 11 to 15</p></td>
+<td><p>five boosts of 2000 posterior points: <code class="docutils literal notranslate"><span class="pre">density_filter:</span> <span class="pre">true</span></code>, <code class="docutils literal notranslate"><span class="pre">background:</span> <span class="pre">quadratic</span></code>, <code class="docutils literal notranslate"><span class="pre">region:</span> <span class="pre">2.0</span></code>; modes by the fixed barrier</p></td>
+</tr>
+<tr class="row-odd"><td><p>network, training</p></td>
+<td><p>5 × 512, Alsing; msre with the ESS floor, plateau learning rate, warm starts</p></td>
+</tr>
+<tr class="row-even"><td><p>sampling</p></td>
+<td><p>AIES, 256 walkers, 100 000 steps</p></td>
+</tr>
+<tr class="row-odd"><td><p>seed</p></td>
+<td><p>42 in both, so the 2000 design points are the same</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The two runs: <strong>every point</strong> (the injection’s quadratic fitted to every
+training point, which is no longer a setting) and <strong>window 16</strong> (only the points near the
+best, as CLiENT does now). Both use
+<code class="docutils literal notranslate"><span class="pre">hpc/runs/lcdm_planck_desi/cobaya.yaml</span></code>; the settings of the second are
+<code class="docutils literal notranslate"><span class="pre">hpc/runs/lcdm_planck_desi/client.yaml</span></code>.</p>
+<p>Five of the 2000 design points had no finite likelihood; no later point failed.</p>
+</section>
+<section id="how-the-accuracy-was-measured">
+<h2>How the accuracy was measured<a class="headerlink" href="#how-the-accuracy-was-measured" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Held-out errors.</strong> Network N chose the points of iteration N’s acquisition and had not
+seen their true values. Network N at those points against the truth is a test where its
+own tempered posterior is (networks 0 to 9) or where its posterior is (the boost points of
+networks 10 to 14, which are selected by the density filter and so are not plain posterior
+draws).</p></li>
+<li><p><strong>The true check.</strong> 500 samples drawn at random from a T = 1 chain of a network, with the
+true likelihood at each: network 10, the last one trained on tempered points only, and
+network 15, the last. With D = truth minus network: its rms, the effective number of
+points (Σw)² / Σw² for w = exp(D), and every parameter’s mean and width with the weights w
+against the network’s own.</p></li>
+<li><p><strong>Posteriors.</strong> Every network sampled at T = 1 and compared with the last network of its
+run, and the two last networks with each other. Agreement between networks is
+convergence, not accuracy.</p></li>
+</ul>
+<p>Errors are in log-likelihood units throughout. Pairs of numbers are every point / window 16.</p>
+</section>
+<section id="the-final-networks-against-the-truth">
+<h2>The final networks against the truth<a class="headerlink" href="#the-final-networks-against-the-truth" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>run</p></th>
+<th class="head"><p>network</p></th>
+<th class="head"><p>rms</p></th>
+<th class="head"><p>mean</p></th>
+<th class="head"><p>largest</p></th>
+<th class="head"><p>effective points of 500</p></th>
+<th class="head"><p>largest corrected mean shift</p></th>
+<th class="head"><p>largest corrected width change</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>every point</p></td>
+<td><p>10</p></td>
+<td><p>1.03</p></td>
+<td><p>+0.82</p></td>
+<td><p>5.0</p></td>
+<td><p>79</p></td>
+<td><p>0.66 σ (amp_217)</p></td>
+<td><p>67% (amp_217)</p></td>
+</tr>
+<tr class="row-odd"><td><p>every point</p></td>
+<td><p>15</p></td>
+<td><p>0.06</p></td>
+<td><p>−0.01</p></td>
+<td><p>0.2</p></td>
+<td><p>498</p></td>
+<td><p>0.005 σ</p></td>
+<td><p>0.7%</p></td>
+</tr>
+<tr class="row-even"><td><p>window 16</p></td>
+<td><p>10</p></td>
+<td><p>0.69</p></td>
+<td><p>−0.18</p></td>
+<td><p>3.1</p></td>
+<td><p>220</p></td>
+<td><p>0.22 σ (calTE)</p></td>
+<td><p>35% (amp_217)</p></td>
+</tr>
+<tr class="row-odd"><td><p>window 16</p></td>
+<td><p>15</p></td>
+<td><p>0.06</p></td>
+<td><p>+0.01</p></td>
+<td><p>0.2</p></td>
+<td><p>498</p></td>
+<td><p>0.007 σ</p></td>
+<td><p>1.7% (τ)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The samples lie a median 6.6 log-units below the best training value (n / 2 = 7.5): this is
+a test of the bulk of the posterior. The corrected numbers of network 10 rest on 79 and 220
+effective points and are rough.</p>
+<p>The two final posteriors, mean ± standard deviation:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>parameter</p></th>
+<th class="head"><p>every point</p></th>
+<th class="head"><p>window 16</p></th>
+<th class="head"><p>difference of the means (σ)</p></th>
+<th class="head"><p>of the widths</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>omega_b</p></td>
+<td><p>0.0223105 ± 0.00012</p></td>
+<td><p>0.0223107 ± 0.00012</p></td>
+<td><p>−0.002</p></td>
+<td><p>+0.4%</p></td>
+</tr>
+<tr class="row-odd"><td><p>omega_cdm</p></td>
+<td><p>0.118088 ± 0.000636</p></td>
+<td><p>0.118087 ± 0.000637</p></td>
+<td><p>+0.002</p></td>
+<td><p>0.0%</p></td>
+</tr>
+<tr class="row-even"><td><p>H0</p></td>
+<td><p>68.5187 ± 0.287</p></td>
+<td><p>68.5198 ± 0.286</p></td>
+<td><p>−0.004</p></td>
+<td><p>+0.4%</p></td>
+</tr>
+<tr class="row-odd"><td><p>logA</p></td>
+<td><p>3.03512 ± 0.0161</p></td>
+<td><p>3.0351 ± 0.0162</p></td>
+<td><p>+0.002</p></td>
+<td><p>−0.3%</p></td>
+</tr>
+<tr class="row-even"><td><p>n_s</p></td>
+<td><p>0.967561 ± 0.00339</p></td>
+<td><p>0.967585 ± 0.00338</p></td>
+<td><p>−0.007</p></td>
+<td><p>+0.5%</p></td>
+</tr>
+<tr class="row-odd"><td><p>tau_reio</p></td>
+<td><p>0.0530716 ± 0.00768</p></td>
+<td><p>0.0530692 ± 0.00768</p></td>
+<td><p>0.000</p></td>
+<td><p>0.0%</p></td>
+</tr>
+<tr class="row-even"><td><p>A_planck</p></td>
+<td><p>1.00044 ± 0.00248</p></td>
+<td><p>1.00043 ± 0.00249</p></td>
+<td><p>+0.004</p></td>
+<td><p>−0.6%</p></td>
+</tr>
+<tr class="row-odd"><td><p>amp_143</p></td>
+<td><p>17.4549 ± 2.05</p></td>
+<td><p>17.4312 ± 2.04</p></td>
+<td><p>+0.012</p></td>
+<td><p>+0.7%</p></td>
+</tr>
+<tr class="row-even"><td><p>amp_217</p></td>
+<td><p>11.3258 ± 1.96</p></td>
+<td><p>11.3102 ± 1.95</p></td>
+<td><p>+0.008</p></td>
+<td><p>+0.8%</p></td>
+</tr>
+<tr class="row-odd"><td><p>amp_143x217</p></td>
+<td><p>8.2222 ± 1.97</p></td>
+<td><p>8.19872 ± 1.96</p></td>
+<td><p>+0.012</p></td>
+<td><p>+0.8%</p></td>
+</tr>
+<tr class="row-even"><td><p>n_143</p></td>
+<td><p>1.02082 ± 0.185</p></td>
+<td><p>1.02331 ± 0.185</p></td>
+<td><p>−0.013</p></td>
+<td><p>+0.1%</p></td>
+</tr>
+<tr class="row-odd"><td><p>n_217</p></td>
+<td><p>1.59917 ± 0.415</p></td>
+<td><p>1.6024 ± 0.414</p></td>
+<td><p>−0.008</p></td>
+<td><p>+0.2%</p></td>
+</tr>
+<tr class="row-even"><td><p>n_143x217</p></td>
+<td><p>1.83472 ± 0.598</p></td>
+<td><p>1.84026 ± 0.594</p></td>
+<td><p>−0.009</p></td>
+<td><p>+0.6%</p></td>
+</tr>
+<tr class="row-odd"><td><p>calTE</p></td>
+<td><p>0.99747 ± 0.00365</p></td>
+<td><p>0.997495 ± 0.00367</p></td>
+<td><p>−0.007</p></td>
+<td><p>−0.4%</p></td>
+</tr>
+<tr class="row-even"><td><p>calEE</p></td>
+<td><p>0.998845 ± 0.00376</p></td>
+<td><p>0.99885 ± 0.00377</p></td>
+<td><p>−0.001</p></td>
+<td><p>−0.3%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The largest credible-metric distance between the two is 0.015 (68%) and 0.019 (95%); two
+halves of one chain differ by 0.03 and 0.04 to 0.06. The best true values found are −5493.45
+and −5493.43, and both runs end with a log evidence of −5540.13 from their last boost.</p>
+</section>
+<section id="the-ordinary-loop-networks-0-to-9">
+<h2>The ordinary loop, networks 0 to 9<a class="headerlink" href="#the-ordinary-loop-networks-0-to-9" title="Link to this heading">#</a></h2>
+<p>Rms of network minus truth on the 2000 tempered points the network went on to acquire; the
+bands are counted from each run’s best true value, and T n / 2 = 52. A dash is a band with
+fewer than 20 points.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>network</p></th>
+<th class="head"><p>training points</p></th>
+<th class="head"><p>batch, median depth</p></th>
+<th class="head"><p>error on the batch</p></th>
+<th class="head"><p>15 to 52 below the best</p></th>
+<th class="head"><p>52 to 105 below</p></th>
+<th class="head"><p>audit true calls</p></th>
+<th class="head"><p>audit clear</p></th>
+<th class="head"><p>drift</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>2095 / 2095</p></td>
+<td><p>737 / 426</p></td>
+<td><p>1053 / 554</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>190 / 168</p></td>
+<td><p>no / no</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>4385 / 4363</p></td>
+<td><p>119 / 84</p></td>
+<td><p>26.4 / 52.7</p></td>
+<td><p>- / 16.4</p></td>
+<td><p>31.8 / 28.0</p></td>
+<td><p>86 / 38</p></td>
+<td><p>yes / no</p></td>
+<td><p>14 / 11</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>6571 / 6501</p></td>
+<td><p>63 / 48</p></td>
+<td><p>41.9 / 13.1</p></td>
+<td><p>24.6 / 12.6</p></td>
+<td><p>41.2 / 12.6</p></td>
+<td><p>16 / 8</p></td>
+<td><p>no / yes</p></td>
+<td><p>5.5 / 3.3</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>8687 / 8609</p></td>
+<td><p>44 / 43</p></td>
+<td><p>10.6 / 9.7</p></td>
+<td><p>10.1 / 9.4</p></td>
+<td><p>11.1 / 10.0</p></td>
+<td><p>11 / 0</p></td>
+<td><p>yes / yes</p></td>
+<td><p>2.1 / 0.98</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>10 798 / 10 709</p></td>
+<td><p>46 / 52</p></td>
+<td><p>8.8 / 28.4</p></td>
+<td><p>6.6 / 7.0</p></td>
+<td><p>9.6 / 17.7</p></td>
+<td><p>0 / 0</p></td>
+<td><p>yes / yes</p></td>
+<td><p>1.1 / 1.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>12 898 / 12 809</p></td>
+<td><p>49 / 50</p></td>
+<td><p>10.8 / 8.8</p></td>
+<td><p>4.9 / 5.0</p></td>
+<td><p>9.2 / 10.6</p></td>
+<td><p>0 / 0</p></td>
+<td><p>yes / yes</p></td>
+<td><p>0.34 / 0.53</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>14 998 / 14 909</p></td>
+<td><p>49 / 51</p></td>
+<td><p>9.5 / 10.7</p></td>
+<td><p>4.7 / 5.5</p></td>
+<td><p>10.0 / 12.3</p></td>
+<td><p>0 / 0</p></td>
+<td><p>yes / yes</p></td>
+<td><p>0.13 / 0.81</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>17 098 / 17 009</p></td>
+<td><p>49 / 49</p></td>
+<td><p>7.7 / 6.8</p></td>
+<td><p>5.1 / 3.9</p></td>
+<td><p>8.7 / 8.0</p></td>
+<td><p>0 / 0</p></td>
+<td><p>yes / yes</p></td>
+<td><p>0.24 / 0.34</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>19 198 / 19 109</p></td>
+<td><p>48 / 50</p></td>
+<td><p>7.1 / 5.0</p></td>
+<td><p>4.2 / 2.9</p></td>
+<td><p>8.1 / 6.1</p></td>
+<td><p>0 / 0</p></td>
+<td><p>yes / yes</p></td>
+<td><p>0.32 / 0.29</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>21 298 / 21 209</p></td>
+<td><p>48 / 49</p></td>
+<td><p>5.9 / 4.5</p></td>
+<td><p>3.4 / 2.9</p></td>
+<td><p>7.1 / 5.4</p></td>
+<td><p>0 / 0</p></td>
+<td><p>yes / yes</p></td>
+<td><p>0.27 / 0.19</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>From network 4 the error near the tempered posterior falls slowly, by a factor of two over
+six iterations and 12 600 points; from network 5 the drift stays between 0.1 and 0.8.</p>
+<p>What that left in the posterior, as the T = 1 posterior of network 10 against the run’s last
+network (mean shift in σ / width error):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>parameter</p></th>
+<th class="head"><p>every point</p></th>
+<th class="head"><p>window 16</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>omega_b</p></td>
+<td><p>+0.05 / −1%</p></td>
+<td><p>−0.01 / 0%</p></td>
+</tr>
+<tr class="row-odd"><td><p>omega_cdm</p></td>
+<td><p>−0.03 / +1%</p></td>
+<td><p>+0.05 / 0%</p></td>
+</tr>
+<tr class="row-even"><td><p>H0</p></td>
+<td><p>+0.02 / 0%</p></td>
+<td><p>−0.04 / +1%</p></td>
+</tr>
+<tr class="row-odd"><td><p>logA</p></td>
+<td><p>+0.07 / +13%</p></td>
+<td><p>−0.07 / +12%</p></td>
+</tr>
+<tr class="row-even"><td><p>n_s</p></td>
+<td><p>+0.19 / −7%</p></td>
+<td><p>−0.10 / −4%</p></td>
+</tr>
+<tr class="row-odd"><td><p>tau_reio</p></td>
+<td><p>+0.07 / +15%</p></td>
+<td><p>−0.06 / +15%</p></td>
+</tr>
+<tr class="row-even"><td><p>A_planck</p></td>
+<td><p>−0.02 / +1%</p></td>
+<td><p>−0.08 / +1%</p></td>
+</tr>
+<tr class="row-odd"><td><p>amp_143</p></td>
+<td><p>−0.24 / −27%</p></td>
+<td><p>+0.03 / −19%</p></td>
+</tr>
+<tr class="row-even"><td><p>amp_217</p></td>
+<td><p>−0.31 / −32%</p></td>
+<td><p>−0.01 / −23%</p></td>
+</tr>
+<tr class="row-odd"><td><p>amp_143x217</p></td>
+<td><p>−0.30 / −31%</p></td>
+<td><p>−0.02 / −22%</p></td>
+</tr>
+<tr class="row-even"><td><p>n_143</p></td>
+<td><p>+0.30 / −14%</p></td>
+<td><p>+0.15 / −15%</p></td>
+</tr>
+<tr class="row-odd"><td><p>n_217</p></td>
+<td><p>+0.23 / −24%</p></td>
+<td><p>−0.02 / −23%</p></td>
+</tr>
+<tr class="row-even"><td><p>n_143x217</p></td>
+<td><p>+0.21 / −24%</p></td>
+<td><p>−0.02 / −25%</p></td>
+</tr>
+<tr class="row-odd"><td><p>calTE</p></td>
+<td><p>+0.06 / +1%</p></td>
+<td><p>+0.11 / 0%</p></td>
+</tr>
+<tr class="row-even"><td><p>calEE</p></td>
+<td><p>+0.01 / −1%</p></td>
+<td><p>+0.09 / 0%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The same pattern in both runs: the six foreground parameters 14 to 32% too narrow, ln A_s and
+τ 12 to 15% too wide, the other cosmological parameters right to about 1% in width. The two
+networks before (8 and 9) are no better (foreground widths 16 to 44% too narrow). A tempered
+batch puts a handful of its 2000 points within n / 2 of the peak, and the six foreground
+parameters have the widest, least Gaussian posteriors.</p>
+</section>
+<section id="the-boosts-networks-10-to-15">
+<h2>The boosts, networks 10 to 15<a class="headerlink" href="#the-boosts-networks-10-to-15" title="Link to this heading">#</a></h2>
+<p>Network 11 is the first trained on boost points: from random weights, on the difference from
+the quadratic background fitted then. Networks 12 to 15 warm-start from it.</p>
+<p><strong>Every point</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>network</p></th>
+<th class="head"><p>boosts trained on</p></th>
+<th class="head"><p>error at its boost points: rms</p></th>
+<th class="head"><p>bias</p></th>
+<th class="head"><p>largest</p></th>
+<th class="head"><p>lowest validation loss</p></th>
+<th class="head"><p>training s</p></th>
+<th class="head"><p>log evidence</p></th>
+<th class="head"><p>CM68 against network 15</p></th>
+<th class="head"><p>drift</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>0</p></td>
+<td><p>1.01</p></td>
+<td><p>−0.82</p></td>
+<td><p>4.0</p></td>
+<td><p>2.2e-3</p></td>
+<td><p>439</p></td>
+<td><p>−5541.20 ± 0.05</p></td>
+<td><p>0.31</p></td>
+<td><p>0.12</p></td>
+</tr>
+<tr class="row-odd"><td><p>11</p></td>
+<td><p>1</p></td>
+<td><p>0.25</p></td>
+<td><p>−0.01</p></td>
+<td><p>2.0</p></td>
+<td><p>1.4e-4</p></td>
+<td><p>883</p></td>
+<td><p>−5540.17 ± 0.02</p></td>
+<td><p>0.12</p></td>
+<td><p>0.23</p></td>
+</tr>
+<tr class="row-even"><td><p>12</p></td>
+<td><p>2</p></td>
+<td><p>0.13</p></td>
+<td><p>−0.04</p></td>
+<td><p>1.3</p></td>
+<td><p>5.7e-5</p></td>
+<td><p>500</p></td>
+<td><p>−5540.17 ± 0.03</p></td>
+<td><p>0.043</p></td>
+<td><p>0.053</p></td>
+</tr>
+<tr class="row-odd"><td><p>13</p></td>
+<td><p>3</p></td>
+<td><p>0.10</p></td>
+<td><p>+0.01</p></td>
+<td><p>1.2</p></td>
+<td><p>3.6e-5</p></td>
+<td><p>533</p></td>
+<td><p>−5540.11 ± 0.01</p></td>
+<td><p>0.030</p></td>
+<td><p>0.022</p></td>
+</tr>
+<tr class="row-even"><td><p>14</p></td>
+<td><p>4</p></td>
+<td><p>0.09</p></td>
+<td><p>+0.01</p></td>
+<td><p>2.2</p></td>
+<td><p>2.3e-5</p></td>
+<td><p>569</p></td>
+<td><p>−5540.13 ± 0.05</p></td>
+<td><p>0.017</p></td>
+<td><p>0.028</p></td>
+</tr>
+<tr class="row-odd"><td><p>15</p></td>
+<td><p>5</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>1.4e-5</p></td>
+<td><p>596</p></td>
+<td><p></p></td>
+<td><p>(0.030)</p></td>
+<td><p>0.025</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Window 16</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>network</p></th>
+<th class="head"><p>boosts trained on</p></th>
+<th class="head"><p>error at its boost points: rms</p></th>
+<th class="head"><p>bias</p></th>
+<th class="head"><p>largest</p></th>
+<th class="head"><p>lowest validation loss</p></th>
+<th class="head"><p>training s</p></th>
+<th class="head"><p>log evidence</p></th>
+<th class="head"><p>CM68 against network 15</p></th>
+<th class="head"><p>drift</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>0</p></td>
+<td><p>0.67</p></td>
+<td><p>+0.16</p></td>
+<td><p>4.2</p></td>
+<td><p>2.2e-3</p></td>
+<td><p>565</p></td>
+<td><p>−5540.17 ± 0.03</p></td>
+<td><p>0.30</p></td>
+<td><p>0.098</p></td>
+</tr>
+<tr class="row-odd"><td><p>11</p></td>
+<td><p>1</p></td>
+<td><p>0.14</p></td>
+<td><p>+0.04</p></td>
+<td><p>0.8</p></td>
+<td><p>6.9e-5</p></td>
+<td><p>889</p></td>
+<td><p>−5540.11 ± 0.01</p></td>
+<td><p>0.030</p></td>
+<td><p>0.15</p></td>
+</tr>
+<tr class="row-even"><td><p>12</p></td>
+<td><p>2</p></td>
+<td><p>0.12</p></td>
+<td><p>+0.04</p></td>
+<td><p>2.7</p></td>
+<td><p>4.2e-5</p></td>
+<td><p>491</p></td>
+<td><p>−5540.11 ± 0.04</p></td>
+<td><p>0.024</p></td>
+<td><p>0.092</p></td>
+</tr>
+<tr class="row-odd"><td><p>13</p></td>
+<td><p>3</p></td>
+<td><p>0.06</p></td>
+<td><p>+0.01</p></td>
+<td><p>0.5</p></td>
+<td><p>2.0e-5</p></td>
+<td><p>524</p></td>
+<td><p>−5540.12 ± 0.01</p></td>
+<td><p>0.015</p></td>
+<td><p>0.023</p></td>
+</tr>
+<tr class="row-even"><td><p>14</p></td>
+<td><p>4</p></td>
+<td><p>0.05</p></td>
+<td><p>0.00</p></td>
+<td><p>0.3</p></td>
+<td><p>1.2e-5</p></td>
+<td><p>562</p></td>
+<td><p>−5540.13 ± 0.01</p></td>
+<td><p>0.040</p></td>
+<td><p>0.021</p></td>
+</tr>
+<tr class="row-odd"><td><p>15</p></td>
+<td><p>5</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>7.1e-6</p></td>
+<td><p>600</p></td>
+<td><p></p></td>
+<td><p>(0.031)</p></td>
+<td><p>0.017</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The CM68 in brackets is the chain noise of network 15 (two halves of its own chain). The log
+evidence is the network’s own, by bridge sampling inside the region, and is each boost’s
+by-product, so network 15 has none.</p>
+<ul class="simple">
+<li><p>The posterior is within chain noise of the final one from network 12 (every point) and
+network 11 (window 16): two boosts and one. The error at posterior points keeps falling
+after that, from 0.13 to 0.06 and from 0.12 to 0.06.</p></li>
+<li><p>The first run’s network 11 still had ln A_s and τ 10 and 11% too wide; its network 12 has
+them within 3%.</p></li>
+<li><p>The log evidence moved by 1.03 with the first boost of the first run, which is the bias
+removed (network 10 was 0.82 low at posterior points), and by less than 0.1 afterwards.</p></li>
+<li><p>Every audit of networks 10 to 15 was clear without a true call; the highest maximum the
+searches found was 0.6 to 1.3 above the best true value (in the window run 4.9 at network
+10, before its first boost).</p></li>
+<li><p>Each boost found one mode. All 2000 candidates passed the density filter every time.</p></li>
+<li><p>From the second boost on, 8 to 23 of the 512 walkers of the mode search ended in smaller
+groups and were left out (the fixed barrier of 4 log-units at 15 parameters).</p></li>
+<li><p>The region held 2000, 4000, … verified boost points, the farthest at 8.1 to 9.5 σ of the
+cloud, the edge at twice that.</p></li>
+</ul>
+</section>
+<section id="the-two-injections">
+<h2>The two injections<a class="headerlink" href="#the-two-injections" title="Link to this heading">#</a></h2>
+<p>With every point fitted the injected points lay 4 300 to 9 400 log-units below the peak
+through all eleven injections; with the window they were at the tempered batch’s own depth
+from the third on (<a class="reference internal" href="injection_window.html"><span class="std std-doc">injection_window.md</span></a>).</p>
+<p>At the end there is no difference: both final networks are 0.06 from the truth and the two
+posteriors are the same. Before the boosts the run with the window was the better one
+(network 10 at posterior samples 0.69 against 1.03, 220 effective points against 79; network
+9 in the band 15 to 52 below the best 2.9 against 3.4), and it stayed about one boost ahead
+(0.14 against 0.25 after one, 0.06 against 0.10 after three). With one seed each that cannot
+be told from the scatter between two runs. What is certain is the cost: the first run spent
+1100 evaluations where they taught the network nothing about the posterior.</p>
+</section>
+<section id="cost">
+<h2>Cost<a class="headerlink" href="#cost" title="Link to this heading">#</a></h2>
+<p>One node, 48 cores: 48 MPI ranks with one thread each for the likelihood, eight threads for
+the network on rank 0.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>every point</p></th>
+<th class="head"><p>window 16</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>the loop, 16 networks</p></td>
+<td><p>4.97 h</p></td>
+<td><p>5.01 h</p></td>
+</tr>
+<tr class="row-odd"><td><p>likelihood, 33 100 points in 27 batches</p></td>
+<td><p>0.89 h</p></td>
+<td><p>0.90 h</p></td>
+</tr>
+<tr class="row-even"><td><p>per point</p></td>
+<td><p>4.6 core-seconds</p></td>
+<td><p>4.6 core-seconds</p></td>
+</tr>
+<tr class="row-odd"><td><p>audit true calls</p></td>
+<td><p>303</p></td>
+<td><p>214</p></td>
+</tr>
+<tr class="row-even"><td><p>training</p></td>
+<td><p>2.06 h</p></td>
+<td><p>2.12 h</p></td>
+</tr>
+<tr class="row-odd"><td><p>acquisition chains</p></td>
+<td><p>1.19 h</p></td>
+<td><p>1.20 h</p></td>
+</tr>
+<tr class="row-even"><td><p>audit, searches and calls</p></td>
+<td><p>0.19 h</p></td>
+<td><p>0.15 h</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A tempered iteration took 12 to 26 minutes. An iteration that trains on boost points and
+acquires the next boost took 21 to 22, and 27 with the cold start. The likelihood is under a fifth of the wall time: training and
+the chains run on one rank while the other 47 wait.</p>
+</section>
+<section id="what-is-not-established">
+<h2>What is not established<a class="headerlink" href="#what-is-not-established" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>One likelihood, 15 parameters, one mode, a posterior close to Gaussian in its
+cosmological parameters.</strong> Two runs, one seed each, which differ in the injection: the
+scatter between two runs of the same configuration was not measured.</p></li>
+<li><p><strong>The tails of the final network.</strong> The true check tests the bulk (median 6.6 below the
+best). Between 15 and 105 below, the last measurement is network 9’s (2.9 to 7.1); no
+network after the first boost was tested there.</p></li>
+<li><p><strong>How many boosts are needed, and when to start.</strong> Here one or two gave the posterior and
+five gave 0.06. The loop’s errors had stopped falling fast by network 4 or 5; starting the
+boosts there was not tried.</p></li>
+<li><p><strong>Which ingredient did it.</strong> The cold start, the quadratic background, the region and the
+density filter were all on. No false maximum appeared after network 3, so the region was
+not needed against one.</p></li>
+<li><p><strong>The walkers left out</strong> of the mode search from the second boost on (2 to 4%) were not
+looked into. <code class="docutils literal notranslate"><span class="pre">acquisition.boost.mixing</span></code> (<a class="reference internal" href="boost_modes_mixing.html"><span class="std std-doc">boost_modes_mixing.md</span></a>),
+which would join such groups when the chain mixes between them, was off.</p></li>
+<li><p><strong>The evidence.</strong> −5540.13 in both runs is the networks’ own, inside the region; it was not
+compared with a nested sampler.</p></li>
+<li><p>Wall times are from one cluster node and say nothing about another machine.</p></li>
+</ul>
+</section>
+<section id="files">
+<h2>Files<a class="headerlink" href="#files" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">hpc/runs/lcdm_planck_desi/</span></code> holds <code class="docutils literal notranslate"><span class="pre">cobaya.yaml</span></code> and <code class="docutils literal notranslate"><span class="pre">domain_bounds.json</span></code>, the likelihood and the training box of
+both runs, and the <code class="docutils literal notranslate"><span class="pre">client.yaml</span></code> of the window-16 run. The launcher that applies the box is <code class="docutils literal notranslate"><span class="pre">hpc/launch.py</span></code>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="boost_modes_mixing.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Boost: deciding the modes by measured mixing</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="combine.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-runs">The runs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-the-accuracy-was-measured">How the accuracy was measured</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-final-networks-against-the-truth">The final networks against the truth</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ordinary-loop-networks-0-to-9">The ordinary loop, networks 0 to 9</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-boosts-networks-10-to-15">The boosts, networks 10 to 15</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-two-injections">The two injections</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cost">Cost</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-not-established">What is not established</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#files">Files</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/_generated/library/docs/boost_real_lcdm.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

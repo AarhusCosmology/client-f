@@ -1,0 +1,160 @@
+likelihood.base
+===============
+
+.. py:module:: likelihood.base
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   likelihood.base.ParameterInfo
+   likelihood.base.BaseLikelihood
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   likelihood.base.build_likelihood
+
+
+Module Contents
+---------------
+
+.. py:class:: ParameterInfo
+
+   .. py:attribute:: name
+      :type:  str
+
+
+   .. py:attribute:: label
+      :type:  str
+
+
+   .. py:attribute:: scale
+      :type:  float
+      :value: 1.0
+
+
+
+   .. py:attribute:: lower
+      :type:  float | None
+      :value: None
+
+
+
+   .. py:attribute:: upper
+      :type:  float | None
+      :value: None
+
+
+
+   .. py:attribute:: center
+      :type:  float | None
+      :value: None
+
+
+
+   .. py:attribute:: sigma
+      :type:  float | None
+      :value: None
+
+
+
+.. py:class:: BaseLikelihood
+
+
+
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+   .. py:attribute:: objective_convention
+      :value: 1
+
+
+
+   .. py:method:: loglkl(x)
+      :abstractmethod:
+
+
+      Evaluate the backend's native log-probability at ``x``. For MontePython, this calls ``compute_lkl``. For Cobaya, this calls ``logposterior(..., return_derived=False)`` and returns its ``logpost`` value. Despite the method name, the returned value will include both log-likelihood and backend-defined log-prior contributions. Additional bounds imposed by ``restrict_prior_bounds`` are handled separately by ``logprior``.
+
+
+
+   .. py:property:: param_names
+
+
+   .. py:property:: param_labels
+
+
+   .. py:property:: param_scales
+
+
+   .. py:property:: param_centers
+
+
+   .. py:property:: param_sigmas
+
+
+   .. py:property:: ndim
+
+
+   .. py:property:: derived_names
+
+
+   .. py:property:: derived_labels
+
+
+   .. py:property:: derived_scales
+
+
+   .. py:property:: n_derived
+
+
+   .. py:property:: derived_input_names
+
+      The varying parameters the derived parameters can depend on, in ``param_names`` order. All of them unless a backend knows better; a derived-parameter emulator uses only these as inputs.
+
+
+   .. py:method:: loglkl_and_derived(x)
+
+      Evaluate ``loglkl`` at ``x`` together with the backend's derived parameters. Returns ``(loglkl, derived)`` with ``derived`` a float array of length ``n_derived`` in ``derived_names`` order. Derived values are NaN wherever the backend could not supply them, which includes every point whose ``loglkl`` is not finite. This default reports none; backends that have derived parameters override it.
+
+
+
+   .. py:method:: evaluate_with_derived(x)
+
+      ``loglkl_and_derived`` flattened to one row ``[loglkl, *derived]``, the form ``broadcast_and_evaluate`` carries between MPI ranks. ``split_evaluations`` undoes it.
+
+
+
+   .. py:method:: split_evaluations(values)
+
+      Split rows produced by ``evaluate_with_derived`` into ``(targets, derived)`` with shapes ``(n,)`` and ``(n, n_derived)``. Also accepts the empty array an MPI worker gets back.
+
+
+
+   .. py:property:: prior_bounds
+
+
+   .. py:method:: restrict_prior_bounds(n_sigma)
+
+
+   .. py:method:: logprior(x)
+
+      Return the additional bounds-based log-prior at ``x``. Returns zero inside the current effective bounds and negative infinity outside them. This does not reproduce any prior terms already evaluated by the backend.
+
+
+
+   .. py:method:: logpost(x)
+
+      Return the total log-posterior value at ``x``. The result is the sum of the backend's native log-probability, returned by ``loglkl``, and the additional bounds-based log-prior, returned by ``logprior``. Consequently, the result is negative infinity when ``x`` lies outside the current effective bounds.
+
+
+
+.. py:function:: build_likelihood(wrapper, input_path)
+

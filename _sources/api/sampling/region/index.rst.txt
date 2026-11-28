@@ -1,0 +1,229 @@
+sampling.region
+===============
+
+.. py:module:: sampling.region
+
+.. autoapi-nested-parse::
+
+   acquisition.boost.region: the part of the box that the posterior points of the boosts reach.
+
+   A network is only as good as its training points allow, and far from them it can rise above
+   the best true value (training/audit.py). Whatever uses the network at T = 1 (the chains of the
+   next boost, a nested sampler, a profile) has no business there: a region that no posterior
+   chain touches carries no posterior weight. The region makes that a property of the surrogate
+   instead of something every consumer has to hope for.
+
+   It is built from the boost rows alone, the T = 1 posterior points whose true values are known
+   (RUN/boost/boost_it_N.csv): one Gaussian per mode, in box units, from the rows of that mode.
+   rho(theta) is the smallest, over the modes, of the Mahalanobis distance to the mode's Gaussian
+   divided by the largest such distance among the mode's own rows; inside means rho <= inflate.
+   No network enters and nothing is assumed about the shape beyond one ellipsoid per mode.
+
+   ``restrict`` gives the surrogate a consumer should see: the network inside, and outside a value
+   that does not look at the network at all, far below anything inside and falling away from the
+   region, so that a search or a sampler started anywhere in the box is led to it.
+
+   Measured on the analytic targets (docs/boost.md): with inflate 2 none of 2e6 exact posterior
+   draws lies outside (58 parameters, and the two-mode twin with 16), all known false maxima lie at
+   3 to 55 times the reach, and a nested sampler over the whole box returns the exact evidence
+   within its error from a network with false maxima 2000 log-units above the best.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   sampling.region.FLOOR
+   sampling.region.STRENGTH
+   sampling.region.SPARSE
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   sampling.region.Region
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   sampling.region.whitener
+   sampling.region.lengths
+   sampling.region.boost_clouds
+   sampling.region.boost_region
+
+
+Module Contents
+---------------
+
+.. py:data:: FLOOR
+   :value: 1000.0
+
+
+.. py:data:: STRENGTH
+   :value: 10000.0
+
+
+.. py:data:: SPARSE
+   :value: 2
+
+
+.. py:function:: whitener(cov, jitter=1e-14)
+
+   W with W' C W = 1 for the covariance C (plus ``jitter`` on its diagonal): the inverse of
+   C's Cholesky factor, transposed. A point's Mahalanobis distance is the norm of ``(x - mean) W``.
+
+
+.. py:function:: lengths(z)
+
+   Euclidean length along the last axis (the same sums, in the same order, as
+   sqrt((z ** 2).sum(axis=-1))).
+
+
+.. py:class:: Region(means, whiten, reach, lower, upper, inflate, floor, rows=None)
+
+   .. py:attribute:: means
+
+
+   .. py:attribute:: whiten
+
+
+   .. py:attribute:: reach
+
+
+   .. py:attribute:: lower
+
+
+   .. py:attribute:: width
+
+
+   .. py:attribute:: inflate
+
+
+   .. py:attribute:: floor
+
+
+   .. py:attribute:: rows
+
+
+   .. py:method:: from_clouds(clouds, lower, upper, inflate, best, quantile=None)
+      :classmethod:
+
+
+      One ellipsoid per verified cloud of points (each (n, ndim)), reaching as far as
+      its farthest point, or with ``quantile`` as that quantile of its points' distances
+      (acquisition.boost.region_quantile; which rows are one mode is still decided by the farthest).
+
+      A cloud with more than SPARSE * ndim distinct rows has its own covariance. A sparser
+      one has no covariance to speak of: it takes the shape of a well-sampled cloud
+      (``_donor``), its own centre, and reaches as far as its own rows do, never farther than
+      the cloud whose shape it has. A cloud that cannot be given a shape (fewer than two
+      distinct rows, or sparse with nothing to take a shape from) raises ValueError:
+      ``shaped`` says which clouds can, and ``boost_region`` leaves the others out.
+
+
+
+   .. py:method:: shaped(clouds, lower, upper)
+      :staticmethod:
+
+
+      Which clouds ``from_clouds`` can give an ellipsoid, and whose shape is borrowed:
+      (flags, borrowed), two lists of booleans as long as ``clouds``.
+
+
+
+   .. py:method:: radii(points)
+
+      (modes, n): Mahalanobis distance to every mode's Gaussian over that mode's reach.
+
+
+
+   .. py:method:: rho(points)
+
+
+   .. py:method:: inside(points)
+
+
+   .. py:method:: labels(points)
+
+      Disjoint nearest-ellipsoid cells, including overlaps (ties go to the first).
+
+
+
+   .. py:method:: labels_tf(x)
+
+
+   .. py:method:: rho_tf(x)
+
+
+   .. py:method:: project_unit(u)
+
+      Box-normalised points outside the region moved onto its surface, straight towards
+      the centre of the nearest mode; points inside stay. For gradient searches
+      (training/audit.py find_maxima), which a wall would only throw about.
+
+
+
+   .. py:method:: restrict(predict)
+
+      predict: (n, ndim) -> (n,). The same inside the region; outside, the wall.
+
+
+
+   .. py:method:: start(n, rng, component=None)
+
+      n points inside the region and the box: starting walkers for a chain. With
+      ``component``, inside that ellipsoid's cell (the points nearer to it than to any other).
+      A cell can be a small part of its ellipsoid, one that lies inside another's or is cut
+      by one: the draw then closes in on the ellipsoid's centre, which is in its own cell.
+
+      Without ``component`` the region can also reach far beyond the box, along parameters
+      whose posterior fills their range or lies against a bound: 0.46% of the draws were
+      in the box at network 18 of an axion run, whose farthest boost row had gone from 9.7
+      to 18.2 sigma, and 200 draws left the chain 70 walkers short. When 200 draws have not
+      found n points, the draw closes in on the centres the same way. A draw that finds its
+      points in those 200 is the one it always was, number for number.
+
+
+
+   .. py:method:: save(path, **extra)
+
+
+   .. py:method:: load(path)
+      :classmethod:
+
+
+
+.. py:function:: boost_clouds(directory, names, before, best, depth, lower, upper)
+
+   The verified posterior points of the boosts before iteration ``before``, one cloud per mode.
+
+   A boost row counts when its true value is finite and within ``depth`` of the best: a row the
+   network placed in its posterior and the truth did not is no posterior point. The modes of
+   one boost are numbered heaviest first, which need not be the same order in the next: the
+   first boost's modes start the clouds. After that an old cloud joins the group of the
+   current boost with which it shares the largest fraction of rows (its rows inside the
+   group's ellipsoid, or the group's inside its own), provided the two are one mode
+   (``_one_mode``: the smaller one's mean inside the larger one's reach); otherwise it stays as it is, as does a mode absent from this boost. Rows are
+   assigned once, and several old clouds can join one group: a later boost can find as one
+   mode what earlier ones found as two. Returns (clouds, info). Every cloud is returned,
+   however few its rows: ``boost_region`` decides which can be given an ellipsoid.
+
+
+.. py:function:: boost_region(directory, names, lower, upper, inflate, before, best, depth, quantile=None)
+
+   The Region of the boosts before iteration ``before``, or (None, info) when there is none yet.
+
+   A cloud without a shape is left out and counted (info["left_out"], its rows): a single
+   verified point, or a sparse cloud while no cloud is well-sampled. It is not an error: a
+   run whose boost has one verified point in a mode must be able to go on. (For a day a
+   single point raised here, in the loop, from the saved boost files: at every restart.)
+   info["small_clouds"] counts the sparse clouds that are in, with a borrowed shape.
+
+

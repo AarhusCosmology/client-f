@@ -1,0 +1,874 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Real likelihoods on a cluster &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=2443c677"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_generated/library/hpc/README';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/_generated/library/hpc/README.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Building and maintaining the manual" href="../../../maintenance.html" />
+    <link rel="prev" title="Convergence of the ordinary loop: the error at the tempered batch" href="../docs/tempered_convergence.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../AGENTS.html">Contributor guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGES.html">What this version adds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PERFORMANCE.html">CLiENT speed and memory changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UPGRADING.html">Moving from the first CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/PROFILES_AND_EVIDENCE.html">Profile likelihoods and Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/README.html">CLiENT documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/audit_optima.html">Auditing the network’s optima</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/augment_training.html">Adding profile points to a run’s training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/boost.html">Boost: training points from the posterior itself</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/boost_background_region.html">Boost with a quadratic background and a region</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/boost_modes_mixing.html">Boost: deciding the modes by measured mixing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/boost_real_lcdm.html">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/combine.html">Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/create_profiles.html">Create profiles from a saved CLiENT iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/create_profiles_2d.html">One two-dimensional profile per run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/derived_parameters.html">Derived parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/evidence.html">Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/export.html">Exporting a network: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">export</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/hybrid_optimisers.html">Hybrid profile optimisers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/injection_window.html">Injection: fitting the quadratic to the points near the best</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/members.html">Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/posterior_density_boost.html">Density-filtered posterior boosts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/run_files.html">A run’s files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/run_recovery.html">Continuing and recovering a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/tempered_convergence.html">Convergence of the ordinary loop: the error at the tempered batch</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Real likelihoods on a cluster</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../library.html" class="nav-link">Guides and reports</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Real likelihoods on a cluster</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Maintained source: <a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/hpc/README.md">hpc/README.md</a>. Measurements keep their original settings; consult the <a class="reference internal" href="../../../configuration.html"><span class="std std-doc">current defaults</span></a> before starting a new run.</p>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="real-likelihoods-on-a-cluster">
+<h1>Real likelihoods on a cluster<a class="headerlink" href="#real-likelihoods-on-a-cluster" title="Link to this heading">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">client.py</span></code> runs on its own under <code class="docutils literal notranslate"><span class="pre">mpirun</span></code>. This folder adds what the real runs of the method needed,
+without changing a file of CLiENT. It is written for Cobaya, and the job scripts for Slurm with Open MPI;
+adapt them to your machine.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>what</p></th>
+<th class="head"><p>file</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>A run with an explicit training box, refused points and a call journal</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">launch.py</span></code>, <code class="docutils literal notranslate"><span class="pre">domain.py</span></code>, <code class="docutils literal notranslate"><span class="pre">refused.py</span></code>, <code class="docutils literal notranslate"><span class="pre">loading.py</span></code>, <code class="docutils literal notranslate"><span class="pre">boltzmann_build.py</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>An example job</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">submit_client.sh</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>The training box of a likelihood with many nuisance parameters</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">analysis/find_centre.py</span></code>, <code class="docutils literal notranslate"><span class="pre">analysis/make_box.py</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>A network against the true likelihood at its own posterior samples</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">analysis/true_check.py</span></code>, <code class="docutils literal notranslate"><span class="pre">analysis/report.py</span></code>, <code class="docutils literal notranslate"><span class="pre">analysis/corner.py</span></code>, <code class="docutils literal notranslate"><span class="pre">analysis/chain_sampling.py</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Evidences corrected by those true values</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">analysis/evidence_summary.py</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>A branch of a run at an earlier network, with other settings</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">analysis/branch_run.py</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>A run’s members’ pilots scored again from its files, with and without each member’s offset</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">analysis/member_pilot_scores.py</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>True profiles with managed backend processes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true_profiles/</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>A worked real-data example, LCDM on Planck + DESI</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">runs/lcdm_planck_desi/</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Each program describes its use and its arguments at its head.</p>
+<section id="a-run">
+<h2>A run<a class="headerlink" href="#a-run" title="Link to this heading">#</a></h2>
+<p>A run is a folder <code class="docutils literal notranslate"><span class="pre">runs/&lt;RUN&gt;/</span></code> holding <code class="docutils literal notranslate"><span class="pre">client.yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">cobaya.yaml</span></code> and <code class="docutils literal notranslate"><span class="pre">domain_bounds.json</span></code>, the training box as
+<code class="docutils literal notranslate"><span class="pre">{name:</span> <span class="pre">[low,</span> <span class="pre">high]}</span></code>, with paths relative to this folder. <code class="docutils literal notranslate"><span class="pre">prior.n_sigma</span></code> must be null: the box is the file’s.
+A site that keeps its runs and job logs in a folder of its own beside CLiENT sets <code class="docutils literal notranslate"><span class="pre">CLIENT_HPC_DIR</span></code> to that folder:
+the launcher then writes <code class="docutils literal notranslate"><span class="pre">logs/</span></code> there, and <code class="docutils literal notranslate"><span class="pre">report.py</span></code>, <code class="docutils literal notranslate"><span class="pre">corner.py</span></code> and <code class="docutils literal notranslate"><span class="pre">make_box.py</span></code> read <code class="docutils literal notranslate"><span class="pre">runs/</span></code> there.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mpirun<span class="w"> </span>-n<span class="w"> </span>N<span class="w"> </span>python<span class="w"> </span>launch.py<span class="w"> </span>runs/RUN/domain_bounds.json<span class="w"> </span>runs/RUN/client.yaml<span class="w"> </span>-n<span class="w"> </span>RUN<span class="w"> </span>-o<span class="w"> </span>results<span class="w">   </span><span class="c1"># a new run</span>
+mpirun<span class="w"> </span>-n<span class="w"> </span>N<span class="w"> </span>python<span class="w"> </span>launch.py<span class="w"> </span>runs/RUN/domain_bounds.json<span class="w"> </span>results/&lt;timestamp&gt;_RUN<span class="w"> </span>-i<span class="w"> </span><span class="m">2</span><span class="w">             </span><span class="c1"># continue</span>
+</pre></div>
+</div>
+<p>Compared with <code class="docutils literal notranslate"><span class="pre">client.py</span></code> itself, the launcher</p>
+<ul class="simple">
+<li><p>applies the training box of the file on all ranks, leaving Cobaya’s prior densities as they are, and stops when
+a continued run is given another box;</p></li>
+<li><p>rounds batch points to single precision before they are evaluated, so that the coordinates in the training
+files are exactly those the likelihood saw;</p></li>
+<li><p>turns a logged error of Cobaya at a point, and a log-posterior of NaN, into a refused point, in place of
+stopping the run or withholding corrected weights;</p></li>
+<li><p>writes <code class="docutils literal notranslate"><span class="pre">logs/backend_&lt;tag&gt;.json</span></code> (the Boltzmann code, the commits of CLiENT and CLASS++, the box, the likelihoods)
+and one line per batch of true evaluations to <code class="docutils literal notranslate"><span class="pre">logs/evaluations_&lt;tag&gt;.jsonl</span></code>. CLiENT’s commit is read from its
+checkout; CLASS++’s is recorded only when the job names it, as <code class="docutils literal notranslate"><span class="pre">CLASSPP_COMMIT</span></code> or <code class="docutils literal notranslate"><span class="pre">CLASSPP_BUILD_COMMIT</span></code>.</p></li>
+</ul>
+<p>A run’s <code class="docutils literal notranslate"><span class="pre">runs/&lt;RUN&gt;/job.env</span></code> is sourced by the job script and can set these:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>variable</p></th>
+<th class="head"><p>unset</p></th>
+<th class="head"><p>meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CLIENT_REFUSED_VALUE</span></code></p></td>
+<td><p>refused points are -inf and are dropped</p></td>
+<td><p>a number, or <code class="docutils literal notranslate"><span class="pre">design[:Q]</span></code>, the quantile Q (0.5 unless given) of the design’s finite values: refused points get this value and are trained on. The value belongs to the run (<code class="docutils literal notranslate"><span class="pre">refused_value.json</span></code>), and a continued run must be given the same one. It is never a finite true value: the true check and the evidence correction count refused points by it</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CLIENT_LOAD_GROUP</span></code></p></td>
+<td><p>all at once</p></td>
+<td><p>ranks build their likelihood this many at a time, for likelihoods that need far more memory while reading their data (HiLLiPoP)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CLIENT_ENV</span></code></p></td>
+<td><p>not checked</p></td>
+<td><p>the conda environment whose Boltzmann code the job must evaluate with</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CLASSPP_GUARD_DIR</span></code></p></td>
+<td><p>not used</p></td>
+<td><p>classy must come from this folder’s <code class="docutils literal notranslate"><span class="pre">lib/</span></code>: the patched build (see below)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CLASSPP_BUILD_DIR</span></code>, <code class="docutils literal notranslate"><span class="pre">CLASSPP_BUILD_COMMIT</span></code></p></td>
+<td><p>not used</p></td>
+<td><p>classy must come from this folder’s <code class="docutils literal notranslate"><span class="pre">lib/</span></code>: an unpatched build of another CLASS++ commit, the one <code class="docutils literal notranslate"><span class="pre">CLASSPP_BUILD_COMMIT</span></code> names. Not with <code class="docutils literal notranslate"><span class="pre">CLASSPP_GUARD_DIR</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CLASSPP_COMMIT</span></code></p></td>
+<td><p>not recorded</p></td>
+<td><p>the commit of the environment’s own CLASS++ build, for <code class="docutils literal notranslate"><span class="pre">logs/backend_&lt;tag&gt;.json</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The settings for a real likelihood are <code class="docutils literal notranslate"><span class="pre">input/recommended_near_gaussian.yaml</span></code> and <code class="docutils literal notranslate"><span class="pre">input/recommended_non_gaussian.yaml</span></code>;
+<code class="docutils literal notranslate"><span class="pre">docs/boost.md</span></code> says which to take.</p>
+</section>
+<section id="checking-a-network">
+<h2>Checking a network<a class="headerlink" href="#checking-a-network" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>analysis/report.py<span class="w"> </span>results/&lt;timestamp&gt;_RUN<span class="w">                                      </span><span class="c1"># T = 1 chains and a summary</span>
+mpirun<span class="w"> </span>-n<span class="w"> </span>N<span class="w"> </span>python<span class="w"> </span>analysis/true_check.py<span class="w"> </span>results/&lt;timestamp&gt;_RUN<span class="w"> </span>--cobaya<span class="w"> </span>runs/RUN/cobaya.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--domain<span class="w"> </span>runs/RUN/domain_bounds.json<span class="w"> </span>--networks<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">15</span><span class="w"> </span>--points<span class="w"> </span><span class="m">500</span>
+python<span class="w"> </span>../client.py<span class="w"> </span>evidence<span class="w"> </span>results/&lt;timestamp&gt;_RUN<span class="w"> </span>-i<span class="w"> </span><span class="m">15</span>
+python<span class="w"> </span>analysis/evidence_summary.py<span class="w"> </span>results/&lt;timestamp&gt;_RUN
+</pre></div>
+</div>
+<p>The true check evaluates the true likelihood at posterior samples of a network: the direct measure of the network’s
+error where its posterior is. The summary corrects each evidence by those true values. It withholds the correction
+when more than 5% of the evidence’s own posterior lies where the true check has no sample, when the two do not
+record the same target, and when a chain’s weights are marked as not reliable.</p>
+<p>A parameter sampled as the logarithm of a quantity (<code class="docutils literal notranslate"><span class="pre">log10Gamma</span></code>, any <code class="docutils literal notranslate"><span class="pre">log10...</span></code> input of CLASS++) has a prior flat
+in the logarithm. For the posterior with a prior flat in the quantity itself, name such parameters to both programs:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>analysis/report.py<span class="w"> </span>results/&lt;timestamp&gt;_RUN<span class="w"> </span>--networks<span class="w"> </span><span class="m">15</span><span class="w"> </span>--linear-prior<span class="w"> </span>log10Gamma
+mpirun<span class="w"> </span>-n<span class="w"> </span>N<span class="w"> </span>python<span class="w"> </span>analysis/true_check.py<span class="w"> </span>results/&lt;timestamp&gt;_RUN<span class="w"> </span>--cobaya<span class="w"> </span>runs/RUN/cobaya.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--domain<span class="w"> </span>runs/RUN/domain_bounds.json<span class="w"> </span>--networks<span class="w"> </span><span class="m">15</span><span class="w"> </span>--points<span class="w"> </span><span class="m">500</span><span class="w"> </span>--linear-prior<span class="w"> </span>log10Gamma
+</pre></div>
+</div>
+<p>A network learned the log posterior with the run’s prior, so a prior flat in 10^p adds ln(10) p to it: nothing is
+trained again. The term is the same in the truth and the network, and the true check measures the network’s error at
+the new posterior’s samples as before. That posterior may lie where the run put few points (a prior flat in 10^p
+weighs the upper end of p’s box most), so check it. Both write to <code class="docutils literal notranslate"><span class="pre">analysis/linear_prior_&lt;p&gt;[+&lt;q&gt;...]/</span></code>, and their
+chains record the prior in their target: the run’s own chains, <code class="docutils literal notranslate"><span class="pre">true_check.json</span></code> and the evidence summary are left
+as they are.</p>
+</section>
+<section id="branching-a-run">
+<h2>Branching a run<a class="headerlink" href="#branching-a-run" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>analysis/branch_run.py<span class="w"> </span>results/&lt;timestamp&gt;_RUN<span class="w"> </span>--at<span class="w"> </span><span class="m">10</span><span class="w"> </span>--set<span class="w"> </span>acquisition.boost.region<span class="o">=</span><span class="m">1</span>.5
+</pre></div>
+</div>
+<p>makes a new run directory that holds the run up to network 10 and starts its boosts there; the network must lie at or
+before the source’s own boost start. The source run stays as it is, and the branch keeps the source’s call journals
+apart from its own. Continue the branch as any run.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>analysis/branch_run.py<span class="w"> </span>results/&lt;timestamp&gt;_RUN<span class="w"> </span>--train-from<span class="w"> </span><span class="m">8</span><span class="w"> </span>--set<span class="w"> </span>training.warm_start<span class="o">=</span><span class="nb">false</span>
+</pre></div>
+</div>
+<p>branches inside the boosts instead: the branch holds networks 0 to 7 and the training set of network 8, keeps the
+source’s boost start, and trains network 8 and the later ones itself with the settings given.</p>
+</section>
+<section id="true-profiles">
+<h2>True profiles<a class="headerlink" href="#true-profiles" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>true_profiles/make_config.py<span class="w"> </span>results/&lt;timestamp&gt;_RUN<span class="w"> </span>--iteration<span class="w"> </span><span class="m">25</span><span class="w"> </span>--out<span class="w"> </span>runs/RUN/profiles.yaml
+sbatch<span class="w"> </span>true_profiles/submit_profiles.sh<span class="w"> </span>results/&lt;timestamp&gt;_RUN<span class="w"> </span>runs/RUN/profiles.yaml<span class="w"> </span>results_profiles/NAME
+python<span class="w"> </span>true_profiles/status.py<span class="w"> </span>results_profiles/NAME
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">make_config.py</span></code> takes <code class="docutils literal notranslate"><span class="pre">--hybrid-hops</span></code> and <code class="docutils literal notranslate"><span class="pre">--gtol</span></code> for the network scan, which a rugged network may need above
+CLiENT’s defaults (12 and 1e-4), <code class="docutils literal notranslate"><span class="pre">--training-starts</span></code> for a profile with a branch far from the network’s best point
+(<code class="docutils literal notranslate"><span class="pre">hybrid_training_starts</span></code>, docs/hybrid_optimisers.md), and sets the study’s call budget to what its plan can use unless <code class="docutils literal notranslate"><span class="pre">--budget</span></code> is given.
+The profile code starts its own backend processes: do not use <code class="docutils literal notranslate"><span class="pre">mpirun</span></code>. A refused point is -inf in a profile, never
+the run’s refused value. <code class="docutils literal notranslate"><span class="pre">CLIENT_CAMB_ACCURACY_TARGET</span></code> and <code class="docutils literal notranslate"><span class="pre">CLIENT_PROFILE_NEWTON</span></code> (overrides of <code class="docutils literal notranslate"><span class="pre">NewtonConfig</span></code>,
+outside what that stage was validated with) are written beside the study, and a resumed study must be given the same.</p>
+</section>
+<section id="class-for-spectra-with-dark-acoustic-oscillations">
+<h2>CLASS++ for spectra with dark acoustic oscillations<a class="headerlink" href="#class-for-spectra-with-dark-acoustic-oscillations" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">patches/classpp_extrap_guard.patch</span></code> changes one case of <code class="docutils literal notranslate"><span class="pre">NonlinearModule::nonlinear_get_source</span></code>, the extrapolation of
+the sources beyond the computed k that halofit and HMcode integrate over. Where the linear spectrum has dark acoustic
+oscillations the last two table values can be nearly equal, and the default two-point fit then over- or underflows, which
+gives a NaN P(k). Where the fit is well posed the expression is the original, and the spectra were bit for bit those of the
+unpatched build at 40 random points and the best fit. It is a regularisation of uncalibrated halofit and HMcode output, not a model.</p>
+<p>Apply it at the CLASS++ commit the run names and build into a folder of its own, source under <code class="docutils literal notranslate"><span class="pre">src/</span></code> and the Python extension
+under <code class="docutils literal notranslate"><span class="pre">lib/</span></code> (CLASS++ compiles the path of its source tree into the library). Then set <code class="docutils literal notranslate"><span class="pre">CLASSPP_GUARD_DIR</span></code> to that
+folder in the run’s <code class="docutils literal notranslate"><span class="pre">job.env</span></code> and put its <code class="docutils literal notranslate"><span class="pre">lib/</span></code> first on <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code>. Leave the environment’s own classy untouched.
+An unpatched build of another commit is made and named the same way, with <code class="docutils literal notranslate"><span class="pre">CLASSPP_BUILD_DIR</span></code> and <code class="docutils literal notranslate"><span class="pre">CLASSPP_BUILD_COMMIT</span></code>.
+On several nodes the job must pass these variables and <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> to every rank (<code class="docutils literal notranslate"><span class="pre">mpirun</span> <span class="pre">-x</span></code>, as <code class="docutils literal notranslate"><span class="pre">submit_client.sh</span></code> does).</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../docs/tempered_convergence.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Convergence of the ordinary loop: the error at the tempered batch</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../../maintenance.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Building and maintaining the manual</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-run">A run</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-a-network">Checking a network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#branching-a-run">Branching a run</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#true-profiles">True profiles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-for-spectra-with-dark-acoustic-oscillations">CLASS++ for spectra with dark acoustic oscillations</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/_generated/library/hpc/README.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,126 @@
+convergence.convergence
+=======================
+
+.. py:module:: convergence.convergence
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   convergence.convergence.TEMPERED_BATCH_SCATTER
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   convergence.convergence.BaseConvergenceMetric
+   convergence.convergence.GaussianPosteriorDrift
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   convergence.convergence.build_convergence_metric
+   convergence.convergence.tempered_verdict
+
+
+Module Contents
+---------------
+
+.. py:class:: BaseConvergenceMetric
+
+
+
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+   .. py:method:: summarize(chain)
+      :abstractmethod:
+
+
+      chain: (n_steps, n_walkers, ndim) ensemble array. Returns a chain summary dict.
+
+
+
+   .. py:method:: compute_from_summaries(current_chain_summary, previous_chain_summary)
+      :abstractmethod:
+
+
+      summary dicts -> scalar metric value.
+
+
+
+   .. py:method:: save_chain_summary(convergence_stats_dir, iteration, chain_summary)
+      :staticmethod:
+
+
+
+   .. py:method:: load_chain_summary(convergence_stats_dir, iteration)
+      :staticmethod:
+
+
+
+.. py:class:: GaussianPosteriorDrift(relative_floor=1e-12, name='gaussian_posterior_drift')
+
+
+
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+   .. py:attribute:: relative_floor
+
+
+   .. py:attribute:: name
+      :value: 'gaussian_posterior_drift'
+
+
+
+   .. py:method:: summarize(chain)
+
+      chain: (n_steps, n_walkers, ndim) ensemble array. Returns a chain summary dict.
+
+
+
+   .. py:method:: compute_from_summaries(current_chain_summary, previous_chain_summary)
+
+      summary dicts -> scalar metric value.
+
+
+
+.. py:data:: TEMPERED_BATCH_SCATTER
+   :value: 'tempered_batch_scatter'
+
+
+.. py:function:: build_convergence_metric(name)
+
+.. py:function:: tempered_verdict(scatters, iteration, temperature, threshold=1.2, consecutive=2)
+
+   Has the ordinary loop converged, now that network ``iteration`` is trained?
+
+   Every ordinary iteration evaluates the true likelihood at a tempered batch that its
+   network chose and had not seen; the scatter (standard deviation) of network minus truth
+   there is a test of that network which costs nothing (utils/held_out.py). The loop has
+   converged when that scatter was below ``threshold`` times the sampling temperature for the
+   ``consecutive`` networks before this one: their batches are in, and this network is the
+   first trained on all of them.
+
+   scatters : {iteration: scatter at the batch network N acquired}; a missing or None entry
+       (no batch, or a run recorded before the scatter was kept) is "not known".
+
+   Returns dict(converged, value, used, limit): ``used`` are the scatters looked at, oldest
+   first; ``value`` is the largest of them in units of the temperature (None when one is not
+   known), which is below ``threshold`` exactly when converged; ``limit`` is threshold x T.
+
+   The threshold is in units of T because the batch sits about T n / 2 below the peak: the
+   same posterior error shows as a batch error that grows with T. 1.2 is the measured value
+   (docs/tempered_convergence.md): do not change the default without that measurement.
+
+

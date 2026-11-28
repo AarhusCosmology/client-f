@@ -1,0 +1,41 @@
+dataset.posterior_boost
+=======================
+
+.. py:module:: dataset.posterior_boost
+
+.. autoapi-nested-parse::
+
+   Experimental posterior-focused boost selection using CLiENT's existing filter.
+
+   Opt-in through acquisition.boost.density_filter; disabled by default.
+   Input clouds must be posterior samples *including residence multiplicity*, not
+   unique jump-chain states. Each mode supplies an equal-size cloud: the target is
+   q_bal = sum(q_k)/K, independent of the surrogate's mode evidence. With ``shares``
+   (acquisition.boost.balance_floor, dataset/boost.py mode_shares) mode k's cloud is
+   that size times its share instead: q = sum(s_k q_k)/sum(s_k). Selection can
+   accept unequal numbers per mode because existing coverage enters the deficit.
+   Do not pass selected points to boost_report's unweighted evidence correction.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   dataset.posterior_boost.select_posterior_boost
+
+
+Module Contents
+---------------
+
+.. py:function:: select_posterior_boost(dataset, mode_samples, n, *, seed=None, pool_factor=10, shares=None)
+
+   Return distinct new points and selection diagnostics; never mutate dataset.
+
+   Uses the same whitening, k-NN estimator on both sides, and sequential deficit
+   updates as normal acquisition. The target temperature is locally overridden
+   to one; the run's hot acquisition setting is left unchanged. A finite pool
+   may return fewer than n points; there is no unfiltered quota-filling fallback.
+
+

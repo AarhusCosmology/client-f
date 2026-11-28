@@ -1,0 +1,12 @@
+likelihood:
+  analytic_gaussian:
+    external: 'lambda x, y: -0.5 * (x*x + (y-0.6*x)**2 / 0.64)'
+params:
+  x:
+    prior: {min: -5, max: 5}
+    ref: {dist: norm, loc: 0, scale: 1}
+    proposal: 0.2
+  y:
+    prior: {min: -5, max: 5}
+    ref: {dist: norm, loc: 0, scale: 1}
+    proposal: 0.2

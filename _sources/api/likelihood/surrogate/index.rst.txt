@@ -1,0 +1,74 @@
+likelihood.surrogate
+====================
+
+.. py:module:: likelihood.surrogate
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   likelihood.surrogate.SurrogateMetadata
+   likelihood.surrogate.SurrogateLikelihood
+
+
+Module Contents
+---------------
+
+.. py:class:: SurrogateMetadata
+
+   .. py:attribute:: parameters
+      :type:  tuple[likelihood.base.ParameterInfo, Ellipsis]
+
+
+   .. py:method:: from_likelihood(likelihood)
+      :classmethod:
+
+
+
+   .. py:property:: param_names
+
+
+   .. py:property:: param_labels
+
+
+   .. py:property:: bounds
+
+
+   .. py:property:: scales
+
+
+   .. py:method:: save(path)
+
+
+   .. py:method:: load(path)
+      :classmethod:
+
+
+
+.. py:class:: SurrogateLikelihood(model, metadata, region=None)
+
+   .. py:attribute:: model
+
+
+   .. py:attribute:: metadata
+
+
+   .. py:attribute:: region
+      :value: None
+
+
+
+   .. py:method:: network(positions)
+
+
+   .. py:method:: loglkl(positions)
+
+
+   .. py:method:: logprior(positions)
+
+
+   .. py:method:: logpost(positions)
+
+

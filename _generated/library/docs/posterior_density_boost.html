@@ -1,0 +1,898 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Density-filtered posterior boosts &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=2443c677"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_generated/library/docs/posterior_density_boost';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/_generated/library/docs/posterior_density_boost.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="A run’s files" href="run_files.html" />
+    <link rel="prev" title="Several trainings per network (training.members)" href="members.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../AGENTS.html">Contributor guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGES.html">What this version adds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PERFORMANCE.html">CLiENT speed and memory changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UPGRADING.html">Moving from the first CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PROFILES_AND_EVIDENCE.html">Profile likelihoods and Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">CLiENT documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audit_optima.html">Auditing the network’s optima</a></li>
+<li class="toctree-l1"><a class="reference internal" href="augment_training.html">Adding profile points to a run’s training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost.html">Boost: training points from the posterior itself</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_background_region.html">Boost with a quadratic background and a region</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_modes_mixing.html">Boost: deciding the modes by measured mixing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_real_lcdm.html">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combine.html">Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles.html">Create profiles from a saved CLiENT iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles_2d.html">One two-dimensional profile per run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derived_parameters.html">Derived parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evidence.html">Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Exporting a network: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">export</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hybrid_optimisers.html">Hybrid profile optimisers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injection_window.html">Injection: fitting the quadratic to the points near the best</a></li>
+<li class="toctree-l1"><a class="reference internal" href="members.html">Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Density-filtered posterior boosts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_files.html">A run’s files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_recovery.html">Continuing and recovering a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempered_convergence.html">Convergence of the ordinary loop: the error at the tempered batch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/README.html">Real likelihoods on a cluster</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../library.html" class="nav-link">Guides and reports</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Density-filtered posterior boosts</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Maintained source: <a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/docs/posterior_density_boost.md">docs/posterior_density_boost.md</a>. Measurements keep their original settings; consult the <a class="reference internal" href="../../../configuration.html"><span class="std std-doc">current defaults</span></a> before starting a new run.</p>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="density-filtered-posterior-boosts">
+<h1>Density-filtered posterior boosts<a class="headerlink" href="#density-filtered-posterior-boosts" title="Link to this heading">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">acquisition.boost.density_filter:</span> <span class="pre">true</span></code> enables a posterior-focused version of CLiENT’s
+density filter. The default is <code class="docutils literal notranslate"><span class="pre">false</span></code>, the unfiltered boost and its evidence-correction
+report; both recommended settings use the filter (<code class="docutils literal notranslate"><span class="pre">docs/boost.md</span></code>, “Two recommended settings”). See
+<a class="reference internal" href="boost.html"><span class="std std-doc">boost.md</span></a> for mode finding, sampling and bridge weights.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">acquisition</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">audit</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">boost</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2000</span>
+<span class="w">    </span><span class="nt">start_iteration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+<span class="w">    </span><span class="nt">density_filter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">pool_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+</pre></div>
+</div>
+<p>With that block in a completed iteration-15 run’s YAML:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span>RUN_DIR<span class="w"> </span>-s<span class="w"> </span><span class="m">15</span><span class="w"> </span>-i<span class="w"> </span><span class="m">10</span>
+</pre></div>
+</div>
+<p>This requests ten acquisitions and trains through iteration 25. <code class="docutils literal notranslate"><span class="pre">n</span></code> is the number
+requested <strong>after filtering</strong>, not the candidate count. Audit evaluations are
+additional. A finite candidate pool may underfill; it is never topped up with
+unfiltered points. No accepted points raises an explicit error. Boosts replace the
+ordinary tempered acquisition and injection; they do not disable audit.</p>
+<p><strong>Known audit limitation:</strong> the native loop does not stop on <code class="docutils literal notranslate"><span class="pre">clear:</span> <span class="pre">false</span></code>.
+Final verification may discover a maximum without sending it back for correction.
+Inspect <code class="docutils literal notranslate"><span class="pre">audit/audit_it_N.json</span></code> before further sampling/acquisition from that network;
+unattended filtered boosts need an external guard. The
+study below used such a guard for SInu after the Gaussian failure.</p>
+<section id="selection-and-statistical-interpretation">
+<h2>Selection and statistical interpretation<a class="headerlink" href="#selection-and-statistical-interpretation" title="Link to this heading">#</a></h2>
+<p>The mode finder supplies equal-size T=1 clouds, retaining repeated MCMC states.
+For K modes the reference is the balanced mixture</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>q_bal(x) = (1/K) sum_k q_k(x).
+</pre></div>
+</div>
+<p>It is a training-density target, not the physical posterior mixture. Physical mode
+weights still come from bridge evidences. Equal candidate supply does not force
+equal accepted counts: existing local density determines the deficit.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">acquisition.boost.balance_floor</span></code> (opt-in, docs/boost.md) mode k’s cloud is cut
+to s_k times the common size, s_k = min(w_k / floor, 1) over the largest such, so
+the reference is sum_k s_k q_k / sum_k s_k: modes below the floor contribute in
+proportion to their weight. Without it every cloud has the common size and the reference is
+q_bal.</p>
+<p><code class="docutils literal notranslate"><span class="pre">dataset/posterior_boost.py</span></code> calls <code class="docutils literal notranslate"><span class="pre">dataset/acquisition.select_points</span></code> with a local
+T=1 override and all genuine current training data, including earlier boost and
+audit additions. Both current and reference densities use the same k-NN estimator
+and whitening. Candidate and reference states are disjoint; sequential updates
+(<code class="docutils literal notranslate"><span class="pre">batch_size=1</span></code>) include every accepted point before the next selection. The target
+count scales with the existing plus accepted data, using the normal selector’s
+positive density deficit. Its normalization grows with the dataset: this is not
+an absolute cap on core points and does not remove existing overdensities.</p>
+<p>All equal float32 coordinates are grouped before selection, retaining residence
+multiplicity as sampling weight. Coordinates already stored in the training set
+are excluded. The run’s ordinary acquisition temperature and global NumPy random
+state are unchanged by the filtered selector. Optional RNG/exclusion arguments
+leave the ordinary acquisition path unchanged.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">n:</span> <span class="pre">2000,</span> <span class="pre">pool_factor:</span> <span class="pre">20</span></code>, the selector requests a 40,000-state candidate
+pool and a disjoint reference cloud. When the chains hold too few distinct states
+for that pool and a reference of more than <code class="docutils literal notranslate"><span class="pre">n_neighbors</span></code>, the pool is made smaller,
+so that the reference keeps min(training points, half the states); the log says so
+and the selection record has <code class="docutils literal notranslate"><span class="pre">pool_factor_requested</span></code>, <code class="docutils literal notranslate"><span class="pre">pool_factor_used</span></code> and
+<code class="docutils literal notranslate"><span class="pre">distinct_states</span></code>. If that still leaves no such reference the selector raises an
+error: extend the posterior chains or reduce <code class="docutils literal notranslate"><span class="pre">acquisition.boost.pool_factor</span></code>.
+Larger candidate pools are not guaranteed to fill a density-limited request.</p>
+<p>The identity <code class="docutils literal notranslate"><span class="pre">Z_true/Z_surrogate</span> <span class="pre">=</span> <span class="pre">mean(exp(true</span> <span class="pre">-</span> <span class="pre">surrogate))</span></code> assumes posterior
+draws. Density-selected rows do not satisfy it. Their report sets
+<code class="docutils literal notranslate"><span class="pre">evidence_correction_valid:</span> <span class="pre">false</span></code>, records selection/accepted counts and finite
+true evaluations, and omits <code class="docutils literal notranslate"><span class="pre">log_mean_exp</span></code>, <code class="docutils literal notranslate"><span class="pre">effective_points</span></code> and
+<code class="docutils literal notranslate"><span class="pre">corrected_weight</span></code>. Estimating a true mode-weight correction requires a separate
+unfiltered diagnostic sample or another justified estimator. Reported errors on
+selected points are descriptive, not unbiased posterior error estimates.</p>
+</section>
+<section id="completed-analytic-study-56-october-2026">
+<h2>Completed analytic study, 5–6 October 2026<a class="headerlink" href="#completed-analytic-study-56-october-2026" title="Link to this heading">#</a></h2>
+<p>Both studies used full native adaptive training and audit, not shortened pilot
+fits. The schedule was <strong>10</strong> boosts of up to 2,000
+accepted points. No CLASS++ evaluations were made.</p>
+<ul class="simple">
+<li><p><strong>Gaussian58:</strong> start at the existing audited iteration-15 model.</p></li>
+<li><p><strong>SInu16:</strong> rebuild with the real SInu settings, run iterations 0–5, compute a
+29-node true logGeff profile on [-5, -0.8], add 93 density-filtered profile
+points (cap 300), continue through iteration 15 with injection and audit, then
+boost ten times.</p></li>
+<li><p>Training: 5×512 Alsing, dynamic MSRE with ESS floor 0.1, batch 128, learning rate
+1e-4 down to 1e-6, plateau patience 75, floor grace 100, 5,000-epoch ceiling.
+The first post-augmentation training used the standard ×3 schedule.</p></li>
+<li><p>Ordinary acquisition: T=7, 2,000 points plus 100 injected points. SInu used
+256 walkers and 100,000 steps; Gaussian retained 432 walkers and 60,000 steps.</p></li>
+<li><p>Pointwise validation: fixed independent 24,000-point true-posterior sample and
+4,000-point T=7 sample, never used in training. Credible metrics use unfiltered
+per-mode chains with bridge-evidence weights, not density-selected rows.</p></li>
+</ul>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Study / checkpoint</p></th>
+<th class="head text-right"><p>Max CM68</p></th>
+<th class="head text-right"><p>Max CM95</p></th>
+<th class="head text-right"><p>Centred log-objective error SD</p></th>
+<th class="head text-right"><p>Strong-mode weight</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Gaussian, before boost</p></td>
+<td class="text-right"><p>0.3091</p></td>
+<td class="text-right"><p>0.1470</p></td>
+<td class="text-right"><p>1.212</p></td>
+<td class="text-right"><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Gaussian, four boosts (best measured)</p></td>
+<td class="text-right"><p>0.0577</p></td>
+<td class="text-right"><p>0.0352</p></td>
+<td class="text-right"><p>0.476</p></td>
+<td class="text-right"><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Gaussian, five boosts, failed audit</p></td>
+<td class="text-right"><p>0.7330*</p></td>
+<td class="text-right"><p>0.3670*</p></td>
+<td class="text-right"><p>2.806</p></td>
+<td class="text-right"><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>SInu, before boost</p></td>
+<td class="text-right"><p>0.1211</p></td>
+<td class="text-right"><p>0.0838</p></td>
+<td class="text-right"><p>0.745</p></td>
+<td class="text-right"><p>14.49%</p></td>
+</tr>
+<tr class="row-even"><td><p>SInu, seven boosts</p></td>
+<td class="text-right"><p>0.0369</p></td>
+<td class="text-right"><p>0.0155</p></td>
+<td class="text-right"><p>0.224</p></td>
+<td class="text-right"><p>17.85%</p></td>
+</tr>
+<tr class="row-odd"><td><p>SInu, ten boosts</p></td>
+<td class="text-right"><p>0.0452</p></td>
+<td class="text-right"><p>0.0224</p></td>
+<td class="text-right"><p>0.207</p></td>
+<td class="text-right"><p>18.73%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The analytic SInu strong-mode probability is 19.0348%. All ten batches filled,
+adding 20,000 genuine points plus 18 boost-stage audit evaluations. Every saved
+SInu boost audit was clear; the last needed six corrective evaluations after an
+initial false maximum +1297 above the best true value.</p>
+<p>* Gaussian’s fifth audit remained uncleared, so these chain-based metrics need
+not describe its full surrogate posterior. Final verification found a false
+maximum +2040 despite an earlier clear search. The native loop acquired a sixth
+batch before the process was stopped during iteration-21 training. All outputs
+were preserved. Six batches were acquired (12,000 points), five boosted networks
+were completed, and the original sequence used 50 audit calls. No continuation
+past this scientific stop was performed.</p>
+<p>An isolated re-audit corrected that maximum with one additional true evaluation.
+Its search became clear, but independent error SD remained 1.279 versus 0.476 at
+the four-boost checkpoint. Clearing a search does not itself restore posterior
+accuracy. The diagnostic used a documented new validation split; original shuffle
+indices had not been saved, so it was not an exact replay.</p>
+</section>
+<section id="what-is-and-is-not-demonstrated">
+<h2>What is and is not demonstrated<a class="headerlink" href="#what-is-and-is-not-demonstrated" title="Link to this heading">#</a></h2>
+<p>Repeated boosts improved independent accuracy in these examples, but gains were
+not monotonic and optimality of the filter was not established. SInu’s final T=1
+drift was 0.071, and some earlier checkpoints had better credible metrics. Final
+chain-half maximum CM95 values were 0.0739 and 0.0215, with n_s responsible for the
+first-half discrepancy; these reuse the fitted mode weights and do not measure
+bridge-weight uncertainty. This supports improvement, not established convergence.</p>
+<p>CM at level p is <code class="docutils literal notranslate"><span class="pre">(abs(upper-upper_ref)</span> <span class="pre">+</span> <span class="pre">abs(lower-lower_ref))</span> <span class="pre">/</span> <span class="pre">(upper_ref-lower_ref)</span></code>, with the repository’s one-sided prior-bound conventions.
+Gaussian references are analytic; SInu intervals use 500,000 independent bounded
+analytic draws and reference-half checks. Its negligible softened posterior tail
+is omitted. Constant objective offsets affect RMSE but not normalized posterior
+shape; centred error SD is therefore reported separately. The final SInu chain
+was initialized from preceding posterior states at T=1, whereas intermediate
+rounds cooled from T=7; this final discovery step is not an independent global
+mode search. Finite audit searches provide no global guarantee.</p>
+<p>The SInu profile label-check tolerance alone changed 0.01→0.03 after verifying
+float32 rounding on 1,003 points. No objective or optimizer tolerance changed.
+Independent profile validation found median Δχ² gap 0.0104 and worst gap 0.442;
+the anchor was not certified.</p>
+<p>Earlier four-round, 1,000-point pilots used short 40-epoch fits and an immature
+iteration-7 twin. Importance-proposal coverage was inadequate in the twin pilot;
+its apparent gains did not survive direct sampling. Those pilots are not evidence
+against the later full-schedule result. A selection-only two-mode test confirmed
+that the filter directs additions toward the locally underfilled mode, including
+in 58 dimensions; it does not establish improved neural-network accuracy.</p>
+<p>Open, and not implemented: an audit-clear gate specifically for boosting; routing failed
+final verification back into the remaining correction budget; a test of the preservation
+of core accuracy; resampling selected checkpoints with independent seeds; comparison
+against matched retraining-only and unfiltered controls.</p>
+</section>
+<section id="reproduction-and-regression-checks">
+<h2>Reproduction and regression checks<a class="headerlink" href="#reproduction-and-regression-checks" title="Link to this heading">#</a></h2>
+<p>Regression coverage in <code class="docutils literal notranslate"><span class="pre">tests/test_posterior_boost.py</span></code> checks duplicate residence
+mass, existing-coordinate exclusion, local seeding, rejection of invalid clouds,
+mode-dependent filtering, and omission of invalid evidence corrections. The
+boost tests (<code class="docutils literal notranslate"><span class="pre">tests/test_boost.py</span></code>) cover the default unfiltered behaviour.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="members.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="run_files.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">A run’s files</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selection-and-statistical-interpretation">Selection and statistical interpretation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#completed-analytic-study-56-october-2026">Completed analytic study, 5–6 October 2026</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-and-is-not-demonstrated">What is and is not demonstrated</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproduction-and-regression-checks">Reproduction and regression checks</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/_generated/library/docs/posterior_density_boost.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

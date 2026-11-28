@@ -1,0 +1,119 @@
+run.run
+=======
+
+.. py:module:: run.run
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   run.run.Run
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   run.run.settings_file
+   run.run.iterations
+   run.run.latest_model
+   run.run.latest_iteration
+
+
+Module Contents
+---------------
+
+.. py:function:: settings_file(directory)
+
+   The run's settings, the one ``*.yaml`` or ``*.yml`` beside its folders.
+
+
+.. py:function:: iterations(directory, pattern: str) -> dict[int, pathlib.Path]
+
+   {N: path} of the files in ``directory`` named by ``pattern`` with N for its ``*``
+   ("model_it_*.keras"). Augmentation arms (e.g. model_it_5_pa2000.keras) are not
+   pipeline iterations and are not matched.
+
+
+.. py:function:: latest_model(run_dir) -> int
+
+   The latest network of a run (trained_models/model_it_N.keras).
+
+
+.. py:function:: latest_iteration(run_dir: pathlib.Path) -> int
+
+   The latest network or training set on disk, -1 without any: where a continued run
+   starts when it is not told (-s).
+
+
+.. py:class:: Run
+
+   .. py:attribute:: config
+      :type:  config.config.Config
+
+
+   .. py:attribute:: run_id
+      :type:  str
+
+
+   .. py:attribute:: run_dir
+      :type:  pathlib.Path
+
+
+   .. py:attribute:: is_new
+      :type:  bool
+
+
+   .. py:attribute:: retrain
+      :type:  bool
+
+
+   .. py:attribute:: start_iteration
+      :type:  int
+
+
+   .. py:attribute:: requested_iterations
+      :type:  int | None
+
+
+   .. py:method:: from_args(args)
+      :classmethod:
+
+
+
+   .. py:method:: create_directories(source_config)
+
+
+   .. py:property:: likelihood_input
+
+
+   .. py:property:: training_data_dir
+
+
+   .. py:property:: derived_data_dir
+
+
+   .. py:property:: trained_models_dir
+
+
+   .. py:property:: training_history_dir
+
+
+   .. py:property:: convergence_stats_dir
+
+
+   .. py:property:: use_convergence
+
+
+   .. py:property:: n_iterations
+
+
+   .. py:property:: final_iteration
+
+
+   .. py:property:: mode
+
+

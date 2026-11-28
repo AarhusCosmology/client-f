@@ -1,0 +1,811 @@
+config.config
+=============
+
+.. py:module:: config.config
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   config.config.LikelihoodConfig
+   config.config.PriorConfig
+   config.config.AuditConfig
+   config.config.BoostConfig
+   config.config.AcquisitionConfig
+   config.config.ModelConfig
+   config.config.TrainingConfig
+   config.config.SamplingConfig
+   config.config.DerivedConfig
+   config.config.ConvergenceConfig
+   config.config.StorageConfig
+   config.config.Config
+
+
+Module Contents
+---------------
+
+.. py:class:: LikelihoodConfig
+
+   .. py:attribute:: wrapper
+      :type:  str
+
+
+   .. py:attribute:: input
+      :type:  str
+
+
+   .. py:attribute:: identity_files
+      :type:  list[str] | None
+      :value: None
+
+
+
+   .. py:method:: from_dict(d)
+      :classmethod:
+
+
+
+.. py:class:: PriorConfig
+
+   .. py:attribute:: n_samples
+      :type:  int
+
+
+   .. py:attribute:: sampling_strategy
+      :type:  str
+
+
+   .. py:attribute:: n_sigma
+      :type:  float | None
+
+
+   .. py:attribute:: n_inject
+      :type:  int
+      :value: 0
+
+
+
+   .. py:method:: from_dict(d)
+      :classmethod:
+
+
+
+.. py:class:: AuditConfig
+
+   acquisition.audit: true evaluations at the network's own maxima, after every training
+   and before the acquisition chain (training/audit.py, docs/audit_optima.md). Absent (the
+   default): no audit, and the loop is exactly as it was.
+
+
+   .. py:attribute:: tau
+      :type:  float
+      :value: 10.0
+
+
+
+   .. py:attribute:: fraction
+      :type:  float
+      :value: 0.1
+
+
+
+   .. py:attribute:: rounds
+      :type:  int
+      :value: 5
+
+
+
+   .. py:attribute:: k
+      :type:  int
+      :value: 0
+
+
+
+   .. py:attribute:: epochs
+      :type:  int
+      :value: 30
+
+
+
+   .. py:attribute:: learning_rate
+      :type:  float
+      :value: 1e-05
+
+
+
+   .. py:attribute:: starts
+      :type:  int
+      :value: 0
+
+
+
+   .. py:attribute:: steps
+      :type:  int
+      :value: 400
+
+
+
+   .. py:attribute:: fit_window
+      :type:  float
+      :value: 100.0
+
+
+
+   .. py:attribute:: start_iteration
+      :type:  int
+      :value: 0
+
+
+
+   .. py:attribute:: failure_policy
+      :type:  str
+      :value: 'skip'
+
+
+
+   .. py:attribute:: failure_probes
+      :type:  int
+      :value: 3
+
+
+
+   .. py:attribute:: failure_radius
+      :type:  float
+      :value: 0.001
+
+
+
+   .. py:attribute:: failure_penalty
+      :type:  float
+      :value: 1000.0
+
+
+
+   .. py:attribute:: failure_training_fraction
+      :type:  float
+      :value: 0.1
+
+
+
+   .. py:attribute:: chain
+      :type:  bool
+      :value: False
+
+
+
+   .. py:attribute:: posterior
+      :type:  int
+      :value: 0
+
+
+
+   .. py:attribute:: posterior_tolerance
+      :type:  float
+      :value: 2.0
+
+
+
+   .. py:attribute:: posterior_rounds
+      :type:  int
+      :value: 2
+
+
+
+   .. py:method:: from_dict(d)
+      :classmethod:
+
+
+
+   .. py:method:: per_round(n_append)
+
+      True evaluations per round for a batch of n_append points.
+
+
+
+.. py:class:: BoostConfig
+
+   acquisition.boost: from ``start_iteration`` on, an iteration's new training points are ``n``
+   posterior samples of the network (T = 1) in place of the tempered batch, the same number
+   from every mode (dataset/boost.py, sampling/modes.py, docs/boost.md). Absent (the default):
+   no boost, and the loop is exactly as it was.
+
+
+   .. py:attribute:: n
+      :type:  int
+
+
+   .. py:attribute:: start_iteration
+      :type:  int
+
+
+   .. py:attribute:: barrier
+      :type:  float
+      :value: 4.0
+
+
+
+   .. py:attribute:: min_share
+      :type:  float
+      :value: 0.02
+
+
+
+   .. py:attribute:: walkers
+      :type:  int
+      :value: 512
+
+
+
+   .. py:attribute:: cool_steps
+      :type:  int
+      :value: 2000
+
+
+
+   .. py:attribute:: steps
+      :type:  int
+      :value: 10000
+
+
+
+   .. py:attribute:: components
+      :type:  int
+      :value: 6
+
+
+
+   .. py:attribute:: density_filter
+      :type:  bool
+      :value: False
+
+
+
+   .. py:attribute:: pool_factor
+      :type:  int
+      :value: 20
+
+
+
+   .. py:attribute:: background
+      :type:  str | None
+      :value: None
+
+
+
+   .. py:attribute:: background_fit
+      :type:  str
+      :value: 'crude'
+
+
+
+   .. py:attribute:: background_window
+      :type:  float
+      :value: 16.0
+
+
+
+   .. py:attribute:: region
+      :type:  float | None
+      :value: None
+
+
+
+   .. py:attribute:: region_quantile
+      :type:  float | None
+      :value: None
+
+
+
+   .. py:attribute:: train_domain
+      :type:  float | None
+      :value: None
+
+
+
+   .. py:attribute:: mixing
+      :type:  float | None
+      :value: None
+
+
+
+   .. py:attribute:: candidate_barrier
+      :type:  float
+      :value: 1.0
+
+
+
+   .. py:attribute:: mode_depth
+      :type:  float | str | None
+      :value: None
+
+
+
+   .. py:attribute:: balance_floor
+      :type:  float | None
+      :value: None
+
+
+
+   .. py:attribute:: boosts
+      :type:  int | None
+      :value: None
+
+
+
+   .. py:method:: from_dict(d)
+      :classmethod:
+
+
+
+.. py:class:: AcquisitionConfig
+
+   .. py:attribute:: n_append
+      :type:  int
+
+
+   .. py:attribute:: n_neighbors
+      :type:  int
+
+
+   .. py:attribute:: target_temperature
+      :type:  float
+
+
+   .. py:attribute:: pool_factor
+      :type:  int
+
+
+   .. py:attribute:: n_inject
+      :type:  int
+      :value: 0
+
+
+
+   .. py:attribute:: audit
+      :type:  AuditConfig | None
+      :value: None
+
+
+
+   .. py:attribute:: boost
+      :type:  BoostConfig | None
+      :value: None
+
+
+
+   .. py:method:: from_dict(d)
+      :classmethod:
+
+
+
+.. py:class:: ModelConfig
+
+   .. py:attribute:: n_layers
+      :type:  int
+
+
+   .. py:attribute:: n_neurons
+      :type:  int
+
+
+   .. py:attribute:: activation
+      :type:  str
+
+
+   .. py:method:: from_dict(d)
+      :classmethod:
+
+
+
+.. py:class:: TrainingConfig
+
+   .. py:attribute:: learning_rate
+      :type:  float
+
+
+   .. py:attribute:: loss
+      :type:  str
+
+
+   .. py:attribute:: sigma_level
+      :type:  float
+
+
+   .. py:attribute:: n_epochs
+      :type:  int
+
+
+   .. py:attribute:: batch_size
+      :type:  int
+
+
+   .. py:attribute:: validation_split
+      :type:  float
+
+
+   .. py:attribute:: patience
+      :type:  int
+
+
+   .. py:attribute:: msre_ess_floor
+      :type:  float
+      :value: 0.1
+
+
+
+   .. py:attribute:: lr_schedule
+      :type:  str
+      :value: 'none'
+
+
+
+   .. py:attribute:: lr_factor
+      :type:  float
+      :value: 0.3
+
+
+
+   .. py:attribute:: lr_patience
+      :type:  int
+      :value: 75
+
+
+
+   .. py:attribute:: lr_min
+      :type:  float
+      :value: 1e-06
+
+
+
+   .. py:attribute:: lr_grace
+      :type:  int
+      :value: 100
+
+
+
+   .. py:attribute:: warm_start
+      :type:  bool
+      :value: True
+
+
+
+   .. py:attribute:: random_start_weights
+      :type:  str
+      :value: 'best'
+
+
+
+   .. py:attribute:: augment_schedule_factor
+      :type:  float
+      :value: 3.0
+
+
+
+   .. py:attribute:: members
+      :type:  int
+      :value: 1
+
+
+
+   .. py:attribute:: selection_share
+      :type:  float
+      :value: 0.1
+
+
+
+   .. py:attribute:: member_margin
+      :type:  float
+      :value: 0.2
+
+
+
+   .. py:attribute:: member_threads
+      :type:  int | None
+      :value: None
+
+
+
+   .. py:attribute:: member_device
+      :type:  str
+      :value: 'auto'
+
+
+
+   .. py:attribute:: member_pilot
+      :type:  int
+      :value: 0
+
+
+
+   .. py:attribute:: member_pilot_steps
+      :type:  int
+      :value: 20000
+
+
+
+   .. py:attribute:: member_pilot_walkers
+      :type:  int
+      :value: 256
+
+
+
+   .. py:attribute:: member_pilot_depth
+      :type:  float | None
+      :value: None
+
+
+
+   .. py:attribute:: member_pilot_score
+      :type:  str
+      :value: 'corrected'
+
+
+
+   .. py:method:: from_dict(d)
+      :classmethod:
+
+
+
+.. py:class:: SamplingConfig
+
+   .. py:attribute:: sampler
+      :type:  str
+
+
+   .. py:attribute:: temperature
+      :type:  float
+
+
+   .. py:attribute:: n_walkers
+      :type:  int
+
+
+   .. py:attribute:: burn_in
+      :type:  int
+
+
+   .. py:attribute:: n_steps
+      :type:  int
+
+
+   .. py:attribute:: chunk_size
+      :type:  int
+      :value: 5000
+
+
+
+   .. py:attribute:: thin
+      :type:  int
+      :value: 1
+
+
+
+   .. py:method:: from_dict(d)
+      :classmethod:
+
+
+
+.. py:class:: DerivedConfig
+
+   The derived-parameter emulator: x -> (derived_1, ..., derived_k).
+
+   A separate network from the log-likelihood one, because the problem is different:
+   smooth regression of a few quantities with no peak and no dynamic range to speak
+   of, so a plain mean-squared error on standardised outputs rather than msre. Its
+   inputs are only the parameters the derived ones can depend on (inputs: auto), which
+   for CLASS-derived quantities means the cosmological parameters alone -- 6 of 27 on
+   Planck. Give a list of names to override, or ``all``.
+
+   Annealing is the default here, unlike for the log-likelihood network: the concern
+   recorded under TrainingConfig.lr_schedule is msre on a sparse iteration-0 design,
+   which does not arise for this loss.
+
+   Present in a run YAML, the emulator is retrained every iteration, so a likelihood on
+   derived parameters can use it while sampling; absent, it is trained on demand by
+   ``python client.py derived RUN_DIR`` with these defaults.
+
+   3 x 256 from a sweep over 2/3/4 layers x 64/128/256 neurons, three seeds each, on the
+   it3 data (8298 points) of the Planck NPIPE TT LambdaCDM run, scored as held-out error
+   in units of the published Planck+DESI widths. Width mattered more than depth. 3 x 256
+   had the lowest error on the hardest parameter, 100 theta_s (2.1% of sigma in the
+   high-likelihood core, against 3.6% at 3 x 128), the smallest seed-to-seed spread
+   there, and the lowest worst-case error over the whole box (11% of sigma). A fourth
+   layer did not help (2.6%). It costs 81 s to train on those 8298 points, and about an
+   eighth of the log-likelihood network's cost per evaluation.
+
+
+   .. py:attribute:: inputs
+      :type:  str | tuple[str, Ellipsis]
+      :value: 'auto'
+
+
+
+   .. py:attribute:: n_layers
+      :type:  int
+      :value: 3
+
+
+
+   .. py:attribute:: n_neurons
+      :type:  int
+      :value: 256
+
+
+
+   .. py:attribute:: activation
+      :type:  str
+      :value: 'alsing'
+
+
+
+   .. py:attribute:: learning_rate
+      :type:  float
+      :value: 0.001
+
+
+
+   .. py:attribute:: n_epochs
+      :type:  int
+      :value: 3000
+
+
+
+   .. py:attribute:: batch_size
+      :type:  int
+      :value: 256
+
+
+
+   .. py:attribute:: validation_split
+      :type:  float
+      :value: 0.1
+
+
+
+   .. py:attribute:: patience
+      :type:  int
+      :value: 200
+
+
+
+   .. py:attribute:: lr_schedule
+      :type:  str
+      :value: 'plateau'
+
+
+
+   .. py:attribute:: lr_factor
+      :type:  float
+      :value: 0.3
+
+
+
+   .. py:attribute:: lr_patience
+      :type:  int
+      :value: 50
+
+
+
+   .. py:attribute:: lr_min
+      :type:  float
+      :value: 1e-06
+
+
+
+   .. py:attribute:: lr_grace
+      :type:  int
+      :value: 100
+
+
+
+   .. py:method:: from_dict(d)
+      :classmethod:
+
+
+
+.. py:class:: ConvergenceConfig
+
+   .. py:attribute:: threshold
+      :type:  float
+
+
+   .. py:attribute:: metric
+      :type:  str
+
+
+   .. py:attribute:: max_iterations
+      :type:  int
+
+
+   .. py:attribute:: consecutive
+      :type:  int
+      :value: 2
+
+
+
+   .. py:attribute:: TEMPERED_THRESHOLD
+      :value: 1.2
+
+
+
+   .. py:method:: from_dict(d)
+      :classmethod:
+
+
+
+.. py:class:: StorageConfig
+
+   .. py:attribute:: training_sets
+      :type:  str
+      :value: 'increments'
+
+
+
+   .. py:attribute:: CHOICES
+      :value: ('cumulative', 'increments')
+
+
+
+   .. py:method:: from_dict(d)
+      :classmethod:
+
+
+
+.. py:class:: Config
+
+   .. py:attribute:: likelihood
+      :type:  LikelihoodConfig
+
+
+   .. py:attribute:: prior
+      :type:  PriorConfig
+
+
+   .. py:attribute:: acquisition
+      :type:  AcquisitionConfig
+
+
+   .. py:attribute:: model
+      :type:  ModelConfig
+
+
+   .. py:attribute:: training
+      :type:  TrainingConfig
+
+
+   .. py:attribute:: sampling
+      :type:  SamplingConfig
+
+
+   .. py:attribute:: convergence
+      :type:  ConvergenceConfig
+
+
+   .. py:attribute:: seed
+      :type:  int
+      :value: None
+
+
+
+   .. py:attribute:: derived
+      :type:  DerivedConfig | None
+      :value: None
+
+
+
+   .. py:attribute:: storage
+      :type:  StorageConfig
+
+
+   .. py:method:: from_dict(d)
+      :classmethod:
+
+
+
+   .. py:method:: from_yaml(path)
+      :classmethod:
+
+
+

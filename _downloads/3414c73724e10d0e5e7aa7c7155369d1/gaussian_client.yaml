@@ -1,0 +1,37 @@
+# Installation smoke test, not a precision or convergence benchmark.
+likelihood:
+  wrapper: cobaya
+  input: docs/site/examples/gaussian_likelihood.yaml
+prior:
+  n_samples: 128
+  sampling_strategy: lhs
+  n_sigma: null
+acquisition:
+  n_append: 32
+  n_neighbors: 10
+  pool_factor: 4
+  target_temperature: 2.0
+model:
+  n_layers: 2
+  n_neurons: 32
+  activation: alsing
+training:
+  learning_rate: 0.001
+  loss: msre
+  sigma_level: 3
+  n_epochs: 30
+  batch_size: 32
+  validation_split: 0.2
+  patience: 10
+sampling:
+  sampler: aies
+  temperature: 2.0
+  n_walkers: 16
+  burn_in: 20
+  n_steps: 100
+  thin: 2
+convergence:
+  metric: gaussian_posterior_drift
+  threshold: 0.01
+  max_iterations: 1
+seed: 42

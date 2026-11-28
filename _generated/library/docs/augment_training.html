@@ -1,0 +1,958 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Adding profile points to a run’s training set &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=2443c677"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_generated/library/docs/augment_training';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/_generated/library/docs/augment_training.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Boost: training points from the posterior itself" href="boost.html" />
+    <link rel="prev" title="Auditing the network’s optima" href="audit_optima.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../AGENTS.html">Contributor guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGES.html">What this version adds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PERFORMANCE.html">CLiENT speed and memory changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UPGRADING.html">Moving from the first CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PROFILES_AND_EVIDENCE.html">Profile likelihoods and Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">CLiENT documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audit_optima.html">Auditing the network’s optima</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Adding profile points to a run’s training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost.html">Boost: training points from the posterior itself</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_background_region.html">Boost with a quadratic background and a region</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_modes_mixing.html">Boost: deciding the modes by measured mixing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_real_lcdm.html">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combine.html">Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles.html">Create profiles from a saved CLiENT iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles_2d.html">One two-dimensional profile per run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derived_parameters.html">Derived parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evidence.html">Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Exporting a network: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">export</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hybrid_optimisers.html">Hybrid profile optimisers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injection_window.html">Injection: fitting the quadratic to the points near the best</a></li>
+<li class="toctree-l1"><a class="reference internal" href="members.html">Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="posterior_density_boost.html">Density-filtered posterior boosts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_files.html">A run’s files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_recovery.html">Continuing and recovering a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempered_convergence.html">Convergence of the ordinary loop: the error at the tempered batch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/README.html">Real likelihoods on a cluster</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../library.html" class="nav-link">Guides and reports</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Adding profile points to a run’s training set</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Maintained source: <a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/docs/augment_training.md">docs/augment_training.md</a>. Measurements keep their original settings; consult the <a class="reference internal" href="../../../configuration.html"><span class="std std-doc">current defaults</span></a> before starting a new run.</p>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="adding-profile-points-to-a-run-s-training-set">
+<h1>Adding profile points to a run’s training set<a class="headerlink" href="#adding-profile-points-to-a-run-s-training-set" title="Link to this heading">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">augment</span></code> adds true evaluations made outside the training loop to a run’s
+training set, through CLiENT’s acquisition filter. The usual source is a profile study:
+every true-likelihood call of its true stage is a point with a known value.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span>profiles<span class="w"> </span>RUN<span class="w"> </span>--config<span class="w"> </span>profile.yaml<span class="w"> </span>-o<span class="w"> </span>STUDY<span class="w">    </span><span class="c1"># a true profile along the suspect parameter</span>
+python<span class="w"> </span>client.py<span class="w"> </span>augment<span class="w"> </span>RUN<span class="w"> </span>--profiles<span class="w"> </span>STUDY<span class="w"> </span>-n<span class="w"> </span><span class="m">300</span><span class="w">             </span><span class="c1"># its points, through the filter</span>
+python<span class="w"> </span>client.py<span class="w"> </span>RUN<span class="w"> </span>-i<span class="w"> </span><span class="m">5</span><span class="w">                                        </span><span class="c1"># continue as usual</span>
+</pre></div>
+</div>
+<section id="when-to-use-it">
+<h2>When to use it<a class="headerlink" href="#when-to-use-it" title="Link to this heading">#</a></h2>
+<p>The acquisition aims for a training density c L^(1/T), with L estimated by the current
+network. Where the network is too pessimistic, the region gets too few points, and because
+nothing is evaluated there, the network is never corrected. The drift metric does not see
+this: successive networks agree with each other.</p>
+<p>A true profile along the affected parameter does see it, because it follows the likelihood
+itself from where the network is right. So this is a tool for a direction you already
+suspect: a parameter whose profile and posterior disagree, a plateau that runs to a domain
+edge, a second solution known from the physics. It does not find problems on its own.</p>
+<p>Two rules from the runs below:</p>
+<ul class="simple">
+<li><p><strong>Profile the whole domain of the parameter.</strong> The network extrapolates the profile’s
+trend into any part of the domain the profile did not cover, and acquisition then goes
+there first. If part of the domain is unphysical, end the domain where the physics ends.
+The command warns when a profile stops short of the domain.</p></li>
+<li><p><strong>An early network is good enough.</strong> The true stage measures true gradients, so it does
+not need an accurate network, only more calls.</p></li>
+</ul>
+</section>
+<section id="the-filter">
+<h2>The filter<a class="headerlink" href="#the-filter" title="Link to this heading">#</a></h2>
+<p>The points are not all added. A training set distributed as c L^(1/T) has the same density
+wherever L is the same, so the density a point <em>should</em> have around it can be read off the
+training set:</p>
+<ol class="arabic simple">
+<li><p>The k-NN number density is computed at every training point (k is
+<code class="docutils literal notranslate"><span class="pre">acquisition.n_neighbors</span></code>, in the selector’s whitened coordinates).</p></li>
+<li><p>Its median in bins of the points’ true log L, made monotone, is the density law ρ(L). It
+covers the range the acquired cloud spans, 0.5 T (n + 3√(2n)) log-units below the best
+training value. If fewer than 120 training points lie in that range, the law is read
+from the best 120 instead, with a warning: a training set that young need not follow
+L^(1/T) yet, and the filter then finds little to add.</p></li>
+<li><p>A candidate with true value L is short of points if the k-NN density of the training set
+around it is below ρ(L). It is kept with the selector’s retention factor
+a = [1 − ρ/ρ(L)]₊, the acceptance rule of the paper (eq. 13) evaluated with the true
+likelihood.</p></li>
+<li><p>The candidates are visited once, in random order. Every point kept raises the density
+its neighbours see.</p></li>
+</ol>
+<p>Both densities come from the same estimator, so its high-dimensional bias cancels, as in
+<code class="docutils literal notranslate"><span class="pre">dataset/acquisition.py</span></code>. The consequences:</p>
+<ul class="simple">
+<li><p>A real gap (a near 1) is filled until the local density reaches the law.</p></li>
+<li><p>A tight cluster of profile probes contributes about k points, not all of them.</p></li>
+<li><p>Where the training set is already at its target, about half the candidates look slightly
+short from k-NN noise alone (a of 0.1 to 0.2); most are passed over.</p></li>
+<li><p>Candidates below the law’s range, outside the run’s domain, or already in the training
+set are left out. Coordinates are compared at the training set’s single precision, so
+points injected earlier are recognised. A candidate above the best training value is
+judged against the density of the best training points.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">-n</span></code> is a ceiling. On a converged training set the filter stops below it (185 of 2848
+candidates at iteration 12 of the first run below); on a young one the ceiling binds (300
+of 4186 at iteration 5).</p>
+</section>
+<section id="what-is-written-and-how-a-run-uses-it">
+<h2>What is written, and how a run uses it<a class="headerlink" href="#what-is-written-and-how-a-run-uses-it" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>file</p></th>
+<th class="head"><p>content</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">RUN/augmentation/augment_it_N.csv</span></code></p></td>
+<td><p>the selected points: the run’s parameters, then <code class="docutils literal notranslate"><span class="pre">loglkl</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">RUN/augmentation/augment_it_N.json</span></code></p></td>
+<td><p>sources, counts, the density law, each point’s origin and deficit</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">RUN/augmentation/augment_it_N.trained.json</span></code></p></td>
+<td><p>written by the run after the points’ first training: iteration, epochs, schedule factor</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>N is the training set the points were selected against, by default the one a continued run
+loads. No existing file is changed. When the run is continued from iteration N, the loop
+adds the points right after loading training set N and says so; they are then part of
+training set N+1 and every later one (<a class="reference internal" href="run_files.html"><span class="std std-doc">a run’s files</span></a>). If <code class="docutils literal notranslate"><span class="pre">model_it_N.keras</span></code> already exists, that network
+is used as it is and the points first enter the training of iteration N+1.</p>
+<p>Derived parameters of the added points are unknown and recorded as NaN, like any point
+evaluated without them. To undo the step before continuing, delete the files.</p>
+<p>Options: <code class="docutils literal notranslate"><span class="pre">--points</span> <span class="pre">FILE.csv</span></code> (any CSV with the run’s parameters and <code class="docutils literal notranslate"><span class="pre">loglkl</span></code>, repeatable,
+also together with <code class="docutils literal notranslate"><span class="pre">--profiles</span></code>), <code class="docutils literal notranslate"><span class="pre">-i</span> <span class="pre">N</span></code>, <code class="docutils literal notranslate"><span class="pre">--seed</span></code>, <code class="docutils literal notranslate"><span class="pre">--force</span></code> (replace an existing file),
+<code class="docutils literal notranslate"><span class="pre">--output</span> <span class="pre">DIR</span></code> (a trial: write elsewhere, the run does not see it).</p>
+<p>The study must have used the run’s training objective (<code class="docutils literal notranslate"><span class="pre">objective:</span> <span class="pre">native</span></code> in its
+manifest) and the run’s parameters. It need not have been made from this run.</p>
+</section>
+<section id="the-first-training-after-an-injection">
+<h2>The first training after an injection<a class="headerlink" href="#the-first-training-after-an-injection" title="Link to this heading">#</a></h2>
+<p>Warm starting works because the training set changes little from one iteration to the
+next. An injection is not such a change, so the first training that includes the points
+runs a longer schedule: <code class="docutils literal notranslate"><span class="pre">lr_patience</span></code>, <code class="docutils literal notranslate"><span class="pre">lr_grace</span></code> and <code class="docutils literal notranslate"><span class="pre">patience</span></code> are multiplied by
+<code class="docutils literal notranslate"><span class="pre">training.augment_schedule_factor</span></code> (default 3). The run prints a line when it does, and
+every later iteration uses the ordinary schedule again. Set the factor to 1 to switch this
+off. It has no effect in a run that is never augmented.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">training</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">augment_schedule_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w">   </span><span class="c1"># the default; 1: the ordinary schedule</span>
+</pre></div>
+</div>
+<p>The measurement behind it is in the next section. The factor 3 is the only value measured,
+and it was measured five iterations after the injection, not on the injection’s own first
+training.</p>
+</section>
+<section id="validation-on-sinu-planck-desi-dr2">
+<h2>Validation on SINU, Planck + DESI DR2<a class="headerlink" href="#validation-on-sinu-planck-desi-dr2" title="Link to this heading">#</a></h2>
+<p>Self-interacting neutrinos on Planck Commander low-ℓ TT + NPIPE CamSpec TTTEEE + DESI DR2
+BAO (CLASS++, 16 parameters, T = 7, 2000 + 100 points per iteration). The true logGeff
+profile is flat up to about −3.8, climbs a Δχ² = 13.4 barrier at −2.45 and falls into a
+strong-coupling minimum at −1.55 that is level with the plateau (0.2 better). By that
+profile about 28% of L^(1/7) lies beyond the barrier.</p>
+<p><strong>The problem.</strong> Twelve ordinary iterations put 5 to
+10% of each batch beyond the barrier, none within Δχ² 42 of the minimum; the network stayed
+about 80 log-units too pessimistic there from iteration 6 on, with the drift at 0.12.</p>
+<p><strong>Retrospective test.</strong> Iteration 12 retrained with the 185 points the filter selects from
+the iteration-10 profile’s 2848 calls (none below logGeff −2.30): the error at the minimum
+drops from +79 to +3.8 log-units.</p>
+<p><strong>First forward run</strong> (domain logGeff ∈ [−5, 0], profile
+on [−5, −0.8]). The first network with the points was right on the profiled ridge, but its
+own profile ran away above −0.8, where the profile had no points: 183 in χ² too good at
+logGeff = 0, then a false optimum at −1.2, then a corner of the box 3321 too good. Three
+iterations did not settle it. Hence the first rule above.</p>
+<p><strong>End-to-end run</strong> (domain logGeff ∈ [−5, −0.8]):
+iterations 0 to 5, true profile from network 5, <code class="docutils literal notranslate"><span class="pre">augment</span> <span class="pre">-n</span> <span class="pre">300</span></code>, continued.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Network 5 on the true ridge</p></td>
+<td><p>40 to 280 log-units too pessimistic; no minimum beyond the barrier; its batch 0.2% beyond the barrier</p></td>
+</tr>
+<tr class="row-odd"><td><p>Profile from network 5</p></td>
+<td><p>4186 calls, 48 minutes on 4 workers; within 0.2 in Δχ² of the iteration-10 reference at 19 of 29 nodes, within 1.3 everywhere</p></td>
+</tr>
+<tr class="row-even"><td><p>Filter</p></td>
+<td><p>4143 of 4186 candidates short of density; 300 selected (the ceiling), spread over the whole profile</p></td>
+</tr>
+<tr class="row-odd"><td><p>Network 6, first with the points</p></td>
+<td><p>within about 10 log-units on the whole ridge (−1.1 at the minimum); its own profile ran down to −71 at the domain edge</p></td>
+</tr>
+<tr class="row-even"><td><p>Batch of network 6</p></td>
+<td><p>89% beyond the barrier, all truly poor (median Δχ² 100 to 220): the over-extrapolation refuted in one batch</p></td>
+</tr>
+<tr class="row-odd"><td><p>Networks 8 to 11</p></td>
+<td><p>drift 0.43, 0.30, 0.24, 0.25; batches 15 to 35% beyond the barrier; ridge error 6 to 12 log-units on the strong side</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>What the ordinary schedule left undone.</strong> At iteration 10 the posterior had both modes,
+the strong one in the right place but with 1.6% of the weight, visible only at the 99%
+contour. The network had its minimum 5.3 in χ² above the weak one. The cause was the fit:
+of the 82 training points within Δχ² 30 of the strong minimum, 79 were profile points
+(three acquired in five iterations, since the T = 7 cloud sits about Δχ² 100 from a
+minimum), and the network misfitted them by 5.5 log-units while fitting the weak side to
+0.5. Iteration 11 retrained on the same 25 496 points:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>variant</p></th>
+<th class="head"><p>epochs</p></th>
+<th class="head"><p>misfit of the strong minimum’s own training points</p></th>
+<th class="head"><p>error on the true ridge, rms</p></th>
+<th class="head"><p>strong minus weak minimum in the network’s profile (truth −0.2)</p></th>
+<th class="head"><p>note</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>warm start, ordinary schedule</p></td>
+<td><p>405</p></td>
+<td><p>+5.7</p></td>
+<td><p>6.7</p></td>
+<td><p>+3.0</p></td>
+<td><p>as the pipeline</p></td>
+</tr>
+<tr class="row-odd"><td><p>warm start, <code class="docutils literal notranslate"><span class="pre">lr_patience</span></code> and <code class="docutils literal notranslate"><span class="pre">lr_grace</span></code> × 3</p></td>
+<td><p>2513</p></td>
+<td><p>+0.9</p></td>
+<td><p>3.0</p></td>
+<td><p>−3.2</p></td>
+<td><p>strong mode 18.4% of the posterior, at logGeff −1.52 ± 0.09; no runaway</p></td>
+</tr>
+<tr class="row-even"><td><p>c lowered from 19.2 to 7.7</p></td>
+<td><p>323</p></td>
+<td><p>+1.9</p></td>
+<td><p>5.6</p></td>
+<td><p>+1.1</p></td>
+<td><p>barrier in the network’s profile 12.9 → 6.1 (truth 13.4)</p></td>
+</tr>
+<tr class="row-odd"><td><p>c lowered to 3.4</p></td>
+<td><p>1264</p></td>
+<td><p>+1.1</p></td>
+<td><p>3.6</p></td>
+<td><p>−2.6</p></td>
+<td><p>barrier 4.2, far wall 23 (truth 63)</p></td>
+</tr>
+<tr class="row-even"><td><p>cold start, ordinary schedule</p></td>
+<td><p>1326</p></td>
+<td><p>−0.15</p></td>
+<td><p>0.4</p></td>
+<td><p>not usable</p></td>
+<td><p>runaway optimum 35 210 in χ² too good, 0.5 box widths from any data; the T = 7 chain goes there with every sample</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Hence the longer schedule on the first training with the points, and not a lower c or a
+cold start.</p>
+<p><strong>What is not established.</strong></p>
+<ul class="simple">
+<li><p>The factor 3 was measured at iteration 11, not on the injection’s own first training,
+and no other value was tried.</p></li>
+<li><p>Even with the longer schedule the network’s own profile is good to a few units of χ²
+(rms 6.6 against the true profile). The posterior weight of a second mode depends
+exponentially on the relative height of the two minima, so 18.4% is an estimate of order
+10 to 30%, not a measurement.</p></li>
+<li><p>One model, one data combination, one seed.</p></li>
+</ul>
+<p><strong>Alternatives to the profile that were tested</strong> on the same run at iteration 11 or 12
+(error at the strong minimum without any of them: +79 log-units). None is in the code:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>approach</p></th>
+<th class="head"><p>result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>true-likelihood climbs from the batch points the network under-predicted most (716 calls)</p></td>
+<td><p>+2.1 on this run; on a synthetic 28-dimensional analogue the climbs reached the main optimum but not the hidden one</p></td>
+</tr>
+<tr class="row-odd"><td><p>300 points chosen by a freshly initialised network from its own chain</p></td>
+<td><p>+73.7: all of them went to that network’s own hallucination, Δχ² in the thousands</p></td>
+</tr>
+<tr class="row-even"><td><p>300 points from the main network’s chain, acceptance weighted by the spread of the main and two fresh networks</p></td>
+<td><p>+77.6: the spread tracks the main network’s error (rank correlation 0.8 to 0.9), but its own chain only offers candidates where it is optimistic</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The two network-only approaches failed: networks say where they are uncertain, not which
+way the truth lies. The climbs need an acquired point already inside the hidden region.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="audit_optima.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Auditing the network’s optima</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="boost.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Boost: training points from the posterior itself</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-it">When to use it</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-filter">The filter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-written-and-how-a-run-uses-it">What is written, and how a run uses it</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-first-training-after-an-injection">The first training after an injection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-on-sinu-planck-desi-dr2">Validation on SINU, Planck + DESI DR2</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/_generated/library/docs/augment_training.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

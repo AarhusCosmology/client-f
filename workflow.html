@@ -1,0 +1,859 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Training and boosting &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=2443c677"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'workflow';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/workflow.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Inference workflows" href="inference.html" />
+    <link rel="prev" title="First run" href="getting-started.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="_generated/reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="_generated/reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"></div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Training and boosting</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="training-and-boosting">
+<h1>Training and boosting<a class="headerlink" href="#training-and-boosting" title="Link to this heading">#</a></h1>
+<section id="the-ordinary-loop">
+<h2>The ordinary loop<a class="headerlink" href="#the-ordinary-loop" title="Link to this heading">#</a></h2>
+<p>CLiENT evaluates an initial design, trains a network on the native log-probability, samples the network, and selects a new batch for true evaluation. The sampling temperature and acquisition target temperature have separate settings. Use their documented relationship intentionally; a tempered acquisition distribution is not the final posterior.</p>
+<p>Warm starts and function-preserving scaler compensation are on by default. Learning-rate annealing is not: <code class="docutils literal notranslate"><span class="pre">training.lr_schedule</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">none</span></code>, although the real runs have used <code class="docutils literal notranslate"><span class="pre">plateau</span></code>. The dynamic loss-weight ESS floor defaults to <code class="docutils literal notranslate"><span class="pre">0.1</span></code>. <a class="reference internal" href="_generated/library/CHANGES.html"><span class="std std-doc">What this version adds</span></a> gives the measurements behind these choices.</p>
+</section>
+<section id="settings-to-start-from">
+<h2>Settings to start from<a class="headerlink" href="#settings-to-start-from" title="Link to this heading">#</a></h2>
+<p>Most methods below are opt-in, so a run that takes only the defaults is not the method of the real runs. Two complete configurations are the settings to start from: <code class="docutils literal notranslate"><span class="pre">input/recommended_near_gaussian.yaml</span></code> and <code class="docutils literal notranslate"><span class="pre">input/recommended_non_gaussian.yaml</span></code>, the second for likelihoods known to have oscillations, several modes or curved ridges. The <a class="reference internal" href="_generated/library/docs/boost.html#two-recommended-settings"><span class="std std-ref">boost guide</span></a> explains the difference between them and which to take.</p>
+</section>
+<section id="four-different-ways-to-add-information">
+<h2>Four different ways to add information<a class="headerlink" href="#four-different-ways-to-add-information" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mechanism</p></th>
+<th class="head"><p>When it acts</p></th>
+<th class="head"><p>Purpose</p></th>
+<th class="head"><p>Default</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Ordinary acquisition</p></td>
+<td><p>Between trained iterations</p></td>
+<td><p>Extend coverage of the tempered target</p></td>
+<td><p>Normal loop</p></td>
+</tr>
+<tr class="row-odd"><td><p>Peak injection</p></td>
+<td><p>Initial design or ordinary acquisition</p></td>
+<td><p>Draw additional points from a fitted quadratic</p></td>
+<td><p>Off: both injection counts are zero</p></td>
+</tr>
+<tr class="row-even"><td><p>Optimum audit</p></td>
+<td><p>After training, before acquisition sampling</p></td>
+<td><p>Check and correct overestimated maxima</p></td>
+<td><p>Off: audit section absent</p></td>
+</tr>
+<tr class="row-odd"><td><p>Posterior boost</p></td>
+<td><p>Configured later iterations</p></td>
+<td><p>Improve the posterior core and separated-mode weights</p></td>
+<td><p>Off: boost section absent</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>An injection fits its quadratic only to the points near the best (within 16 × T n / 2 log-units). The window does nothing while both injection counts are zero. See <a class="reference internal" href="_generated/library/docs/injection_window.html"><span class="std std-doc">the injection study</span></a>.</p>
+<p>A profile study’s true evaluations can also join the training set, as a separate command: see <a class="reference internal" href="inference.html#feeding-profile-evaluations-back-into-training"><span class="std std-ref">feeding profile evaluations back into training</span></a>.</p>
+</section>
+<section id="audit-before-trusting-a-network">
+<h2>Audit before trusting a network<a class="headerlink" href="#audit-before-trusting-a-network" title="Link to this heading">#</a></h2>
+<p>An explicit <code class="docutils literal notranslate"><span class="pre">acquisition.audit:</span> <span class="pre">{}</span></code> activates the audit with its defaults. A search finds network maxima, true evaluations check them, and fine-tuning uses those checks. Audits address optimism; they cannot discover every region the network underrates.</p>
+<p>In boost iterations, <code class="docutils literal notranslate"><span class="pre">chain:</span> <span class="pre">true</span></code> also looks where the cooled walkers of the tempered chain climb to, and <code class="docutils literal notranslate"><span class="pre">posterior</span></code> evaluates cooled walkers at T = 1 and fine-tunes when the network is too high there. Both are opt-in.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>An uncleared audit is a scientific warning, not a guarantee that the loop will halt. Inspect the saved audit report before continuing. The optional failure penalty is a training-only synthetic constraint; it is not a finite likelihood measurement.</p>
+</div>
+<p>Read <a class="reference internal" href="_generated/library/docs/audit_optima.html"><span class="std std-doc">audit methods, budgets and failure policies</span></a>.</p>
+</section>
+<section id="boost-a-sufficiently-good-network">
+<h2>Boost a sufficiently good network<a class="headerlink" href="#boost-a-sufficiently-good-network" title="Link to this heading">#</a></h2>
+<p>A minimal explicit configuration is:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">acquisition</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Keep the ordinary acquisition keys in your full configuration.</span>
+<span class="w">  </span><span class="nt">boost</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">start_iteration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+</pre></div>
+</div>
+<p>From that iteration onward, boost acquisition replaces the ordinary tempered batch and its injection. The default unfiltered path samples at T=1 and splits the requested evaluations equally among detected modes. This provides information about a mode even when the network initially gives it too little probability.</p>
+<p>Detection and sampling operate on the network. A missed or severely underestimated mode may remain missed. The true-value correction must also have adequate effective sample size.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Optional setting inside <code class="docutils literal notranslate"><span class="pre">boost</span></code></p></th>
+<th class="head"><p>Effect and qualification</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">density_filter:</span> <span class="pre">true</span></code></p></td>
+<td><p>Selects density-deficit points; batches can underfill and mode counts can differ. The unweighted evidence correction is invalid for these selected rows.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mixing:</span> <span class="pre">0.1</span></code></p></td>
+<td><p>Uses measured chain mixing to group candidate basins; the threshold is an explicit choice.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mode_depth</span></code></p></td>
+<td><p>Leaves out modes whose highest maximum lies this far below the highest mode’s; <code class="docutils literal notranslate"><span class="pre">auto</span></code> is <code class="docutils literal notranslate"><span class="pre">temperature</span> <span class="pre">*</span> <span class="pre">ndim</span> <span class="pre">/</span> <span class="pre">2</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">balance_floor</span></code></p></td>
+<td><p>Gives a mode lighter than the floor less than an equal share.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">background:</span> <span class="pre">quadratic</span></code></p></td>
+<td><p>Fits a fixed quadratic at the boost transition and cold-starts the residual network.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">background_fit:</span> <span class="pre">least_squares</span></code></p></td>
+<td><p>Needs <code class="docutils literal notranslate"><span class="pre">background</span></code>. Fits that quadratic by least squares to the rows within <code class="docutils literal notranslate"><span class="pre">background_window</span></code> (16) times T ndim / 2 of the best, as the injection does, instead of one covariance and one scale. Exact on an exact Gaussian; on a near-Gaussian network truth 6–15% more accurate after 15 000 boost points, more with a narrow window.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">region:</span> <span class="pre">2.0</span></code></p></td>
+<td><p>Restricts exploration using genuinely evaluated boost clouds; this describes known modes, not exhaustive coverage.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">region_quantile</span></code></p></td>
+<td><p>Needs <code class="docutils literal notranslate"><span class="pre">region</span></code>. Sets the region’s reach by a quantile of the distances, not by the farthest point.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">train_domain</span></code></p></td>
+<td><p>Needs <code class="docutils literal notranslate"><span class="pre">region</span></code>. Trains only on points near the posterior from the first boost on. An oscillating likelihood needed it, and it cost near-Gaussian runs accuracy.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>These are all off by default. A quadratic background alone was unsafe in the documented non-Gaussian example; read the paired method before enabling it.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="_generated/library/docs/boost.html"><span class="std std-doc">Boost algorithm and mode weights</span></a></p></li>
+<li><p><a class="reference internal" href="_generated/library/docs/posterior_density_boost.html"><span class="std std-doc">Density filtering</span></a></p></li>
+<li><p><a class="reference internal" href="_generated/library/docs/boost_modes_mixing.html"><span class="std std-doc">Mixing-based mode definition</span></a></p></li>
+<li><p><a class="reference internal" href="_generated/library/docs/boost_background_region.html"><span class="std std-doc">Quadratic background, region and training domain</span></a></p></li>
+<li><p><a class="reference internal" href="_generated/library/docs/boost_real_lcdm.html"><span class="std std-doc">Whole-loop real-likelihood validation</span></a></p></li>
+</ul>
+</section>
+<section id="several-trainings-per-network-in-the-boosts">
+<h2>Several trainings per network in the boosts<a class="headerlink" href="#several-trainings-per-network-in-the-boosts" title="Link to this heading">#</a></h2>
+<p>A training ends either resolving the fine structure of an oscillating or multimodal likelihood, or
+on a plateau where that structure is smoothed out, and which one depends on the random start. A
+warm start keeps whatever state it inherits, and can grow a false maximum that the next boost’s
+points do not reveal. <code class="docutils literal notranslate"><span class="pre">training.members</span></code> trains each network of the boost phase several times and
+keeps one:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">training</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">members</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">12</span><span class="w">             </span><span class="c1"># rank 0 warm-started as before, 11 from random weights on otherwise idle ranks</span>
+<span class="w">  </span><span class="nt">member_pilot</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span><span class="w">       </span><span class="c1"># choose by true evaluations at each member's own posterior points</span>
+<span class="w">  </span><span class="nt">member_device</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span><span class="w">     </span><span class="c1"># members on a GPU where their process sees one, else the CPU</span>
+<span class="nt">acquisition</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">boost</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">...</span><span class="w">              </span><span class="c1"># required: the members act from the first training on boost points</span>
+</pre></div>
+</div>
+<p>The tempered phase trains every network once. Each member samples its own posterior; the pool of
+<code class="docutils literal notranslate"><span class="pre">member_pilot</span></code> points per member is evaluated once with the true objective, each member’s error is
+taken without its constant offset (<code class="docutils literal notranslate"><span class="pre">member_pilot_score:</span> <span class="pre">corrected</span></code>, the default; a constant changes no
+posterior or profile), and the warm network is kept unless another member’s error is lower by more
+than <code class="docutils literal notranslate"><span class="pre">member_margin</span></code> (20%). The members from random weights keep the epoch of their lowest validation
+loss unless <code class="docutils literal notranslate"><span class="pre">random_start_weights:</span> <span class="pre">last</span></code>, which keeps the weights at the end of their schedule. The pilot’s points
+join the training set. Members train on ranks that would otherwise wait, so the training lasts about
+as long as its slowest member while each has cores (or a share of a GPU) of its own; the log warns
+when they do not. On two oscillating likelihoods the pilot rejected a warm network with a false
+maximum at five networks running, where the boost points showed nothing wrong.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="_generated/library/docs/members.html"><span class="std std-doc">Several trainings per network</span></a>: the method, its measurement,
+its cost and GPUs.</p></li>
+</ul>
+</section>
+<section id="preserve-the-experiment">
+<h2>Preserve the experiment<a class="headerlink" href="#preserve-the-experiment" title="Link to this heading">#</a></h2>
+<p>Keep configurations, source revision, true evaluation records and selected checkpoints together. Distinguish requested points from finite returns, imports and cache hits. A boost’s true points enter the next iteration’s dataset; its report records the acquisition that produced them. Preserve nonfinite/failure counts rather than silently replacing them in reported totals.</p>
+</section>
+<section id="errors-on-each-acquired-batch">
+<h2>Errors on each acquired batch<a class="headerlink" href="#errors-on-each-acquired-batch" title="Link to this heading">#</a></h2>
+<p>Each ordinary batch is evaluated against the network that selected it, before that batch is used for training and before injection is added. The reported native log-objective error is <code class="docutils literal notranslate"><span class="pre">network</span> <span class="pre">−</span> <span class="pre">truth</span></code>: finite count, bias, population scatter, RMS and largest absolute error. Refused-value sentinels and nonfinite pairs are excluded. These diagnostics add no true calls; they reuse the acquisition’s returns. The batch is selected by the algorithm, so it is not independent validation of the entire posterior.</p>
+<p><code class="docutils literal notranslate"><span class="pre">metrics.json</span></code> holds <code class="docutils literal notranslate"><span class="pre">held_out_n</span></code>, <code class="docutils literal notranslate"><span class="pre">held_out_rms</span></code>, <code class="docutils literal notranslate"><span class="pre">held_out_bias</span></code>, <code class="docutils literal notranslate"><span class="pre">held_out_sd</span></code> and <code class="docutils literal notranslate"><span class="pre">held_out_largest</span></code> for ordinary acquisitions. Boost reports contain corresponding pooled/per-mode errors and their scatter history. Inspect both mode-specific errors and true-posterior checks before interpreting pooled accuracy.</p>
+</section>
+<section id="true-evaluation-convergence-and-early-boost-handover">
+<h2>True-evaluation convergence and early boost handover<a class="headerlink" href="#true-evaluation-convergence-and-early-boost-handover" title="Link to this heading">#</a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">convergence</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">metric</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tempered_batch_scatter</span>
+<span class="w">  </span><span class="nt">threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.2</span>
+<span class="w">  </span><span class="nt">consecutive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">  </span><span class="nt">max_iterations</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<span class="nt">acquisition</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Also include the ordinary acquisition settings for your problem.</span>
+<span class="w">  </span><span class="nt">boost</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3000</span>
+<span class="w">    </span><span class="nt">start_iteration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<span class="w">    </span><span class="nt">boosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</pre></div>
+</div>
+<p>This is a fragment, not a complete run configuration. At trained network N, the errors measured at the batches chosen by N−2 and N−1 must both be strictly below <code class="docutils literal notranslate"><span class="pre">1.2</span> <span class="pre">×</span> <span class="pre">sampling.temperature</span></code>. N is the first network trained on both batches. A missing/nonfinite error cannot pass. Increasing <code class="docutils literal notranslate"><span class="pre">consecutive</span></code> requires that many preceding batches. The <a class="reference internal" href="methods.html#batch-error-and-the-handover-test"><span class="std std-ref">methods page</span></a> defines the statistic.</p>
+<p>Without <code class="docutils literal notranslate"><span class="pre">-i</span></code>, a passing verdict stops an ordinary-only run, or advances a still-future configured boost start to N. <code class="docutils literal notranslate"><span class="pre">boost/start.json</span></code> records the effective start and is read on continuation. The optional <code class="docutils literal notranslate"><span class="pre">boosts</span></code> key limits the scheduled phase, subject to the run’s iteration ceiling. <strong>With explicit <code class="docutils literal notranslate"><span class="pre">-i</span></code>, the requested schedule wins</strong>: the verdict is reported, but does not stop the run or bring boosts forward. The other metric, <code class="docutils literal notranslate"><span class="pre">gaussian_posterior_drift</span></code>, has its own required threshold.</p>
+<p>This test acts only before boosts. It is a practical criterion for ending ordinary acquisition, not certification of the true posterior or automatic termination of boosts. The documented threshold was supported by an analytic suite and one controlled 49D real-likelihood comparison; the 58D tests did not establish its adequacy there. Read the <a class="reference internal" href="_generated/library/docs/tempered_convergence.html"><span class="std std-doc">measurements and limits</span></a>.</p>
+</section>
+<section id="a-boost-iteration-that-cannot-find-a-mode">
+<h2>A boost iteration that cannot find a mode<a class="headerlink" href="#a-boost-iteration-that-cannot-find-a-mode" title="Link to this heading">#</a></h2>
+<p>If mode search raises the specific <code class="docutils literal notranslate"><span class="pre">NoModeFound</span></code> condition, that iteration acquires an ordinary tempered batch (and usual injection if enabled). It writes <code class="docutils literal notranslate"><span class="pre">boost/fallback_it_N.json</span></code>, not boost-point files. The decision is shared across MPI ranks; arbitrary exceptions are not treated as a harmless no-mode result. The schedule remains unchanged, so the fallback consumes a phase slot. There is no automatic top-up or guarantee that later mode searches recover.</p>
+</section>
+<section id="audit-fine-tuning-and-memory">
+<h2>Audit fine-tuning and memory<a class="headerlink" href="#audit-fine-tuning-and-memory" title="Link to this heading">#</a></h2>
+<p>Audit fine-tunes are compiled without XLA, which avoids the persistent memory mappings observed after repeated fine-tuning on Linux. Main-network training and sampling use XLA.</p>
+</section>
+<section id="stopping-and-continuing">
+<h2>Stopping and continuing<a class="headerlink" href="#stopping-and-continuing" title="Link to this heading">#</a></h2>
+<p>An interrupted run is continued with the same command: a phase without a record of completion is done again, and its partial files are moved to <code class="docutils literal notranslate"><span class="pre">RUN/interrupted/</span></code>. A continued run also checks that the objective is the one the run recorded. Read <a class="reference internal" href="_generated/library/docs/run_recovery.html"><span class="std std-doc">continuing and recovering a run</span></a>. What a run writes, <code class="docutils literal notranslate"><span class="pre">storage.training_sets</span></code> and <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">index</span></code> are in <a class="reference internal" href="_generated/library/docs/run_files.html"><span class="std std-doc">a run’s files</span></a>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="getting-started.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">First run</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="inference.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Inference workflows</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ordinary-loop">The ordinary loop</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#settings-to-start-from">Settings to start from</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#four-different-ways-to-add-information">Four different ways to add information</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#audit-before-trusting-a-network">Audit before trusting a network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boost-a-sufficiently-good-network">Boost a sufficiently good network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#several-trainings-per-network-in-the-boosts">Several trainings per network in the boosts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preserve-the-experiment">Preserve the experiment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#errors-on-each-acquired-batch">Errors on each acquired batch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#true-evaluation-convergence-and-early-boost-handover">True-evaluation convergence and early boost handover</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-boost-iteration-that-cannot-find-a-mode">A boost iteration that cannot find a mode</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#audit-fine-tuning-and-memory">Audit fine-tuning and memory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stopping-and-continuing">Stopping and continuing</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/workflow.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

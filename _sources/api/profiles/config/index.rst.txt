@@ -1,0 +1,314 @@
+profiles.config
+===============
+
+.. py:module:: profiles.config
+
+.. autoapi-nested-parse::
+
+   Validated, portable user configuration (no TensorFlow/backend imports).
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   profiles.config.EXECUTION_SETTINGS
+   profiles.config.SURROGATE_OPTIMIZERS
+   profiles.config.REAL_SETTINGS
+   profiles.config.CORRECTED_TOL_DEFAULT
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   profiles.config.ProfileConfig
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   profiles.config.check_continuation
+
+
+Module Contents
+---------------
+
+.. py:function:: check_continuation(continuation)
+
+   The setting ``continuation`` (ProfileConfig): {seed: a number, start: best or scan}.
+   Returns (seed, start).
+
+
+.. py:data:: EXECUTION_SETTINGS
+   :value: ('workers',)
+
+
+.. py:data:: SURROGATE_OPTIMIZERS
+   :value: ('hybrid', 'legacy')
+
+
+.. py:data:: REAL_SETTINGS
+   :value: ('broad_fraction', 'sigma_range', 'initial_lr', 'transition_lr', 'final_lr', 'gtol',...
+
+
+.. py:data:: CORRECTED_TOL_DEFAULT
+   :value: 0.01
+
+
+.. py:class:: ProfileConfig
+
+   .. py:attribute:: dimension
+      :type:  int
+      :value: 1
+
+
+
+   .. py:attribute:: retrain
+      :type:  bool
+      :value: False
+
+
+
+   .. py:attribute:: design_points
+      :type:  int
+      :value: 7
+
+
+
+   .. py:attribute:: iteration
+      :type:  int | None
+      :value: None
+
+
+
+   .. py:attribute:: parameters
+      :type:  list[str]
+      :value: []
+
+
+
+   .. py:attribute:: added_points
+      :type:  int
+      :value: 0
+
+
+
+   .. py:attribute:: broad_fraction
+      :type:  float
+      :value: 0.75
+
+
+
+   .. py:attribute:: profile_points
+      :type:  int
+      :value: 15
+
+
+
+   .. py:attribute:: sigma_range
+      :type:  float
+      :value: 3.5
+
+
+
+   .. py:attribute:: ranges
+      :type:  dict
+
+
+   .. py:attribute:: workers
+      :type:  int
+      :value: 1
+
+
+
+   .. py:attribute:: first_epochs
+      :type:  int
+      :value: 400
+
+
+
+   .. py:attribute:: polish_epochs
+      :type:  int
+      :value: 1600
+
+
+
+   .. py:attribute:: initial_lr
+      :type:  float
+      :value: 1e-05
+
+
+
+   .. py:attribute:: transition_lr
+      :type:  float
+      :value: 1e-06
+
+
+
+   .. py:attribute:: final_lr
+      :type:  float
+      :value: 1e-07
+
+
+
+   .. py:attribute:: batch_size
+      :type:  int
+      :value: 128
+
+
+
+   .. py:attribute:: seed
+      :type:  int
+      :value: 42
+
+
+
+   .. py:attribute:: validation_global
+      :type:  int
+      :value: 512
+
+
+
+   .. py:attribute:: validation_nodes
+      :type:  int
+      :value: 9
+
+
+
+   .. py:attribute:: scan_points
+      :type:  int
+      :value: 41
+
+
+
+   .. py:attribute:: gtol
+      :type:  float
+      :value: 0.0001
+
+
+
+   .. py:attribute:: maxfun
+      :type:  int
+      :value: 150
+
+
+
+   .. py:attribute:: total_call_budget
+      :type:  int
+      :value: 100000
+
+
+
+   .. py:attribute:: audit_points
+      :type:  int
+      :value: 3
+
+
+
+   .. py:attribute:: audit_tolerance
+      :type:  float
+      :value: 0.01
+
+
+
+   .. py:attribute:: surrogate_optimizer
+      :type:  str
+      :value: 'hybrid'
+
+
+
+   .. py:attribute:: max_passes
+      :type:  int
+      :value: 15
+
+
+
+   .. py:attribute:: hybrid_walkers
+      :type:  int
+      :value: 8
+
+
+
+   .. py:attribute:: hybrid_hops
+      :type:  int | None
+      :value: None
+
+
+
+   .. py:attribute:: hybrid_training_starts
+      :type:  int
+      :value: 0
+
+
+
+   .. py:attribute:: corrected_tol
+      :type:  float | None
+      :value: None
+
+
+
+   .. py:attribute:: backend_module
+      :type:  str | None
+      :value: None
+
+
+
+   .. py:attribute:: backend_sha256
+      :type:  str | None
+      :value: None
+
+
+
+   .. py:attribute:: run_config
+      :type:  str | None
+      :value: None
+
+
+
+   .. py:attribute:: chain_length
+      :type:  int | None
+      :value: 2
+
+
+
+   .. py:attribute:: region
+      :type:  str | float | None
+      :value: 'run'
+
+
+
+   .. py:attribute:: continuation
+      :type:  dict | None
+      :value: None
+
+
+
+   .. py:attribute:: search_ranges
+      :type:  dict | None
+      :value: None
+
+
+
+   .. py:method:: load(path=None, **overrides)
+      :classmethod:
+
+
+
+   .. py:method:: validate()
+
+
+   .. py:method:: as_dict()
+
+
+   .. py:method:: corrected_tolerance()
+
+      corrected_tol, or the residual Newton stage's default when unset.
+
+
+

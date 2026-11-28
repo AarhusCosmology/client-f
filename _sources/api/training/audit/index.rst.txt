@@ -1,0 +1,217 @@
+training.audit
+==============
+
+.. py:module:: training.audit
+
+.. autoapi-nested-parse::
+
+   Audit of a trained network's optima with true evaluations (``acquisition.audit``).
+
+   A network can predict a region far from every training point to be much better than the
+   best true value seen. The acquisition chain starts its walkers uniformly over the box, so
+   it can find such a region; the next batch is then drawn there, and its true values, all
+   poor, are what corrects the network. The audit does the same correction with a few true
+   evaluations instead of a batch:
+
+       1. find_maxima: the network's highest maxima over the box (the network alone)
+       2. flag those predicted more than ``tau`` log-units above the best true value
+       3. evaluate the true likelihood at the ``k`` highest flagged maxima
+       4. add them to the training set, fine-tune, and search again
+
+   The truth decides: a refuted maximum becomes an ordinary training point where the network
+   was wrong, a confirmed one is a better point than any seen. See docs/audit_optima.md for
+   the measurements behind the defaults and for what the audit cannot do.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   training.audit.SETTLE_FACTOR
+   training.audit.SETTLE_ROUNDS
+   training.audit.STARTS_PER_PARAMETER
+   training.audit.QUICK_DIVISOR
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   training.audit.inside_float32
+   training.audit.default_starts
+   training.audit.find_maxima
+   training.audit.weights_digest
+   training.audit.summit_maxima
+   training.audit.fine_tune
+   training.audit.audit_optima
+   training.audit.posterior_pilot
+   training.audit.save_audit
+   training.audit.load_audit
+
+
+Module Contents
+---------------
+
+.. py:data:: SETTLE_FACTOR
+   :value: 1.2
+
+
+.. py:data:: SETTLE_ROUNDS
+   :value: 3
+
+
+.. py:function:: inside_float32(points, lower, upper)
+
+   ``points`` at single precision, inside the box: the coordinates the training set stores.
+
+
+.. py:data:: STARTS_PER_PARAMETER
+   :value: 128
+
+
+.. py:data:: QUICK_DIVISOR
+   :value: 8
+
+
+.. py:function:: default_starts(ndim)
+
+   Starts of each kind when ``starts`` is 0: 128 per parameter, 2048 at 16 parameters,
+   the only dimension measured so far. A provisional rule: the ``hits`` of each maximum
+   are in the report so that the number needed can be measured on other likelihoods.
+
+
+.. py:function:: find_maxima(model, lower, upper, inputs, targets, starts=0, steps=400, learning_rate=0.02, n_top=128, merge=0.05, keep=50, seed=None, counts=None, project=None)
+
+   The network's highest maxima over the box, by projected gradient ascent.
+
+   :param project: optional TensorFlow function on box-normalised points, applied to the starts
+       and after every step. The ascent then stays on what it projects onto (a Region's
+       project_unit: the region the boosts' posterior points reach, sampling/region.py),
+       and the far starts become starts all over its surface.
+
+   Starts: ``starts`` uniform points (0: default_starts), as many random box vertices, and
+   the ``n_top`` best training points. The ascent runs in box-normalised coordinates (Adam,
+   projected onto the box). End points closer than ``merge`` box widths (per root
+   dimension) count as one maximum; the ``keep`` highest are returned, best first, as
+   dicts with::
+
+       x          the point
+       value      the network's prediction there
+       excess     value minus the best training value
+       distance   to the nearest training point, in box widths
+       at_bound   number of coordinates at a bound
+       hits       number of starts that ended at this maximum
+       starts     number of starts in all (hits / starts: the share of the search
+                  that found it, from which the starts needed to find it follow)
+
+   ``counts``, a dict, is filled with the whole search: ``starts``, and for every distinct
+   maximum (not only the ``keep`` highest) its ``excess`` and ``hits``, highest first.
+
+   The vertex starts matter: the most violent false maxima of a long-trained network sit
+   at vertices, and uniform starts alone missed those of two networks out of six. The
+   search is not exhaustive. Four times the starts and twice the steps found one or two
+   further false maxima on two audited networks, with one seed and not with another.
+
+
+.. py:function:: weights_digest(model)
+
+   A fingerprint of a network's weights: whether a chain was sampled from this very network.
+
+
+.. py:function:: summit_maxima(model, summits, lower, upper, inputs, targets, merge=0.05, keep=50, counts=None)
+
+   Points that another search climbed to, as find_maxima returns its maxima: the summits of
+   a tempered chain's cooled walkers (sampling.modes.cooled_peaks). They are taken where they
+   are. Climbed again by find_maxima, whose ascent takes steps of a fixed size and returns
+   where it ends, a narrow summit was lost: handed a maximum 16 above the best true value,
+   it came back with 9.6.
+
+
+.. py:function:: fine_tune(model, inputs, targets, loss, validation, epochs, learning_rate, batch_size)
+
+   Continue training ``model``; the final weights are kept, not the best-validation ones.
+
+   Restoring the best validation loss would undo the correction: the validation points
+   never include the audit points, so the loss on them is lowest before the network has
+   learned those.
+
+   Compiled without XLA: a fine-tune compiles a new step, on a training set of a new size, and
+   every XLA compilation leaves memory mappings that the process never gives back (about 600
+   per fine-tune of a 5 x 512 network, measured). With up to eight fine-tunes per iteration that
+   is most of what a run accumulates, and runs of 21 iterations ended at Linux's limit of 65 530
+   mappings per process ("LLVM compilation error: Cannot allocate memory"). Without XLA a
+   fine-tune leaves about 20 and takes 10 to 25% longer.
+
+
+.. py:function:: audit_optima(model, inputs, targets, validation_split, lower, upper, evaluate, build_loss, config, batch_size, n_append, seed=None, log=print, penalties=(), project=None, peaks=None, cloud=False)
+
+   Run the audit on ``model``, in place. Returns (inputs, targets, derived, report).
+
+   :param project: optional, passed to every search (find_maxima): with a Region's project_unit
+       the searches stay inside the region of the boosts, so only maxima that a T = 1
+       consumer could meet are looked for, evaluated and trained on.
+
+   peaks : optional (acquisition.audit.chain, in a boost iteration). peaks(model) ->
+       (summits, walkers): where the walkers of a tempered chain of the model end when
+       cooled and climbed, and the cooled walkers themselves (sampling.modes.cooled_peaks),
+       as the mode search of a boost finds its modes. A round whose own climbs flag nothing
+       looks there last (the "chain" search): a maximum that only the chain reaches was
+       otherwise met by the boost, at a third of its points. A chain per such round.
+
+   cloud : with ``peaks``, a flagged maximum of the chain search is evaluated together with
+       cooled walkers that climbed to it, up to the round's k points: the truth where the
+       network's posterior is, not at its summit alone, and a chain fewer on the one
+       network this was measured on (docs/audit_optima.md).
+
+   The posterior pilot (config.posterior, with ``peaks``): after the search for maxima,
+   config.posterior of the cooled T = 1 walkers of the network kept are evaluated. When the
+   network's mean excess over the truth there is above config.posterior_tolerance, it is
+   fine-tuned on them and the check is repeated with a new chain, at most
+   config.posterior_rounds times; after a last fine-tune the new chain's summits are
+   reported. Its points are trained on like the others. Without it the audit is as it was.
+
+   :param inputs: the arrays the network was just trained on, in the order Keras saw
+       them: its validation set is their last ``validation_split`` fraction and stays
+       held out here. The audit points are all trained on.
+   :param evaluate: true evaluations; a value that is not
+       finite marks a point where the likelihood failed.
+   :param build_loss: the training loss for a training set with these targets (its
+       best value and the msre scale move when an evaluation beats the best).
+   :param config: an AuditConfig.
+   :param n_append: the acquisition's batch size; with config.k 0 it sets the evaluations per
+       round, config.fraction * n_append / config.rounds.
+
+   The returned arrays are the finite evaluations, to be added to the training set. A
+   flagged maximum whose evaluation is not finite cannot become a training point (the
+   run drops such points everywhere); it is set aside for the rest of this audit so the
+   search does not return to it, and the report counts it. With the optional penalize
+   policy, bounded failed probes can justify a separately stored synthetic constraint;
+   it participates in fine-tuning only, never in the returned true-data arrays.
+
+
+.. py:function:: posterior_pilot(model, config, look, seen, evaluate, add, current, tune, fit, lower, upper, rng, log)
+
+   The posterior pilot of audit_optima (acquisition.audit.posterior). add(x, y, derived)
+   puts finite evaluations among the audit's points; current() is (inputs, targets) with
+   them. Returns a dict: the rounds, whether the network was fine-tuned, its summits'
+   highest excess after the last fine-tune, and, for the caller, the calls made.
+
+
+.. py:function:: save_audit(directory, iteration, names, inputs, targets, report, *, derived_names=(), derived=None)
+
+   audit_it_N.csv (the points added: the run's parameters, then loglkl, as a training
+   data file) and audit_it_N.json (the report). The CSV is written also when it is empty:
+   a continued run reads it to know what the saved network N was trained on.
+
+
+.. py:function:: load_audit(directory, iteration, names, derived_names=())
+
+   Read audit points and row-aligned derived values; old audits leave NaNs.
+
+   Newly requested derived columns are also unknown. A present but misaligned
+   sidecar is rejected rather than silently assigning another point's values.
+
+

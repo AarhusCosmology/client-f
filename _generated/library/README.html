@@ -1,0 +1,1431 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CLiENT &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=2443c677"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_generated/library/README';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/_generated/library/README.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Moving from the first CLiENT" href="UPGRADING.html" />
+    <link rel="prev" title="CLiENT speed and memory changes" href="PERFORMANCE.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="AGENTS.html">Contributor guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CHANGES.html">What this version adds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PERFORMANCE.html">CLiENT speed and memory changes</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UPGRADING.html">Moving from the first CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/PROFILES_AND_EVIDENCE.html">Profile likelihoods and Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/README.html">CLiENT documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/audit_optima.html">Auditing the network’s optima</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/augment_training.html">Adding profile points to a run’s training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/boost.html">Boost: training points from the posterior itself</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/boost_background_region.html">Boost with a quadratic background and a region</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/boost_modes_mixing.html">Boost: deciding the modes by measured mixing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/boost_real_lcdm.html">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/combine.html">Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/create_profiles.html">Create profiles from a saved CLiENT iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/create_profiles_2d.html">One two-dimensional profile per run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/derived_parameters.html">Derived parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/evidence.html">Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/export.html">Exporting a network: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">export</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/hybrid_optimisers.html">Hybrid profile optimisers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/injection_window.html">Injection: fitting the quadratic to the points near the best</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/members.html">Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/posterior_density_boost.html">Density-filtered posterior boosts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/run_files.html">A run’s files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/run_recovery.html">Continuing and recovering a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/tempered_convergence.html">Convergence of the ordinary loop: the error at the tempered batch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hpc/README.html">Real likelihoods on a cluster</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../library.html" class="nav-link">Guides and reports</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">CLiENT</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Maintained source: <a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/README.md">README.md</a>. Measurements keep their original settings; consult the <a class="reference internal" href="../../configuration.html"><span class="std std-doc">current defaults</span></a> before starting a new run.</p>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="client">
+<h1>CLiENT<a class="headerlink" href="#client" title="Link to this heading">#</a></h1>
+<p><strong>CLiENT</strong> (Cosmological Likelihood Emulator using Neural networks with TensorFlow) is a framework for emulating cosmological likelihood functions, bypassing the need for Einstein-Boltzmann solver codes like <a class="reference external" href="https://github.com/AarhusCosmology/CLASSpp_public">CLASS++</a> and <a class="reference external" href="https://github.com/cmbant/CAMB">CAMB</a> for evaluation of the likelihood. CLiENT compares to observable emulators like <a class="reference external" href="https://github.com/AarhusCosmology/connect_public">CONNECT</a>, but has the advantage of producing a surrogate likelihood which is completely auto-differentiable.</p>
+<p><strong><a class="reference external" href="https://aarhuscosmology.github.io/client-f/">Manual</a></strong> · <a class="reference internal" href="docs/README.html"><span class="std std-doc">Documentation index</span></a> · <a class="reference internal" href="CHANGES.html"><span class="std std-doc">What this version adds</span></a> · <a class="reference internal" href="UPGRADING.html"><span class="std std-doc">Moving from the first CLiENT</span></a> · <a class="reference internal" href="PERFORMANCE.html"><span class="std std-doc">Performance</span></a></p>
+<p>To start, take <code class="docutils literal notranslate"><span class="pre">input/recommended_near_gaussian.yaml</span></code> for a likelihood close to a Gaussian, or <code class="docutils literal notranslate"><span class="pre">input/recommended_non_gaussian.yaml</span></code> for oscillations, several modes or curved ridges, and change its likelihood and sizes. Most methods are opt-in and these files switch them on: a YAML that sets only the required keys is not the method of the papers (<a class="reference internal" href="docs/boost.html#two-recommended-settings"><span class="std std-ref">docs/boost.md</span></a>).</p>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#getting-started">Getting Started</a></p>
+<ul>
+<li><p><a class="reference internal" href="#installation">Installation</a></p></li>
+<li><p><a class="reference internal" href="#prerequisites">Prerequisites</a></p>
+<ul>
+<li><p><a class="reference internal" href="#class-setup">CLASS++ Setup</a></p></li>
+<li><p><a class="reference internal" href="#planck-likelihood-setup-for-montepython">Planck Likelihood Setup (for MontePython)</a></p></li>
+<li><p><a class="reference internal" href="#montepython-setup">MontePython Setup</a></p></li>
+<li><p><a class="reference internal" href="#cobaya-setup">Cobaya Setup</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#usage">Usage</a></p>
+<ul>
+<li><p><a class="reference internal" href="#running-client">Running CLiENT</a></p></li>
+<li><p><a class="reference internal" href="#command-line-options">Command Line Options</a></p></li>
+<li><p><a class="reference internal" href="#example-configurations">Example Configurations</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#benchmarking">Benchmarking</a></p>
+<ul>
+<li><p><a class="reference internal" href="#profile-likelihoods-and-bayesian-evidence">Profile likelihoods and Bayesian evidence</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#algorithm-overview">Algorithm Overview</a></p>
+<ul>
+<li><p><a class="reference internal" href="#key-features">Key Features</a></p>
+<ul>
+<li><p><a class="reference internal" href="#loss-function">Loss Function</a></p></li>
+<li><p><a class="reference internal" href="#activation-function">Activation Function</a></p></li>
+<li><p><a class="reference internal" href="#temperature-scheme">Temperature Scheme</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#configuration">Configuration</a></p>
+<ul>
+<li><p><a class="reference internal" href="#likelihood-configuration">Likelihood Configuration</a></p></li>
+<li><p><a class="reference internal" href="#prior-configuration">Prior Configuration</a></p></li>
+<li><p><a class="reference internal" href="#acquisition-configuration">Acquisition Configuration</a></p></li>
+<li><p><a class="reference internal" href="#model-architecture">Model Architecture</a></p></li>
+<li><p><a class="reference internal" href="#training-configuration">Training Configuration</a></p></li>
+<li><p><a class="reference internal" href="#sampling-configuration">Sampling Configuration</a></p></li>
+<li><p><a class="reference internal" href="#convergence-configuration">Convergence Configuration</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#output-structure">Output Structure</a></p></li>
+<li><p><a class="reference internal" href="#performance">Performance</a></p></li>
+<li><p><a class="reference internal" href="#license">License</a></p></li>
+<li><p><a class="reference internal" href="#citation">Citation</a></p></li>
+<li><p><a class="reference internal" href="#contact">Contact</a></p></li>
+<li><p><a class="reference internal" href="#create-profiles-from-an-existing-network">Create profiles from an existing network</a></p></li>
+</ul>
+</section>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h2>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h3>
+<p>To use CLiENT, start by cloning the repository:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/AarhusCosmology/client-f.git
+<span class="nb">cd</span><span class="w"> </span>client-f
+</pre></div>
+</div>
+<p>Then, from within the repository, run the interactive setup script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./setup.sh
+</pre></div>
+</div>
+<p>The setup script will guide you through creating a conda environment (~6 GB) and installing all dependencies including CLASS++ (~1 GB), MontePython (~1 GB) or Cobaya (~5 MB), and the Planck likelihood (~200 MB). The complete installation requires approximately ~8 GB of disk space.</p>
+</section>
+<section id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h3>
+<p>Alternatively, you can manually set up CLiENT by creating a conda environment containing all necessary dependencies using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yaml<span class="w"> </span>-n<span class="w"> </span>clienv
+</pre></div>
+</div>
+<p>Alternatively, manually install the dependencies listed in <code class="docutils literal notranslate"><span class="pre">environment.yaml</span></code>. To activate the environment, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>clienv
+</pre></div>
+</div>
+<p>or add this command to your <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> file to activate it automatically.</p>
+<p>CLiENT evaluates likelihoods through <a class="reference external" href="https://github.com/CobayaSampler/cobaya">Cobaya</a> or <a class="reference external" href="https://github.com/brinckmann/montepython_public">MontePython</a>. <code class="docutils literal notranslate"><span class="pre">environment.yaml</span></code> installs Cobaya, and the analytic targets (<code class="docutils literal notranslate"><span class="pre">input/example_cobaya.yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">input/gaussian.yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">input/banana.yaml</span></code>) need nothing more. Real-data likelihoods also need a Boltzmann code: <a class="reference external" href="https://github.com/AarhusCosmology/CLASSpp_public">CLASS++</a>, which every real run of CLiENT has used, or <a class="reference external" href="https://github.com/cmbant/CAMB">CAMB</a> 2 for a likelihood written for CAMB. If using MontePython, you will also need the C-based <code class="docutils literal notranslate"><span class="pre">clik</span></code> code for Planck likelihoods (see setup below). Cobaya can use either the newer Python-native Planck likelihoods or the original <code class="docutils literal notranslate"><span class="pre">clik</span></code>-based Planck 2018 likelihoods, both installed via <code class="docutils literal notranslate"><span class="pre">cobaya-install</span></code>. For performance, the neural network training and MCMC sampling can use GPU resources via TensorFlow when available. The environment file pins the plain <code class="docutils literal notranslate"><span class="pre">tensorflow==2.19.0</span></code> wheel; for a GPU install use the <code class="docutils literal notranslate"><span class="pre">tensorflow[and-cuda]</span></code> build of the same version in its place.</p>
+<section id="class-setup">
+<h4>CLASS++ Setup<a class="headerlink" href="#class-setup" title="Link to this heading">#</a></h4>
+<p>Install CLASS++ and its Python wrapper <code class="docutils literal notranslate"><span class="pre">classy</span></code> into the active environment, in your chosen directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/AarhusCosmology/CLASSpp_public.git
+<span class="nb">cd</span><span class="w"> </span>CLASSpp_public
+make<span class="w"> </span>classy
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">classy</span></code> runs <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code> (CMake through scikit-build-core, which pip fetches) and also lays the build out as MontePython
+expects; with Cobaya, <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code> alone is enough. Keep the source directory: the library refers to it. To repeat a run
+exactly, check out the CLASS++ commit it used first (a run made with <code class="docutils literal notranslate"><span class="pre">hpc/launch.py</span></code> records it in <code class="docutils literal notranslate"><span class="pre">logs/backend_&lt;job&gt;.json</span></code>
+when its job names the commit).
+The <a class="reference external" href="https://github.com/AarhusCosmology/CLASSpp_public">CLASS++ README</a> has the other ways to install it.</p>
+<p>Do not install public CLASS (<code class="docutils literal notranslate"><span class="pre">classy</span></code> 3.x) or CAMB 1 next to it: public CLASS installs a module of the same name, <code class="docutils literal notranslate"><span class="pre">classy</span></code>,
+and the runs and their checks are for CLASS++ and CAMB 2.</p>
+</section>
+<section id="planck-likelihood-setup-for-montepython">
+<h4>Planck Likelihood Setup (for MontePython)<a class="headerlink" href="#planck-likelihood-setup-for-montepython" title="Link to this heading">#</a></h4>
+<p>Install the Planck likelihood package in your chosen directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/benabed/clik.git<span class="w"> </span>clik
+wget<span class="w"> </span>-O<span class="w"> </span>COM_Likelihood_Data-baseline_R3.00.tar.gz<span class="w"> </span><span class="s2">"http://pla.esac.esa.int/pla/aio/product-action?COSMOLOGY.FILE_ID=COM_Likelihood_Data-baseline_R3.00.tar.gz"</span>
+tar<span class="w"> </span>-xzf<span class="w"> </span>COM_Likelihood_Data-baseline_R3.00.tar.gz
+rm<span class="w"> </span>COM_Likelihood_Data-baseline_R3.00.tar.gz
+</pre></div>
+</div>
+<p>From the <code class="docutils literal notranslate"><span class="pre">clik</span></code> directory, configure and install:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./waf<span class="w"> </span>configure<span class="w"> </span>--install_all_deps
+./waf<span class="w"> </span>install
+</pre></div>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">./waf</span> <span class="pre">configure</span> <span class="pre">--install_all_deps</span></code> fails, ensure you have working C and Fortran compilers as well as the BLAS/LAPACK and CFITSIO libraries installed. For more details, including building with Intel MKL, see the <a class="reference external" href="https://github.com/benabed/clik">clik documentation</a>. To source the clik profile, run (replace with your actual installation path):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>/absolute/path/to/clik/bin/clik_profile.sh
+</pre></div>
+</div>
+<p>or add this command to your <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> file to source it automatically.</p>
+</section>
+<section id="montepython-setup">
+<h4>MontePython Setup<a class="headerlink" href="#montepython-setup" title="Link to this heading">#</a></h4>
+<p>Install MontePython in your chosen directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/brinckmann/montepython_public.git
+</pre></div>
+</div>
+<p>Copy the default configuration template to the CLiENT config directory (or another location of your choice):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>/path/to/montepython_public/default.conf.template<span class="w"> </span>/path/to/client/config/default.conf
+</pre></div>
+</div>
+<p>Edit <code class="docutils literal notranslate"><span class="pre">config/default.conf</span></code> to point to your actual installation paths:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span><span class="p">[</span><span class="s1">'cosmo'</span><span class="p">]</span>    <span class="o">=</span> <span class="s1">'/absolute/path/to/CLASSpp_public'</span>
+<span class="n">path</span><span class="p">[</span><span class="s1">'clik'</span><span class="p">]</span>     <span class="o">=</span> <span class="s1">'/absolute/path/to/plc-3.01/'</span>
+</pre></div>
+</div>
+<p>Replace with the absolute paths to your installations. The <code class="docutils literal notranslate"><span class="pre">clik</span></code> path is only needed if using Planck likelihoods.</p>
+<p>Create <code class="docutils literal notranslate"><span class="pre">config/montepython.yaml</span></code> (<code class="docutils literal notranslate"><span class="pre">config/montepython.yaml.example</span></code> is a template) with:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">conf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/absolute/path/to/config/default.conf</span>
+<span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/absolute/path/to/montepython_public/montepython</span>
+</pre></div>
+</div>
+</section>
+<section id="cobaya-setup">
+<h4>Cobaya Setup<a class="headerlink" href="#cobaya-setup" title="Link to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">environment.yaml</span></code> installs Cobaya (<code class="docutils literal notranslate"><span class="pre">cobaya==3.6.2</span></code>). When installing the dependencies by hand, install it via pip:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">cobaya</span><span class="o">==</span><span class="m">3</span>.6.2
+</pre></div>
+</div>
+<p>Install the likelihoods by name, for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cobaya-install<span class="w"> </span>planck_2018_highl_plik.TTTEEE
+</pre></div>
+</div>
+<p>Do <strong>not</strong> give <code class="docutils literal notranslate"><span class="pre">cobaya-install</span></code> your input file (<code class="docutils literal notranslate"><span class="pre">cobaya-install</span> <span class="pre">your_cobaya_input.yaml</span></code>): it then also installs the theory
+code the file names, public CLASS or CAMB, under <code class="docutils literal notranslate"><span class="pre">packages_path/code</span></code>, and Cobaya takes that copy in place of the CLASS++ in your
+environment. If a <code class="docutils literal notranslate"><span class="pre">packages_path/code/classy</span></code>, <code class="docutils literal notranslate"><span class="pre">code/CAMB</span></code> or <code class="docutils literal notranslate"><span class="pre">code/camb</span></code> folder exists, remove it. Use <code class="docutils literal notranslate"><span class="pre">--packages-path</span></code> to
+specify where likelihood codes and data will be installed (or set <code class="docutils literal notranslate"><span class="pre">COBAYA_PACKAGES_PATH</span></code>). For more details, see the <a class="reference external" href="https://cobaya.readthedocs.io/en/latest/installation_cosmo.html">Cobaya installation documentation</a>.</p>
+</section>
+</section>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">#</a></h2>
+<section id="running-client">
+<h3>Running CLiENT<a class="headerlink" href="#running-client" title="Link to this heading">#</a></h3>
+<p>Start a new run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span>input/example_cobaya.yaml<span class="w"> </span>-n<span class="w"> </span>my_run
+</pre></div>
+</div>
+<p>or with MontePython:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span>input/example_montepython.yaml<span class="w"> </span>-n<span class="w"> </span>my_run
+</pre></div>
+</div>
+<p>Continue from an existing run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span>results/my_run_directory
+</pre></div>
+</div>
+<p>For parallel likelihood evaluation with MPI (requires OpenMPI and mpi4py, which <code class="docutils literal notranslate"><span class="pre">environment.yaml</span></code> does not install and <code class="docutils literal notranslate"><span class="pre">setup.sh</span></code> offers; for real likelihoods on a cluster, with an explicit training box and refused points, see <a class="reference internal" href="hpc/README.html"><span class="std std-doc">hpc/</span></a>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mpirun<span class="w"> </span>-n<span class="w"> </span>&lt;N_processes&gt;<span class="w"> </span>python<span class="w"> </span>client.py<span class="w"> </span>&lt;input_yaml<span class="p">|</span>run_directory&gt;
+</pre></div>
+</div>
+<p>MPI parallelises initial sampling and resampling likelihood evaluations. Training and MCMC run on the master process, except
+that with <code class="docutils literal notranslate"><span class="pre">training.members</span></code> the networks of the boost phase are trained several times at once on ranks that would otherwise
+wait (<a class="reference internal" href="docs/members.html"><span class="std std-doc">docs/members.md</span></a>).</p>
+</section>
+<section id="command-line-options">
+<h3>Command Line Options<a class="headerlink" href="#command-line-options" title="Link to this heading">#</a></h3>
+<p><strong>New Run Mode:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-n</span></code>, <code class="docutils literal notranslate"><span class="pre">--name</span></code>: Optional run name/tag for output organisation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-o</span></code>, <code class="docutils literal notranslate"><span class="pre">--output</span></code>: Base results directory (default: <code class="docutils literal notranslate"><span class="pre">results</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-i</span></code>, <code class="docutils literal notranslate"><span class="pre">--iterations</span> <span class="pre">N</span></code>: Number of iterations (overrides convergence criterion)</p></li>
+</ul>
+<p><strong>Continue Mode:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-r</span></code>, <code class="docutils literal notranslate"><span class="pre">--retrain</span></code>: Retrain model at the starting iteration (default: skip retraining)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-s</span></code>, <code class="docutils literal notranslate"><span class="pre">--start</span> <span class="pre">N</span></code>: Starting iteration (auto-detected from latest if not specified).
+In a run that has gone further than network N it is refused: the loop would do iteration
+N again in place and leave the later networks and training sets, which the next start
+without <code class="docutils literal notranslate"><span class="pre">-s</span></code> would continue from, without the points of the iteration done again.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--rewind</span></code>: with <code class="docutils literal notranslate"><span class="pre">-s</span> <span class="pre">N</span></code>, go back to network N. Everything of the iterations after N
+(training sets, networks, audits, regions, their phase records, and the evidences, mode
+searches, chains and reports made of them) is moved to
+<code class="docutils literal notranslate"><span class="pre">RUN/interrupted/rewind_to_it_N-&lt;time&gt;/</span></code> under the paths it had, with a list in
+<code class="docutils literal notranslate"><span class="pre">REWIND.json</span></code>; nothing is deleted, and the true calls of those iterations stay counted in
+<code class="docutils literal notranslate"><span class="pre">objective_calls/</span></code>. The move plan and artifact hashes are recorded before any file moves.
+If interrupted, the next start finishes that rewind before selecting its checkpoint.
+A network, training set or record of the plan that has changed or is missing stops that
+start, and the message says what can be done; a report or other analysis file written
+again or removed in the meantime is set aside as it is found and noted. The run then does
+the acquisition of N again and goes on. Do not
+remove later files by hand instead: <code class="docutils literal notranslate"><span class="pre">phases/acquisition_it_N.json</span></code> commits training set
+N+1 (<code class="docutils literal notranslate"><span class="pre">training_data/added_it_&lt;N+1&gt;.csv</span></code>, or <code class="docutils literal notranslate"><span class="pre">data_it_&lt;N+1&gt;.csv</span></code> when it is written whole), and a
+start refuses when a committed file is missing.
+To keep the run as it is and try something else from an earlier network, make another
+directory from it; for boosts from an earlier network that is the
+<a class="reference internal" href="hpc/README.html#branching-a-run"><span class="std std-ref">branch tool</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-i</span></code>, <code class="docutils literal notranslate"><span class="pre">--iterations</span> <span class="pre">N</span></code>: Number of (additional) iterations (overrides convergence criterion).
+Without it, <code class="docutils literal notranslate"><span class="pre">convergence.max_iterations</span></code> on a continued run counts from the starting
+network too: that many iterations more, not a total for the run. With <code class="docutils literal notranslate"><span class="pre">-i</span> <span class="pre">K</span></code> the run ends
+K networks after the starting one; when the starting network has to be trained first
+(<code class="docutils literal notranslate"><span class="pre">--retrain</span></code>, or its training was interrupted) that is K + 1 trainings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--accept-identity-change</span></code>: continue once although the recorded objective identity differs,
+after checking that the objective itself is unchanged; the error lists what differs</p></li>
+</ul>
+<p>A run whose last job stopped inside a training or a batch of true evaluations is continued
+with the same command: the unfinished phase is set aside under <code class="docutils literal notranslate"><span class="pre">interrupted/</span></code> and done again
+(<a class="reference internal" href="docs/run_recovery.html"><span class="std std-doc">docs/run_recovery.md</span></a>).</p>
+<p>CLiENT automatically detects the mode based on whether the path is a directory (continue) or file (new run).</p>
+</section>
+<section id="example-configurations">
+<h3>Example Configurations<a class="headerlink" href="#example-configurations" title="Link to this heading">#</a></h3>
+<p><strong>Cosmological Likelihoods:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">input/base2018TTTEEE_lensing_bao.yaml</span></code> - Base ΛCDM with Planck 2018 TT,TE,EE+lowE+lensing+BAO</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">input/sterileLCDM_TTTEEE_lensing_bao.yaml</span></code> - Sterile neutrino extension (N<sub>s</sub>m<sub>s</sub>ΛCDM)</p></li>
+</ul>
+<p><strong>Test/Example Likelihoods:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">input/example_cobaya.yaml</span></code> - Simple 2D Gaussian example</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">input/example_montepython.yaml</span></code> - 2D example (<code class="docutils literal notranslate"><span class="pre">h</span></code>, <code class="docutils literal notranslate"><span class="pre">omega_cdm</span></code>) on the MontePython <code class="docutils literal notranslate"><span class="pre">sh0es</span></code> and <code class="docutils literal notranslate"><span class="pre">bao</span></code> likelihoods, through CLASS</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">input/gaussian.yaml</span></code> - 27D Gaussian with Planck-like covariance</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">input/banana.yaml</span></code> - 29D Banana-shaped likelihood</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">input/_smoke.yaml</span></code> - Tiny 16D banana run that checks an install; it says nothing about accuracy</p></li>
+</ul>
+<p><strong>Settings to start from:</strong> <code class="docutils literal notranslate"><span class="pre">input/recommended_near_gaussian.yaml</span></code> and <code class="docutils literal notranslate"><span class="pre">input/recommended_non_gaussian.yaml</span></code> (see above).</p>
+</section>
+</section>
+<section id="benchmarking">
+<h2>Benchmarking<a class="headerlink" href="#benchmarking" title="Link to this heading">#</a></h2>
+<p>Compare surrogate likelihood against reference chains:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>benchmarking/benchmark.py<span class="w"> </span>results/my_run_directory
+</pre></div>
+</div>
+<p>Benchmark options:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-i</span></code>, <code class="docutils literal notranslate"><span class="pre">--iteration</span> <span class="pre">N</span></code>: Iteration to benchmark (auto-detects latest if not specified)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-n</span></code>, <code class="docutils literal notranslate"><span class="pre">--n-steps</span> <span class="pre">N</span></code>: Number of MCMC steps (defaults to <code class="docutils literal notranslate"><span class="pre">n_steps</span></code> from config)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-t</span></code>, <code class="docutils literal notranslate"><span class="pre">--thin</span> <span class="pre">N</span></code>: Thinning factor for chains (default: 1)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-p</span></code>, <code class="docutils literal notranslate"><span class="pre">--params</span></code>: Parameter names, or comma-separated 1-based parameter indices, to include in analysis</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-c</span></code>, <code class="docutils literal notranslate"><span class="pre">--chains</span> <span class="pre">DIR</span></code>: Path to MontePython or Cobaya chains directory for comparison</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--region</span> <span class="pre">run|none</span></code>: The network inside the region of its boosts when it has one (default), or the bare network</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--no-training-data</span></code>: Skip loading training data visualisation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--no-training-history</span></code>: Skip loading training history</p></li>
+</ul>
+<p>The benchmark script generates:</p>
+<ul class="simple">
+<li><p>Triangle plots comparing posteriors</p></li>
+<li><p>KL divergence metrics between distributions</p></li>
+<li><p>MAP point comparisons</p></li>
+<li><p>Convergence diagnostics</p></li>
+</ul>
+<section id="profile-likelihoods-and-bayesian-evidence">
+<h3>Profile likelihoods and Bayesian evidence<a class="headerlink" href="#profile-likelihoods-and-bayesian-evidence" title="Link to this heading">#</a></h3>
+<p>Three further modules assess the surrogate on quantities other than the posterior:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1D profile likelihoods, with the true likelihood evaluated at each optimum</span>
+python<span class="w"> </span>benchmarking/profile_likelihood.py<span class="w"> </span>RUN_DIR<span class="w"> </span>-it<span class="w"> </span><span class="m">10</span><span class="w"> </span>--true<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-n<span class="w"> </span><span class="m">61</span><span class="w"> </span>--grid-frac<span class="w"> </span><span class="m">0</span>.5<span class="w"> </span>-o<span class="w"> </span>RUN_DIR/profiles_it10.json
+
+<span class="c1"># the profile metric, and -- read this first -- the grid's resolution floor</span>
+python<span class="w"> </span>-m<span class="w"> </span>profiles.metric<span class="w"> </span>RUN_DIR/exact_profiles.json<span class="w"> </span>--floor
+python<span class="w"> </span>-m<span class="w"> </span>profiles.metric<span class="w"> </span>RUN_DIR/profiles_it10.json<span class="w"> </span>-r<span class="w"> </span>RUN_DIR/exact_profiles.json
+
+<span class="c1"># Bayesian evidence from the network via the BEST nested sampler (Cobaya and MontePython runs)</span>
+python<span class="w"> </span>client.py<span class="w"> </span>evidence<span class="w"> </span>RUN_DIR<span class="w"> </span><span class="o">[</span>-i<span class="w"> </span><span class="m">10</span><span class="o">]</span><span class="w"> </span><span class="o">[</span>--n-live<span class="w"> </span><span class="m">2048</span><span class="o">]</span><span class="w"> </span><span class="o">[</span>--prior<span class="w"> </span><span class="nv">omega_b</span><span class="o">=</span><span class="m">0</span>.019:0.025,...<span class="o">]</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">evidence</span></code> reports ln Z in the run’s own prior convention (Cobaya’s priors, or
+MontePython’s <code class="docutils literal notranslate"><span class="pre">.param</span></code> ranges with the run’s domain where they are unbounded, or your own
+ranges) and flags a sampling box that cuts the posterior; see
+<a class="reference internal" href="docs/evidence.html"><span class="std std-doc">docs/evidence.md</span></a>. Only the network is evaluated. BEST is not in
+<code class="docutils literal notranslate"><span class="pre">environment.yaml</span></code>: install it, set <code class="docutils literal notranslate"><span class="pre">BEST_PATH</span></code>, or pass <code class="docutils literal notranslate"><span class="pre">--best-path</span></code> to its checkout.</p>
+</section>
+<section id="a-region-the-acquisition-does-not-reach">
+<h3>A region the acquisition does not reach<a class="headerlink" href="#a-region-the-acquisition-does-not-reach" title="Link to this heading">#</a></h3>
+<p>The acquisition samples where the current network puts the likelihood. Where the network is
+too pessimistic nothing is evaluated, and nothing corrects it; successive networks agree, so
+the convergence metric does not notice. If you suspect this along a parameter (a profile
+that disagrees with the posterior, a second solution known from the physics), take a true
+profile along it and add its points to the training set:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span>profiles<span class="w"> </span>RUN_DIR<span class="w"> </span>--config<span class="w"> </span>profile.yaml<span class="w"> </span>-o<span class="w"> </span>STUDY<span class="w">   </span><span class="c1"># over the parameter's whole domain</span>
+python<span class="w"> </span>client.py<span class="w"> </span>augment<span class="w"> </span>RUN_DIR<span class="w"> </span>--profiles<span class="w"> </span>STUDY<span class="w"> </span>-n<span class="w"> </span><span class="m">300</span><span class="w">           </span><span class="c1"># its true evaluations, through the density filter</span>
+python<span class="w"> </span>client.py<span class="w"> </span>RUN_DIR<span class="w"> </span>-i<span class="w"> </span><span class="m">5</span><span class="w">                                      </span><span class="c1"># continue; the first training with the points runs longer</span>
+</pre></div>
+</div>
+<p>If a whole region is missed, a mode the networks rate far too low (known from the physics or
+from an independent chain), run CLiENT again on a box cut down to it, the same likelihood and
+prior with only the training box narrower in one parameter, and combine the runs into one
+emulator (<a class="reference internal" href="docs/combine.html"><span class="std std-doc">docs/combine.md</span></a>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span>combine<span class="w"> </span>COMBINED<span class="w"> </span>--parameter<span class="w"> </span>omega<span class="w"> </span>--part<span class="w"> </span>RUN_LOW<span class="w"> </span>--part<span class="w"> </span>RUN_FULL:18<span class="w"> </span>--band<span class="w"> </span><span class="m">2</span>.6:3.0
+</pre></div>
+</div>
+<p>To use a network outside CLiENT (BEST, another sampler, a notebook), export it as a TensorFlow
+SavedModel, which TensorFlow alone loads (<a class="reference internal" href="docs/export.html"><span class="std std-doc">docs/export.md</span></a>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span><span class="nb">export</span><span class="w"> </span>RUN_OR_COMBINED<span class="w"> </span>EXPORTED<span class="w">          </span><span class="c1"># EXPORTED/saved_model, emulator.json, README.md</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">augment</span></code> adds only the points the training set is short of, by the acquisition’s own
+density rule, writes them beside the run without changing any existing file, and the
+continued run picks them up. On self-interacting neutrinos with Planck + DESI DR2 this
+taught the network a strong-coupling minimum that twelve ordinary iterations had missed.
+See <a class="reference internal" href="docs/augment_training.html"><span class="std std-doc">docs/augment_training.md</span></a>, including what it does not
+establish.</p>
+</section>
+<section id="a-region-the-network-wrongly-believes-in">
+<h3>A region the network wrongly believes in<a class="headerlink" href="#a-region-the-network-wrongly-believes-in" title="Link to this heading">#</a></h3>
+<p>The opposite failure: a network can predict a region far from every training point to be
+much better than anything evaluated. If the acquisition chain finds it, the next batch is
+spent there; if it does not, the false optimum stays in the network for a profile or a
+sampler to land on. In a wide box the first iterations of a run can be dominated by this.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">acquisition</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">audit</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span><span class="w">        </span><span class="c1"># every default; absent or false: no audit</span>
+</pre></div>
+</div>
+<p>After every training the audit searches the network for its own maxima, evaluates the true
+likelihood at those predicted more than 10 log-units above the best true value, fine-tunes,
+and repeats, with at most a tenth of the batch in five rounds per iteration. The points
+stay in the training set. On a 58-parameter Gaussian in a ±10σ box the audited runs drew
+their first batch on the posterior at iteration 3 or 4 where the unaudited run needed 11,
+and they ended on the exact posterior where the unaudited run ended with a false optimum
+in its last network. On ΛCDM with the real Planck and DESI DR2 likelihood the audited run’s
+second batch was as close to the peak as the unaudited run’s fifth, for 242 extra true
+evaluations in 12 000. It corrects optimism only: a region the network under-rates is not a
+maximum, and needs <code class="docutils literal notranslate"><span class="pre">augment</span></code> above. See <a class="reference internal" href="docs/audit_optima.html"><span class="std std-doc">docs/audit_optima.md</span></a>.</p>
+<p>For unevaluable audit maxima, optional <code class="docutils literal notranslate"><span class="pre">failure_policy:</span> <span class="pre">penalize</span></code> tries three nearby
+points and, if all fail, fits a separate synthetic target 1000 log-units below the best
+genuine evaluation. Probes share the existing budget; genuine data and exact profiles
+remain free of synthetic labels. See the failure policy in the audit documentation.</p>
+</section>
+<section id="separated-modes-and-their-weights">
+<h3>Separated modes and their weights<a class="headerlink" href="#separated-modes-and-their-weights" title="Link to this heading">#</a></h3>
+<p>A batch drawn at the acquisition temperature lies far below the posterior (T n / 2 log-units
+under the peak against n / 2), so the network’s level in the core of each mode is an
+extrapolation, and the weights of modes a chain cannot travel between come out anywhere: on
+self-interacting neutrinos three good networks gave the strong-coupling mode 12.7%, 35.7% and
+38.1%, where the measured value is 25%.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">acquisition</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">boost</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span><span class="w">              </span><span class="c1"># true evaluations, shared equally among the modes found</span>
+<span class="w">    </span><span class="nt">start_iteration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span><span class="w">  </span><span class="c1"># from this iteration on, the acquisition is a boost</span>
+</pre></div>
+</div>
+<p>A boost iteration finds the network’s modes, draws the same number of posterior samples
+(T = 1) from each, evaluates them in place of the tempered batch, and trains on. It reports
+the weights of the modes as the network has them and as corrected by the true values. On that
+self-interacting neutrino run one boost of 1000 gave a corrected strong-mode weight of 25.4% and a second 25.1%,
+while the network’s own weight went from 13.5% to 20.7% and 23.4%. With a single mode the
+boost is simply <code class="docutils literal notranslate"><span class="pre">n</span></code> posterior samples. It needs a network that is already good on its own
+posterior samples; the report says whether it was. See <a class="reference internal" href="docs/boost.html"><span class="std std-doc">docs/boost.md</span></a>.</p>
+<p>Two sets of boost settings are recommended (<a class="reference internal" href="docs/boost.html#two-recommended-settings"><span class="std std-ref">docs/boost.md</span></a>):
+for near-Gaussian likelihoods (Planck-like parameter estimation) the quadratic background with
+<code class="docutils literal notranslate"><span class="pre">region:</span> <span class="pre">2.0</span></code>, the settings of the reference runs; for likelihoods known to be non-Gaussian
+(oscillations, several modes, curved ridges) also the training domain, a narrower region,
+mixing, <code class="docutils literal notranslate"><span class="pre">mode_depth:</span> <span class="pre">auto</span></code> and the audit’s chain search and posterior pilot. The training
+domain is what an oscillating likelihood needs and what costs a near-Gaussian one accuracy.</p>
+<p>Opt-in <code class="docutils literal notranslate"><span class="pre">background:</span> <span class="pre">quadratic</span></code> and <code class="docutils literal notranslate"><span class="pre">region:</span> <span class="pre">2.0</span></code> put a fixed quadratic under the network
+(one cold start, then warm starts) and keep the chains and the audit inside the region the
+boost points reach; see <a class="reference internal" href="docs/boost_background_region.html"><span class="std std-doc">docs/boost_background_region.md</span></a>.</p>
+<p>Opt-in <code class="docutils literal notranslate"><span class="pre">mixing:</span> <span class="pre">0.1</span></code> decides what counts as a separate mode by running a T = 1 chain and
+measuring whether it travels between the candidate basins, in place of the fixed <code class="docutils literal notranslate"><span class="pre">barrier</span></code>
+(which is too strict with few parameters and too lax with many). <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">client.py</span> <span class="pre">modes</span> <span class="pre">RUN_DIR</span></code> gives the modes of any saved network, their weights and posterior samples, without
+the likelihood; see <a class="reference internal" href="docs/boost_modes_mixing.html"><span class="std std-doc">docs/boost_modes_mixing.md</span></a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">density_filter:</span> <span class="pre">true</span></code> filters boost candidates against a balanced T=1
+mode mixture; filtered points do not support the unweighted evidence correction.
+See <a class="reference internal" href="docs/posterior_density_boost.html"><span class="std std-doc">density-filtered boosts and the completed analytic study</span></a>,
+including the known limitation that an uncleared audit does not stop the native loop.</p>
+<p>The posterior, the profile and the evidence weight the likelihood surface in different
+places, and an emulator accurate for one is <strong>not</strong> automatically accurate for another:
+measured on a 31-dimensional analytic target, a network with 6.5x the profile residual rms
+of another gave an evidence indistinguishable from it. Validation loss predicts neither.
+See <a class="reference internal" href="docs/PROFILES_AND_EVIDENCE.html"><span class="std std-doc">docs/PROFILES_AND_EVIDENCE.md</span></a> for the conventions that
+have to be right – the prior offset, the box definition, and the profile metric’s
+resolution floor – and for what is not yet established.</p>
+</section>
+</section>
+<section id="algorithm-overview">
+<h2>Algorithm Overview<a class="headerlink" href="#algorithm-overview" title="Link to this heading">#</a></h2>
+<p>CLiENT implements a temperature-based iterative training scheme:</p>
+<ol class="arabic simple">
+<li><p><strong>Initial Sampling</strong>: Configurable prior sampling (LHS, scrambled Sobol, or uniform) within restricted prior bounds (±n<sub>std</sub>σ around fiducial values)</p></li>
+<li><p><strong>Neural Network Training</strong>:</p>
+<ul class="simple">
+<li><p>Deep feedforward network with the Alsing activation function</p></li>
+<li><p>Mean Square Relative Error (MSRE) loss function emphasising high-likelihood regions</p></li>
+<li><p>Early stopping with validation monitoring</p></li>
+</ul>
+</li>
+<li><p><strong>Tempered MCMC Sampling</strong>:</p>
+<ul class="simple">
+<li><p>Surrogate sampling with the built-in affine-invariant ensemble sampler (AIES)</p></li>
+<li><p>Temperature T<sub>MCMC</sub> controls exploration</p></li>
+</ul>
+</li>
+<li><p><strong>Adaptive Resampling</strong>:</p>
+<ul class="simple">
+<li><p>Candidates weighted by L<sup>1/T<sub>T</sub> - 1/T<sub>MCMC</sub></sup></p></li>
+<li><p>k-NN density-aware acceptance criterion targeting a distribution proportional to L<sup>1/T<sub>T</sub></sup></p></li>
+<li><p>Training temperature T<sub>T</sub> interpolates between evidence-based (T<sub>T</sub> → 1) and uniform (T<sub>T</sub> → ∞) sampling strategies</p></li>
+</ul>
+</li>
+<li><p><strong>Convergence Monitoring</strong>:</p>
+<ul class="simple">
+<li><p>Gaussian posterior drift metric between successive iterations</p></li>
+<li><p>Or, opt-in, the error of each network at its own tempered batch, against true values
+(<a class="reference internal" href="docs/tempered_convergence.html"><span class="std std-doc">docs/tempered_convergence.md</span></a>)</p></li>
+<li><p>Iterates until metric &lt; threshold or maximum iterations reached</p></li>
+</ul>
+</li>
+</ol>
+<section id="key-features">
+<h3>Key Features<a class="headerlink" href="#key-features" title="Link to this heading">#</a></h3>
+<section id="loss-function">
+<h4>Loss Function<a class="headerlink" href="#loss-function" title="Link to this heading">#</a></h4>
+<p>The MSRE loss transitions from absolute to relative error based on distance from best-fit:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>loss ∝ [(χ²_surrogate - χ²_exact) / (χ²_exact + ε)]²
+</pre></div>
+</div>
+<p>where ε ~ n(1 - 2/9n + k√(2/9n))³ (Wilson-Hilferty transformation) with k controlling the transition scale.</p>
+</section>
+<section id="activation-function">
+<h4>Activation Function<a class="headerlink" href="#activation-function" title="Link to this heading">#</a></h4>
+<p>The Alsing activation function (which is also used in CONNECT) replaces ReLU (which lacks expressivity at negative values) with a linear function at negative values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="n">γ</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">e</span><span class="o">^</span><span class="p">(</span><span class="o">-</span><span class="n">βx</span><span class="p">))</span><span class="o">^</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">γ</span><span class="p">)]</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>where β controls the broadness of the transition region and γ controls the asymptotic slope at negative values. Both hyperparameters are trainable for each node in each layer.</p>
+</section>
+<section id="temperature-scheme">
+<h4>Temperature Scheme<a class="headerlink" href="#temperature-scheme" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>T<sub>T</sub> → 1: samples proportional to evidence integral</p></li>
+<li><p>T<sub>T</sub> → ∞: uniform sampling across parameter space</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h2>
+<p>All hyperparameters are specified in YAML format. See <code class="docutils literal notranslate"><span class="pre">input/example_cobaya.yaml</span></code> or <code class="docutils literal notranslate"><span class="pre">input/example_montepython.yaml</span></code> for documented configuration examples. Below are the keys of each section. A key shown commented out is optional, with its default or, where it is off by default, an example. An unknown key stops the run before any evaluation.</p>
+<p>Two optional top-level keys: <code class="docutils literal notranslate"><span class="pre">seed</span></code> fixes the prior design, the network initialisation, the walker start and the acquisition draws, but not the AIES proposals, which run under XLA; <code class="docutils literal notranslate"><span class="pre">derived</span></code> (absent: off) retrains a derived-parameter emulator at every iteration (<a class="reference internal" href="docs/derived_parameters.html"><span class="std std-doc">docs/derived_parameters.md</span></a>). Derived values are recorded with every true evaluation either way.</p>
+<section id="likelihood-configuration">
+<h3>Likelihood Configuration<a class="headerlink" href="#likelihood-configuration" title="Link to this heading">#</a></h3>
+<p><strong>MontePython:</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">likelihood</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">wrapper</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">montepython</span>
+<span class="w">  </span><span class="nt">input</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">input/montepython/example.param</span><span class="w">  </span><span class="c1"># MontePython .param file</span>
+<span class="w">  </span><span class="c1"># identity_files: [/absolute/path]      # Extra objective files to hash at every start (docs/run_recovery.md)</span>
+</pre></div>
+</div>
+<p><strong>Cobaya:</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">likelihood</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">wrapper</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cobaya</span>
+<span class="w">  </span><span class="nt">input</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">input/cobaya/example.yaml</span><span class="w">  </span><span class="c1"># Cobaya .yaml file</span>
+</pre></div>
+</div>
+</section>
+<section id="prior-configuration">
+<h3>Prior Configuration<a class="headerlink" href="#prior-configuration" title="Link to this heading">#</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">prior</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">n_samples</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span><span class="w">          </span><span class="c1"># Number of initial samples</span>
+<span class="w">  </span><span class="nt">sampling_strategy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lhs</span><span class="w">   </span><span class="c1"># 'lhs', 'sobol', or 'uniform'</span>
+<span class="w">  </span><span class="nt">n_sigma</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0</span><span class="w">            </span><span class="c1"># Prior restriction (±10σ from fiducial); null: the likelihood's own bounds</span>
+<span class="w">  </span><span class="c1"># n_inject: 0            # Opt-in: points drawn once, after the design, from a quadratic fit (see below)</span>
+</pre></div>
+</div>
+</section>
+<section id="acquisition-configuration">
+<h3>Acquisition Configuration<a class="headerlink" href="#acquisition-configuration" title="Link to this heading">#</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">acquisition</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">n_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span><span class="w">           </span><span class="c1"># Number of new points added per iteration (B_t)</span>
+<span class="w">  </span><span class="nt">pool_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span><span class="w">          </span><span class="c1"># Candidate pool size multiplier (pool = pool_factor * n_append)</span>
+<span class="w">  </span><span class="nt">n_neighbors</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span><span class="w">          </span><span class="c1"># Neighbours for density estimation</span>
+<span class="w">  </span><span class="nt">target_temperature</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7.0</span><span class="w">  </span><span class="c1"># Training temperature T_T</span>
+<span class="w">  </span><span class="c1"># n_inject: 0            # Opt-in, e.g. 100: points drawn every iteration from a quadratic fit of the</span>
+<span class="w">                           </span><span class="c1"># training set (prior.n_inject: once, after the design). Both injections</span>
+<span class="w">                           </span><span class="c1"># fit only the points within 16 x T n / 2 log-units of the best</span>
+<span class="w">                           </span><span class="c1"># (docs/injection_window.md)</span>
+<span class="w">  </span><span class="c1"># boost: {n: 1000, start_iteration: 15}   # Opt-in: from that iteration on, the new points are n</span>
+<span class="w">                           </span><span class="c1"># posterior samples of the network (T = 1), the same number from every</span>
+<span class="w">                           </span><span class="c1"># mode, in place of the tempered batch (docs/boost.md). Further keys and</span>
+<span class="w">                           </span><span class="c1"># defaults: barrier 4, min_share 0.02, walkers 512, cool_steps 2000,</span>
+<span class="w">                           </span><span class="c1"># steps 10000, components 6; mixing (null; 0.1: modes decided by</span>
+<span class="w">                           </span><span class="c1"># measured mixing, docs/boost_modes_mixing.md), candidate_barrier 1;</span>
+<span class="w">                           </span><span class="c1"># density_filter false, pool_factor 20; background, region,</span>
+<span class="w">                           </span><span class="c1"># region_quantile, train_domain, mode_depth, balance_floor and boosts</span>
+<span class="w">                           </span><span class="c1"># all null</span>
+<span class="w">  </span><span class="c1"># audit: {}              # Opt-in: true evaluations at the network's own maxima after every</span>
+<span class="w">                           </span><span class="c1"># training (docs/audit_optima.md). Keys and defaults: tau 10,</span>
+<span class="w">                           </span><span class="c1"># fraction 0.1 (of n_append, per iteration), rounds 5, k 0 (0: fraction *</span>
+<span class="w">                           </span><span class="c1"># n_append / rounds per round), epochs 30, learning_rate 1e-5, starts 0</span>
+<span class="w">                           </span><span class="c1"># (0: 128 per parameter), steps 400, fit_window 100, start_iteration 0;</span>
+<span class="w">                           </span><span class="c1"># failure_policy skip (failure_probes 3, failure_radius 0.001,</span>
+<span class="w">                           </span><span class="c1"># failure_penalty 1000, failure_training_fraction 0.1); chain false,</span>
+<span class="w">                           </span><span class="c1"># posterior 0 (posterior_tolerance 2, posterior_rounds 2)</span>
+</pre></div>
+</div>
+</section>
+<section id="model-architecture">
+<h3>Model Architecture<a class="headerlink" href="#model-architecture" title="Link to this heading">#</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">model</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">n_layers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w">               </span><span class="c1"># Number of hidden layers</span>
+<span class="w">  </span><span class="nt">n_neurons</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">512</span><span class="w">            </span><span class="c1"># Neurons per hidden layer</span>
+<span class="w">  </span><span class="nt">activation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">alsing</span><span class="w">        </span><span class="c1"># 'alsing' or TensorFlow activations</span>
+</pre></div>
+</div>
+</section>
+<section id="training-configuration">
+<h3>Training Configuration<a class="headerlink" href="#training-configuration" title="Link to this heading">#</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">training</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">n_epochs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span><span class="w">            </span><span class="c1"># Maximum training epochs</span>
+<span class="w">  </span><span class="nt">batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">128</span><span class="w">           </span><span class="c1"># Training batch size</span>
+<span class="w">  </span><span class="nt">loss</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">msre</span><span class="w">                </span><span class="c1"># 'msre' or TensorFlow loss functions</span>
+<span class="w">  </span><span class="nt">sigma_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w">            </span><span class="c1"># MSRE transition scale (σ)</span>
+<span class="w">  </span><span class="nt">learning_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0001</span><span class="w">     </span><span class="c1"># Adam optimiser learning rate</span>
+<span class="w">  </span><span class="nt">validation_split</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span><span class="w">     </span><span class="c1"># Validation split fraction, drawn afresh at every training. With warm_start the</span>
+<span class="w">                            </span><span class="c1"># validation loss is therefore not a held-out loss</span>
+<span class="w">  </span><span class="nt">patience</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">250</span><span class="w">             </span><span class="c1"># Early stopping patience (epochs)</span>
+<span class="w">  </span><span class="c1"># augment_schedule_factor: 3  # Only after `client.py augment`: the first training with the added</span>
+<span class="w">                            </span><span class="c1"># points multiplies lr_patience, lr_grace and patience by this (1: off)</span>
+<span class="w">  </span><span class="c1"># msre_ess_floor: 0.1     # Raises the msre constant while the weights collapse (0: off)</span>
+<span class="w">  </span><span class="c1"># warm_start: true        # Start each network from the previous one's weights, with</span>
+<span class="w">  </span><span class="c1"># lr_schedule: none       # Or plateau, with lr_factor 0.3, lr_patience 75, lr_min 1e-6, lr_grace 100;</span>
+<span class="w">                            </span><span class="c1"># patience is then unused</span>
+</pre></div>
+</div>
+</section>
+<section id="sampling-configuration">
+<h3>Sampling Configuration<a class="headerlink" href="#sampling-configuration" title="Link to this heading">#</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">sampling</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sampler</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aies</span><span class="w">             </span><span class="c1"># aies (only sampler currently implemented)</span>
+<span class="w">  </span><span class="nt">temperature</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7.0</span><span class="w">          </span><span class="c1"># MCMC temperature T_MCMC</span>
+<span class="w">  </span><span class="nt">n_walkers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">216</span><span class="w">            </span><span class="c1"># Number of AIES walkers (even, at least twice the parameters)</span>
+<span class="w">  </span><span class="nt">n_steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100000</span><span class="w">           </span><span class="c1"># MCMC steps</span>
+<span class="w">  </span><span class="nt">burn_in</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span><span class="w">             </span><span class="c1"># Burn-in steps to discard</span>
+<span class="w">  </span><span class="c1"># thin: 1                 # Keep every thin-th step, as it is written</span>
+<span class="w">  </span><span class="c1"># chunk_size: 5000        # Steps per sampler chunk</span>
+</pre></div>
+</div>
+</section>
+<section id="convergence-configuration">
+<h3>Convergence Configuration<a class="headerlink" href="#convergence-configuration" title="Link to this heading">#</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">convergence</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">metric</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gaussian_posterior_drift</span><span class="w">  </span><span class="c1"># Convergence metric</span>
+<span class="w">  </span><span class="nt">threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.01</span><span class="w">                   </span><span class="c1"># Convergence threshold</span>
+<span class="w">  </span><span class="nt">max_iterations</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span><span class="w">                </span><span class="c1"># Maximum iterations (prevents infinite loops)</span>
+<span class="w">  </span><span class="c1"># consecutive: 2                  # tempered_batch_scatter only (below)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">metric:</span> <span class="pre">tempered_batch_scatter</span></code> (opt-in) converges on true evaluations instead of on the
+drift between chains, which on real likelihoods never comes near its threshold: the loop has
+converged when the scatter of network minus truth at the tempered batch was below
+<code class="docutils literal notranslate"><span class="pre">threshold</span></code> × <code class="docutils literal notranslate"><span class="pre">sampling.temperature</span></code> (1.2 when left out) for <code class="docutils literal notranslate"><span class="pre">consecutive</span></code> networks running
+(2). A run with <code class="docutils literal notranslate"><span class="pre">acquisition.boost</span></code> then begins its boosts instead of ending. With <code class="docutils literal notranslate"><span class="pre">-i</span></code> the
+verdict is printed and nothing follows from it.
+<a class="reference internal" href="docs/tempered_convergence.html"><span class="std std-doc">docs/tempered_convergence.md</span></a> has the definition and the
+measurements behind 1.2.</p>
+<p>Every iteration also prints the error of its network at the points it then acquires, which
+that network had not been trained on:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>   network 3 at its tempered batch, which it had not seen: network minus truth rms 5.12 (mean -0.717, scatter 5.07, largest 33.6) at 400 points
+</pre></div>
+</div>
+<p>The same numbers are kept in <code class="docutils literal notranslate"><span class="pre">metrics.json</span></code> (<code class="docutils literal notranslate"><span class="pre">held_out_rms</span></code>, <code class="docutils literal notranslate"><span class="pre">held_out_bias</span></code>, <code class="docutils literal notranslate"><span class="pre">held_out_sd</span></code>,
+<code class="docutils literal notranslate"><span class="pre">held_out_largest</span></code>, <code class="docutils literal notranslate"><span class="pre">held_out_n</span></code> of each acquisition) and in two columns of <code class="docutils literal notranslate"><span class="pre">metrics.md</span></code>. The
+batch comes from the tempered chain, so this is the error some T n / 2 below the peak, not at
+the posterior; a boost iteration reports the error at posterior samples instead
+(<a class="reference internal" href="docs/boost.html"><span class="std std-doc">docs/boost.md</span></a>). With the default metric it is a measurement only;
+<code class="docutils literal notranslate"><span class="pre">metric:</span> <span class="pre">tempered_batch_scatter</span></code> above is the criterion that reads it.</p>
+</section>
+</section>
+<section id="output-structure">
+<h2>Output Structure<a class="headerlink" href="#output-structure" title="Link to this heading">#</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>results/YYYYMMDD_HHMMSS_run_name/
+├── likelihood_input/         # Copy of wrapped likelihood input file
+├── training_data/            # CSV datasets (x, loglkl) per iteration
+├── trained_models/           # Keras models (.keras format)
+├── training_history/         # Training histories as .csv files (loss, val_loss)
+├── convergence_stats/        # Saved chain summaries per iteration
+├── derived_data/             # Derived parameters per iteration, their emulator and reports (docs/derived_parameters.md)
+├── audit/                    # With acquisition.audit: the true values at the networks' own maxima (docs/audit_optima.md)
+├── boost/                    # With acquisition.boost: each boost's points and report, the regions, start.json (docs/boost.md)
+├── augmentation/             # Profile points added by client.py augment (docs/augment_training.md)
+├── phases/                   # One record per finished phase, with the hashes of its files; checked at every start
+├── interrupted/              # What an unfinished phase left, set aside when the run was continued
+├── objective_calls/          # Journal of every true evaluation, by stage, and summary.json
+├── objective_identity.json   # What decides the objective's values; a continued run must match it
+├── .client.lock              # Held by the job that owns the run
+├── evidence/                 # client.py evidence: ln Z per network and the nested-sampling chain (docs/evidence.md)
+├── modes/                    # client.py modes: the modes of a network (docs/boost_modes_mixing.md)
+├── posterior_chains/         # GetDist chains with derived columns (client.py derived --chain)
+├── benchmark_chains/         # Benchmark MCMC chains (from benchmark.py)
+├── benchmark_figures/        # Triangle plots and visualizations (from benchmark.py)
+├── benchmark_results/        # Diagnostics logs (from benchmark.py)
+├── metrics.md                # Human-readable metrics report
+├── metrics.json              # Structured metrics (used for continuation)
+├── metadata.json             # Surrogate metadata (names, labels, scales, bounds)
+└── example.yaml              # Copy of the input configuration file
+</pre></div>
+</div>
+<p>When continuing from an existing run, the original YAML configuration is preserved.</p>
+</section>
+<section id="performance">
+<h2>Performance<a class="headerlink" href="#performance" title="Link to this heading">#</a></h2>
+<p>For cosmological likelihoods with ~30 varying parameters, CLiENT typically requires fewer than 2×10⁴ function evaluations to produce credible intervals within better than 0.1σ of those obtained using the true likelihood, while maintaining single-point emulator precision better than Δχ² ~ 0.5 across relevant regions in parameter space.</p>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading">#</a></h2>
+<p>This project is licensed under the MIT License - see the <a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/LICENSE">LICENSE</a> file for details.</p>
+</section>
+<section id="citation">
+<h2>Citation<a class="headerlink" href="#citation" title="Link to this heading">#</a></h2>
+<p>If you use CLiENT in your publications, please cite <a class="reference external" href="https://arxiv.org/abs/2512.17509">arXiv:2512.17509</a></p>
+</section>
+<section id="contact">
+<h2>Contact<a class="headerlink" href="#contact" title="Link to this heading">#</a></h2>
+<p>For questions, issues, or contributions, please open an issue.</p>
+</section>
+<section id="create-profiles-from-an-existing-network">
+<h2>Create profiles from an existing network<a class="headerlink" href="#create-profiles-from-an-existing-network" title="Link to this heading">#</a></h2>
+<p>The profile workflow uses the saved network directly by default and writes
+surrogate, true-at-surrogate and residual-Newton true profiles. Augmentation
+and retraining remain opt-in:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span>profiles<span class="w"> </span>results/MY_RUN<span class="w"> </span>--iteration<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--params<span class="w"> </span>omega_b,omega_cdm,theta_s_100,logA,n_s,tau_reio<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--points<span class="w"> </span><span class="m">15</span><span class="w"> </span>--sigma-range<span class="w"> </span><span class="m">3</span>.5<span class="w"> </span>--workers<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output<span class="w"> </span>results/MY_RUN_profiles
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">--dry-run</span></code> for a no-evaluation preflight and <code class="docutils literal notranslate"><span class="pre">--resume</span></code> to reuse completed
+work. <code class="docutils literal notranslate"><span class="pre">--workers</span></code> may be up to the host’s CPU count; the default <code class="docutils literal notranslate"><span class="pre">chain_length:</span> <span class="pre">2</span></code>
+keeps 30-40 of them busy even with one or two profiles (see
+<a class="reference internal" href="docs/create_profiles.html#many-workers"><span class="std std-ref">Many workers</span></a>). See the <a class="reference internal" href="docs/create_profiles.html"><span class="std std-doc">detailed profile guide</span></a> and
+<a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/input/profiles_example.yaml">example configuration</a> for explicit ranges,
+training settings, objective conventions, evaluation budgets and outputs.
+Do not combine this managed-worker command with <code class="docutils literal notranslate"><span class="pre">mpirun</span></code>.</p>
+<p>To create <strong>one 2D profile</strong> per run, use <code class="docutils literal notranslate"><span class="pre">--pair</span> <span class="pre">name1,name2</span></code>; <code class="docutils literal notranslate"><span class="pre">--points</span></code> then
+means nodes per axis:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span>profiles<span class="w"> </span>results/MY_RUN<span class="w"> </span>--iteration<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pair<span class="w"> </span>omega_b,omega_cdm<span class="w"> </span>--points<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sigma-range<span class="w"> </span><span class="m">3</span>.5<span class="w"> </span>--workers<span class="w"> </span><span class="m">4</span><span class="w"> </span>--output<span class="w"> </span>results/MY_RUN_2d
+</pre></div>
+</div>
+<p>This uses the saved checkpoint without new training data and produces three
+surfaces on a 21×21 grid plus conventional joint contour plots. To opt into
+augmentation, request a positive <code class="docutils literal notranslate"><span class="pre">--add-points</span> <span class="pre">N</span></code> or set <code class="docutils literal notranslate"><span class="pre">retrain:</span> <span class="pre">true</span></code> with
+an explicit added-point budget. Use the
+<a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/input/profiles_2d_example.yaml">2D example configuration</a> to change explicit
+ranges, training schedules or evaluation budgets. The
+<a class="reference internal" href="docs/create_profiles_2d.html"><span class="std std-doc">2D profile guide</span></a> covers preflight, resume, outputs,
+mathematical details and limitations.</p>
+<p><strong>Profiles in derived parameters</strong> (H0 when θ_s is sampled, σ8, S8, Ω_m, …) need a run
+with recorded derived values and a derived-parameter emulator. <code class="docutils literal notranslate"><span class="pre">derived-view</span></code> writes a
+copy of the run in which a sampled pivot is replaced by the derived parameter. Both
+commands above then work on it unchanged, 1D and 2D:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span>derived-view<span class="w"> </span>results/MY_RUN<span class="w"> </span>--params<span class="w"> </span>H0<span class="w"> </span>-o<span class="w"> </span>results/MY_RUN_view_H0
+python<span class="w"> </span>client.py<span class="w"> </span>profiles<span class="w"> </span>results/MY_RUN_view_H0<span class="w"> </span>--params<span class="w"> </span>H0<span class="w"> </span>--workers<span class="w"> </span><span class="m">4</span><span class="w"> </span>--output<span class="w"> </span>results/MY_RUN_H0
+python<span class="w"> </span>client.py<span class="w"> </span>derived-view<span class="w"> </span>--nodes<span class="w"> </span>results/MY_RUN_H0<span class="w"> </span>--workers<span class="w"> </span><span class="m">4</span><span class="w">   </span><span class="c1"># exact H0 at the nodes</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="docs/derived_parameters.html#profiles-in-derived-parameters"><span class="std std-ref">docs/derived_parameters.md</span></a>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="PERFORMANCE.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">CLiENT speed and memory changes</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="UPGRADING.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Moving from the first CLiENT</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-started">Getting Started</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#class-setup">CLASS++ Setup</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#planck-likelihood-setup-for-montepython">Planck Likelihood Setup (for MontePython)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#montepython-setup">MontePython Setup</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cobaya-setup">Cobaya Setup</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage">Usage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-client">Running CLiENT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command-line-options">Command Line Options</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-configurations">Example Configurations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmarking">Benchmarking</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#profile-likelihoods-and-bayesian-evidence">Profile likelihoods and Bayesian evidence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-region-the-acquisition-does-not-reach">A region the acquisition does not reach</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-region-the-network-wrongly-believes-in">A region the network wrongly believes in</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#separated-modes-and-their-weights">Separated modes and their weights</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm-overview">Algorithm Overview</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-features">Key Features</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function">Loss Function</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-function">Activation Function</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#temperature-scheme">Temperature Scheme</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likelihood-configuration">Likelihood Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-configuration">Prior Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#acquisition-configuration">Acquisition Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-architecture">Model Architecture</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-configuration">Training Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-configuration">Sampling Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-configuration">Convergence Configuration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output-structure">Output Structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance">Performance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#license">License</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citation">Citation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contact">Contact</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-profiles-from-an-existing-network">Create profiles from an existing network</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/_generated/library/README.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1649 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Derived parameters &#8212; CLiENT documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/client.css?v=e5c9059d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=2443c677"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_generated/library/docs/derived_parameters';</script>
+    <link rel="canonical" href="https://aarhuscosmology.github.io/client-f/_generated/library/docs/derived_parameters.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Bayesian evidence" href="evidence.html" />
+    <link rel="prev" title="One two-dimensional profile per run" href="create_profiles_2d.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="393b693" />
+    <meta name="docbuild:last-update" content="Nov 28, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Manual · source 393b693</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CLiENT</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started.html">
+    First run
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../workflow.html">
+    Training and boosting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../inference.html">
+    Inference workflows
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../configuration.html">
+    Configuration and defaults
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../methods.html">
+    Scientific methods
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Worked examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../validation.html">
+    Validation and limitations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../cluster.html">
+    Real likelihoods on a cluster
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release-notes.html">
+    Release overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/configuration.html">
+    Configuration fields
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developer.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../library.html">
+    Guides and reports
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../maintenance.html">
+    Building and maintaining the manual
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://aarhuscosmology.github.io/CLASSpp/">
+    CLASS++
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AarhusCosmology/client-f" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../AGENTS.html">Contributor guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGES.html">What this version adds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PERFORMANCE.html">CLiENT speed and memory changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UPGRADING.html">Moving from the first CLiENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PROFILES_AND_EVIDENCE.html">Profile likelihoods and Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">CLiENT documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audit_optima.html">Auditing the network’s optima</a></li>
+<li class="toctree-l1"><a class="reference internal" href="augment_training.html">Adding profile points to a run’s training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost.html">Boost: training points from the posterior itself</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_background_region.html">Boost with a quadratic background and a region</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_modes_mixing.html">Boost: deciding the modes by measured mixing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boost_real_lcdm.html">The loop with boosts on a real likelihood: ΛCDM, Planck + DESI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combine.html">Domain splitting: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">combine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles.html">Create profiles from a saved CLiENT iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_profiles_2d.html">One two-dimensional profile per run</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Derived parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evidence.html">Bayesian evidence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Exporting a network: <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">export</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hybrid_optimisers.html">Hybrid profile optimisers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="injection_window.html">Injection: fitting the quadratic to the points near the best</a></li>
+<li class="toctree-l1"><a class="reference internal" href="members.html">Several trainings per network (<code class="docutils literal notranslate"><span class="pre">training.members</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="posterior_density_boost.html">Density-filtered posterior boosts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_files.html">A run’s files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_recovery.html">Continuing and recovering a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempered_convergence.html">Convergence of the ordinary loop: the error at the tempered batch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/README.html">Real likelihoods on a cluster</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../library.html" class="nav-link">Guides and reports</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Derived parameters</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Maintained source: <a class="reference external" href="https://github.com/AarhusCosmology/client-f/blob/393b693ab2502676f44500303bb53b6aa3495a97/docs/derived_parameters.md">docs/derived_parameters.md</a>. Measurements keep their original settings; consult the <a class="reference internal" href="../../../configuration.html"><span class="std std-doc">current defaults</span></a> before starting a new run.</p>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="derived-parameters">
+<h1>Derived parameters<a class="headerlink" href="#derived-parameters" title="Link to this heading">#</a></h1>
+<p>CLiENT emulates one number, the log-likelihood, as a function of the sampled
+parameters. A Cobaya or MontePython chain also carries <em>derived</em> parameters: functions
+of the sampled ones such as H0 (when 100θ_s is sampled), 100θ_s (when H0 is), σ8, S8
+and Ω_m. This page describes how CLiENT records, emulates and reports them, and
+how to make 1D and 2D profiles in them.</p>
+<section id="recorded-with-every-true-evaluation">
+<h2>Recorded with every true evaluation<a class="headerlink" href="#recorded-with-every-true-evaluation" title="Link to this heading">#</a></h2>
+<p>Nothing needs switching on. Both backends compute their derived parameters on
+every likelihood call, and CLiENT keeps whatever the likelihood input declares as
+derived. A value is NaN wherever the backend has none, which includes every point whose
+log-likelihood is not finite.</p>
+</section>
+<section id="declaring-derived-parameters-cobaya-and-montepython">
+<h2>Declaring derived parameters: Cobaya and MontePython<a class="headerlink" href="#declaring-derived-parameters-cobaya-and-montepython" title="Link to this heading">#</a></h2>
+<p>The two backends declare, name and scale derived parameters differently. CLiENT follows
+each backend’s own convention on input and reports every value in physical units.</p>
+<section id="montepython">
+<h3>MontePython<a class="headerlink" href="#montepython" title="Link to this heading">#</a></h3>
+<p>A derived parameter is a <code class="docutils literal notranslate"><span class="pre">.param</span></code> entry with role <code class="docutils literal notranslate"><span class="pre">derived</span></code>. Its name is CLASS’s own
+name (anything <code class="docutils literal notranslate"><span class="pre">classy</span></code>’s <code class="docutils literal notranslate"><span class="pre">get_current_derived_parameters</span></code> accepts: <code class="docutils literal notranslate"><span class="pre">H0</span></code>,
+<code class="docutils literal notranslate"><span class="pre">100*theta_s</span></code>, <code class="docutils literal notranslate"><span class="pre">sigma8</span></code>, <code class="docutils literal notranslate"><span class="pre">Omega_m</span></code>, <code class="docutils literal notranslate"><span class="pre">Omega_Lambda</span></code>, <code class="docutils literal notranslate"><span class="pre">z_reio</span></code>, <code class="docutils literal notranslate"><span class="pre">YHe</span></code>, <code class="docutils literal notranslate"><span class="pre">A_s</span></code>,
+<code class="docutils literal notranslate"><span class="pre">rs_d</span></code>, <code class="docutils literal notranslate"><span class="pre">age</span></code>, …). Any CLASS output a derived parameter needs must be requested in the
+file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">'H0'</span><span class="p">]</span>           <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>    <span class="s1">'derived'</span><span class="p">]</span>
+<span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">'100*theta_s'</span><span class="p">]</span>  <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>    <span class="s1">'derived'</span><span class="p">]</span>
+<span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">'sigma8'</span><span class="p">]</span>       <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>    <span class="s1">'derived'</span><span class="p">]</span>
+<span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">'A_s'</span><span class="p">]</span>          <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="s1">'derived'</span><span class="p">]</span>
+<span class="n">data</span><span class="o">.</span><span class="n">cosmo_arguments</span><span class="p">[</span><span class="s1">'output'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'mPk'</span>        <span class="c1"># sigma8 needs P(k); MontePython will not add it</span>
+<span class="n">data</span><span class="o">.</span><span class="n">cosmo_arguments</span><span class="p">[</span><span class="s1">'P_k_max_1/Mpc'</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Scale.</strong> MontePython stores a <code class="docutils literal notranslate"><span class="pre">derived</span></code> value divided by its <code class="docutils literal notranslate"><span class="pre">scale</span></code>, 2.1 for A_s
+above. CLiENT multiplies it back and records 2.1e-9, as it does for the sampled
+parameters.</p></li>
+<li><p><strong>Role <code class="docutils literal notranslate"><span class="pre">derived_lkl</span></code>.</strong> A value written by a likelihood rather than CLASS, currently
+only the Lyman-α likelihoods. MontePython never rescales these, so CLiENT records them
+as written, whatever <code class="docutils literal notranslate"><span class="pre">scale</span></code> says.</p></li>
+<li><p><strong>Labels.</strong> They come from MontePython’s <code class="docutils literal notranslate"><span class="pre">get_tex_name</span></code>, <strong>without</strong> the scale prefix,
+because the values are physical. MontePython’s own chains show <code class="docutils literal notranslate"><span class="pre">10^{-9}A_s</span></code> because
+they store the scaled number. The labels of the <em>sampled</em> parameters in <code class="docutils literal notranslate"><span class="pre">metadata.json</span></code>
+carry MontePython’s scale prefix, which is a convention of the wrapper.</p></li>
+<li><p><strong>Inputs for the emulator</strong> (<code class="docutils literal notranslate"><span class="pre">inputs:</span> <span class="pre">auto</span></code>). The <code class="docutils literal notranslate"><span class="pre">cosmo</span></code>-role parameters: CLASS never
+sees a nuisance parameter. With any <code class="docutils literal notranslate"><span class="pre">derived_lkl</span></code> present, all parameters are used.</p></li>
+<li><p><strong>Failed CLASS runs.</strong> MontePython returns <code class="docutils literal notranslate"><span class="pre">boundary_loglike</span></code> and leaves the <em>previous</em>
+point’s derived values in place. CLiENT blanks them before every call and records NaN.</p></li>
+<li><p><strong>GetDist names.</strong> <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">?</span></code> and spaces are dropped (<code class="docutils literal notranslate"><span class="pre">100*theta_s</span></code> becomes
+<code class="docutils literal notranslate"><span class="pre">100theta_s</span></code>). The CSV files and <code class="docutils literal notranslate"><span class="pre">derived_parameters.json</span></code> keep the original names.</p></li>
+</ul>
+</section>
+<section id="cobaya">
+<h3>Cobaya<a class="headerlink" href="#cobaya" title="Link to this heading">#</a></h3>
+<p>A derived parameter is any entry of <code class="docutils literal notranslate"><span class="pre">params</span></code> without a prior. Its name is Cobaya’s, which
+can differ from the theory code’s:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">theory</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">classy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">renames</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">theta_s_100</span><span class="p">:</span><span class="w"> </span><span class="nv">100*theta_s</span><span class="p p-Indicator">}</span><span class="w">      </span><span class="c1"># only where the Cobaya name is not CLASS's</span>
+<span class="nt">params</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">logA</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">prior</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">min</span><span class="p">:</span><span class="w"> </span><span class="nv">2.5</span><span class="p p-Indicator">,</span><span class="nt"> max</span><span class="p">:</span><span class="w"> </span><span class="nv">3.7</span><span class="p p-Indicator">},</span><span class="nt"> drop</span><span class="p">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span><span class="nt"> latex</span><span class="p">:</span><span class="w"> </span><span class="s">'\ln(10^{10}A_s)'</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">A_s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">'lambda</span><span class="nv"> </span><span class="s">logA:</span><span class="nv"> </span><span class="s">1e-10*np.exp(logA)'</span><span class="p p-Indicator">,</span><span class="nt"> latex</span><span class="p">:</span><span class="w"> </span><span class="s">'A_s'</span><span class="p p-Indicator">}</span><span class="w">   </span><span class="c1"># also reported as derived</span>
+<span class="w">  </span><span class="nt">theta_s_100</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">latex</span><span class="p">:</span><span class="w"> </span><span class="s">'100\theta_s'</span><span class="p p-Indicator">}</span><span class="w">          </span><span class="c1"># an output of the theory code</span>
+<span class="w">  </span><span class="nt">sigma8</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">latex</span><span class="p">:</span><span class="w"> </span><span class="s">'\sigma_8'</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">Omega_m</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">latex</span><span class="p">:</span><span class="w"> </span><span class="s">'\Omega_\mathrm{m}'</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">S8</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">derived</span><span class="p">:</span><span class="w"> </span><span class="s">'lambda</span><span class="nv"> </span><span class="s">sigma8,</span><span class="nv"> </span><span class="s">Omega_m:</span><span class="nv"> </span><span class="s">sigma8*np.sqrt(Omega_m/0.3)'</span><span class="p p-Indicator">,</span><span class="nt"> latex</span><span class="p">:</span><span class="w"> </span><span class="s">'S_8'</span><span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+<ul>
+<li><p><strong>Kinds.</strong> Four kinds are recorded:</p>
+<ul class="simple">
+<li><p>outputs of a theory code (<code class="docutils literal notranslate"><span class="pre">sigma8</span></code>, <code class="docutils literal notranslate"><span class="pre">theta_s_100</span></code>);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">derived:</span> <span class="pre">'lambda</span> <span class="pre">...'</span></code> functions of other parameters (<code class="docutils literal notranslate"><span class="pre">S8</span></code>);</p></li>
+<li><p>a likelihood’s <code class="docutils literal notranslate"><span class="pre">output_params</span></code>;</p></li>
+<li><p>input parameters given by a <code class="docutils literal notranslate"><span class="pre">value:</span> <span class="pre">'lambda</span> <span class="pre">...'</span></code>, which Cobaya reports as derived
+unless they have <code class="docutils literal notranslate"><span class="pre">derived:</span> <span class="pre">false</span></code> (<code class="docutils literal notranslate"><span class="pre">A_s</span></code> above).</p></li>
+</ul>
+</li>
+<li><p><strong>Names.</strong> A theory output must be a name the theory code knows. CLASS++ accepts
+<code class="docutils literal notranslate"><span class="pre">100*theta_s</span></code> but not <code class="docutils literal notranslate"><span class="pre">theta_s_100</span></code>, hence the <code class="docutils literal notranslate"><span class="pre">renames</span></code> entry. With CAMB, use CAMB’s
+names; see the CAMB example below.</p></li>
+<li><p><strong>Scale.</strong> There is none; values are recorded as Cobaya reports them.</p></li>
+<li><p><strong>Extra outputs.</strong> Cobaya asks the theory code for whatever the derived parameters need
+(<code class="docutils literal notranslate"><span class="pre">mPk</span></code> for σ8 with CLASS, for example). With CLASS++ this does not change the
+likelihood: on the Planck NPIPE TT setup it was bit-identical with and without the
+derived parameters. <strong>With CAMB it does</strong> (see below).</p></li>
+<li><p><strong>Left out.</strong> Cobaya’s automatic <code class="docutils literal notranslate"><span class="pre">chi2__&lt;type&gt;</span></code> totals (e.g. <code class="docutils literal notranslate"><span class="pre">chi2__CMB</span></code>, present for
+every likelihood with a <code class="docutils literal notranslate"><span class="pre">type</span></code>, as the Planck ones have). They are the log-likelihood
+itself, not smooth functions of the parameters.</p></li>
+<li><p><strong>Inputs for the emulator</strong> (<code class="docutils literal notranslate"><span class="pre">inputs:</span> <span class="pre">auto</span></code>). Resolved from Cobaya’s bookkeeping:</p>
+<ul class="simple">
+<li><p>lambda dependencies (<code class="docutils literal notranslate"><span class="pre">S8</span></code> → <code class="docutils literal notranslate"><span class="pre">sigma8</span></code>, <code class="docutils literal notranslate"><span class="pre">Omega_m</span></code>);</p></li>
+<li><p>input parameters that are functions of sampled ones (<code class="docutils literal notranslate"><span class="pre">A_s</span></code> → <code class="docutils literal notranslate"><span class="pre">logA</span></code>);</p></li>
+<li><p>for an output of a component, every sampled parameter that reaches that component,
+as Cobaya records it (<code class="docutils literal notranslate"><span class="pre">Model.sampled_dependence</span></code>). This follows requirements between
+components, not only their parameters.</p></li>
+</ul>
+<p>A name that resolves to none of these makes CLiENT use all inputs.</p>
+</li>
+<li><p><strong>Outside Cobaya’s own prior.</strong> Cobaya returns an empty list rather than NaNs. CLiENT
+records NaN.</p></li>
+</ul>
+<section id="cobaya-with-camb">
+<h4>Cobaya with CAMB<a class="headerlink" href="#cobaya-with-camb" title="Link to this heading">#</a></h4>
+<p>Tested with CAMB 2.0.4, with Cobaya’s own <code class="docutils literal notranslate"><span class="pre">planck_2018_camb</span></code> parameterisation (what
+<code class="docutils literal notranslate"><span class="pre">cobaya-cosmo-generator</span></code> writes):</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">theory</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">camb</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">extra_args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">lens_potential_accuracy</span><span class="p">:</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="nt"> theta_H0_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">20</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">100</span><span class="p p-Indicator">]}</span>
+<span class="nt">params</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">theta_MC_100</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">prior</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">min</span><span class="p">:</span><span class="w"> </span><span class="nv">0.5</span><span class="p p-Indicator">,</span><span class="nt"> max</span><span class="p">:</span><span class="w"> </span><span class="nv">10</span><span class="p p-Indicator">},</span><span class="nt"> drop</span><span class="p">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span><span class="nt"> renames</span><span class="p">:</span><span class="w"> </span><span class="nv">theta</span><span class="p p-Indicator">,</span><span class="nt"> latex</span><span class="p">:</span><span class="w"> </span><span class="s">'100\theta_\mathrm{MC}'</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">cosmomc_theta</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">'lambda</span><span class="nv"> </span><span class="s">theta_MC_100:</span><span class="nv"> </span><span class="s">1.e-2*theta_MC_100'</span><span class="p p-Indicator">,</span><span class="nt"> derived</span><span class="p">:</span><span class="w"> </span><span class="nv">false</span><span class="p p-Indicator">}</span><span class="w">   </span><span class="c1"># not recorded</span>
+<span class="w">  </span><span class="nt">logA</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">prior</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">min</span><span class="p">:</span><span class="w"> </span><span class="nv">1.61</span><span class="p p-Indicator">,</span><span class="nt"> max</span><span class="p">:</span><span class="w"> </span><span class="nv">3.91</span><span class="p p-Indicator">},</span><span class="nt"> drop</span><span class="p">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span><span class="nt"> latex</span><span class="p">:</span><span class="w"> </span><span class="s">'\log(10^{10}</span><span class="nv"> </span><span class="s">A_\mathrm{s})'</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">As</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">'lambda</span><span class="nv"> </span><span class="s">logA:</span><span class="nv"> </span><span class="s">1e-10*np.exp(logA)'</span><span class="p p-Indicator">,</span><span class="nt"> latex</span><span class="p">:</span><span class="w"> </span><span class="s">'A_\mathrm{s}'</span><span class="p p-Indicator">}</span><span class="w">                 </span><span class="c1"># recorded</span>
+<span class="w">  </span><span class="nt">H0</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">min</span><span class="p">:</span><span class="w"> </span><span class="nv">20</span><span class="p p-Indicator">,</span><span class="nt"> max</span><span class="p">:</span><span class="w"> </span><span class="nv">100</span><span class="p p-Indicator">,</span><span class="nt"> latex</span><span class="p">:</span><span class="w"> </span><span class="s">'H_0'</span><span class="p p-Indicator">}</span><span class="w">          </span><span class="c1"># derived, and its bounds cut the prior</span>
+<span class="w">  </span><span class="nt">omegam</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">latex</span><span class="p">:</span><span class="w"> </span><span class="s">'\Omega_\mathrm{m}'</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">omega_de</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">latex</span><span class="p">:</span><span class="w"> </span><span class="s">'\Omega_\Lambda'</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">sigma8</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">latex</span><span class="p">:</span><span class="w"> </span><span class="s">'\sigma_8'</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">thetastar</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">latex</span><span class="p">:</span><span class="w"> </span><span class="s">'100\theta_*'</span><span class="p p-Indicator">}</span><span class="w">             </span><span class="c1"># CAMB's theta_*, not CLASS's theta_s</span>
+<span class="w">  </span><span class="nt">zrei</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">latex</span><span class="p">:</span><span class="w"> </span><span class="s">'z_\mathrm{re}'</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">rdrag</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">latex</span><span class="p">:</span><span class="w"> </span><span class="s">'r_\mathrm{drag}'</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">S8</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">derived</span><span class="p">:</span><span class="w"> </span><span class="s">'lambda</span><span class="nv"> </span><span class="s">sigma8,</span><span class="nv"> </span><span class="s">omegam:</span><span class="nv"> </span><span class="s">sigma8*np.sqrt(omegam/0.3)'</span><span class="p p-Indicator">,</span><span class="nt"> latex</span><span class="p">:</span><span class="w"> </span><span class="s">'S_8'</span><span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Names are CAMB’s.</strong> Examples: <code class="docutils literal notranslate"><span class="pre">omegam</span></code>, <code class="docutils literal notranslate"><span class="pre">omega_de</span></code>, <code class="docutils literal notranslate"><span class="pre">zrei</span></code>, <code class="docutils literal notranslate"><span class="pre">rdrag</span></code>, <code class="docutils literal notranslate"><span class="pre">age</span></code>, <code class="docutils literal notranslate"><span class="pre">YHe</span></code>,
+<code class="docutils literal notranslate"><span class="pre">thetastar</span></code>. Values are 100θ* for <code class="docutils literal notranslate"><span class="pre">thetastar</span></code>, Gyr for <code class="docutils literal notranslate"><span class="pre">age</span></code> and Mpc for <code class="docutils literal notranslate"><span class="pre">rdrag</span></code>, as CAMB
+reports them.</p></li>
+<li><p><strong>CAMB is two components in Cobaya.</strong> <code class="docutils literal notranslate"><span class="pre">camb.transfers</span></code> takes <code class="docutils literal notranslate"><span class="pre">ombh2</span></code>, <code class="docutils literal notranslate"><span class="pre">omch2</span></code>,
+<code class="docutils literal notranslate"><span class="pre">cosmomc_theta</span></code>, <code class="docutils literal notranslate"><span class="pre">mnu</span></code> and <code class="docutils literal notranslate"><span class="pre">tau</span></code>. <code class="docutils literal notranslate"><span class="pre">camb</span></code> takes only <code class="docutils literal notranslate"><span class="pre">As</span></code> and <code class="docutils literal notranslate"><span class="pre">ns</span></code>, requires the
+transfers and outputs everything above. Matching outputs to their own component’s
+inputs therefore misses four of the six cosmological parameters: it gave
+<code class="docutils literal notranslate"><span class="pre">[logA,</span> <span class="pre">ns,</span> <span class="pre">tau]</span></code> for H0 and σ8. Hence the resolution above follows requirements.</p></li>
+<li><p><strong>σ8 changes CAMB’s likelihood.</strong> Requesting σ8, or any lambda of it (<code class="docutils literal notranslate"><span class="pre">S8</span></code>,
+<code class="docutils literal notranslate"><span class="pre">s8omegamp5</span></code>, …), makes Cobaya switch on CAMB’s matter transfer functions in
+high-precision mode. That changes the non-linear lensing of the CMB spectra. At a
+fiducial point on the Planck TT likelihoods, the log-posterior moved from −3538.10 to
+−3536.61 (Δχ² ≈ 3); none of the other derived parameters changed it at all. The shift
+is of CAMB’s accuracy (with <code class="docutils literal notranslate"><span class="pre">AccuracyBoost:</span> <span class="pre">2</span></code> the two differ by 0.6) and of the size
+of CAMB–CLASS++ differences. <strong>Decide on σ8 before a CAMB run starts.</strong> Within a run
+the likelihood is consistent, but adding or dropping σ8 on continuation changes the
+training target. A continued run whose likelihood input has changed is stopped by the
+objective identity (<code class="docutils literal notranslate"><span class="pre">docs/run_recovery.md</span></code>); continued with
+<code class="docutils literal notranslate"><span class="pre">--accept-identity-change</span></code>, <code class="docutils literal notranslate"><span class="pre">client.py</span></code> warns when its derived parameters differ from
+those it was recorded with.</p></li>
+<li><p><strong>Agreement with CLASS++</strong> at the same physical point (Planck best fit, massless
+neutrinos with N_eff = 3.045 in both):</p>
+<ul>
+<li><p>σ8, Ω_m, S8, Ω_Λ and z_reio agree to 2×10⁻⁴ relative or better;</p></li>
+<li><p>H0 from <code class="docutils literal notranslate"><span class="pre">theta_MC_100</span></code> round-trips to 3×10⁻⁴;</p></li>
+<li><p>CAMB’s 100θ* is 1.03962 where CLASS’s 100θ_s is 1.04033: the definitions of the
+decoupling redshift differ;</p></li>
+<li><p>Δχ² between the codes is 1.2.</p></li>
+</ul>
+</li>
+<li><p><strong>Failures.</strong> A CAMB error (no H0 in <code class="docutils literal notranslate"><span class="pre">theta_H0_range</span></code>) and a point outside the prior
+both give NaN for every derived parameter.</p></li>
+</ul>
+</section>
+</section>
+<section id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>MontePython</p></th>
+<th class="head"><p>Cobaya</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>declared as</p></td>
+<td><p>role <code class="docutils literal notranslate"><span class="pre">derived</span></code> (CLASS) or <code class="docutils literal notranslate"><span class="pre">derived_lkl</span></code> (likelihood)</p></td>
+<td><p>any <code class="docutils literal notranslate"><span class="pre">params</span></code> entry without a prior</p></td>
+</tr>
+<tr class="row-odd"><td><p>names</p></td>
+<td><p>CLASS’s (<code class="docutils literal notranslate"><span class="pre">100*theta_s</span></code>, <code class="docutils literal notranslate"><span class="pre">Omega_Lambda</span></code>)</p></td>
+<td><p>Cobaya’s; <code class="docutils literal notranslate"><span class="pre">renames</span></code> maps them to the theory code</p></td>
+</tr>
+<tr class="row-even"><td><p>units recorded</p></td>
+<td><p>physical: <code class="docutils literal notranslate"><span class="pre">scale</span></code> undone for <code class="docutils literal notranslate"><span class="pre">derived</span></code>; <code class="docutils literal notranslate"><span class="pre">derived_lkl</span></code> as written</p></td>
+<td><p>physical, as reported</p></td>
+</tr>
+<tr class="row-odd"><td><p>labels</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">get_tex_name</span></code>, unscaled</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">latex</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>CLASS outputs they need</p></td>
+<td><p>requested in the <code class="docutils literal notranslate"><span class="pre">.param</span></code></p></td>
+<td><p>added by Cobaya</p></td>
+</tr>
+<tr class="row-odd"><td><p>automatic inputs</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cosmo</span></code> role (all, if any <code class="docutils literal notranslate"><span class="pre">derived_lkl</span></code>)</p></td>
+<td><p>resolved dependencies, through component requirements</p></td>
+</tr>
+<tr class="row-even"><td><p>failed or out-of-prior point</p></td>
+<td><p>NaN (stale values blanked)</p></td>
+<td><p>NaN (empty list padded)</p></td>
+</tr>
+<tr class="row-odd"><td><p>not recorded</p></td>
+<td><p>—</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">chi2__*</span></code> totals</p></td>
+</tr>
+<tr class="row-even"><td><p>tested end to end</p></td>
+<td><p>Planck 2018 TTTEEE+lensing+BAO; SH0ES+BAO example</p></td>
+<td><p>Planck NPIPE TT, ΛCDM: CLASS++ with H0 sampled; CAMB with θ_MC sampled</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="files-in-a-run-directory">
+<h2>Files in a run directory<a class="headerlink" href="#files-in-a-run-directory" title="Link to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">derived_data</span><span class="o">/</span>
+  <span class="n">derived_parameters</span><span class="o">.</span><span class="n">json</span>     <span class="n">names</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">scales</span><span class="p">,</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">inputs</span> <span class="n">they</span> <span class="n">depend</span> <span class="n">on</span>
+  <span class="n">derived_it_</span><span class="o">&lt;</span><span class="n">N</span><span class="o">&gt;.</span><span class="n">csv</span>          <span class="n">inputs</span> <span class="o">+</span> <span class="n">derived</span> <span class="n">values</span><span class="p">,</span> <span class="n">row</span><span class="o">-</span><span class="n">aligned</span> <span class="k">with</span> <span class="n">training</span> <span class="nb">set</span> <span class="n">N</span>
+  <span class="n">derived_added_it_</span><span class="o">&lt;</span><span class="n">N</span><span class="o">&gt;.</span><span class="n">csv</span>    <span class="n">the</span> <span class="n">same</span> <span class="k">for</span> <span class="n">the</span> <span class="n">rows</span> <span class="n">iteration</span> <span class="n">N</span> <span class="n">added</span> <span class="p">(</span><span class="n">storage</span><span class="o">.</span><span class="n">training_sets</span><span class="p">:</span> <span class="n">increments</span><span class="p">)</span>
+  <span class="n">derived_model_it_</span><span class="o">&lt;</span><span class="n">N</span><span class="o">&gt;.</span><span class="n">keras</span>  <span class="n">the</span> <span class="n">emulator</span> <span class="n">trained</span> <span class="n">on</span> <span class="n">iteration</span> <span class="n">N</span><span class="s1">'s data</span>
+  <span class="n">derived_history_it_</span><span class="o">&lt;</span><span class="n">N</span><span class="o">&gt;.</span><span class="n">csv</span>  <span class="n">its</span> <span class="n">training</span> <span class="n">history</span>
+  <span class="n">derived_report_it_</span><span class="o">&lt;</span><span class="n">N</span><span class="o">&gt;.</span><span class="n">csv</span>   <span class="n">its</span> <span class="n">held</span><span class="o">-</span><span class="n">out</span> <span class="n">accuracy</span>
+<span class="n">posterior_chains</span><span class="o">/</span>
+  <span class="n">surrogate_it_</span><span class="o">&lt;</span><span class="n">N</span><span class="o">&gt;.</span><span class="n">txt</span>        <span class="n">GetDist</span> <span class="n">chain</span><span class="p">:</span> <span class="n">weight</span><span class="p">,</span> <span class="o">-</span><span class="n">log</span> <span class="n">posterior</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">derived</span>
+  <span class="n">surrogate_it_</span><span class="o">&lt;</span><span class="n">N</span><span class="o">&gt;.</span><span class="n">paramnames</span> <span class="n">derived</span> <span class="n">parameters</span> <span class="n">marked</span> <span class="k">with</span> <span class="n">a</span> <span class="n">trailing</span> <span class="o">*</span>
+  <span class="n">surrogate_it_</span><span class="o">&lt;</span><span class="n">N</span><span class="o">&gt;.</span><span class="n">ranges</span>
+  <span class="n">surrogate_it_</span><span class="o">&lt;</span><span class="n">N</span><span class="o">&gt;</span><span class="n">_exact</span><span class="o">*.</span><span class="n">csv</span> <span class="n">the</span> <span class="n">exact</span> <span class="n">check</span> <span class="p">(</span><span class="n">below</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The training sets (<code class="docutils literal notranslate"><span class="pre">training_data/</span></code>) and <code class="docutils literal notranslate"><span class="pre">metadata.json</span></code> hold no derived values. The profile workflow
+and several benchmarks read the former by column position, and profile studies
+fingerprint the latter. The derived files repeat the inputs, so they stand on their own; the derived
+set N is read like training set N (<a class="reference internal" href="run_files.html"><span class="std std-doc">a run’s files</span></a>) and need not split into files where it does.
+On loading, CLiENT checks that its rows still match the training data.</p>
+</section>
+<section id="the-emulator">
+<h2>The emulator<a class="headerlink" href="#the-emulator" title="Link to this heading">#</a></h2>
+<p>The derived-parameter emulator is a separate network from the log-likelihood one,
+because the problem is different. It is smooth regression of a few quantities with no
+peak and little dynamic range, so it uses a plain mean-squared error on standardised
+outputs rather than msre. NaN targets are masked per element. Its inputs are only the
+parameters the derived ones can depend on (<code class="docutils literal notranslate"><span class="pre">inputs:</span> <span class="pre">auto</span></code>):</p>
+<ul class="simple">
+<li><p><strong>MontePython:</strong> the <code class="docutils literal notranslate"><span class="pre">cosmo</span></code>-role parameters, 6 of 27 on Planck.</p></li>
+<li><p><strong>Cobaya:</strong> the dependencies it resolves through lambdas, theory components and
+input functions.</p></li>
+<li><p><strong>Anything else:</strong> all inputs.</p></li>
+</ul>
+<p>Restricting the inputs matters. On the 16D banana test, with the same data and median
+over three seeds, the held-out error was 4× smaller on the 4 relevant inputs than on
+all 16.</p>
+<p>The model takes the full parameter vector and selects its inputs internally, with the
+normalisation built in, exactly as the log-likelihood network does. It can therefore be
+called on the same positions inside the sampler’s TF graph.</p>
+<p>Train it in either of two ways:</p>
+<ul>
+<li><p><strong>During the run:</strong> add a <code class="docutils literal notranslate"><span class="pre">derived:</span></code> section to the run YAML. It is retrained every
+iteration, right after the log-likelihood network, from all points with derived values.
+An empty section, <code class="docutils literal notranslate"><span class="pre">derived:</span> <span class="pre">{}</span></code>, uses the defaults.</p></li>
+<li><p><strong>Afterwards,</strong> from the recorded data, without re-running anything:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span>derived<span class="w"> </span>results/&lt;run&gt;<span class="w">            </span><span class="c1"># latest iteration with derived data</span>
+python<span class="w"> </span>client.py<span class="w"> </span>derived<span class="w"> </span>results/&lt;run&gt;<span class="w"> </span>-i<span class="w"> </span><span class="m">12</span><span class="w"> </span>--retrain
+</pre></div>
+</div>
+</li>
+</ul>
+<p>The settings, all optional, go in the <code class="docutils literal notranslate"><span class="pre">derived:</span></code> section:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">derived</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">inputs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span><span class="w">          </span><span class="c1"># or: all, or a list of parameter names</span>
+<span class="w">  </span><span class="nt">n_layers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">  </span><span class="nt">n_neurons</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256</span><span class="w">        </span><span class="c1"># chosen by a sweep: see "Network size" below</span>
+<span class="w">  </span><span class="nt">activation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">alsing</span>
+<span class="w">  </span><span class="nt">learning_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0e-3</span>
+<span class="w">  </span><span class="nt">n_epochs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3000</span><span class="w">        </span><span class="c1"># a ceiling; the plateau schedule ends it</span>
+<span class="w">  </span><span class="nt">batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256</span>
+<span class="w">  </span><span class="nt">validation_split</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
+<span class="w">  </span><span class="nt">lr_schedule</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">plateau</span><span class="w">  </span><span class="c1"># annealing is safe here: see config/config.py DerivedConfig</span>
+</pre></div>
+</div>
+</section>
+<section id="posterior-chain-with-derived-columns">
+<h2>Posterior chain with derived columns<a class="headerlink" href="#posterior-chain-with-derived-columns" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>client.py<span class="w"> </span>derived<span class="w"> </span>results/&lt;run&gt;<span class="w"> </span>--chain<span class="w"> </span><span class="o">[</span>-n<span class="w"> </span>STEPS<span class="o">]</span><span class="w"> </span><span class="o">[</span>--thin<span class="w"> </span>K<span class="o">]</span><span class="w"> </span><span class="o">[</span>--region<span class="w"> </span>run<span class="p">|</span>none<span class="o">]</span>
+</pre></div>
+</div>
+<p>This samples the surrogate posterior at T = 1, evaluates the emulator at every chain point
+(one batched call: under a second for 500k points), and writes
+<code class="docutils literal notranslate"><span class="pre">posterior_chains/surrogate_it_&lt;N&gt;</span></code>. Load it with
+<code class="docutils literal notranslate"><span class="pre">getdist.loadMCSamples(&quot;.../surrogate_it_&lt;N&gt;&quot;,</span> <span class="pre">settings={&quot;ignore_rows&quot;:</span> <span class="pre">0})</span></code>. It prints
+the posterior mean and standard deviation of each derived parameter.</p>
+<p>A network trained on boosts with <code class="docutils literal notranslate"><span class="pre">acquisition.boost.region</span></code> is sampled inside the region of
+its boosts, as the evidence and the profiles use it (the latest <code class="docutils literal notranslate"><span class="pre">boost/region_it_M.npz</span></code> at or
+before the network). <code class="docutils literal notranslate"><span class="pre">--region</span> <span class="pre">none</span></code> samples the unrestricted network; <code class="docutils literal notranslate"><span class="pre">--region</span> <span class="pre">run</span></code> asks
+for the region by name and stops when the run has none.</p>
+<p>When the saved region has several ellipsoids, the command samples each of their disjoint
+nearest-ellipsoid cells separately, at T = 1. Overlapping ellipsoids do not count mass twice.
+For normalized radii r_k(x), cell k consists of points where k is the first minimizer of
+r_k(x). A bridge estimate gives each cell’s integral Z_k of the <strong>current saved surrogate</strong>
+(including its wall); its mixture probability is Z_k / sum_j Z_j. These are not the starting
+walker fractions or a previous boost’s true-corrected weights. A cell may contain more than
+one physical mode: this partition does not discover missing modes or certify mixing.</p>
+<p><code class="docutils literal notranslate"><span class="pre">-n</span></code> is the production length <strong>per cell</strong>, so sampling cost grows with the number of cells.
+The output has the same number of equal-weight rows as a single chain; rows are drawn from
+the cell chains in the estimated proportions, without replacement (a cell is asked for no
+more rows than it has). They are consequently not time-ordered walker trajectories. Do not
+estimate autocorrelation from the shuffled output. A cell that is a small part of its
+ellipsoid (one ellipsoid inside another) is started near that ellipsoid’s centre; the same
+code (<code class="docutils literal notranslate"><span class="pre">sampling/mixture.py</span></code>) samples such networks in <code class="docutils literal notranslate"><span class="pre">hpc/analysis/report.py</span></code> and <code class="docutils literal notranslate"><span class="pre">hpc/analysis/true_check.py</span></code>. The accompanying <code class="docutils literal notranslate"><span class="pre">.sampling.json</span></code> records each cell’s weight, acceptance,
+autocorrelation, bridge repeat spread and proposal efficiency, and the captured target
+identity, with the sampler’s method and version. Low bridge efficiency warns, on the
+weights’ own line and in <code class="docutils literal notranslate"><span class="pre">unreliable_cells</span></code> of the sidecar: such weights are not to be
+used. A longer chain clears the mark only where the chain was too short for the bridge’s
+fit; the efficiency is that of a Gaussian mixture as a proposal for the cell, and a cell
+it does not follow stays marked at any length (the one saved real two-mode network, a
+poorly trained one: 0.047 at 20 000 steps, 0.035 at 80 000, its weight unchanged). A
+failed/nonfinite estimate stops output. Until 21 November 2026 the evidence of a cell came
+out low with short chains (0.1 in ln Z at 64 walkers and 4000 steps in 16 dimensions), which
+cancelled between like cells and not between unlike ones (a bent mode of true weight 0.0098
+came out at 0.0083). That was the bridge’s mixture fitted to random rows of the chain and
+bridged with other random rows of it (<a class="reference internal" href="boost.html"><span class="std std-doc">boost.md</span></a>, “Weights”). It is now fitted to
+the walkers of one half and bridged with the other: on chains of that size, of a Gaussian and
+a mildly bent one of the same known ln Z (three seeds each), ln Z came out 0.007 low on average and at
+most 0.024, against 0.10 to 0.12 with random rows. The bent mode’s weight has not been
+measured again. The mixture is fitted to half the walkers, so its efficiency is lower than it
+was (0.53 against 0.61 on those chains, 0.088 against 0.114 on a 44-parameter network), and
+a cell near the mark of 0.1 may now be marked where it was not. Repeat
+spread measures numerical bridge stability, not uncertainty from incomplete exploration.
+A <code class="docutils literal notranslate"><span class="pre">.target.json</span></code> also records the exact network/region snapshot. Neither method makes new
+true-objective calls; <code class="docutils literal notranslate"><span class="pre">--exact</span></code> below is the separate check of the surrogate against truth.</p>
+<p>Single-region and unrestricted chains use a single ensemble.</p>
+</section>
+<section id="exact-check">
+<h2>Exact check<a class="headerlink" href="#exact-check" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mpirun<span class="w"> </span>-n<span class="w"> </span><span class="m">8</span><span class="w"> </span>python<span class="w"> </span>client.py<span class="w"> </span>derived<span class="w"> </span>results/&lt;run&gt;<span class="w"> </span>--exact<span class="w"> </span><span class="m">1000</span>
+</pre></div>
+</div>
+<p>This re-evaluates the true likelihood at 1000 random points of the posterior chain and
+reports:</p>
+<ul class="simple">
+<li><p>the emulator’s rms, worst-case and mean error for each derived parameter, in units of
+that parameter’s posterior σ;</p></li>
+<li><p>true minus surrogate log-likelihood at the same points, and the importance-weight
+ESS. Below 10% the command warns that the surrogate is itself far from the truth on its
+posterior.</p></li>
+<li><p>the shift in each derived parameter’s posterior mean that importance weights
+exp(true − surrogate) would apply. Not from a chain of several cells in which a cell’s
+weight is marked as not reliable: the shares of the modes are then uncertain, and the
+shifts and the ESS are left out with the reason (<code class="docutils literal notranslate"><span class="pre">importance_unavailable</span></code> in the summary
+file). The emulator’s errors are pointwise and are reported all the same.</p></li>
+</ul>
+<p>A point the likelihood refuses (-inf) is a posterior draw of the surrogate with weight zero. It
+stays in the baseline of the shift, the mean over all draws, with its emulated value there,
+since it has no exact one (<code class="docutils literal notranslate"><span class="pre">baseline_emulated</span></code>). A point without any value (NaN, +inf) has an
+unknown weight, so the shifts and the ESS are left out with the reason, as in
+<code class="docutils literal notranslate"><span class="pre">hpc/analysis/true_check.py</span></code>.</p>
+<p>This is the test to trust on a real likelihood, where there is no closed form. It costs
+N true evaluations: 1000 Planck points at 1.9 s each is about 4 minutes on 8 ranks.</p>
+</section>
+<section id="existing-runs">
+<h2>Existing runs<a class="headerlink" href="#existing-runs" title="Link to this heading">#</a></h2>
+<p>A run recorded before CLiENT kept derived parameters has no derived values. Continuing it records them for
+every new point: the loaded points get NaN, and the emulator masks them. One further
+iteration therefore gives n_append points with derived values, concentrated near the
+posterior, and with 6 inputs that is enough to train on. Then run <code class="docutils literal notranslate"><span class="pre">--chain</span></code> and
+<code class="docutils literal notranslate"><span class="pre">--exact</span></code>.</p>
+</section>
+<section id="accuracy-so-far">
+<h2>Accuracy so far<a class="headerlink" href="#accuracy-so-far" title="Link to this heading">#</a></h2>
+<p><strong>Planck NPIPE TT ΛCDM with Cobaya</strong> (H0 sampled; 13D; CLASS++). This is the SINU
+experiment’s likelihood
+at G_eff = 0: <code class="docutils literal notranslate"><span class="pre">logGeff</span></code> is dropped, and CLASS++ skips the self-interaction entirely when
+G_eff_ur = 0. The domain, nuisance ranges, run settings, seed and CLASS++ binary are
+SINU’s. SINU’s own likelihood tends to this one as logGeff → −∞: the difference is
+7×10⁻⁴ in log L at logGeff = −8 and −12.</p>
+<p>The derived parameters were 100θ_s, σ8, Ω_m, S8, Ω_Λ, z_reio and A_s, with the emulator
+retrained every iteration (<code class="docutils literal notranslate"><span class="pre">derived:</span></code> section) on the 6 cosmological inputs. Adding them
+left the likelihood bit-identical. The run was stopped after iteration 3 (8298 points),
+when the method was judged validated; the log-likelihood surrogate itself was not yet
+converged, as SINU’s was not at the same stage.</p>
+<p>Held-out error of the it3 emulator (3 × 128, smaller than the default), in units of
+published widths: DESI DR2+CMB for Ω_m and Ω_Λ (±0.0036), and Planck 2018
+TT,TE,EE+lowE+lensing+BAO for the rest. The core is the most likely fifth of the
+held-out points.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>parameter</p></th>
+<th class="head"><p>σ</p></th>
+<th class="head"><p>rms, core</p></th>
+<th class="head"><p>worst core point</p></th>
+<th class="head"><p>rms, all held-out</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>100θ_s</p></td>
+<td><p>0.00029</p></td>
+<td><p>0.037</p></td>
+<td><p>0.14</p></td>
+<td><p>0.19</p></td>
+</tr>
+<tr class="row-odd"><td><p>σ8</p></td>
+<td><p>0.0060</p></td>
+<td><p>0.013</p></td>
+<td><p>0.062</p></td>
+<td><p>0.055</p></td>
+</tr>
+<tr class="row-even"><td><p>S8</p></td>
+<td><p>0.011</p></td>
+<td><p>0.015</p></td>
+<td><p>0.048</p></td>
+<td><p>0.044</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ω_m</p></td>
+<td><p>0.0036</p></td>
+<td><p>0.019</p></td>
+<td><p>0.13</p></td>
+<td><p>0.14</p></td>
+</tr>
+<tr class="row-even"><td><p>Ω_Λ</p></td>
+<td><p>0.0036</p></td>
+<td><p>0.030</p></td>
+<td><p>0.15</p></td>
+<td><p>0.14</p></td>
+</tr>
+<tr class="row-odd"><td><p>z_reio</p></td>
+<td><p>0.71</p></td>
+<td><p>0.008</p></td>
+<td><p>0.043</p></td>
+<td><p>0.026</p></td>
+</tr>
+<tr class="row-even"><td><p>A_s</p></td>
+<td><p>3.0e-11</p></td>
+<td><p>0.004</p></td>
+<td><p>0.015</p></td>
+<td><p>0.041</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>These widths are much narrower than this TT-only run’s own posterior, so the comparison
+is deliberately strict.</p>
+<p><strong>Planck 2018 ΛCDM with MontePython</strong> (TTTEEE + lowl + lensing + BAO, 27D, CLASS++).
+A copy of a Planck 2018 ΛCDM run was continued from it6 through it7, which
+recorded derived values for the 2000 new points. The emulator (3 × 128) was trained on
+those, with the six cosmological inputs. <code class="docutils literal notranslate"><span class="pre">--exact</span> <span class="pre">1000</span></code> on 8 ranks gave:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>parameter</p></th>
+<th class="head"><p>posterior mean ± σ</p></th>
+<th class="head"><p>rms error / σ</p></th>
+<th class="head"><p>worst / σ</p></th>
+<th class="head"><p>bias / σ</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>H0</p></td>
+<td><p>67.65 ± 0.41</p></td>
+<td><p>0.0028</p></td>
+<td><p>0.012</p></td>
+<td><p>−0.0003</p></td>
+</tr>
+<tr class="row-odd"><td><p>σ8</p></td>
+<td><p>0.8090 ± 0.0058</p></td>
+<td><p>0.0038</p></td>
+<td><p>0.013</p></td>
+<td><p>0.0014</p></td>
+</tr>
+<tr class="row-even"><td><p>Ω_Λ</p></td>
+<td><p>0.6888 ± 0.0055</p></td>
+<td><p>0.0038</p></td>
+<td><p>0.015</p></td>
+<td><p>−0.0015</p></td>
+</tr>
+<tr class="row-odd"><td><p>z_reio</p></td>
+<td><p>7.72 ± 0.71</p></td>
+<td><p>0.0036</p></td>
+<td><p>0.013</p></td>
+<td><p>0.0014</p></td>
+</tr>
+<tr class="row-even"><td><p>A_s</p></td>
+<td><p>(2.099 ± 0.029)e-9</p></td>
+<td><p>0.0029</p></td>
+<td><p>0.011</p></td>
+<td><p>0.0009</p></td>
+</tr>
+<tr class="row-odd"><td><p>YHe</p></td>
+<td><p>0.24542 ± 0.00005</p></td>
+<td><p>0.019</p></td>
+<td><p>0.088</p></td>
+<td><p>0.0022</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>At the same points, the true minus surrogate log-likelihood is −0.007 ± 0.144, and the
+importance-weight ESS is 98%. Reweighting moves no derived mean by more than 0.03σ. The
+emulator trained in about 2 minutes, and all derived values were evaluated at 491k chain
+points in 0.4 s. YHe is the least accurate relative to its width, because its posterior
+width is tiny: it is a nearly deterministic, tabulated function of ω_b.</p>
+<p><strong>Banana test.</strong> On the 16D banana smoke configuration, three analytic derived
+parameters (H0-, Ω_m- and S8-like) were checked after two iterations and 440 training
+points:</p>
+<ul class="simple">
+<li><p>on the posterior chain, the emulated values are within 0.4–0.8% of each posterior σ
+(rms), 3% at worst, with mean shifts below 0.4%;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--exact</span> <span class="pre">500</span></code> under <code class="docutils literal notranslate"><span class="pre">mpirun</span> <span class="pre">-n</span> <span class="pre">3</span></code> reproduces these numbers through the true backend.</p></li>
+</ul>
+<p><strong>MontePython example</strong> (<code class="docutils literal notranslate"><span class="pre">input/montepython/example.param</span></code>, SH0ES + BAO, with the
+derived entries shown above plus <code class="docutils literal notranslate"><span class="pre">z_reio</span></code> at <code class="docutils literal notranslate"><span class="pre">scale</span></code> 0.1). This was run end to end with
+in-loop training, <code class="docutils literal notranslate"><span class="pre">--chain</span></code> and <code class="docutils literal notranslate"><span class="pre">--exact</span> <span class="pre">200</span></code>, to exercise MontePython’s conventions:</p>
+<ul class="simple">
+<li><p>H0 = 100h to 6×10⁻⁶;</p></li>
+<li><p>z_reio is recorded as 6.2–10.1, where MontePython itself stored 62–101;</p></li>
+<li><p>Ω_m + Ω_Λ = 1 − Ω_r;</p></li>
+<li><p>the labels are unscaled;</p></li>
+<li><p>GetDist flags all six parameters as derived.</p></li>
+</ul>
+<p>With only 210 training points, the emulator errors there are 2–8% of that broad
+posterior’s σ.</p>
+<p><strong>Planck NPIPE TT ΛCDM with Cobaya + CAMB</strong> (13D).
+This is the Cobaya/CLASS++ TT run above, with CAMB 2.0.4 in the <code class="docutils literal notranslate"><span class="pre">planck_2018_camb</span></code>
+parameterisation: <code class="docutils literal notranslate"><span class="pre">theta_MC_100</span></code> is sampled and H0 is derived. It used the same
+likelihoods, neutrinos, run settings, nuisance ranges and 6 MPI ranks. The domain is
+SINU’s in CAMB names, with <code class="docutils literal notranslate"><span class="pre">theta_MC_100</span></code> ∈ [0.98, 1.10], which spans H0 50–90 at the
+fiducial ω’s. All 19 derived parameters were recorded; 6 of the 2100 initial points fail
+in CAMB (no H0 in <code class="docutils literal notranslate"><span class="pre">theta_H0_range</span></code>) and get NaN. The emulator’s inputs resolved to the six
+cosmological parameters. The run was stopped after it1, as sufficient. There the
+held-out core rms error, in units of the published widths used above, is:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>θ*</p></th>
+<th class="head"><p>σ8</p></th>
+<th class="head"><p>Ω_m</p></th>
+<th class="head"><p>S8</p></th>
+<th class="head"><p>Ω_Λ</p></th>
+<th class="head"><p>z_re</p></th>
+<th class="head"><p>A_s</p></th>
+<th class="head"><p>H0</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>CAMB, it1</p></td>
+<td><p>1.2%</p></td>
+<td><p>0.7%</p></td>
+<td><p>4.8%</p></td>
+<td><p>1.1%</p></td>
+<td><p>3.3%</p></td>
+<td><p>0.9%</p></td>
+<td><p>0.6%</p></td>
+<td><p>1.9%</p></td>
+</tr>
+<tr class="row-odd"><td><p>CLASS++ run, it1</p></td>
+<td><p>20% (θ_s)</p></td>
+<td><p>5.0%</p></td>
+<td><p>6.5%</p></td>
+<td><p>1.2%</p></td>
+<td><p>7.2%</p></td>
+<td><p>4.2%</p></td>
+<td><p>1.9%</p></td>
+<td><p>(sampled)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>θ is far easier here, because the sampled θ_MC is almost CAMB’s derived θ*. <code class="docutils literal notranslate"><span class="pre">--chain</span></code>
+and <code class="docutils literal notranslate"><span class="pre">--exact</span> <span class="pre">300</span></code> on 6 ranks ran end to end through Cobaya + CAMB. On that chain the
+emulator’s rms error is 1–9% of the chain’s own widths (H0 1.6%, σ8 3.2%, θ* 8.2%). At
+it1 the chain is still broad, however: true minus surrogate log-likelihood is −669 ± 544
+there, and the importance-weight ESS is 0.3%. It checks the pipeline, not precision.</p>
+</section>
+<section id="network-size">
+<h2>Network size<a class="headerlink" href="#network-size" title="Link to this heading">#</a></h2>
+<p>The default of 3 × 256 comes from a sweep over 2, 3 or 4 layers × 64, 128 or 256 neurons,
+with three seeds each and the same split per seed. It was run on the it3 data of the
+ΛCDM TT run (8298 points) and scored in the same published σ units. Medians over seeds:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>layers × neurons</p></th>
+<th class="head"><p>weights</p></th>
+<th class="head"><p>train time</p></th>
+<th class="head"><p>core rms, median parameter</p></th>
+<th class="head"><p>core rms, worst parameter</p></th>
+<th class="head"><p>worst core point</p></th>
+<th class="head"><p>all held-out, worst</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2 × 64</p></td>
+<td><p>5k</p></td>
+<td><p>40 s</p></td>
+<td><p>0.016</p></td>
+<td><p>0.068</p></td>
+<td><p>0.33</p></td>
+<td><p>0.30</p></td>
+</tr>
+<tr class="row-odd"><td><p>2 × 128</p></td>
+<td><p>19k</p></td>
+<td><p>46 s</p></td>
+<td><p>0.012</p></td>
+<td><p>0.043</p></td>
+<td><p>0.15</p></td>
+<td><p>0.21</p></td>
+</tr>
+<tr class="row-even"><td><p>2 × 256</p></td>
+<td><p>70k</p></td>
+<td><p>59 s</p></td>
+<td><p>0.009</p></td>
+<td><p>0.037</p></td>
+<td><p>0.17</p></td>
+<td><p>0.16</p></td>
+</tr>
+<tr class="row-odd"><td><p>3 × 64</p></td>
+<td><p>10k</p></td>
+<td><p>38 s</p></td>
+<td><p>0.017</p></td>
+<td><p>0.041</p></td>
+<td><p>0.17</p></td>
+<td><p>0.25</p></td>
+</tr>
+<tr class="row-even"><td><p>3 × 128</p></td>
+<td><p>36k</p></td>
+<td><p>52 s</p></td>
+<td><p>0.011</p></td>
+<td><p>0.036</p></td>
+<td><p>0.11</p></td>
+<td><p>0.18</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>3 × 256</strong></p></td>
+<td><p>137k</p></td>
+<td><p>81 s</p></td>
+<td><p><strong>0.008</strong></p></td>
+<td><p><strong>0.021</strong></p></td>
+<td><p><strong>0.094</strong></p></td>
+<td><p><strong>0.11</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>4 × 64</p></td>
+<td><p>14k</p></td>
+<td><p>46 s</p></td>
+<td><p>0.014</p></td>
+<td><p>0.043</p></td>
+<td><p>0.14</p></td>
+<td><p>0.26</p></td>
+</tr>
+<tr class="row-odd"><td><p>4 × 128</p></td>
+<td><p>52k</p></td>
+<td><p>65 s</p></td>
+<td><p>0.008</p></td>
+<td><p>0.027</p></td>
+<td><p>0.11</p></td>
+<td><p>0.17</p></td>
+</tr>
+<tr class="row-even"><td><p>4 × 256</p></td>
+<td><p>203k</p></td>
+<td><p>93 s</p></td>
+<td><p>0.007</p></td>
+<td><p>0.026</p></td>
+<td><p>0.087</p></td>
+<td><p>0.11</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Width matters more than depth. The worst parameter is always 100θ_s, the most precisely
+measured one. 3 × 256 had the lowest error on it (2.1% of σ, with a seed-to-seed range
+of 1.9–2.1%) and the lowest whole-box worst case. A fourth layer bought nothing on
+θ_s. Its cost, about an eighth of the log-likelihood network’s per evaluation, is small
+enough for use inside the sampler.</p>
+</section>
+<section id="checks-on-the-real-backends-point-by-point">
+<h2>Checks on the real backends, point by point<a class="headerlink" href="#checks-on-the-real-backends-point-by-point" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Planck 2018 MontePython setup with CLASS++:</strong> H0 = 67.33, σ8 = 0.812 and Ω_Λ = 0.684
+at the fiducial point, and NaN for all six derived parameters at a failed CLASS point.</p></li>
+<li><p><strong>Cobaya + CLASS++ with H0 sampled:</strong> 100θ_s = 1.04217, σ8 = 0.814, S8 = 0.833, with
+the dependencies resolved to the six cosmological parameters.</p></li>
+</ul>
+</section>
+<section id="profiles-in-derived-parameters">
+<h2>Profiles in derived parameters<a class="headerlink" href="#profiles-in-derived-parameters" title="Link to this heading">#</a></h2>
+<p>A profile in a sampled parameter holds that coordinate fixed and maximises over the
+others. A derived parameter d(x) is not a coordinate, so its profile is a maximisation
+on the level set d(x) = d₀. The same machinery handles it after a change of variables:</p>
+<ol class="arabic simple">
+<li><p>Pick a sampled <strong>pivot</strong> p on which d depends monotonically, such as θ_s via H0,
+S8 via ω_cdm or logA, or Ω_m via H0.</p></li>
+<li><p>Use the coordinates z, which are x with x_p replaced by d.</p></li>
+<li><p>Map z back to x by solving d_emu(x) = d₀ for x_p with Newton’s method on the
+derived-parameter emulator. The solve is written out in TensorFlow, so the map clones
+to float64 and is twice differentiable, as the profile optimisers need.</p></li>
+</ol>
+<p>A profile in d is then an ordinary coordinate profile in z. <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">profiles</span></code> runs on
+it <strong>unchanged</strong>: 1D and 2D, hybrid scan, residual Newton, resume and call accounting.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. A view: a directory laid out like a run, in the z coordinates.</span>
+python<span class="w"> </span>client.py<span class="w"> </span>derived-view<span class="w"> </span>results/&lt;run&gt;<span class="w"> </span>--params<span class="w"> </span>theta_s_100<span class="w"> </span>-o<span class="w"> </span>views/theta_s
+python<span class="w"> </span>client.py<span class="w"> </span>derived-view<span class="w"> </span>results/&lt;run&gt;<span class="w"> </span>--params<span class="w"> </span>S8,Omega_m<span class="w"> </span>-o<span class="w"> </span>views/S8_Om<span class="w">       </span><span class="c1"># two pivots, for a (S8, Omega_m) surface</span>
+python<span class="w"> </span>client.py<span class="w"> </span>derived-view<span class="w"> </span>results/&lt;run&gt;<span class="w"> </span>--params<span class="w"> </span>S8<span class="w"> </span>--keep<span class="w"> </span>H0<span class="w"> </span>-o<span class="w"> </span>views/S8<span class="w">        </span><span class="c1"># H0 stays a coordinate, for a (S8, H0) surface</span>
+python<span class="w"> </span>client.py<span class="w"> </span>derived-view<span class="w"> </span>results/&lt;run&gt;<span class="w"> </span>--params<span class="w"> </span>S8<span class="w"> </span>--pivots<span class="w"> </span><span class="nv">S8</span><span class="o">=</span>logA<span class="w"> </span>-o<span class="w"> </span>views/S8_logA
+
+<span class="c1"># 2. Ordinary profiles of the view, with every usual option.</span>
+python<span class="w"> </span>client.py<span class="w"> </span>profiles<span class="w"> </span>views/theta_s<span class="w"> </span>--params<span class="w"> </span>theta_s_100<span class="w"> </span>--output<span class="w"> </span>profiles/theta_s
+
+<span class="c1"># 3. The exact derived values at the final nodes, with the true backend.</span>
+python<span class="w"> </span>client.py<span class="w"> </span>derived-view<span class="w"> </span>--nodes<span class="w"> </span>profiles/theta_s<span class="w"> </span>--workers<span class="w"> </span><span class="m">4</span>
+</pre></div>
+</div>
+<p>A view needs the run’s recorded derived values and derived-parameter emulator (the
+<code class="docutils literal notranslate"><span class="pre">derived:</span></code> section, or <code class="docutils literal notranslate"><span class="pre">client.py</span> <span class="pre">derived</span> <span class="pre">RUN</span></code>). It contains:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">metadata.json</span></code> in z;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">trained_models/model_it_N.keras</span></code>: the pivot solve, then the original network, then a
+feasibility penalty;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">training_data/data_it_N.csv</span></code>: the rows in z;</p></li>
+<li><p>the run YAML, whose backend is <code class="docutils literal notranslate"><span class="pre">derived_coordinates</span></code>: it maps z → x with the same
+float64 solve and calls the original likelihood;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">view.json</span></code>: pivots, round-trip statistics and pivot scores; and what the view was made
+from: <code class="docutils literal notranslate"><span class="pre">source_target</span></code>, the identity of the network and metadata it loaded (from a
+verified private copy, as the chains and evidences record it), and <code class="docutils literal notranslate"><span class="pre">source_files</span></code>, the
+hashes of the derived emulator and the training set it read. One of those two replaced
+while the view is made stops it. For a network trained on boosts, also <code class="docutils literal notranslate"><span class="pre">source_region</span></code>
+and <code class="docutils literal notranslate"><span class="pre">region</span></code>: the run’s region file and its copy in the view;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">region/region_it_M.npz</span></code>, for a network trained on boosts: a byte copy of the region the
+run saved for this network (see below).</p></li>
+</ul>
+<p>Nothing in the source run is modified.</p>
+<p><strong>Networks trained on boosts.</strong> A network trained on boosts is only good inside the region
+of its boosts, and has maxima the truth does not have outside it; the profiles of a run
+search it inside that region (<code class="docutils literal notranslate"><span class="pre">region</span></code> in the profile settings, <a class="reference internal" href="create_profiles.html#networks-trained-on-boosts"><span class="std std-ref">create_profiles.md</span></a>).
+A view carries the region along, and its profiles do the same. The region stays in the
+run’s coordinates: a point z of the view is inside when x(z), the point the pivot solve
+takes it to, is inside. The searches see the network there and the region’s wall outside,
+with the feasibility penalty applied after the wall, so targets out of reach still pay it
+everywhere. Nodes whose optimum is outside are cut from the ranges as for a run, the manifest
+records the region with the pivot map, and <code class="docutils literal notranslate"><span class="pre">region:</span> <span class="pre">E</span></code> and <code class="docutils literal notranslate"><span class="pre">region:</span> <span class="pre">null</span></code> work as they do
+for a run. On an analytic test whose bare network rises 3.25 above the peak at the edge of
+the box, the profile of the bare view found that maximum and the view searched in the region
+gave the exact profile (<code class="docutils literal notranslate"><span class="pre">tests/test_derived_profiles.py</span></code>, <code class="docutils literal notranslate"><span class="pre">ViewRegionTests</span></code>).</p>
+<p>A view made by a version of CLiENT that did not copy the region, from a network with a region,
+holds no copy of it, and its profiles searched the bare network. Profiling it with the default
+<code class="docutils literal notranslate"><span class="pre">region:</span> <span class="pre">run</span></code> stops with a message: make the view again, or set <code class="docutils literal notranslate"><span class="pre">region:</span> <span class="pre">null</span></code> to search the
+bare network (a study of such a view made with <code class="docutils literal notranslate"><span class="pre">region:</span> <span class="pre">null</span></code> resumes unchanged).</p>
+<p><strong>Pivots.</strong> By default, for each derived parameter the candidates are its emulator inputs
+that are neither <code class="docutils literal notranslate"><span class="pre">--keep</span></code> parameters nor pivots already chosen. Each is scored by
+|∂d/∂x_i| × the width of x_i among the best 5% of training points: how far d moves over
+a posterior-sized excursion. d must be strictly monotone in the candidate over the
+candidate’s whole range, with the other parameters at the best point. Give <code class="docutils literal notranslate"><span class="pre">--pivots</span></code> to
+choose them yourself. The pivot should be a parameter the profile does not need as a
+coordinate; use <code class="docutils literal notranslate"><span class="pre">--keep</span></code> for a sampled partner in a 2D pair.</p>
+<p><strong>Accuracy.</strong> The constraint is imposed through the emulator, so a node’s exact derived
+value differs from its grid value by the emulator’s error there. Step 3 measures that
+difference for every node (<code class="docutils literal notranslate"><span class="pre">derived_nodes.json</span></code>, <code class="docutils literal notranslate"><span class="pre">derived_nodes.csv</span></code>, where
+<code class="docutils literal notranslate"><span class="pre">&lt;name&gt;_offset</span></code> = exact − grid). It also re-evaluates the objective, as a consistency
+check on the view’s backend. Plot the true profile against the exact values if the
+offsets are not negligible against the parameter’s width.</p>
+<p><strong>Where a target is out of reach.</strong> Near the corners of the box, reaching d₀ may need a
+pivot value outside its bounds. The pivot is then clamped, and both network and backend
+subtract 10⁶ × (residual / training spread)². Optimisers therefore avoid such points,
+and where a node truly lies there the penalty shows up as a large drop. Check a 2D
+grid’s corners in <code class="docutils literal notranslate"><span class="pre">surrogate_surface.json</span></code> before the true stage, and narrow the ranges
+if a corner is penalised. Its true calls are wasted, and it is not a profile value.</p>
+<p><strong>Training rows in a view.</strong> The profile workflow reads training coordinates as float32,
+and that rounding of a precisely measured derived parameter moves the recovered pivot.
+For 100θ_s that changes log L by about 10⁻³ at the Planck peak, and by much more far
+out. That would trip the workflow’s label audit, which requires Δχ² ≤ 0.01. A view
+therefore keeps only rows that are:</p>
+<ul class="simple">
+<li><p>within 500 log-units of the best point;</p></li>
+<li><p>estimated, from the network’s gradient, to move by at most 2×10⁻³ in log L.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">view.json</span></code> records how many rows were kept. Those rows are all a profile uses training
+data for (audit and starting points) when <code class="docutils literal notranslate"><span class="pre">retrain</span></code> is false, the default. Profile
+retraining on a view is not supported.</p>
+<p><strong>Box edges.</strong> A view inherits the run’s box: coordinates keep their bounds and the pivot
+keeps its bounds through the clamp above. Where the constrained optimum lies on a bound,
+the profile is the profile within that box, as for a sampled parameter.</p>
+<section id="validation-h0-on-planck-2018-with-montepython">
+<h3>Validation: H0 on Planck 2018 with MontePython<a class="headerlink" href="#validation-h0-on-planck-2018-with-montepython" title="Link to this heading">#</a></h3>
+<p>The run is a copy of a ΛCDM run (MontePython 3.6.1, CLASS++, 27D:
+Planck 2018 high-ℓ TTTEEE, low-ℓ TT and EE, lensing, BOSS DR12 and 6dF/MGS BAO), at it7.
+H0 is derived there, because 100θ_s is sampled. The derived-parameter emulator is 3 × 128
+on the 6 cosmological inputs, trained on the 2000 it7 points with derived values. The H0
+profile uses 11 nodes on [66.25, 69.05], 4 workers and the default 1D optimisers
+(hybrid scan, residual Newton on the true likelihood). The same profile was made from two
+views, one per pivot:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>pivot</p></th>
+<th class="head"><p>rows kept</p></th>
+<th class="head"><p>peak</p></th>
+<th class="head"><p>Δχ² = 1 interval</p></th>
+<th class="head"><p>converged nodes</p></th>
+<th class="head"><p>true calls</p></th>
+<th class="head"><p>exact H0 − grid, max / rms</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ω_cdm (automatic)</p></td>
+<td><p>14612 / 15999</p></td>
+<td><p>67.76</p></td>
+<td><p>[67.344, 68.200] = −0.41 / +0.44</p></td>
+<td><p>10 / 11 (1 stalled)</p></td>
+<td><p>863 + 29 anchor</p></td>
+<td><p>0.0031 / 0.0012</p></td>
+</tr>
+<tr class="row-odd"><td><p>100θ_s (<code class="docutils literal notranslate"><span class="pre">--pivots</span> <span class="pre">H0=100*theta_s</span></code>)</p></td>
+<td><p>14608 / 15999</p></td>
+<td><p>67.78</p></td>
+<td><p>[67.344, 68.199] = −0.44 / +0.42</p></td>
+<td><p>9 / 11 (2 stalled)</p></td>
+<td><p>696 + 115 anchor (stalled)</p></td>
+<td><p>0.0030 / 0.0012</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul class="simple">
+<li><p><strong>The two pivots agree.</strong> A profile does not depend on its coordinates, and here the
+two differ by at most 0.048 in Δχ² at any node, within the residual-Newton tolerance.
+The optima agree to 2×10⁻⁵ in ω_cdm and 1.5×10⁻⁵ in 100θ_s. The stalled nodes lie on
+the same curve.</p></li>
+<li><p><strong>The constraint holds exactly enough.</strong> CLASS++’s H0 at every node is within 0.003
+of the grid value, below 1% of σ(H0). That error is the derived emulator’s, and is
+largest at the low-H0 end, farthest from the 2000 points it was trained on.
+Re-evaluating the objective through the view’s backend reproduces it exactly.</p></li>
+<li><p><strong>Against the published value.</strong> Planck 2018 TT,TE,EE+lowE+lensing+BAO gives
+67.66 ± 0.42, and the surrogate chain of this run gives 67.65 ± 0.41. The profile’s
+half-widths of 0.41–0.44 match. Its peak is 0.1 (0.25σ) higher than those posterior
+means, a profile-versus-marginal difference of the expected size.</p></li>
+<li><p><strong>This run’s box.</strong> The run’s box caps 100θ_s at 1.0420: the MontePython <code class="docutils literal notranslate"><span class="pre">.param</span></code>
+centre is 1.0411, and the box is ±3σ around it, while the posterior peaks near
+1.0419. For H0 ≥ 67.93 the optimum sits on that edge in both views. The θ_s view
+reaches it through the clamp, with a pivot residual ≤ 1.3×10⁻⁵ and a penalty
+≤ 2×10⁻⁴ in log L. The upper half of the profile is therefore the profile within this
+box. A run whose box contains the θ_s posterior would be needed for the unconstrained
+upper side.</p></li>
+<li><p><strong>Cost.</strong> 11 nodes took 700–860 true evaluations, plus 30–115 for the anchor, at
+about 2 s each on 4 workers.</p></li>
+</ul>
+<p><strong>A 2D surface in two derived parameters, (H0, σ8), on the same run.</strong> The pivots were
+chosen automatically: ω_cdm for H0 and ln10¹⁰A_s for σ8. The grid is 7 × 7 on
+H0 ∈ [66.6, 68.9] and σ8 ∈ [0.795, 0.826], and 14559 / 15999 rows were kept. The run took
+18 minutes and 2740 true evaluations on 4 workers. 42 nodes converged, 6 stalled and 1
+exhausted its budget.</p>
+<ul class="simple">
+<li><p><strong>The surface is consistent with the 1D profile.</strong> Minimising each H0 row over σ8
+(a parabola through the three lowest nodes) reproduces the independent H0 profile
+above to ≤ 0.06 in Δχ² at every H0. The σ8 of each row’s minimum, from 0.8128 at 66.6
+down to 0.8060 at 68.9, matches the exact σ8 along the 1D profile’s nodes.</p></li>
+<li><p><strong>Against the published value.</strong> Minimising over H0 instead gives σ8 = 0.8099 ± 0.0059.
+Planck 2018 TT,TE,EE+lowE+lensing+BAO gives 0.8102 ± 0.0060. A quadratic fit to the
+43 nodes with Δχ² &lt; 12 gives H0 = 67.77 ± 0.42 and σ8 = 0.8098 ± 0.0060, with
+correlation −0.18. It fits with an rms residual of 0.2.</p></li>
+<li><p><strong>The constraint.</strong> At the 47 reachable nodes, exact − grid is at most 0.006 in H0
+(rms 0.0018) and at most 9×10⁻⁵ in σ8 (rms 3×10⁻⁵): both about 1.5% of σ or less.</p></li>
+<li><p><strong>Two corner nodes are out of reach.</strong> (H0, σ8) = (68.9, 0.826) and (68.52, 0.826)
+would need ln10¹⁰A_s above the box’s 3.0897. The pivot is clamped there, with
+residuals 0.35 and 0.01, and their objectives, penalty included, are Δχ² = 2.5×10⁵
+and 268. Their exact offsets
+(−0.021 in H0, −0.0038 in σ8 at the corner) are those of the clamped point, not
+emulator errors. Near that corner the optimum also has τ at its upper bound 0.0783,
+so the upper-right part of the 2σ contour is box-limited, like the H0 profile above
+67.9.</p></li>
+</ul>
+<p>Interpolating the raw 2.5×10⁵ of such a node, the 2D report’s isocontour spline rang through
+the whole grid, down to Δχ² = −1.2×10⁴. The spline is therefore
+fitted to Δχ² clipped at 25, far above both contour levels (<code class="docutils literal notranslate"><span class="pre">profiles/surface_reporting.py</span></code>).</p>
+<p>On the ΛCDM TT (NPIPE) run stopped at it3, a 100θ_s view (pivot H0) was built and
+passed the label audit. The surrogate profile found no two-sided 1σ interval, however,
+and the true stage used up its call budget at every node. The it3 network is not yet
+accurate enough for residual Newton to converge, and a profile in a sampled parameter
+would hit the same limit. Use a network good enough for ordinary profiles.</p>
+</section>
+</section>
+<section id="likelihoods-on-derived-parameters-not-implemented">
+<h2>Likelihoods on derived parameters (not implemented)<a class="headerlink" href="#likelihoods-on-derived-parameters-not-implemented" title="Link to this heading">#</a></h2>
+<p>The pieces above are laid out so that a likelihood on derived parameters can be added
+without restructuring. Examples are an S8 or H0 prior, or any external constraint
+expressed in σ8, Ω_m or θ_s. There are two cases.</p>
+<ol class="arabic">
+<li><p><strong>The new likelihood is part of the backend</strong> (added to the Cobaya YAML or the
+MontePython <code class="docutils literal notranslate"><span class="pre">.param</span></code>). It is then part of the emulated target, and nothing here is
+needed.</p></li>
+<li><p><strong>It is applied on top of an emulator</strong>, for example combining a finished Planck
+emulator with a new constraint at no Boltzmann cost. The sampled target becomes</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">log</span> <span class="n">p</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">surrogate</span><span class="o">.</span><span class="n">logpost</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">Σ_j</span> <span class="n">log</span> <span class="n">L_j</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span>   <span class="n">d</span> <span class="o">=</span> <span class="n">derived</span> <span class="n">emulator</span>
+</pre></div>
+</div>
+<p>Both networks are TF models taking x, so this is a one-line change to
+<code class="docutils literal notranslate"><span class="pre">tempered_logpost_fn</span></code> in <code class="docutils literal notranslate"><span class="pre">client.py</span></code>, plus a config section naming each L_j. The
+log-likelihood network keeps learning the backend’s target alone; L_j is cheap and
+exact given d. Two consequences:</p>
+<ul class="simple">
+<li><p><strong>Accuracy:</strong> the emulator’s error enters as δlog L ≈ (∂log L_j/∂d)·δd, so it must
+be small against L_j’s width σ_j, not just against the posterior width. <code class="docutils literal notranslate"><span class="pre">--exact</span></code>
+measures δd directly.</p></li>
+<li><p><strong>Coverage:</strong> if L_j moves the posterior away from where the training set lies (a
+constraint in tension with the backend), the combined posterior must drive the
+acquisition. The emulator must then be retrained every iteration (the <code class="docutils literal notranslate"><span class="pre">derived:</span></code>
+section already does this), and acquisition must use the combined chain. If L_j
+only narrows the posterior, sampling the combination once, or importance weighting
+the existing chain by L_j(d), is enough.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="not-done-limitations">
+<h2>Not done / limitations<a class="headerlink" href="#not-done-limitations" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Profiles in derived parameters impose the constraint through the emulator. Its error
+is measured at every node by <code class="docutils literal notranslate"><span class="pre">derived-view</span> <span class="pre">--nodes</span></code>, but not corrected. Check that
+the offsets are small against the parameter’s width.</p></li>
+<li><p>A view is fixed to one iteration’s network and derived emulator. Profile
+retraining (<code class="docutils literal notranslate"><span class="pre">retrain:</span> <span class="pre">true</span></code>, <code class="docutils literal notranslate"><span class="pre">--add-points</span></code>) on a view is not supported.</p></li>
+<li><p>A pivot must be monotone in its derived parameter over the whole box, with the
+other parameters at the best point. The pivot choice refuses non-monotone
+candidates, but it does not prove monotonicity elsewhere in the box.</p></li>
+<li><p>A view inherits the run’s box. Where the constrained optimum lies on a bound, as
+100θ_s does on the Planck example above, the profile is the profile within that
+box.</p></li>
+<li><p>The chain is written as one GetDist file with unit weights. Multi-region output is a
+mixture resample, not chronological walkers; inspect the per-cell <code class="docutils literal notranslate"><span class="pre">.sampling.json</span></code>
+diagnostics. Neither output format implies a convergence statistic.</p></li>
+<li><p>Cobaya’s automatic input selection uses one private attribute
+(<code class="docutils literal notranslate"><span class="pre">parameterization._derived_dependencies</span></code>). If a future Cobaya changes it, selection
+falls back to all inputs, which is correct but less accurate.</p></li>
+<li><p>Cobaya’s automatic χ² totals (<code class="docutils literal notranslate"><span class="pre">chi2__CMB</span></code> and the like, added for every likelihood
+that has a <code class="docutils literal notranslate"><span class="pre">type</span></code>, as the Planck ones do) are not recorded. They are the
+log-likelihood itself, not smooth regression targets, and they depend on nuisance
+parameters.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="create_profiles_2d.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">One two-dimensional profile per run</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="evidence.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Bayesian evidence</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recorded-with-every-true-evaluation">Recorded with every true evaluation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#declaring-derived-parameters-cobaya-and-montepython">Declaring derived parameters: Cobaya and MontePython</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#montepython">MontePython</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cobaya">Cobaya</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cobaya-with-camb">Cobaya with CAMB</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#files-in-a-run-directory">Files in a run directory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-emulator">The emulator</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-chain-with-derived-columns">Posterior chain with derived columns</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exact-check">Exact check</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#existing-runs">Existing runs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accuracy-so-far">Accuracy so far</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-size">Network size</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checks-on-the-real-backends-point-by-point">Checks on the real backends, point by point</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles-in-derived-parameters">Profiles in derived parameters</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-h0-on-planck-2018-with-montepython">Validation: H0 on Planck 2018 with MontePython</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#likelihoods-on-derived-parameters-not-implemented">Likelihoods on derived parameters (not implemented)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#not-done-limitations">Not done / limitations</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/_generated/library/docs/derived_parameters.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Aarhus Cosmology.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
